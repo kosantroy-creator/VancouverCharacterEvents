@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrincessEventsRouteImport } from './routes/princess-events'
+import { Route as HeroEventsRouteImport } from './routes/hero-events'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PrincessEventsRoute = PrincessEventsRouteImport.update({
   id: '/princess-events',
   path: '/princess-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeroEventsRoute = HeroEventsRouteImport.update({
+  id: '/hero-events',
+  path: '/hero-events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/princess-events'
+  fullPaths: '/' | '/hero-events' | '/princess-events'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/princess-events'
-  id: '__root__' | '/' | '/princess-events'
+  to: '/' | '/hero-events' | '/princess-events'
+  id: '__root__' | '/' | '/hero-events' | '/princess-events'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HeroEventsRoute: typeof HeroEventsRoute
   PrincessEventsRoute: typeof PrincessEventsRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/princess-events'
       fullPath: '/princess-events'
       preLoaderRoute: typeof PrincessEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hero-events': {
+      id: '/hero-events'
+      path: '/hero-events'
+      fullPath: '/hero-events'
+      preLoaderRoute: typeof HeroEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HeroEventsRoute: HeroEventsRoute,
   PrincessEventsRoute: PrincessEventsRoute,
 }
 export const routeTree = rootRouteImport
