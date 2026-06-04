@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrincessEventsRouteImport } from './routes/princess-events'
 import { Route as MermaidEventsRouteImport } from './routes/mermaid-events'
 import { Route as MascotEventsRouteImport } from './routes/mascot-events'
+import { Route as HolidayEventsRouteImport } from './routes/holiday-events'
 import { Route as HeroEventsRouteImport } from './routes/hero-events'
 import { Route as DinosaurEventsRouteImport } from './routes/dinosaur-events'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const MermaidEventsRoute = MermaidEventsRouteImport.update({
 const MascotEventsRoute = MascotEventsRouteImport.update({
   id: '/mascot-events',
   path: '/mascot-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HolidayEventsRoute = HolidayEventsRouteImport.update({
+  id: '/holiday-events',
+  path: '/holiday-events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HeroEventsRoute = HeroEventsRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
   '/mascot-events': typeof MascotEventsRoute
   '/mermaid-events': typeof MermaidEventsRoute
   '/princess-events': typeof PrincessEventsRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
   '/mascot-events': typeof MascotEventsRoute
   '/mermaid-events': typeof MermaidEventsRoute
   '/princess-events': typeof PrincessEventsRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
   '/mascot-events': typeof MascotEventsRoute
   '/mermaid-events': typeof MermaidEventsRoute
   '/princess-events': typeof PrincessEventsRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dinosaur-events'
     | '/hero-events'
+    | '/holiday-events'
     | '/mascot-events'
     | '/mermaid-events'
     | '/princess-events'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dinosaur-events'
     | '/hero-events'
+    | '/holiday-events'
     | '/mascot-events'
     | '/mermaid-events'
     | '/princess-events'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dinosaur-events'
     | '/hero-events'
+    | '/holiday-events'
     | '/mascot-events'
     | '/mermaid-events'
     | '/princess-events'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DinosaurEventsRoute: typeof DinosaurEventsRoute
   HeroEventsRoute: typeof HeroEventsRoute
+  HolidayEventsRoute: typeof HolidayEventsRoute
   MascotEventsRoute: typeof MascotEventsRoute
   MermaidEventsRoute: typeof MermaidEventsRoute
   PrincessEventsRoute: typeof PrincessEventsRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/mascot-events'
       fullPath: '/mascot-events'
       preLoaderRoute: typeof MascotEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/holiday-events': {
+      id: '/holiday-events'
+      path: '/holiday-events'
+      fullPath: '/holiday-events'
+      preLoaderRoute: typeof HolidayEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hero-events': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DinosaurEventsRoute: DinosaurEventsRoute,
   HeroEventsRoute: HeroEventsRoute,
+  HolidayEventsRoute: HolidayEventsRoute,
   MascotEventsRoute: MascotEventsRoute,
   MermaidEventsRoute: MermaidEventsRoute,
   PrincessEventsRoute: PrincessEventsRoute,
