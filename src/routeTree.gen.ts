@@ -15,6 +15,7 @@ import { Route as MascotEventsRouteImport } from './routes/mascot-events'
 import { Route as HolidayEventsRouteImport } from './routes/holiday-events'
 import { Route as HeroEventsRouteImport } from './routes/hero-events'
 import { Route as DinosaurEventsRouteImport } from './routes/dinosaur-events'
+import { Route as CorporateEventsRouteImport } from './routes/corporate-events'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PrincessEventsRoute = PrincessEventsRouteImport.update({
@@ -47,6 +48,11 @@ const DinosaurEventsRoute = DinosaurEventsRouteImport.update({
   path: '/dinosaur-events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CorporateEventsRoute = CorporateEventsRouteImport.update({
+  id: '/corporate-events',
+  path: '/corporate-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/corporate-events': typeof CorporateEventsRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/holiday-events': typeof HolidayEventsRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/corporate-events': typeof CorporateEventsRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/holiday-events': typeof HolidayEventsRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/corporate-events': typeof CorporateEventsRoute
   '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/holiday-events': typeof HolidayEventsRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/corporate-events'
     | '/dinosaur-events'
     | '/hero-events'
     | '/holiday-events'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/corporate-events'
     | '/dinosaur-events'
     | '/hero-events'
     | '/holiday-events'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/corporate-events'
     | '/dinosaur-events'
     | '/hero-events'
     | '/holiday-events'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CorporateEventsRoute: typeof CorporateEventsRoute
   DinosaurEventsRoute: typeof DinosaurEventsRoute
   HeroEventsRoute: typeof HeroEventsRoute
   HolidayEventsRoute: typeof HolidayEventsRoute
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DinosaurEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/corporate-events': {
+      id: '/corporate-events'
+      path: '/corporate-events'
+      fullPath: '/corporate-events'
+      preLoaderRoute: typeof CorporateEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CorporateEventsRoute: CorporateEventsRoute,
   DinosaurEventsRoute: DinosaurEventsRoute,
   HeroEventsRoute: HeroEventsRoute,
   HolidayEventsRoute: HolidayEventsRoute,
