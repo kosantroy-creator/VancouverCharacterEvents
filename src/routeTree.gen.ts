@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PrincessEventsRouteImport } from './routes/princess-events'
+import { Route as MermaidEventsRouteImport } from './routes/mermaid-events'
+import { Route as MascotEventsRouteImport } from './routes/mascot-events'
+import { Route as HolidayEventsRouteImport } from './routes/holiday-events'
+import { Route as HeroEventsRouteImport } from './routes/hero-events'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as DinosaurEventsRouteImport } from './routes/dinosaur-events'
+import { Route as CorporateEventsRouteImport } from './routes/corporate-events'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PrincessEventsRoute = PrincessEventsRouteImport.update({
+  id: '/princess-events',
+  path: '/princess-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MermaidEventsRoute = MermaidEventsRouteImport.update({
+  id: '/mermaid-events',
+  path: '/mermaid-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MascotEventsRoute = MascotEventsRouteImport.update({
+  id: '/mascot-events',
+  path: '/mascot-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HolidayEventsRoute = HolidayEventsRouteImport.update({
+  id: '/holiday-events',
+  path: '/holiday-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeroEventsRoute = HeroEventsRouteImport.update({
+  id: '/hero-events',
+  path: '/hero-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DinosaurEventsRoute = DinosaurEventsRouteImport.update({
+  id: '/dinosaur-events',
+  path: '/dinosaur-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorporateEventsRoute = CorporateEventsRouteImport.update({
+  id: '/corporate-events',
+  path: '/corporate-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/corporate-events': typeof CorporateEventsRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
+  '/gallery': typeof GalleryRoute
+  '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
+  '/mascot-events': typeof MascotEventsRoute
+  '/mermaid-events': typeof MermaidEventsRoute
+  '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/corporate-events': typeof CorporateEventsRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
+  '/gallery': typeof GalleryRoute
+  '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
+  '/mascot-events': typeof MascotEventsRoute
+  '/mermaid-events': typeof MermaidEventsRoute
+  '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/corporate-events': typeof CorporateEventsRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
+  '/gallery': typeof GalleryRoute
+  '/hero-events': typeof HeroEventsRoute
+  '/holiday-events': typeof HolidayEventsRoute
+  '/mascot-events': typeof MascotEventsRoute
+  '/mermaid-events': typeof MermaidEventsRoute
+  '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/corporate-events'
+    | '/dinosaur-events'
+    | '/gallery'
+    | '/hero-events'
+    | '/holiday-events'
+    | '/mascot-events'
+    | '/mermaid-events'
+    | '/princess-events'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/corporate-events'
+    | '/dinosaur-events'
+    | '/gallery'
+    | '/hero-events'
+    | '/holiday-events'
+    | '/mascot-events'
+    | '/mermaid-events'
+    | '/princess-events'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/corporate-events'
+    | '/dinosaur-events'
+    | '/gallery'
+    | '/hero-events'
+    | '/holiday-events'
+    | '/mascot-events'
+    | '/mermaid-events'
+    | '/princess-events'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  CorporateEventsRoute: typeof CorporateEventsRoute
+  DinosaurEventsRoute: typeof DinosaurEventsRoute
+  GalleryRoute: typeof GalleryRoute
+  HeroEventsRoute: typeof HeroEventsRoute
+  HolidayEventsRoute: typeof HolidayEventsRoute
+  MascotEventsRoute: typeof MascotEventsRoute
+  MermaidEventsRoute: typeof MermaidEventsRoute
+  PrincessEventsRoute: typeof PrincessEventsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/princess-events': {
+      id: '/princess-events'
+      path: '/princess-events'
+      fullPath: '/princess-events'
+      preLoaderRoute: typeof PrincessEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mermaid-events': {
+      id: '/mermaid-events'
+      path: '/mermaid-events'
+      fullPath: '/mermaid-events'
+      preLoaderRoute: typeof MermaidEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mascot-events': {
+      id: '/mascot-events'
+      path: '/mascot-events'
+      fullPath: '/mascot-events'
+      preLoaderRoute: typeof MascotEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/holiday-events': {
+      id: '/holiday-events'
+      path: '/holiday-events'
+      fullPath: '/holiday-events'
+      preLoaderRoute: typeof HolidayEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hero-events': {
+      id: '/hero-events'
+      path: '/hero-events'
+      fullPath: '/hero-events'
+      preLoaderRoute: typeof HeroEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dinosaur-events': {
+      id: '/dinosaur-events'
+      path: '/dinosaur-events'
+      fullPath: '/dinosaur-events'
+      preLoaderRoute: typeof DinosaurEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corporate-events': {
+      id: '/corporate-events'
+      path: '/corporate-events'
+      fullPath: '/corporate-events'
+      preLoaderRoute: typeof CorporateEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +257,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  CorporateEventsRoute: CorporateEventsRoute,
+  DinosaurEventsRoute: DinosaurEventsRoute,
+  GalleryRoute: GalleryRoute,
+  HeroEventsRoute: HeroEventsRoute,
+  HolidayEventsRoute: HolidayEventsRoute,
+  MascotEventsRoute: MascotEventsRoute,
+  MermaidEventsRoute: MermaidEventsRoute,
+  PrincessEventsRoute: PrincessEventsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

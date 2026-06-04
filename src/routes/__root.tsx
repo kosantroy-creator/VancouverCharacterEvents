@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +79,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Vancouver Character Events | Premium Character Entertainment" },
+      {
+        name: "description",
+        content:
+          "Premium character entertainment across Metro Vancouver — princesses, heroes, dinosaurs, mermaids, mascots, holiday and corporate events. Choose your chapter and bring the story to life.",
+      },
+      { name: "author", content: "Vancouver Character Events" },
+      { property: "og:title", content: "Vancouver Character Events" },
+      {
+        property: "og:description",
+        content: "Premium character entertainment across Metro Vancouver.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:site_name", content: "Vancouver Character Events" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Vancouver Character Events",
+          description: "Premium character entertainment across Metro Vancouver and the Lower Mainland.",
+          areaServed: "Metro Vancouver, British Columbia",
+          slogan: "Choose your chapter. Bring the story to life.",
+        }),
+      },
     ],
     links: [
       {
@@ -118,8 +140,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }
