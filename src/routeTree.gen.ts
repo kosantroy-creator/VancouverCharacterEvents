@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrincessEventsRouteImport } from './routes/princess-events'
 import { Route as HeroEventsRouteImport } from './routes/hero-events'
+import { Route as DinosaurEventsRouteImport } from './routes/dinosaur-events'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PrincessEventsRoute = PrincessEventsRouteImport.update({
@@ -23,6 +24,11 @@ const HeroEventsRoute = HeroEventsRouteImport.update({
   path: '/hero-events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DinosaurEventsRoute = DinosaurEventsRouteImport.update({
+  id: '/dinosaur-events',
+  path: '/dinosaur-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dinosaur-events': typeof DinosaurEventsRoute
   '/hero-events': typeof HeroEventsRoute
   '/princess-events': typeof PrincessEventsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/hero-events' | '/princess-events'
+  fullPaths: '/' | '/dinosaur-events' | '/hero-events' | '/princess-events'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hero-events' | '/princess-events'
-  id: '__root__' | '/' | '/hero-events' | '/princess-events'
+  to: '/' | '/dinosaur-events' | '/hero-events' | '/princess-events'
+  id:
+    | '__root__'
+    | '/'
+    | '/dinosaur-events'
+    | '/hero-events'
+    | '/princess-events'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DinosaurEventsRoute: typeof DinosaurEventsRoute
   HeroEventsRoute: typeof HeroEventsRoute
   PrincessEventsRoute: typeof PrincessEventsRoute
 }
@@ -75,6 +90,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeroEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dinosaur-events': {
+      id: '/dinosaur-events'
+      path: '/dinosaur-events'
+      fullPath: '/dinosaur-events'
+      preLoaderRoute: typeof DinosaurEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +109,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DinosaurEventsRoute: DinosaurEventsRoute,
   HeroEventsRoute: HeroEventsRoute,
   PrincessEventsRoute: PrincessEventsRoute,
 }
