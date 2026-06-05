@@ -5,7 +5,7 @@ import { trustItems } from "@/lib/site-data";
 
 export function Hero() {
   return (
-    <section className="relative isolate flex flex-col overflow-hidden ink-section">
+    <section className="relative isolate flex min-h-[88vh] flex-col overflow-hidden ink-section">
       <img
         src={heroImg}
         alt="A glowing storybook beneath the Vancouver mountains, Lions Gate bridge, and a starlit night sky"
