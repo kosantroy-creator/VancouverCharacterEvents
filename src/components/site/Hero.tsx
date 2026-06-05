@@ -18,27 +18,27 @@ export function Hero() {
 
       <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-6 md:py-32 lg:px-8 lg:py-40">
         <div className="max-w-3xl">
-          <p className="t-eyebrow text-gold-400">Choose your chapter · Bring the story to life</p>
+          <p className="t-eyebrow text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
           <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.04] text-star-white sm:text-5xl md:text-6xl lg:text-7xl">
-            Premium Character Events Across Metro Vancouver
+            One Company. Endless Adventures.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fg-on-ink/85 md:text-xl">
-            Bring birthdays, schools, festivals, malls, and corporate events to life with professional performers,
-            premium costumes, and unforgettable character experiences.
+            Princesses, Heroes, Dinosaurs, Mermaids, Mascots, Holiday Characters, and Corporate
+            Entertainment across Metro Vancouver.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <CTAButton to="/contact" size="lg">
-              Book an Experience
+              Book an Event
             </CTAButton>
-            <CTAButton href="#chapters" variant="ghost-ink" size="lg">
-              Explore Characters
+            <CTAButton href="#worlds" variant="ghost-ink" size="lg">
+              Explore Our Worlds
             </CTAButton>
           </div>
 
           <p className="mt-8 max-w-2xl text-sm text-fg-on-ink/65">
-            Serving Vancouver, Coquitlam, Burnaby, Richmond, Surrey, Langley, North Vancouver, West Vancouver, and the
-            wider Lower Mainland.
+            Serving Vancouver, Coquitlam, Burnaby, Richmond, Surrey, Langley, North Vancouver, West
+            Vancouver, and the wider Lower Mainland.
           </p>
         </div>
       </div>

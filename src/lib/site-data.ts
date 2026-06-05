@@ -290,7 +290,44 @@ export const serviceAreas = [
   "Port Coquitlam", "Maple Ridge", "Delta", "White Rock", "Abbotsford", "Chilliwack",
 ];
 
-export const trustItems = ["Birthdays", "Schools", "Malls & Festivals", "Corporate Events", "Holiday Events"];
+export const trustItems = [
+  "5,000+ Events Performed",
+  "Professional Performers",
+  "Premium Costumes & Experiences",
+  "Schools, Festivals & Corporate",
+  "Serving Metro Vancouver",
+];
+
+export type StorybookWorld = {
+  name: string;
+  slug: string;
+  accent: string;
+  medallion: string;
+  blurb: string;
+};
+
+export const storybookWorlds: StorybookWorld[] = [
+  { name: "Princess Kingdom", slug: "princess-events", accent: "princess", medallion: princessMedallion, blurb: "Royal welcomes, sing-alongs, and fairytale photo moments." },
+  { name: "Hero Headquarters", slug: "hero-events", accent: "hero", medallion: heroMedallion, blurb: "High-energy missions and brave adventures for young heroes." },
+  { name: "Jurassic Valley", slug: "dinosaur-events", accent: "dinosaur", medallion: dinosaurMedallion, blurb: "Larger-than-life prehistoric encounters led by expert trainers." },
+  { name: "Mermaid Cove", slug: "mermaid-events", accent: "mermaid", medallion: mermaidMedallion, blurb: "Shimmering under-the-sea magic for parties and poolside events." },
+  { name: "Mascot Meadows", slug: "mascot-events", accent: "mascot", medallion: mascotMedallion, blurb: "Friendly, crowd-pleasing characters that light up any event." },
+  { name: "Holiday Village", slug: "holiday-events", accent: "holiday", medallion: holidayMedallion, blurb: "Seasonal characters that make every holiday unforgettable." },
+  { name: "Corporate District", slug: "corporate-events", accent: "corporate", medallion: corporateMedallion, blurb: "Polished, reliable entertainment for public and brand events." },
+];
+
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+};
+
+export const testimonials: Testimonial[] = [
+  { quote: "From the first email to the final photo, everything was effortless. Our daughter's face when the princess arrived was priceless.", name: "Sarah M.", role: "Parent · Burnaby" },
+  { quote: "The team handled a gym full of excited kids with total professionalism. Engaging, organized, and genuinely educational.", name: "Mr. Donnelly", role: "Elementary School · Surrey" },
+  { quote: "Their characters drew the biggest crowds at our summer festival. Reliable, premium, and an absolute pleasure to coordinate with.", name: "Priya R.", role: "Festival Organizer · Richmond" },
+  { quote: "We needed entertainment that reflected our brand at a public activation. They delivered flawlessly and on schedule.", name: "James T.", role: "Marketing Lead · Vancouver" },
+];
 
 export const whyPoints = [
   { title: "Professional performers", body: "Vetted, trained talent who know how to hold a room and read every audience." },
@@ -302,7 +339,8 @@ export const whyPoints = [
 ];
 
 export const bookingSteps = [
-  { step: "01", title: "Tell us about your event", body: "Share your date, location, audience, and the type of experience you're looking for." },
-  { step: "02", title: "Choose the right chapter", body: "We help match your event with the right character experience, format, and package." },
-  { step: "03", title: "Bring the story to life", body: "Your performer or character team arrives prepared, polished, and ready to create memorable moments." },
+  { step: "01", title: "Choose Your Adventure", body: "Browse our worlds and pick the character experience that fits your event." },
+  { step: "02", title: "Select Your Package", body: "We help match your event with the right format, length, and presentation." },
+  { step: "03", title: "Reserve Your Date", body: "Lock in your date and details with our friendly local team." },
+  { step: "04", title: "We Bring the Magic", body: "Your character team arrives prepared, polished, and ready to create memories." },
 ];

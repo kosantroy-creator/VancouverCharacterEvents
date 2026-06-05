@@ -2,7 +2,7 @@ type Step = { step: string; title: string; body: string };
 
 export function ProcessSteps({ steps, onInk = false }: { steps: Step[]; onInk?: boolean }) {
   return (
-    <div className="grid gap-6 md:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map((s) => (
         <div
           key={s.step}
