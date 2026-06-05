@@ -53,6 +53,7 @@
   --chapter-holiday-accent: #B23A3A;
   --chapter-corporate: #C9A24E;
   --chapter-festival: #7E6BB0;
+  --chapter-specialty: #9C7BC9;
 
   /* SEMANTIC */
   --success: #3E8E6E;
@@ -184,6 +185,7 @@
   --color-holiday-accent: var(--chapter-holiday-accent);
   --color-corporate: var(--chapter-corporate);
   --color-festival: var(--chapter-festival);
+  --color-specialty: var(--chapter-specialty);
 
   --color-fg: var(--fg);
   --color-fg-2: var(--fg-2);
