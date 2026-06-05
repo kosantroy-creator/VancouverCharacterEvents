@@ -6,30 +6,30 @@ import { trustItems } from "@/lib/site-data";
 export function Hero() {
   return (
     <>
-      {/* Intro text — its own section above the artwork */}
+      {/* Intro text — compact section above the artwork */}
       <section className="ink-section relative overflow-hidden">
-        <div className="mx-auto max-w-3xl px-5 pb-12 pt-16 text-center sm:px-6 md:pb-16 md:pt-24 lg:px-8">
-          <p className="t-eyebrow text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
-          <h1 className="mt-4 font-display text-4xl font-normal leading-[1.05] text-star-white sm:text-5xl md:text-6xl lg:text-7xl">
-            One Company.<br className="hidden sm:block" /> Endless Adventures.
+        <div className="mx-auto max-w-2xl px-5 pb-6 pt-8 text-center sm:px-6 md:pb-8 md:pt-12 lg:px-8">
+          <p className="t-eyebrow text-xs text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
+          <h1 className="mt-2 font-display text-2xl font-normal leading-[1.1] text-star-white sm:text-3xl md:text-4xl">
+            One Company. Endless Adventures.
           </h1>
         </div>
       </section>
 
-      {/* Hero artwork with bottom-anchored copy */}
-      <section className="relative isolate flex min-h-[72vh] flex-col overflow-hidden ink-section">
+      {/* Hero artwork with bottom-anchored copy pushed well below the image */}
+      <section className="relative isolate flex min-h-[90vh] flex-col overflow-hidden ink-section">
         <img
           src={heroImg}
-          alt="A heroic rider on a dinosaur leading a mermaid, princess, mascot, and holiday characters beneath the Vancouver mountains and Lions Gate bridge at twilight"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+          alt="Professional costumed performers — a princess, superhero, dinosaur, mermaid, and mascot — together beneath the Vancouver mountains and Lions Gate bridge at twilight"
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-top"
           width={1920}
           height={1080}
           fetchPriority="high"
         />
         {/* readability scrim — concentrated at the bottom where the copy sits */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-900/10 via-ink-900/10 to-ink-900/90" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-900/5 via-ink-900/35 to-ink-900/95" />
 
-        <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-end px-5 pb-12 pt-24 sm:px-6 md:pb-16 lg:px-8">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-end px-5 pb-16 pt-[55vh] sm:px-6 md:pb-20 lg:px-8">
           <div className="mx-auto max-w-3xl animate-fade-in text-center">
             <p
               className="mx-auto max-w-2xl text-lg leading-relaxed text-fg-on-ink md:text-xl"
@@ -55,6 +55,7 @@ export function Hero() {
           </div>
         </div>
       </section>
+
 
       <div className="border-t border-ink-600/40 bg-ink-900/55 backdrop-blur-sm">
         <div className="mx-auto w-full max-w-[1200px] px-5 py-5 sm:px-6 lg:px-8">
