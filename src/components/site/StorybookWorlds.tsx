@@ -137,11 +137,37 @@ export function StorybookWorlds() {
 
   return (
     <div ref={ref} className="relative mx-auto max-w-6xl">
+      {/* Ambient aura glowing behind the book */}
+      <div
+        className="pointer-events-none absolute -inset-10 -z-10 opacity-70 blur-3xl sm:-inset-16"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 50% 45%, rgba(207,168,98,0.35), transparent 70%)",
+        }}
+        aria-hidden
+      />
+      {/* floating sparkles around the book exterior */}
+      <Sparkles />
+
       {/* The open book spread that holds the worlds */}
       <div
-        className="relative rounded-[var(--radius-2xl)] border border-gold-500/20 p-5 shadow-[var(--shadow-ink)] sm:p-8"
-        style={{ background: "linear-gradient(180deg, #FCF9F2 0%, #F3E9D4 100%)" }}
+        className="relative rounded-[var(--radius-2xl)] p-5 shadow-[var(--shadow-ink)] sm:p-8"
+        style={{
+          background: "linear-gradient(180deg, #FCF9F2 0%, #F3E9D4 100%)",
+          boxShadow:
+            "inset 0 0 0 2px rgba(207,168,98,0.45), inset 0 0 0 6px rgba(252,249,242,0.6), inset 0 0 0 7px rgba(147,108,48,0.25), var(--shadow-ink)",
+        }}
       >
+        {/* ornamental spread header */}
+        <div
+          className="mb-7 text-center transition-all duration-700"
+          style={{ opacity: opened ? 1 : 0, transform: opened ? "translateY(0)" : "translateY(-10px)" }}
+        >
+          <p className="t-engrave text-[0.62rem] tracking-[0.34em] text-[#9a743a] sm:text-xs">— Turn the page —</p>
+          <h3 className="mt-2 font-display text-3xl text-[#23425f] sm:text-4xl">Choose Your Chapter</h3>
+          <div className="mx-auto mt-3 h-px w-40 bg-gradient-to-r from-transparent via-gold-600/60 to-transparent" />
+        </div>
+
         {/* center spine */}
         <div className="pointer-events-none absolute inset-y-6 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-gold-600/40 to-transparent lg:block" aria-hidden />
         <ul className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
