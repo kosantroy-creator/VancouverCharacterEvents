@@ -105,8 +105,6 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-            ),
-          )}
           <Link
             to="/gallery"
             onClick={() => setOpen(false)}
