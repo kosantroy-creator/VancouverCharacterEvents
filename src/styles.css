@@ -98,7 +98,7 @@
   --glow-gold-soft: 0 0 40px -8px rgba(224, 195, 131, 0.55);
 
   /* GRADIENTS */
-  --grad-night-sky: linear-gradient(180deg, #08111F 0%, #0C1A2E 42%, #16304D 100%);
+  --grad-night-sky: linear-gradient(180deg, #142840 0%, #1B3450 45%, #294A6B 100%);
   --grad-dawn: linear-gradient(180deg, #122339 0%, #2E5478 60%, #CFA862 130%);
   --grad-gold-rule: linear-gradient(90deg, rgba(207, 168, 98, 0) 0%, var(--gold-500) 50%, rgba(207, 168, 98, 0) 100%);
   --grad-page: linear-gradient(180deg, #FCF9F2 0%, #F8F1E3 100%);
