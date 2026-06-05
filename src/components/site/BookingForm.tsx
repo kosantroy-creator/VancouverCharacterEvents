@@ -87,8 +87,12 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
           <label className={labelClass} htmlFor="interest">Character(s) wanted</label>
           <select id="interest" name="interest" className={fieldClass} defaultValue={defaultInterest ?? ""}>
             <option value="" disabled>Select a character</option>
-            {chapters.map((c) => (
-              <option key={c.slug} value={c.name}>{c.name}</option>
+            {characterOptions.map((group) => (
+              <optgroup key={group.label} label={group.label}>
+                {group.options.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </optgroup>
             ))}
             <option value="multiple">Multiple characters</option>
             <option value="not-sure">Not sure yet — help me choose</option>
