@@ -207,11 +207,29 @@ export function StorybookWorlds() {
         </div>
       </div>
 
-      {/* each world is its own book that opens on scroll */}
-      <div className="space-y-16 sm:space-y-24">
-        {storybookWorlds.map((world, i) => (
-          <StorybookBook key={world.slug} world={world} index={i} />
-        ))}
+      {/* continuous chapter-colored backdrop so no flat blue shows between books */}
+      <div className="relative">
+        <div
+          className="pointer-events-none absolute left-1/2 top-[-4rem] bottom-[-4rem] w-screen -translate-x-1/2"
+          style={{
+            background: `linear-gradient(180deg, ${storybookWorlds
+              .map(
+                (w, i) =>
+                  `color-mix(in oklab, var(--chapter-${w.accent}) 78%, #0E2038) ${(
+                    (i / (storybookWorlds.length - 1)) *
+                    100
+                  ).toFixed(1)}%`,
+              )
+              .join(", ")})`,
+          }}
+          aria-hidden
+        />
+        {/* each world is its own book that opens on scroll */}
+        <div className="relative space-y-16 sm:space-y-24">
+          {storybookWorlds.map((world, i) => (
+            <StorybookBook key={world.slug} world={world} index={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
