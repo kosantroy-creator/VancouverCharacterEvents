@@ -71,7 +71,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
   return (
     <div
       ref={ref}
-      className="relative mx-auto w-full max-w-3xl [perspective:2400px]"
+      className="relative mx-auto w-full max-w-xl [perspective:2400px]"
       style={{ zIndex: storybookWorlds.length - index }}
     >
       {/* accent-colored backing panel behind the book (chapter's main color) */}
