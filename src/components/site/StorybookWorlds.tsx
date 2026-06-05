@@ -44,10 +44,10 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
       raf = 0;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // Begins opening when the book's top reaches ~85% of the viewport,
-      // fully open by the time its top reaches ~35%.
-      const start = vh * 0.85;
-      const end = vh * 0.35;
+      // Opens gradually over a longer scroll distance — begins when the book's
+      // top reaches ~78% of the viewport and is fully open near ~8%.
+      const start = vh * 0.78;
+      const end = vh * 0.08;
       const p = (start - rect.top) / (start - end);
       setProgress(Math.min(1, Math.max(0, p)));
     };
