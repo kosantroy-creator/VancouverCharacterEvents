@@ -1,38 +1,18 @@
 import heroImg from "@/assets/scenes/hero-night-sky.jpg";
 import { CTAButton } from "./CTAButton";
 import { TrustBar } from "./TrustBar";
-import { trustItems, storybookWorlds } from "@/lib/site-data";
-import { Link } from "@tanstack/react-router";
-
-function ChapterLinks() {
-  return (
-    <nav aria-label="Our chapters" className="mt-6">
-      <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-        {storybookWorlds.map((world) => (
-          <li key={world.slug}>
-            <Link
-              to={`/${world.slug}`}
-              className="t-engrave text-[0.72rem] tracking-[0.22em] text-fg-on-ink/75 transition-colors hover:text-gold-400"
-            >
-              {world.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
+import { trustItems } from "@/lib/site-data";
 
 export function Hero() {
   return (
     <>
-      {/* Intro eyebrow + chapter links */}
+      {/* Intro eyebrow */}
       <section className="ink-section relative overflow-hidden">
-        <div className="mx-auto max-w-4xl px-5 pb-7 pt-6 text-center sm:px-6 md:pb-9 md:pt-8 lg:px-8">
+        <div className="mx-auto max-w-4xl px-5 pb-6 pt-7 text-center sm:px-6 md:pb-7 md:pt-9 lg:px-8">
           <p className="t-eyebrow text-xs text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
-          <ChapterLinks />
         </div>
       </section>
+
 
       {/* Hero artwork with bottom-anchored copy pushed well below the image */}
       <section className="relative isolate flex min-h-[90vh] flex-col overflow-hidden ink-section">
