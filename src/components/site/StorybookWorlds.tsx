@@ -224,8 +224,8 @@ export function StorybookWorlds() {
           }}
           aria-hidden
         />
-        {/* each world is its own book that opens on scroll */}
-        <div className="relative space-y-16 sm:space-y-24">
+        {/* each world is its own book that opens on scroll — paired two-up to reduce scrolling */}
+        <div className="relative grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 md:gap-y-16">
           {storybookWorlds.map((world, i) => (
             <StorybookBook key={world.slug} world={world} index={i} />
           ))}
