@@ -65,7 +65,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
   }, []);
 
   const coverAngle = reduced ? -175 : -175 * Math.min(1, progress / 1);
-  const opened = progress >= 0.85;
+  const opened = progress >= 0.7;
   const flipped = index % 2 === 1;
 
   return (
@@ -87,11 +87,11 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         aria-hidden
       />
 
-      {/* ambient glow behind this book — intensifies when open */}
+      {/* ambient glow behind this book — pulses to draw the eye when open */}
       <div
-        className="pointer-events-none absolute -inset-8 -z-10 blur-3xl transition-opacity duration-700 sm:-inset-14"
+        className={`pointer-events-none absolute -inset-8 -z-10 blur-3xl transition-opacity duration-700 sm:-inset-14 ${opened ? "sb-glow-pulse" : ""}`}
         style={{
-          opacity: opened ? 0.95 : 0.25,
+          opacity: opened ? 1 : 0.25,
           background: `radial-gradient(55% 55% at 50% 45%, var(--chapter-${world.accent}), transparent 70%)`,
         }}
         aria-hidden
@@ -108,8 +108,15 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         }}
       >
         {/* text page */}
-        <div className={`order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
-          <div className="flex items-center gap-3">
+        <div className={`relative order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
+          {/* faint logo watermark filling the top-right deadspace */}
+          <img
+            src={logo}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-4 h-24 w-24 object-contain opacity-[0.07] mix-blend-multiply sm:h-28 sm:w-28"
+          />
+          <div className="relative flex items-center gap-3">
             <img src={world.medallion} alt="" className="h-12 w-12 shrink-0 object-contain drop-shadow" width={48} height={48} aria-hidden />
             <p className="t-engrave text-[0.62rem] tracking-[0.3em] text-[#9a743a]">Chapter {String(index + 1).padStart(2, "0")}</p>
           </div>
@@ -149,8 +156,8 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
           className="absolute inset-0 origin-left [transform-style:preserve-3d]"
           style={{
             transform: `rotateY(${coverAngle}deg)`,
-            opacity: coverAngle <= -174 ? 0 : 1,
-            transition: "opacity 200ms ease-out",
+            opacity: coverAngle <= -120 ? 0 : 1,
+            transition: "opacity 150ms ease-out",
           }}
         >
           {/* front of cover */}
@@ -200,11 +207,29 @@ export function StorybookWorlds() {
         </div>
       </div>
 
-      {/* each world is its own book that opens on scroll */}
-      <div className="space-y-16 sm:space-y-24">
-        {storybookWorlds.map((world, i) => (
-          <StorybookBook key={world.slug} world={world} index={i} />
-        ))}
+      {/* continuous chapter-colored backdrop so no flat blue shows between books */}
+      <div className="relative">
+        <div
+          className="pointer-events-none absolute left-1/2 top-[-4rem] bottom-[-4rem] w-screen -translate-x-1/2"
+          style={{
+            background: `linear-gradient(180deg, ${storybookWorlds
+              .map(
+                (w, i) =>
+                  `color-mix(in oklab, var(--chapter-${w.accent}) 78%, #0E2038) ${(
+                    (i / (storybookWorlds.length - 1)) *
+                    100
+                  ).toFixed(1)}%`,
+              )
+              .join(", ")})`,
+          }}
+          aria-hidden
+        />
+        {/* each world is its own book that opens on scroll */}
+        <div className="relative space-y-16 sm:space-y-24">
+          {storybookWorlds.map((world, i) => (
+            <StorybookBook key={world.slug} world={world} index={i} />
+          ))}
+        </div>
       </div>
     </div>
   );

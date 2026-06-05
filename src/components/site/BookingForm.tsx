@@ -1,7 +1,54 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
-import { chapters, eventTypes } from "@/lib/site-data";
+import { eventTypes } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
+
+const characterOptions: { label: string; options: string[] }[] = [
+  {
+    label: "Princesses",
+    options: [
+      "Belle - Gold Ballgown",
+      "Belle - Book Belle",
+      "Belle - Library",
+      "Ariel - Pink Ballgown",
+      "Ariel - Blue Ballgown",
+      "Ariel - Landtail",
+      "Cinderella - Ballgown",
+      "Rapunzel - Classic",
+      "Tiana - Ballgown",
+      "Ana - Travel",
+      "Ana - Queen",
+      "Ana - Frozen 1",
+      "Elsa - Frozen 1",
+      "Elsa - Spirit",
+      "Elsa - Travel",
+      "Moana - Classic",
+      "Snow White - Classic",
+      "Mirabelle - Classic",
+      "Aurora - Pink Dress",
+      "Jasmine - Green Version",
+      "Tinkerbell - Classic",
+    ],
+  },
+  {
+    label: "Heroes",
+    options: [
+      "Captain America",
+      "Batman",
+      "Spider-Man",
+      "Spider Gwen",
+      "Black Widow - Black Version",
+      "Black Widow - White Version",
+      "Superman",
+      "Captain Marvel",
+      "Wonder Woman",
+    ],
+  },
+  {
+    label: "Specialty",
+    options: ["Glinda - Pink", "Glinda - Purple"],
+  },
+];
 
 const fieldClass =
   "w-full rounded-[var(--radius-md)] border border-border-strong bg-cream-50 px-4 py-2.5 text-base text-fg placeholder:text-fg-3/70 transition-colors focus:border-gold-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-gold-500";
@@ -87,8 +134,12 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
           <label className={labelClass} htmlFor="interest">Character(s) wanted</label>
           <select id="interest" name="interest" className={fieldClass} defaultValue={defaultInterest ?? ""}>
             <option value="" disabled>Select a character</option>
-            {chapters.map((c) => (
-              <option key={c.slug} value={c.name}>{c.name}</option>
+            {characterOptions.map((group) => (
+              <optgroup key={group.label} label={group.label}>
+                {group.options.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </optgroup>
             ))}
             <option value="multiple">Multiple characters</option>
             <option value="not-sure">Not sure yet — help me choose</option>

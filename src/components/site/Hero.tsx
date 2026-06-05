@@ -4,39 +4,33 @@ import { TrustBar } from "./TrustBar";
 import { trustItems, storybookWorlds } from "@/lib/site-data";
 import { Link } from "@tanstack/react-router";
 
-function MedallionMarquee() {
-  // Duplicate the list so the strip can loop seamlessly.
-  const loop = [...storybookWorlds, ...storybookWorlds];
+function ChapterLinks() {
   return (
-    <div className="marquee mt-5 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-      <ul className="marquee-track flex w-max items-center gap-8 sm:gap-12">
-        {loop.map((world, i) => (
-          <li key={`${world.slug}-${i}`} className="shrink-0">
-            <Link to={`/${world.slug}`} aria-label={world.name} className="block transition-transform duration-200 hover:scale-110">
-              <img
-                src={world.medallion}
-                alt={world.name}
-                className="h-14 w-14 object-contain drop-shadow-[0_2px_10px_rgba(8,17,31,0.5)] sm:h-16 sm:w-16"
-                width={64}
-                height={64}
-                loading="lazy"
-              />
+    <nav aria-label="Our chapters" className="mt-6">
+      <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        {storybookWorlds.map((world) => (
+          <li key={world.slug}>
+            <Link
+              to={`/${world.slug}`}
+              className="t-engrave text-[0.72rem] tracking-[0.22em] text-fg-on-ink/75 transition-colors hover:text-gold-400"
+            >
+              {world.name}
             </Link>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 }
 
 export function Hero() {
   return (
     <>
-      {/* Intro eyebrow + animated medallion marquee */}
+      {/* Intro eyebrow + chapter links */}
       <section className="ink-section relative overflow-hidden">
         <div className="mx-auto max-w-4xl px-5 pb-7 pt-6 text-center sm:px-6 md:pb-9 md:pt-8 lg:px-8">
           <p className="t-eyebrow text-xs text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
-          <MedallionMarquee />
+          <ChapterLinks />
         </div>
       </section>
 

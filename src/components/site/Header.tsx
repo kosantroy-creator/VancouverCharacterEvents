@@ -1,30 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import logo from "@/assets/brand/logo-primary.png";
 import { CTAButton } from "./CTAButton";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-type NavChild = { label: string; to: string };
-type NavItem = { label: string; to?: string; children?: NavChild[] };
+type NavItem = { label: string; to: string };
 
 const navItems: NavItem[] = [
   { label: "Princess Events", to: "/princess-events" },
   { label: "Hero Events", to: "/hero-events" },
   { label: "Dinosaur Events", to: "/dinosaur-events" },
-  {
-    label: "Specialty Events",
-    children: [
-      { label: "Mermaid Events", to: "/mermaid-events" },
-      { label: "Specialty Characters", to: "/holiday-events" },
-    ],
-  },
+  { label: "Mermaid Events", to: "/mermaid-events" },
+  { label: "Specialty Characters", to: "/holiday-events" },
   { label: "Mascot Events", to: "/mascot-events" },
   { label: "Corporate Events", to: "/corporate-events" },
 ];
@@ -48,7 +36,7 @@ export function Header() {
   }, [open]);
 
   const linkClass =
-    "rounded-md px-2.5 py-2 text-sm font-medium text-fg-on-ink/80 transition-colors hover:text-gold-400";
+    "rounded-md px-2 py-2 text-[0.78rem] font-medium leading-none text-fg-on-ink/80 transition-colors hover:text-gold-400";
 
   return (
     <header
@@ -59,47 +47,29 @@ export function Header() {
           : "bg-ink-900/70 backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-4 px-5 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+      <div className="mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-3 px-5 sm:px-6 lg:px-8">
+        <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
           <img src={logo} alt="Vancouver Character Events" className="h-11 w-11 rounded-full object-cover" width={44} height={44} />
-          <span className="hidden flex-col leading-tight sm:flex">
+          <span className="hidden flex-col leading-tight sm:flex min-[820px]:hidden lg:flex">
             <span className="t-engrave text-[0.95rem] text-gold-400">Vancouver</span>
             <span className="t-engrave text-[0.62rem] tracking-[0.28em] text-fg-on-ink/70">Character Events</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
-          {navItems.map((item) =>
-            item.children ? (
-              <DropdownMenu key={item.label}>
-                <DropdownMenuTrigger
-                  className={cn(linkClass, "inline-flex items-center gap-1 outline-none data-[state=open]:text-gold-400")}
-                >
-                  {item.label}
-                  <ChevronDown className="h-3.5 w-3.5" aria-hidden />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="border-ink-600/50 bg-ink-800">
-                  {item.children.map((child) => (
-                    <DropdownMenuItem key={child.to} asChild className="cursor-pointer text-fg-on-ink/85 focus:bg-ink-700 focus:text-gold-400">
-                      <Link to={child.to}>{child.label}</Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Link
-                key={item.to}
-                to={item.to!}
-                className={linkClass}
-                activeProps={{ className: "text-gold-400" }}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+        <nav className="hidden items-center gap-0.5 min-[820px]:flex" aria-label="Primary">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={linkClass}
+              activeProps={{ className: "text-gold-400" }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="hidden items-center gap-3 xl:flex">
+        <div className="hidden shrink-0 items-center gap-3 min-[820px]:flex">
           <CTAButton to="/contact" size="md">
             Book Now
           </CTAButton>
@@ -107,7 +77,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-fg-on-ink xl:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-fg-on-ink min-[820px]:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -119,39 +89,22 @@ export function Header() {
       {/* Mobile menu */}
       <div
         className={cn(
-          "ink-section overflow-hidden border-t border-ink-600/50 transition-[max-height] duration-300 xl:hidden",
+          "ink-section overflow-hidden border-t border-ink-600/50 transition-[max-height] duration-300 min-[820px]:hidden",
           open ? "max-h-[85vh]" : "max-h-0",
         )}
       >
         <nav className="flex flex-col gap-1 px-5 py-4" aria-label="Mobile">
-          {navItems.map((item) =>
-            item.children ? (
-              <div key={item.label} className="flex flex-col">
-                <span className="px-3 pb-1 pt-3 text-base font-medium text-fg-on-ink/85">{item.label}</span>
-                {item.children.map((child) => (
-                  <Link
-                    key={child.to}
-                    to={child.to}
-                    onClick={() => setOpen(false)}
-                    className="rounded-md px-6 py-2.5 text-[0.95rem] font-medium text-fg-on-ink/75 transition-colors hover:bg-ink-700 hover:text-gold-400"
-                    activeProps={{ className: "text-gold-400" }}
-                  >
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <Link
-                key={item.to}
-                to={item.to!}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-3 text-base font-medium text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
-                activeProps={{ className: "text-gold-400" }}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setOpen(false)}
+              className="rounded-md px-3 py-3 text-base font-medium text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
+              activeProps={{ className: "text-gold-400" }}
+            >
+              {item.label}
+            </Link>
+          ))}
           <Link
             to="/gallery"
             onClick={() => setOpen(false)}
