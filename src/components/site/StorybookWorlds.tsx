@@ -133,7 +133,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         </div>
 
         {/* scene page */}
-        <div className={`relative order-1 min-h-[230px] overflow-hidden sm:min-h-[330px] ${flipped ? "sm:order-1" : "sm:order-2"}`}>
+        <div className={`relative order-1 min-h-[200px] overflow-hidden sm:min-h-[260px] ${flipped ? "sm:order-1" : "sm:order-2"}`}>
           <img
             src={world.scene}
             alt={`${world.name} scene`}
