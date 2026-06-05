@@ -25,74 +25,8 @@ function Sparkles() {
   );
 }
 
-function WorldCard({ world, index, revealed }: { world: (typeof storybookWorlds)[number]; index: number; revealed: boolean }) {
-  return (
-    <li
-      className="transition-all duration-700 ease-out"
-      style={{
-        opacity: revealed ? 1 : 0,
-        transform: revealed ? "translateY(0)" : "translateY(24px)",
-        transitionDelay: `${600 + index * 110}ms`,
-      }}
-    >
-      <Link
-        to={`/${world.slug}`}
-        className="group relative block aspect-[3/4] overflow-hidden rounded-[var(--radius-xl)] border border-gold-500/25 shadow-[var(--shadow-md)] transition-all duration-[250ms] ease-out will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:border-gold-500/70 hover:shadow-[var(--glow-gold)] focus-visible:-translate-y-2 focus-visible:scale-[1.03] active:scale-[0.99]"
-      >
-        {/* miniature movie-set scene */}
-        <img
-          src={world.scene}
-          alt={`${world.name} miniature world`}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-          width={1024}
-          height={1024}
-          loading="lazy"
-        />
-        {/* accent glow that intensifies on hover */}
-        <span
-          className="sb-glow-pulse pointer-events-none absolute -inset-8 opacity-40 blur-2xl transition-opacity duration-300 group-hover:!opacity-80"
-          style={{ background: `radial-gradient(circle at 50% 70%, var(--chapter-${world.accent}), transparent 60%)` }}
-          aria-hidden
-        />
-        {/* shimmer sweep */}
-        <span className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <span className="sb-shimmer absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-star-white/15 to-transparent" />
-        </span>
-        <Sparkles />
-        {/* legibility gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/25 to-transparent" />
-
-        {/* content */}
-        <div className="absolute inset-x-0 bottom-0 p-5 text-left">
-          <div className="flex items-center gap-3">
-            <img
-              src={world.medallion}
-              alt=""
-              className="h-10 w-10 shrink-0 object-contain drop-shadow"
-              width={40}
-              height={40}
-              loading="lazy"
-              aria-hidden
-            />
-            <h3 className="font-display text-2xl leading-tight text-star-white">{world.name}</h3>
-          </div>
-          {/* blurb + button reveal on hover/focus */}
-          <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-[250ms] ease-out group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus-visible:grid-rows-[1fr] group-focus-visible:opacity-100">
-            <div className="overflow-hidden">
-              <p className="mt-2 text-sm leading-relaxed text-fg-on-ink/85">{world.blurb}</p>
-              <span className="mt-3 inline-flex items-center gap-1.5 rounded-pill bg-gold-500 px-4 py-1.5 text-sm font-semibold text-ink-900">
-                Explore
-                <span aria-hidden>→</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </li>
-  );
-}
-
-export function StorybookWorlds() {
+/** A single storybook that opens as it scrolls into view. */
+function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
@@ -105,16 +39,15 @@ export function StorybookWorlds() {
       setProgress(1);
       return;
     }
-
     let raf = 0;
     const update = () => {
       raf = 0;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // 0 when the section's top reaches the bottom of the viewport,
-      // 1 once it has scrolled up by ~70% of the viewport height.
-      const start = vh;
-      const end = vh * 0.3;
+      // Begins opening when the book's top reaches ~85% of the viewport,
+      // fully open by the time its top reaches ~35%.
+      const start = vh * 0.85;
+      const end = vh * 0.35;
       const p = (start - rect.top) / (start - end);
       setProgress(Math.min(1, Math.max(0, p)));
     };
@@ -131,81 +64,100 @@ export function StorybookWorlds() {
     };
   }, []);
 
-  // Cover swings open across the first ~70% of progress.
-  const coverAngle = reduced ? -172 : -172 * Math.min(1, progress / 0.7);
-  const opened = progress >= 0.55;
+  const coverAngle = reduced ? -175 : -175 * Math.min(1, progress / 0.85);
+  const opened = progress >= 0.6;
+  const flipped = index % 2 === 1;
 
   return (
-    <div ref={ref} className="relative mx-auto max-w-6xl">
-      {/* Ambient aura glowing behind the book */}
+    <div
+      ref={ref}
+      className="relative mx-auto w-full max-w-3xl [perspective:2400px]"
+      style={{ zIndex: storybookWorlds.length - index }}
+    >
+      {/* ambient aura behind this book */}
       <div
-        className="pointer-events-none absolute -inset-10 -z-10 opacity-70 blur-3xl sm:-inset-16"
+        className="pointer-events-none absolute -inset-6 -z-10 opacity-60 blur-3xl transition-opacity duration-700 sm:-inset-10"
         style={{
-          background:
-            "radial-gradient(60% 55% at 50% 45%, rgba(207,168,98,0.35), transparent 70%)",
+          opacity: opened ? 0.85 : 0.3,
+          background: `radial-gradient(55% 55% at 50% 45%, var(--chapter-${world.accent}), transparent 70%)`,
         }}
         aria-hidden
       />
-      {/* floating sparkles around the book exterior */}
-      <Sparkles />
 
-      {/* The open book spread that holds the worlds */}
+      {/* The open spread — revealed beneath the cover */}
       <div
-        className="relative rounded-[var(--radius-2xl)] p-5 shadow-[var(--shadow-ink)] sm:p-8"
+        className="relative grid overflow-hidden rounded-[var(--radius-2xl)] shadow-[var(--shadow-ink)] sm:grid-cols-2"
         style={{
           background: "linear-gradient(180deg, #FCF9F2 0%, #F3E9D4 100%)",
           boxShadow:
             "inset 0 0 0 2px rgba(207,168,98,0.45), inset 0 0 0 6px rgba(252,249,242,0.6), inset 0 0 0 7px rgba(147,108,48,0.25), var(--shadow-ink)",
         }}
       >
-        {/* ornamental spread header */}
-        <div
-          className="mb-7 text-center transition-all duration-700"
-          style={{ opacity: opened ? 1 : 0, transform: opened ? "translateY(0)" : "translateY(-10px)" }}
-        >
-          <p className="t-engrave text-[0.62rem] tracking-[0.34em] text-[#9a743a] sm:text-xs">— Turn the page —</p>
-          <h3 className="mt-2 font-display text-3xl text-[#23425f] sm:text-4xl">Choose Your Chapter</h3>
-          <div className="mx-auto mt-3 h-px w-40 bg-gradient-to-r from-transparent via-gold-600/60 to-transparent" />
+        {/* text page */}
+        <div className={`order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
+          <div className="flex items-center gap-3">
+            <img src={world.medallion} alt="" className="h-12 w-12 shrink-0 object-contain drop-shadow" width={48} height={48} aria-hidden />
+            <p className="t-engrave text-[0.62rem] tracking-[0.3em] text-[#9a743a]">Chapter {String(index + 1).padStart(2, "0")}</p>
+          </div>
+          <h3 className="mt-3 font-display text-3xl leading-tight text-[#23425f] sm:text-4xl">{world.name}</h3>
+          <div className="mt-3 h-px w-24 bg-gradient-to-r from-gold-600/60 to-transparent" />
+          <p className="mt-4 text-[0.97rem] leading-relaxed text-[#4a5b6b]">{world.blurb}</p>
+          <Link
+            to={`/${world.slug}`}
+            className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-pill bg-gold-500 px-5 py-2 text-sm font-semibold text-ink-900 transition-all duration-200 hover:scale-[1.03] hover:shadow-[var(--glow-gold)]"
+          >
+            Explore this world
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+
+        {/* scene page */}
+        <div className={`relative order-1 min-h-[230px] overflow-hidden sm:min-h-[330px] ${flipped ? "sm:order-1" : "sm:order-2"}`}>
+          <img
+            src={world.scene}
+            alt={`${world.name} scene`}
+            className="absolute inset-0 h-full w-full object-cover"
+            width={1024}
+            height={1024}
+            loading="lazy"
+          />
+          <Sparkles />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900/40 via-transparent to-transparent" />
         </div>
 
         {/* center spine */}
-        <div className="pointer-events-none absolute inset-y-6 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-gold-600/40 to-transparent lg:block" aria-hidden />
-        <ul className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {storybookWorlds.map((world, i) => (
-            <WorldCard key={world.slug} world={world} index={i} revealed={opened} />
-          ))}
-        </ul>
+        <div className="pointer-events-none absolute inset-y-5 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-gold-600/40 to-transparent sm:block" aria-hidden />
       </div>
 
-      {/* The premium leather cover that swings open as you scroll */}
-      <div className="absolute inset-0 z-20 [perspective:2600px] [pointer-events:none]" aria-hidden>
+      {/* The leather cover that swings open as you scroll */}
+      <div className="absolute inset-0 z-20 [perspective:2400px] [pointer-events:none]" aria-hidden>
         <div
           className="absolute inset-0 origin-left [transform-style:preserve-3d]"
           style={{
             transform: `rotateY(${coverAngle}deg)`,
-            opacity: coverAngle <= -171 ? 0 : 1,
+            opacity: coverAngle <= -174 ? 0 : 1,
             transition: "opacity 200ms ease-out",
           }}
         >
-          {/* front of cover — luxury leather + gold foil */}
+          {/* front of cover */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-center rounded-[var(--radius-2xl)] [backface-visibility:hidden]"
             style={{
-              background:
-                "radial-gradient(120% 120% at 50% 0%, #2A4D72 0%, #16304F 55%, #0E2038 100%)",
+              background: "radial-gradient(120% 120% at 50% 0%, #2A4D72 0%, #16304F 55%, #0E2038 100%)",
               boxShadow: "inset 0 0 0 2px rgba(207,168,98,0.55), inset 0 0 60px rgba(0,0,0,0.5), var(--shadow-ink)",
             }}
           >
-            <div
-              className="absolute inset-3 rounded-[var(--radius-xl)] sm:inset-5"
-              style={{ boxShadow: "inset 0 0 0 1px rgba(207,168,98,0.4)" }}
+            <div className="absolute inset-3 rounded-[var(--radius-xl)] sm:inset-5" style={{ boxShadow: "inset 0 0 0 1px rgba(207,168,98,0.4)" }} />
+            <span
+              className="pointer-events-none absolute -inset-6 opacity-50 blur-2xl"
+              style={{ background: `radial-gradient(circle at 50% 50%, var(--chapter-${world.accent}), transparent 65%)` }}
+              aria-hidden
             />
-            <img src={logo} alt="" className="w-40 max-w-[55%] opacity-95 drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)] sm:w-56" />
-            <p className="t-engrave mt-6 px-6 text-center text-[0.7rem] tracking-[0.3em] text-gold-300 sm:text-sm">
-              Scroll to open the book — choose your chapter
-            </p>
+            <img src={world.medallion} alt="" className="relative h-24 w-24 object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)] sm:h-28 sm:w-28" />
+            <h3 className="relative mt-4 px-6 text-center font-display text-2xl text-star-white sm:text-3xl">{world.name}</h3>
+            <p className="t-engrave relative mt-3 text-[0.6rem] tracking-[0.3em] text-gold-300 sm:text-xs">— Scroll to open —</p>
           </div>
-          {/* back of cover — parchment page */}
+          {/* back of cover — parchment */}
           <div
             className="absolute inset-0 rounded-[var(--radius-2xl)] [backface-visibility:hidden]"
             style={{
@@ -215,6 +167,30 @@ export function StorybookWorlds() {
             }}
           />
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function StorybookWorlds() {
+  return (
+    <div className="relative mx-auto max-w-5xl">
+      {/* ornamental header */}
+      <div className="mb-12 text-center">
+        <p className="t-engrave text-[0.62rem] tracking-[0.34em] text-gold-400 sm:text-xs">— Turn the page —</p>
+        <h3 className="mt-2 font-display text-3xl text-star-white sm:text-4xl">Choose Your Chapter</h3>
+        <div className="mx-auto mt-3 flex items-center justify-center gap-3">
+          <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold-600/60" />
+          <img src={logo} alt="" className="h-8 w-8 rounded-full object-cover opacity-90" aria-hidden />
+          <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold-600/60" />
+        </div>
+      </div>
+
+      {/* each world is its own book that opens on scroll */}
+      <div className="space-y-16 sm:space-y-24">
+        {storybookWorlds.map((world, i) => (
+          <StorybookBook key={world.slug} world={world} index={i} />
+        ))}
       </div>
     </div>
   );

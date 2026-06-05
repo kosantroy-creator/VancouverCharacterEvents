@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
-import { chapters, eventTypes, serviceAreas } from "@/lib/site-data";
+import { chapters, eventTypes } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
 
 const fieldClass =
@@ -51,22 +51,8 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
           <input id="email" name="email" type="email" required autoComplete="email" className={fieldClass} placeholder="you@example.com" />
         </div>
         <div>
-          <label className={labelClass} htmlFor="phone">Phone</label>
+          <label className={labelClass} htmlFor="phone">Phone number</label>
           <input id="phone" name="phone" type="tel" autoComplete="tel" className={fieldClass} placeholder="(604) 000-0000" />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="date">Event date</label>
-          <input id="date" name="date" type="date" className={fieldClass} />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="city">Event city</label>
-          <select id="city" name="city" className={fieldClass} defaultValue="">
-            <option value="" disabled>Select a city</option>
-            {serviceAreas.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-            <option value="other">Other / nearby community</option>
-          </select>
         </div>
         <div>
           <label className={labelClass} htmlFor="eventType">Event type</label>
@@ -78,20 +64,50 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
           </select>
         </div>
         <div>
-          <label className={labelClass} htmlFor="interest">Character / experience interest</label>
+          <label className={labelClass} htmlFor="date">Event date</label>
+          <input id="date" name="date" type="date" className={fieldClass} />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="time">Event time</label>
+          <input id="time" name="time" type="time" className={fieldClass} />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelClass} htmlFor="address">Event address</label>
+          <input id="address" name="address" type="text" autoComplete="street-address" className={fieldClass} placeholder="Venue or street address, city" />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="eventName">Event name <span className="font-normal text-fg-3">(if applicable)</span></label>
+          <input id="eventName" name="eventName" type="text" className={fieldClass} placeholder="e.g. Summer Festival" />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="childName">Child's name</label>
+          <input id="childName" name="childName" type="text" className={fieldClass} placeholder="If it's a birthday" />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="interest">Character(s) wanted</label>
           <select id="interest" name="interest" className={fieldClass} defaultValue={defaultInterest ?? ""}>
-            <option value="" disabled>Select a chapter</option>
+            <option value="" disabled>Select a character</option>
             {chapters.map((c) => (
               <option key={c.slug} value={c.name}>{c.name}</option>
             ))}
+            <option value="multiple">Multiple characters</option>
             <option value="not-sure">Not sure yet — help me choose</option>
           </select>
         </div>
         <div>
-          <label className={labelClass} htmlFor="guests">Estimated number of guests</label>
+          <label className={labelClass} htmlFor="package">Package</label>
+          <select id="package" name="package" className={fieldClass} defaultValue="">
+            <option value="" disabled>Select a package</option>
+            <option value="60-minute">60 minute package</option>
+            <option value="90-minute">90 minute package</option>
+          </select>
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="guests">Guest count</label>
           <input id="guests" name="guests" type="number" min={1} className={fieldClass} placeholder="e.g. 20" />
         </div>
       </div>
+
 
       <div className="mt-5">
         <label className={labelClass} htmlFor="message">Message / details</label>
