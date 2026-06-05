@@ -1,18 +1,42 @@
 import heroImg from "@/assets/scenes/hero-night-sky.jpg";
 import { CTAButton } from "./CTAButton";
 import { TrustBar } from "./TrustBar";
-import { trustItems } from "@/lib/site-data";
+import { trustItems, storybookWorlds } from "@/lib/site-data";
+import { Link } from "@tanstack/react-router";
+
+function MedallionMarquee() {
+  // Duplicate the list so the strip can loop seamlessly.
+  const loop = [...storybookWorlds, ...storybookWorlds];
+  return (
+    <div className="marquee mt-5 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+      <ul className="marquee-track flex w-max items-center gap-8 sm:gap-12">
+        {loop.map((world, i) => (
+          <li key={`${world.slug}-${i}`} className="shrink-0">
+            <Link to={`/${world.slug}`} aria-label={world.name} className="block transition-transform duration-200 hover:scale-110">
+              <img
+                src={world.medallion}
+                alt={world.name}
+                className="h-14 w-14 object-contain drop-shadow-[0_2px_10px_rgba(8,17,31,0.5)] sm:h-16 sm:w-16"
+                width={64}
+                height={64}
+                loading="lazy"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function Hero() {
   return (
     <>
-      {/* Intro text — compact section above the artwork */}
+      {/* Intro eyebrow + animated medallion marquee */}
       <section className="ink-section relative overflow-hidden">
-        <div className="mx-auto max-w-2xl px-5 pb-6 pt-8 text-center sm:px-6 md:pb-8 md:pt-12 lg:px-8">
+        <div className="mx-auto max-w-4xl px-5 pb-7 pt-6 text-center sm:px-6 md:pb-9 md:pt-8 lg:px-8">
           <p className="t-eyebrow text-xs text-gold-400">Premium Character Entertainment · Metro Vancouver</p>
-          <h1 className="mt-2 font-display text-2xl font-normal leading-[1.1] text-star-white sm:text-3xl md:text-4xl">
-            One Company. Endless Adventures.
-          </h1>
+          <MedallionMarquee />
         </div>
       </section>
 
