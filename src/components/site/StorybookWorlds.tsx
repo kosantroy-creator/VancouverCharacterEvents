@@ -108,7 +108,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         }}
       >
         {/* text page */}
-        <div className={`relative order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
+        <div className={`relative order-2 flex flex-col justify-center p-5 sm:p-6 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
           {/* faint logo watermark filling the top-right deadspace */}
           <img
             src={logo}
