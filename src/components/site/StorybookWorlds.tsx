@@ -120,9 +120,9 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
             <img src={world.medallion} alt="" className="h-12 w-12 shrink-0 object-contain drop-shadow" width={48} height={48} aria-hidden />
             <p className="t-engrave text-[0.62rem] tracking-[0.3em] text-[#9a743a]">Chapter {String(index + 1).padStart(2, "0")}</p>
           </div>
-          <h3 className="mt-3 font-display text-3xl leading-tight text-[#23425f] sm:text-4xl">{world.name}</h3>
-          <div className="mt-3 h-px w-24 bg-gradient-to-r from-gold-600/60 to-transparent" />
-          <p className="mt-4 text-[0.97rem] leading-relaxed text-[#4a5b6b]">{world.blurb}</p>
+          <h3 className="mt-3 font-display text-2xl leading-tight text-[#23425f] sm:text-3xl">{world.name}</h3>
+          <div className="mt-3 h-px w-20 bg-gradient-to-r from-gold-600/60 to-transparent" />
+          <p className="mt-3 text-[0.9rem] leading-relaxed text-[#4a5b6b]">{world.blurb}</p>
           <Link
             to={`/${world.slug}`}
             className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-pill bg-gold-500 px-5 py-2 text-sm font-semibold text-ink-900 transition-all duration-200 hover:scale-[1.03] hover:shadow-[var(--glow-gold)]"
