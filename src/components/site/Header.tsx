@@ -12,7 +12,7 @@ const navItems: NavItem[] = [
   { label: "Hero Events", to: "/hero-events" },
   { label: "Dinosaur Events", to: "/dinosaur-events" },
   { label: "Mermaid Events", to: "/mermaid-events" },
-  { label: "Specialty Characters", to: "/holiday-events" },
+  { label: "Specialty Characters", to: "/specialty-events" },
   { label: "Mascot Events", to: "/mascot-events" },
   { label: "Corporate Events", to: "/corporate-events" },
 ];
