@@ -14,9 +14,9 @@ export function Hero() {
         height={1080}
         fetchPriority="high"
       />
-      {/* readability scrim — stronger on the left where the copy sits */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-900/85 via-ink-900/45 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-900/40 via-transparent to-ink-900/85" />
+      {/* readability scrims — top and bottom where the copy sits */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-900/80 via-ink-900/35 to-ink-900/85" />
+
 
       <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-between px-5 pb-16 pt-14 sm:px-6 md:pb-24 md:pt-20 lg:px-8">
         {/* Top — centered eyebrow + headline */}
