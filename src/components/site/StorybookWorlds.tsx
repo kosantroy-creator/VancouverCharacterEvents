@@ -108,8 +108,15 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         }}
       >
         {/* text page */}
-        <div className={`order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
-          <div className="flex items-center gap-3">
+        <div className={`relative order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
+          {/* faint logo watermark filling the top-right deadspace */}
+          <img
+            src={logo}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-4 h-24 w-24 object-contain opacity-[0.07] mix-blend-multiply sm:h-28 sm:w-28"
+          />
+          <div className="relative flex items-center gap-3">
             <img src={world.medallion} alt="" className="h-12 w-12 shrink-0 object-contain drop-shadow" width={48} height={48} aria-hidden />
             <p className="t-engrave text-[0.62rem] tracking-[0.3em] text-[#9a743a]">Chapter {String(index + 1).padStart(2, "0")}</p>
           </div>
