@@ -86,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium character entertainment across Metro Vancouver — princesses, heroes, dinosaurs, mermaids, mascots, holiday and corporate events. Choose your chapter and bring the story to life.",
       },
       { name: "author", content: "Vancouver Character Events" },
-      { property: "og:title", content: "Vancouver Character Events" },
+      { property: "og:title", content: "Vancouver Character Events | Premium Character Entertainment" },
       {
         property: "og:description",
         content: "Premium character entertainment across Metro Vancouver.",
@@ -94,6 +94,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Vancouver Character Events" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Vancouver Character Events | Premium Character Entertainment" },
+      { name: "description", content: "Vancouver Character Events offers magical, premium entertainment for parties, schools, and corporate events." },
+      { property: "og:description", content: "Vancouver Character Events offers magical, premium entertainment for parties, schools, and corporate events." },
+      { name: "twitter:description", content: "Vancouver Character Events offers magical, premium entertainment for parties, schools, and corporate events." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c4200987-ad46-43f3-9169-fc6c307cc7ee/id-preview-61377eda--a532df12-f7ba-4a15-b090-02bcb41b198e.lovable.app-1780635715737.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c4200987-ad46-43f3-9169-fc6c307cc7ee/id-preview-61377eda--a532df12-f7ba-4a15-b090-02bcb41b198e.lovable.app-1780635715737.png" },
     ],
     scripts: [
       {
