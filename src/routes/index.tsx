@@ -8,7 +8,7 @@ import { CTAButton } from "@/components/site/CTAButton";
 import { BookingForm } from "@/components/site/BookingForm";
 import { StorybookWorlds } from "@/components/site/StorybookWorlds";
 import { Testimonials } from "@/components/site/Testimonials";
-import { ServiceAreaMap, ServiceAreaChips } from "@/components/site/ServiceAreaMap";
+import { ServiceAreaChips } from "@/components/site/ServiceAreaMap";
 import { bookingSteps } from "@/lib/site-data";
 import fairytaleImg from "@/assets/scenes/featured-fairytale.jpg";
 import dinosaurImg from "@/assets/scenes/featured-dinosaur.jpg";
