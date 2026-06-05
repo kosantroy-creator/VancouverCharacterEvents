@@ -71,7 +71,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
   return (
     <div
       ref={ref}
-      className="relative mx-auto w-full max-w-3xl [perspective:2400px]"
+      className="relative mx-auto w-full max-w-xl [perspective:2400px]"
       style={{ zIndex: storybookWorlds.length - index }}
     >
       {/* accent-colored backing panel behind the book (chapter's main color) */}
@@ -108,7 +108,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         }}
       >
         {/* text page */}
-        <div className={`relative order-2 flex flex-col justify-center p-7 sm:p-9 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
+        <div className={`relative order-2 flex flex-col justify-center p-5 sm:p-6 ${flipped ? "sm:order-2" : "sm:order-1"}`}>
           {/* faint logo watermark filling the top-right deadspace */}
           <img
             src={logo}
@@ -120,9 +120,9 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
             <img src={world.medallion} alt="" className="h-12 w-12 shrink-0 object-contain drop-shadow" width={48} height={48} aria-hidden />
             <p className="t-engrave text-[0.62rem] tracking-[0.3em] text-[#9a743a]">Chapter {String(index + 1).padStart(2, "0")}</p>
           </div>
-          <h3 className="mt-3 font-display text-3xl leading-tight text-[#23425f] sm:text-4xl">{world.name}</h3>
-          <div className="mt-3 h-px w-24 bg-gradient-to-r from-gold-600/60 to-transparent" />
-          <p className="mt-4 text-[0.97rem] leading-relaxed text-[#4a5b6b]">{world.blurb}</p>
+          <h3 className="mt-3 font-display text-2xl leading-tight text-[#23425f] sm:text-3xl">{world.name}</h3>
+          <div className="mt-3 h-px w-20 bg-gradient-to-r from-gold-600/60 to-transparent" />
+          <p className="mt-3 text-[0.9rem] leading-relaxed text-[#4a5b6b]">{world.blurb}</p>
           <Link
             to={`/${world.slug}`}
             className="mt-6 inline-flex w-fit items-center gap-1.5 rounded-pill bg-gold-500 px-5 py-2 text-sm font-semibold text-ink-900 transition-all duration-200 hover:scale-[1.03] hover:shadow-[var(--glow-gold)]"
@@ -133,7 +133,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         </div>
 
         {/* scene page */}
-        <div className={`relative order-1 min-h-[230px] overflow-hidden sm:min-h-[330px] ${flipped ? "sm:order-1" : "sm:order-2"}`}>
+        <div className={`relative order-1 min-h-[200px] overflow-hidden sm:min-h-[260px] ${flipped ? "sm:order-1" : "sm:order-2"}`}>
           <img
             src={world.scene}
             alt={`${world.name} scene`}
@@ -224,8 +224,8 @@ export function StorybookWorlds() {
           }}
           aria-hidden
         />
-        {/* each world is its own book that opens on scroll */}
-        <div className="relative space-y-16 sm:space-y-24">
+        {/* each world is its own book that opens on scroll — paired two-up to reduce scrolling */}
+        <div className="relative grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 md:gap-y-16">
           {storybookWorlds.map((world, i) => (
             <StorybookBook key={world.slug} world={world} index={i} />
           ))}

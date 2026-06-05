@@ -12,6 +12,8 @@ import mermaidScene from "@/assets/worlds/mermaid.jpg";
 import mascotScene from "@/assets/worlds/mascot.jpg";
 import holidayScene from "@/assets/worlds/holiday.jpg";
 import corporateScene from "@/assets/worlds/corporate.jpg";
+import specialtyScene from "@/assets/worlds/specialty.jpg";
+import brandLogo from "@/assets/brand/logo-primary.png";
 
 export type ChapterPackage = {
   name: string;
@@ -270,9 +272,38 @@ export const chapters: Chapter[] = [
       { q: "How far in advance should we book?", a: "For city events and seasonal programs, earlier is better. Reach out and we'll confirm availability for your dates." },
     ],
   },
+  {
+    slug: "specialty-events",
+    name: "Specialty Characters",
+    navLabel: "Specialty",
+    accent: "specialty",
+    medallion: brandLogo,
+    tagline: "Rare, one-of-a-kind characters for unique events",
+    shortDescription: "Custom personas, unique characters, and specialty appearances tailored to truly one-of-a-kind events.",
+    emotionalHeadline: "When your event calls for something truly unique.",
+    intro: "Distinctive, imaginative, and beautifully presented — our specialty characters bring rare and custom personas to events that want to stand apart.",
+    whatItIs: "A specialty performer arrives in a premium, distinctive costume tailored to your theme — from good witches and fairies to custom-built personas. Each appearance is crafted around your event's unique vision, with polished interaction, photo moments, and themed engagement.",
+    bestFor: ["Themed birthdays", "Festivals", "Brand activations", "Custom events", "Photo experiences"],
+    included: [
+      "Professional specialty performer",
+      "Premium, distinctive costume",
+      "Themed entrance & interaction",
+      "Photos with every guest",
+      "Custom persona options",
+      "Tailored to your event vision",
+    ],
+    packages: sharedPackages("specialty"),
+    faqs: [
+      { q: "Can you create a custom character?", a: "Yes — custom personas are our specialty. Share your vision and we'll build a polished, premium appearance around it." },
+      { q: "What kinds of specialty characters do you offer?", a: "From good witches and fairies to unique themed personas, we cover a wide range. Tell us your theme and we'll match the right character." },
+      { q: "How long is a typical appearance?", a: "Most specialty appearances run 45–90 minutes depending on package and event flow." },
+      { q: "Do you serve all of Metro Vancouver?", a: "Yes — across Vancouver and the wider Lower Mainland." },
+    ],
+  },
 ];
 
 export const chapterBySlug = (slug: string) => chapters.find((c) => c.slug === slug);
+
 
 export const navChapters = chapters;
 
@@ -322,6 +353,7 @@ export const storybookWorlds: StorybookWorld[] = [
   { name: "Mascot Meadows", slug: "mascot-events", accent: "mascot", medallion: mascotMedallion, scene: mascotScene, blurb: "Friendly, crowd-pleasing characters that light up any event." },
   { name: "Holiday Village", slug: "holiday-events", accent: "holiday", medallion: holidayMedallion, scene: holidayScene, blurb: "Seasonal characters that make every holiday unforgettable." },
   { name: "Corporate District", slug: "corporate-events", accent: "corporate", medallion: corporateMedallion, scene: corporateScene, blurb: "Polished, reliable entertainment for public and brand events." },
+  { name: "Specialty Characters", slug: "specialty-events", accent: "specialty", medallion: brandLogo, scene: specialtyScene, blurb: "Rare, one-of-a-kind characters and custom personas for truly unique events." },
 ];
 
 export type Testimonial = {
