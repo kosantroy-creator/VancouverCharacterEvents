@@ -1,14 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/brand/logo-primary.png";
-import { navChapters } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  ...navChapters.map((c) => ({ label: c.navLabel, to: `/${c.slug}` })),
-  { label: "Gallery", to: "/gallery" },
+type NavChild = { label: string; to: string };
+type NavItem = { label: string; to?: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
+  { label: "Princess Events", to: "/princess-events" },
+  { label: "Hero Events", to: "/hero-events" },
+  { label: "Dinosaur Events", to: "/dinosaur-events" },
+  {
+    label: "Specialty Events",
+    children: [
+      { label: "Mermaid Events", to: "/mermaid-events" },
+      { label: "Specialty Characters", to: "/holiday-events" },
+    ],
+  },
+  { label: "Mascot Events", to: "/mascot-events" },
+  { label: "Corporate Events", to: "/corporate-events" },
 ];
 
 export function Header() {
@@ -29,6 +47,9 @@ export function Header() {
     };
   }, [open]);
 
+  const linkClass =
+    "rounded-md px-2.5 py-2 text-sm font-medium text-fg-on-ink/80 transition-colors hover:text-gold-400";
+
   return (
     <header
       className={cn(
@@ -47,17 +68,35 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 xl:flex" aria-label="Primary">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="rounded-md px-3 py-2 text-sm font-medium text-fg-on-ink/80 transition-colors hover:text-gold-400"
-              activeProps={{ className: "text-gold-400" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
+          {navItems.map((item) =>
+            item.children ? (
+              <DropdownMenu key={item.label}>
+                <DropdownMenuTrigger
+                  className={cn(linkClass, "inline-flex items-center gap-1 outline-none data-[state=open]:text-gold-400")}
+                >
+                  {item.label}
+                  <ChevronDown className="h-3.5 w-3.5" aria-hidden />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="border-ink-600/50 bg-ink-800">
+                  {item.children.map((child) => (
+                    <DropdownMenuItem key={child.to} asChild className="cursor-pointer text-fg-on-ink/85 focus:bg-ink-700 focus:text-gold-400">
+                      <Link to={child.to}>{child.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                key={item.to}
+                to={item.to!}
+                className={linkClass}
+                activeProps={{ className: "text-gold-400" }}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="hidden items-center gap-3 xl:flex">
@@ -81,21 +120,46 @@ export function Header() {
       <div
         className={cn(
           "ink-section overflow-hidden border-t border-ink-600/50 transition-[max-height] duration-300 xl:hidden",
-          open ? "max-h-[80vh]" : "max-h-0",
+          open ? "max-h-[85vh]" : "max-h-0",
         )}
       >
         <nav className="flex flex-col gap-1 px-5 py-4" aria-label="Mobile">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-3 text-base font-medium text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
-              activeProps={{ className: "text-gold-400" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.children ? (
+              <div key={item.label} className="flex flex-col">
+                <span className="px-3 pb-1 pt-3 text-base font-medium text-fg-on-ink/85">{item.label}</span>
+                {item.children.map((child) => (
+                  <Link
+                    key={child.to}
+                    to={child.to}
+                    onClick={() => setOpen(false)}
+                    className="rounded-md px-6 py-2.5 text-[0.95rem] font-medium text-fg-on-ink/75 transition-colors hover:bg-ink-700 hover:text-gold-400"
+                    activeProps={{ className: "text-gold-400" }}
+                  >
+                    {child.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link
+                key={item.to}
+                to={item.to!}
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-3 text-base font-medium text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
+                activeProps={{ className: "text-gold-400" }}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
+          <Link
+            to="/gallery"
+            onClick={() => setOpen(false)}
+            className="rounded-md px-3 py-3 text-base font-medium text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
+            activeProps={{ className: "text-gold-400" }}
+          >
+            Gallery
+          </Link>
           <CTAButton to="/contact" size="lg" className="mt-3 w-full">
             Book Now
           </CTAButton>

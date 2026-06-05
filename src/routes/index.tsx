@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Check } from "lucide-react";
 import { Hero } from "@/components/site/Hero";
 import { Section, SectionHeading, GoldRule } from "@/components/site/Section";
-import { FeatureCard } from "@/components/site/FeatureCard";
 import { ProcessSteps } from "@/components/site/ProcessSteps";
 import { GalleryGrid, type GalleryItem } from "@/components/site/GalleryGrid";
 import { CTAButton } from "@/components/site/CTAButton";
@@ -9,10 +9,7 @@ import { BookingForm } from "@/components/site/BookingForm";
 import { StorybookWorlds } from "@/components/site/StorybookWorlds";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ServiceAreaChips } from "@/components/site/ServiceAreaMap";
-import { bookingSteps } from "@/lib/site-data";
-import fairytaleImg from "@/assets/scenes/featured-fairytale.jpg";
-import dinosaurImg from "@/assets/scenes/featured-dinosaur.jpg";
-import corporateImg from "@/assets/scenes/featured-corporate.jpg";
+import { bookingSteps, pricingTiers } from "@/lib/site-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,8 +41,54 @@ const galleryPreview: GalleryItem[] = [
   { label: "Mall appearances", category: "Mascots", accent: "var(--chapter-mascot)" },
   { label: "Holiday events", category: "Holidays", accent: "var(--chapter-holiday)" },
   { label: "City celebrations", category: "Festivals", accent: "var(--chapter-festival)" },
-  { label: "School assemblies", category: "Schools", accent: "var(--chapter-hero)" },
 ];
+
+function PricingCards() {
+  return (
+    <div className="grid items-stretch gap-6 md:grid-cols-3">
+      {pricingTiers.map((tier) => (
+        <div
+          key={tier.name}
+          className={`relative flex flex-col rounded-[var(--radius-xl)] border p-8 transition-shadow duration-300 ${
+            tier.featured
+              ? "border-gold-500 bg-surface shadow-[var(--glow-gold)]"
+              : "border-border-soft bg-surface shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]"
+          }`}
+        >
+          {tier.featured ? (
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-pill bg-gold-500 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ink-900">
+              Most Popular
+            </span>
+          ) : null}
+          <p className="t-engrave text-[0.62rem] tracking-[0.28em] text-fg-gold">{tier.duration}</p>
+          <h3 className="mt-2 font-display text-2xl text-fg">{tier.name}</h3>
+          <div className="mt-4 flex items-baseline gap-1">
+            <span className="font-display text-5xl leading-none text-fg">{tier.price}</span>
+          </div>
+          {tier.addOn ? <p className="mt-2 text-sm text-fg-gold">{tier.addOn}</p> : null}
+          <p className="mt-4 text-sm leading-relaxed text-fg-2">{tier.description}</p>
+          <ul className="mt-6 flex-1 space-y-2.5">
+            {tier.highlights.map((h) => (
+              <li key={h} className="flex items-start gap-2.5 text-sm text-fg-2">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" aria-hidden />
+                {h}
+              </li>
+            ))}
+          </ul>
+          <CTAButton
+            href="#booking-form"
+            variant={tier.featured ? "primary" : "ghost"}
+            size="lg"
+            className="mt-8 w-full"
+          >
+            {tier.price === "Custom" ? "Request a Quote" : "Book This"}
+          </CTAButton>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
 function Home() {
   return (
@@ -65,36 +108,18 @@ function Home() {
         </div>
       </Section>
 
-      {/* Featured adventures */}
-      <Section tone="page">
+      {/* Pricing */}
+      <Section tone="page" id="pricing">
         <SectionHeading
-          eyebrow="Featured adventures"
-          title="Signature moments, beautifully delivered"
+          eyebrow="Simple, transparent pricing"
+          title="Choose your package"
+          description="Every package includes professional performers, premium costumes, and unforgettable photo moments. Add extra characters to any event."
         />
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <FeatureCard
-            image={dinosaurImg}
-            title="Harvey the Dinosaur"
-            body="Our larger-than-life, trainer-led dinosaur brings awe and adventure to parties, schools, and festivals."
-            to="/dinosaur-events"
-            ctaLabel="Meet Harvey"
-          />
-          <FeatureCard
-            image={fairytaleImg}
-            title="Princess Experiences"
-            body="Elegant princess visits that turn birthdays and special days into something truly enchanting."
-            to="/princess-events"
-            ctaLabel="Explore princesses"
-          />
-          <FeatureCard
-            image={corporateImg}
-            title="Hero Training Academy"
-            body="High-energy, mission-led hero adventures that channel big imaginations into unforgettable fun."
-            to="/hero-events"
-            ctaLabel="Join the academy"
-          />
+        <div className="mt-12">
+          <PricingCards />
         </div>
       </Section>
+
 
       {/* Real event moments */}
       <Section tone="ink">

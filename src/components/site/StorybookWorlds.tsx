@@ -44,10 +44,10 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
       raf = 0;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // Begins opening when the book's top reaches ~85% of the viewport,
-      // fully open by the time its top reaches ~35%.
-      const start = vh * 0.85;
-      const end = vh * 0.35;
+      // Opens gradually over a longer scroll distance — begins when the book's
+      // top reaches ~78% of the viewport and is fully open near ~8%.
+      const start = vh * 0.78;
+      const end = vh * 0.08;
       const p = (start - rect.top) / (start - end);
       setProgress(Math.min(1, Math.max(0, p)));
     };
@@ -64,8 +64,8 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
     };
   }, []);
 
-  const coverAngle = reduced ? -175 : -175 * Math.min(1, progress / 0.85);
-  const opened = progress >= 0.6;
+  const coverAngle = reduced ? -175 : -175 * Math.min(1, progress / 1);
+  const opened = progress >= 0.85;
   const flipped = index % 2 === 1;
 
   return (
@@ -74,11 +74,24 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
       className="relative mx-auto w-full max-w-3xl [perspective:2400px]"
       style={{ zIndex: storybookWorlds.length - index }}
     >
-      {/* ambient aura behind this book */}
+      {/* accent-colored backing panel behind the book (chapter's main color) */}
       <div
-        className="pointer-events-none absolute -inset-6 -z-10 opacity-60 blur-3xl transition-opacity duration-700 sm:-inset-10"
+        className="pointer-events-none absolute -inset-4 -z-10 rounded-[var(--radius-2xl)] transition-all duration-700 sm:-inset-8"
         style={{
-          opacity: opened ? 0.85 : 0.3,
+          background: `linear-gradient(160deg, color-mix(in oklab, var(--chapter-${world.accent}) 92%, #0E2038) 0%, color-mix(in oklab, var(--chapter-${world.accent}) 70%, #0E2038) 100%)`,
+          opacity: opened ? 1 : 0.55,
+          boxShadow: opened
+            ? `0 0 60px 6px color-mix(in oklab, var(--chapter-${world.accent}) 65%, transparent), var(--shadow-ink)`
+            : "var(--shadow-ink)",
+        }}
+        aria-hidden
+      />
+
+      {/* ambient glow behind this book — intensifies when open */}
+      <div
+        className="pointer-events-none absolute -inset-8 -z-10 blur-3xl transition-opacity duration-700 sm:-inset-14"
+        style={{
+          opacity: opened ? 0.95 : 0.25,
           background: `radial-gradient(55% 55% at 50% 45%, var(--chapter-${world.accent}), transparent 70%)`,
         }}
         aria-hidden
@@ -86,11 +99,12 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
 
       {/* The open spread — revealed beneath the cover */}
       <div
-        className="relative grid overflow-hidden rounded-[var(--radius-2xl)] shadow-[var(--shadow-ink)] sm:grid-cols-2"
+        className="relative grid overflow-hidden rounded-[var(--radius-2xl)] shadow-[var(--shadow-ink)] transition-shadow duration-700 sm:grid-cols-2"
         style={{
           background: "linear-gradient(180deg, #FCF9F2 0%, #F3E9D4 100%)",
-          boxShadow:
-            "inset 0 0 0 2px rgba(207,168,98,0.45), inset 0 0 0 6px rgba(252,249,242,0.6), inset 0 0 0 7px rgba(147,108,48,0.25), var(--shadow-ink)",
+          boxShadow: opened
+            ? `inset 0 0 0 2px rgba(207,168,98,0.45), inset 0 0 0 6px rgba(252,249,242,0.6), inset 0 0 0 7px rgba(147,108,48,0.25), 0 0 50px -4px color-mix(in oklab, var(--chapter-${world.accent}) 60%, transparent), var(--shadow-ink)`
+            : "inset 0 0 0 2px rgba(207,168,98,0.45), inset 0 0 0 6px rgba(252,249,242,0.6), inset 0 0 0 7px rgba(147,108,48,0.25), var(--shadow-ink)",
         }}
       >
         {/* text page */}

@@ -352,3 +352,40 @@ export const bookingSteps = [
   { step: "03", title: "Reserve Your Date", body: "Lock in your date and details with our friendly local team." },
   { step: "04", title: "We Bring the Magic", body: "Your character team arrives prepared, polished, and ready to create memories." },
 ];
+
+export type PricingTier = {
+  name: string;
+  duration: string;
+  price: string;
+  addOn?: string;
+  description: string;
+  highlights: string[];
+  featured?: boolean;
+};
+
+export const pricingTiers: PricingTier[] = [
+  {
+    name: "Single Character",
+    duration: "1 hour event",
+    price: "$288",
+    addOn: "Add an additional character for $148",
+    description: "One professional performer hosting a full hour of magic — perfect for birthdays and intimate celebrations.",
+    highlights: ["One character appearance", "Full hour of entertainment", "Photos with every guest", "Add characters anytime"],
+  },
+  {
+    name: "Premium",
+    duration: "1.5 hour event",
+    price: "$388",
+    addOn: "Add an additional character for $198",
+    description: "Our most-booked format — ninety minutes of structured entertainment from grand entrance to final photo.",
+    highlights: ["One character appearance", "90 minutes of entertainment", "Themed games & activities", "Add characters anytime"],
+    featured: true,
+  },
+  {
+    name: "Custom Package",
+    duration: "3+ characters",
+    price: "Custom",
+    description: "A tailored, multi-character experience built around your venue, timing, and guest count.",
+    highlights: ["Three or more characters", "Custom staging & flow", "Dedicated event coordination", "Tailored to your event"],
+  },
+];
