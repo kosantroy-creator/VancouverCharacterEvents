@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Section, SectionHeading, GoldRule } from "@/components/site/Section";
-import { ChapterCard } from "@/components/site/ChapterCard";
-import { EventTypeCard } from "@/components/site/EventTypeCard";
 import { FeatureCard } from "@/components/site/FeatureCard";
 import { ProcessSteps } from "@/components/site/ProcessSteps";
 import { GalleryGrid, type GalleryItem } from "@/components/site/GalleryGrid";
 import { CTAButton } from "@/components/site/CTAButton";
 import { BookingForm } from "@/components/site/BookingForm";
-import { chapters, eventTypes, whyPoints, bookingSteps, serviceAreas } from "@/lib/site-data";
+import { StorybookWorlds } from "@/components/site/StorybookWorlds";
+import { Testimonials } from "@/components/site/Testimonials";
+import { ServiceAreaMap, ServiceAreaChips } from "@/components/site/ServiceAreaMap";
+import { bookingSteps } from "@/lib/site-data";
 import fairytaleImg from "@/assets/scenes/featured-fairytale.jpg";
 import dinosaurImg from "@/assets/scenes/featured-dinosaur.jpg";
 import corporateImg from "@/assets/scenes/featured-corporate.jpg";
@@ -16,16 +17,16 @@ import corporateImg from "@/assets/scenes/featured-corporate.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vancouver Character Events | Premium Character Entertainment" },
+      { title: "Vancouver Character Events | One Company. Endless Adventures." },
       {
         name: "description",
         content:
-          "Premium character entertainment across Metro Vancouver. Birthdays, schools, malls, festivals, holidays, and corporate events with professional performers and premium costumes.",
+          "Premium character entertainment across Metro Vancouver. Princesses, heroes, dinosaurs, mermaids, mascots, holiday characters, and corporate events with professional performers.",
       },
       { property: "og:title", content: "Vancouver Character Events" },
       {
         property: "og:description",
-        content: "Choose your chapter. Bring the story to life. Premium character events across Metro Vancouver.",
+        content: "One company. Endless adventures. Premium character events across Metro Vancouver.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -50,91 +51,57 @@ function Home() {
     <>
       <Hero />
 
-      {/* Choose your chapter */}
-      <Section id="chapters" tone="ink">
+      {/* Storybook worlds */}
+      <Section id="worlds" tone="ink">
         <SectionHeading
           onInk
-          eyebrow="Choose your chapter"
-          title="One mothership. Many adventures."
-          description="Every service category is a chapter in the same magical Vancouver storybook. Turn the page and find the experience that fits your event."
+          eyebrow="Explore our worlds"
+          title="Step into the storybook"
+          description="Every experience is its own world, waiting to rise from the page. Turn the page and discover the adventure that fits your event."
         />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {chapters.map((c) => (
-            <ChapterCard key={c.slug} chapter={c} />
-          ))}
+        <div className="mt-14">
+          <StorybookWorlds />
         </div>
       </Section>
 
-      {/* Why VCE */}
+      {/* Featured adventures */}
       <Section tone="page">
         <SectionHeading
-          eyebrow="Why Vancouver Character Events"
-          title="More Than a Character Visit"
-          description="Every experience is designed to feel polished, organized, and magical — from the first inquiry to the final photo."
-        />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {whyPoints.map((p) => (
-            <div key={p.title} className="rounded-[var(--radius-lg)] border border-border-soft bg-surface p-6 shadow-[var(--shadow-sm)]">
-              <span className="text-gold-500" aria-hidden>✦</span>
-              <h3 className="mt-2 font-display text-xl text-fg">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-fg-2">{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Event types */}
-      <Section tone="cream">
-        <SectionHeading
-          eyebrow="Built for every occasion"
-          title="Events we bring to life"
-          description="One trusted local team for families, schools, retail, cities, and brands."
-        />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {eventTypes.map((e) => (
-            <EventTypeCard key={e.title} event={e} />
-          ))}
-        </div>
-      </Section>
-
-      {/* Featured experiences */}
-      <Section tone="page">
-        <SectionHeading
-          eyebrow="Featured experiences"
+          eyebrow="Featured adventures"
           title="Signature moments, beautifully delivered"
         />
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <FeatureCard
-            image={fairytaleImg}
-            title="Fairytale Celebrations"
-            body="Elegant princess and mermaid experiences that turn birthdays and special days into something truly enchanting."
-            to="/princess-events"
-            ctaLabel="Explore fairytales"
+            image={dinosaurImg}
+            title="Harvey the Dinosaur"
+            body="Our larger-than-life, trainer-led dinosaur brings awe and adventure to parties, schools, and festivals."
+            to="/dinosaur-events"
+            ctaLabel="Meet Harvey"
           />
           <FeatureCard
-            image={dinosaurImg}
-            title="Prehistoric Dinosaur Encounters"
-            body="Larger-than-life, trainer-led dinosaur appearances that bring awe and adventure to parties, schools, and festivals."
-            to="/dinosaur-events"
-            ctaLabel="Meet the dinosaurs"
+            image={fairytaleImg}
+            title="Princess Experiences"
+            body="Elegant princess visits that turn birthdays and special days into something truly enchanting."
+            to="/princess-events"
+            ctaLabel="Explore princesses"
           />
           <FeatureCard
             image={corporateImg}
-            title="Corporate & Holiday Events"
-            body="Reliable, premium character entertainment for malls, city festivals, seasonal programs, and company celebrations."
-            to="/corporate-events"
-            ctaLabel="See corporate events"
+            title="Hero Training Academy"
+            body="High-energy, mission-led hero adventures that channel big imaginations into unforgettable fun."
+            to="/hero-events"
+            ctaLabel="Join the academy"
           />
         </div>
       </Section>
 
-      {/* Gallery preview */}
+      {/* Real event moments */}
       <Section tone="ink">
         <SectionHeading
           onInk
           eyebrow="Real moments"
-          title="A glimpse of the magic"
-          description="A preview of the moments we create — built so real event photos and videos slot right in."
+          title="Real event moments"
+          description="A glimpse of the magic we create — built so your real event photos and videos slot right in."
         />
         <div className="mt-10">
           <GalleryGrid items={galleryPreview} />
@@ -144,11 +111,23 @@ function Home() {
         </div>
       </Section>
 
-      {/* Booking process */}
+      {/* Reviews & testimonials */}
+      <Section tone="cream">
+        <SectionHeading
+          eyebrow="Loved by families & planners"
+          title="What our clients say"
+          description="Trusted by parents, schools, festivals, and corporate clients across Metro Vancouver."
+        />
+        <div className="mt-12">
+          <Testimonials />
+        </div>
+      </Section>
+
+      {/* How it works */}
       <Section tone="page">
         <SectionHeading
           eyebrow="Simple booking process"
-          title="Three steps to your story"
+          title="How it works"
           description="Booking premium character entertainment should feel as easy as it is exciting."
         />
         <div className="mt-12">
@@ -158,22 +137,18 @@ function Home() {
 
       {/* Service area */}
       <Section tone="cream">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <SectionHeading
-            align="left"
-            eyebrow="Serving Metro Vancouver"
-            title="A local team, across the Lower Mainland"
-            description="Proudly bringing premium character experiences to communities throughout Metro Vancouver."
-          />
-          <div className="flex flex-wrap gap-2.5">
-            {serviceAreas.map((area) => (
-              <span key={area} className="rounded-[var(--radius-pill)] border border-border-strong bg-surface px-4 py-1.5 text-sm font-medium text-fg-2">
-                {area}
-              </span>
-            ))}
-            <span className="rounded-[var(--radius-pill)] border border-gold-500/50 bg-surface px-4 py-1.5 text-sm font-medium text-fg-gold">
-              & surrounding communities
-            </span>
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <ServiceAreaMap />
+          <div>
+            <SectionHeading
+              align="left"
+              eyebrow="Serving Metro Vancouver"
+              title="A local team, across the Lower Mainland"
+              description="Proudly bringing premium character experiences to communities throughout Metro Vancouver."
+            />
+            <div className="mt-8">
+              <ServiceAreaChips />
+            </div>
           </div>
         </div>
       </Section>
@@ -182,22 +157,20 @@ function Home() {
       <Section tone="ink" id="book">
         <SectionHeading
           onInk
-          eyebrow="Start your story"
-          title="Bring the story to life"
-          description="Tell us about your event and we'll match you with the perfect chapter. Two clear paths — choose what fits."
+          eyebrow="Begin your story"
+          title="What Story Will You Create?"
+          description="Tell us about your event and we'll match you with the perfect adventure."
         />
-        <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
-          <div className="rounded-[var(--radius-xl)] border border-ink-600/50 bg-ink-700/55 p-7 text-center">
-            <h3 className="font-display text-2xl text-star-white">Parties & Family Events</h3>
-            <p className="mt-2 text-sm text-fg-on-ink/70">Birthdays, home parties, and family celebrations.</p>
-          </div>
-          <div className="rounded-[var(--radius-xl)] border border-ink-600/50 bg-ink-700/55 p-7 text-center">
-            <h3 className="font-display text-2xl text-star-white">Corporate, School, Mall & Festival</h3>
-            <p className="mt-2 text-sm text-fg-on-ink/70">Public, professional, and large-scale events.</p>
-          </div>
+        <div className="mx-auto mt-9 flex max-w-md flex-col justify-center gap-3 sm:flex-row">
+          <CTAButton to="/contact" size="lg" className="w-full sm:w-auto">
+            Book Your Adventure
+          </CTAButton>
+          <CTAButton href="#booking-form" variant="ghost-ink" size="lg" className="w-full sm:w-auto">
+            Request a Quote
+          </CTAButton>
         </div>
         <GoldRule className="mx-auto mt-12 max-w-xs" />
-        <div className="mx-auto mt-8 max-w-3xl">
+        <div id="booking-form" className="mx-auto mt-8 max-w-3xl scroll-mt-24">
           <BookingForm />
         </div>
       </Section>
