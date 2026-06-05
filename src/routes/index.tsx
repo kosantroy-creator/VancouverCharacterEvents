@@ -108,36 +108,18 @@ function Home() {
         </div>
       </Section>
 
-      {/* Featured adventures */}
-      <Section tone="page">
+      {/* Pricing */}
+      <Section tone="page" id="pricing">
         <SectionHeading
-          eyebrow="Featured adventures"
-          title="Signature moments, beautifully delivered"
+          eyebrow="Simple, transparent pricing"
+          title="Choose your package"
+          description="Every package includes professional performers, premium costumes, and unforgettable photo moments. Add extra characters to any event."
         />
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <FeatureCard
-            image={dinosaurImg}
-            title="Harvey the Dinosaur"
-            body="Our larger-than-life, trainer-led dinosaur brings awe and adventure to parties, schools, and festivals."
-            to="/dinosaur-events"
-            ctaLabel="Meet Harvey"
-          />
-          <FeatureCard
-            image={fairytaleImg}
-            title="Princess Experiences"
-            body="Elegant princess visits that turn birthdays and special days into something truly enchanting."
-            to="/princess-events"
-            ctaLabel="Explore princesses"
-          />
-          <FeatureCard
-            image={corporateImg}
-            title="Hero Training Academy"
-            body="High-energy, mission-led hero adventures that channel big imaginations into unforgettable fun."
-            to="/hero-events"
-            ctaLabel="Join the academy"
-          />
+        <div className="mt-12">
+          <PricingCards />
         </div>
       </Section>
+
 
       {/* Real event moments */}
       <Section tone="ink">
