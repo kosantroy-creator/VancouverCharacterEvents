@@ -38,7 +38,7 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[var(--radius-xl)] border border-border-soft bg-surface p-6 shadow-[var(--shadow-md)] sm:p-8"
+      className="rounded-[var(--radius-xl)] border border-gold-500/30 bg-cream-100 p-6 shadow-[var(--shadow-md)] sm:p-8"
       noValidate
     >
       <div className="grid gap-5 sm:grid-cols-2">

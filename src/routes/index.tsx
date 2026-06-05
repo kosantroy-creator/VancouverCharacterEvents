@@ -44,6 +44,7 @@ const galleryPreview: GalleryItem[] = [
   { label: "Mall appearances", category: "Mascots", accent: "var(--chapter-mascot)" },
   { label: "Holiday events", category: "Holidays", accent: "var(--chapter-holiday)" },
   { label: "City celebrations", category: "Festivals", accent: "var(--chapter-festival)" },
+  { label: "School assemblies", category: "Schools", accent: "var(--chapter-hero)" },
 ];
 
 function Home() {
