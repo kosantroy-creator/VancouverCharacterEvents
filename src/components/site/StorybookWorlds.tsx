@@ -156,8 +156,8 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
           className="absolute inset-0 origin-left [transform-style:preserve-3d]"
           style={{
             transform: `rotateY(${coverAngle}deg)`,
-            opacity: coverAngle <= -174 ? 0 : 1,
-            transition: "opacity 200ms ease-out",
+            opacity: coverAngle <= -120 ? 0 : 1,
+            transition: "opacity 150ms ease-out",
           }}
         >
           {/* front of cover */}
