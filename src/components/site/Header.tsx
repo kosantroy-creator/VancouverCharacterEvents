@@ -1,30 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import logo from "@/assets/brand/logo-primary.png";
 import { CTAButton } from "./CTAButton";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-type NavChild = { label: string; to: string };
-type NavItem = { label: string; to?: string; children?: NavChild[] };
+type NavItem = { label: string; to: string };
 
 const navItems: NavItem[] = [
   { label: "Princess Events", to: "/princess-events" },
   { label: "Hero Events", to: "/hero-events" },
   { label: "Dinosaur Events", to: "/dinosaur-events" },
-  {
-    label: "Specialty Events",
-    children: [
-      { label: "Mermaid Events", to: "/mermaid-events" },
-      { label: "Specialty Characters", to: "/holiday-events" },
-    ],
-  },
+  { label: "Mermaid Events", to: "/mermaid-events" },
+  { label: "Specialty Characters", to: "/holiday-events" },
   { label: "Mascot Events", to: "/mascot-events" },
   { label: "Corporate Events", to: "/corporate-events" },
 ];
