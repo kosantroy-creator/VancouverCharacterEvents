@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
-import { chapters, eventTypes, serviceAreas } from "@/lib/site-data";
+import { chapters, eventTypes } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
 
 const fieldClass =
