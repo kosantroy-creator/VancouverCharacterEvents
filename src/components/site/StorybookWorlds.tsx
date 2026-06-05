@@ -65,7 +65,7 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
   }, []);
 
   const coverAngle = reduced ? -175 : -175 * Math.min(1, progress / 1);
-  const opened = progress >= 0.85;
+  const opened = progress >= 0.7;
   const flipped = index % 2 === 1;
 
   return (
@@ -87,11 +87,11 @@ function StorybookBook({ world, index }: { world: (typeof storybookWorlds)[numbe
         aria-hidden
       />
 
-      {/* ambient glow behind this book — intensifies when open */}
+      {/* ambient glow behind this book — pulses to draw the eye when open */}
       <div
-        className="pointer-events-none absolute -inset-8 -z-10 blur-3xl transition-opacity duration-700 sm:-inset-14"
+        className={`pointer-events-none absolute -inset-8 -z-10 blur-3xl transition-opacity duration-700 sm:-inset-14 ${opened ? "sb-glow-pulse" : ""}`}
         style={{
-          opacity: opened ? 0.95 : 0.25,
+          opacity: opened ? 1 : 0.25,
           background: `radial-gradient(55% 55% at 50% 45%, var(--chapter-${world.accent}), transparent 70%)`,
         }}
         aria-hidden
