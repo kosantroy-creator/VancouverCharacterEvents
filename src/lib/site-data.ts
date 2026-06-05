@@ -12,6 +12,8 @@ import mermaidScene from "@/assets/worlds/mermaid.jpg";
 import mascotScene from "@/assets/worlds/mascot.jpg";
 import holidayScene from "@/assets/worlds/holiday.jpg";
 import corporateScene from "@/assets/worlds/corporate.jpg";
+import specialtyScene from "@/assets/worlds/specialty.jpg";
+import brandLogo from "@/assets/brand/logo-primary.png";
 
 export type ChapterPackage = {
   name: string;
@@ -322,6 +324,7 @@ export const storybookWorlds: StorybookWorld[] = [
   { name: "Mascot Meadows", slug: "mascot-events", accent: "mascot", medallion: mascotMedallion, scene: mascotScene, blurb: "Friendly, crowd-pleasing characters that light up any event." },
   { name: "Holiday Village", slug: "holiday-events", accent: "holiday", medallion: holidayMedallion, scene: holidayScene, blurb: "Seasonal characters that make every holiday unforgettable." },
   { name: "Corporate District", slug: "corporate-events", accent: "corporate", medallion: corporateMedallion, scene: corporateScene, blurb: "Polished, reliable entertainment for public and brand events." },
+  { name: "Specialty Characters", slug: "specialty-events", accent: "specialty", medallion: brandLogo, scene: specialtyScene, blurb: "Rare, one-of-a-kind characters and custom personas for truly unique events." },
 ];
 
 export type Testimonial = {
