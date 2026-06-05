@@ -339,7 +339,8 @@ export const whyPoints = [
 ];
 
 export const bookingSteps = [
-  { step: "01", title: "Tell us about your event", body: "Share your date, location, audience, and the type of experience you're looking for." },
-  { step: "02", title: "Choose the right chapter", body: "We help match your event with the right character experience, format, and package." },
-  { step: "03", title: "Bring the story to life", body: "Your performer or character team arrives prepared, polished, and ready to create memorable moments." },
+  { step: "01", title: "Choose Your Adventure", body: "Browse our worlds and pick the character experience that fits your event." },
+  { step: "02", title: "Select Your Package", body: "We help match your event with the right format, length, and presentation." },
+  { step: "03", title: "Reserve Your Date", body: "Lock in your date and details with our friendly local team." },
+  { step: "04", title: "We Bring the Magic", body: "Your character team arrives prepared, polished, and ready to create memories." },
 ];
