@@ -94,27 +94,46 @@ function WorldCard({ world, index, revealed }: { world: (typeof storybookWorlds)
 
 export function StorybookWorlds() {
   const ref = useRef<HTMLDivElement>(null);
-  const [opened, setOpened] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setOpened(true);
+      setReduced(true);
+      setProgress(1);
       return;
     }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setOpened(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      // 0 when the section's top reaches the bottom of the viewport,
+      // 1 once it has scrolled up by ~70% of the viewport height.
+      const start = vh;
+      const end = vh * 0.3;
+      const p = (start - rect.top) / (start - end);
+      setProgress(Math.min(1, Math.max(0, p)));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
+
+  // Cover swings open across the first ~70% of progress.
+  const coverAngle = reduced ? -172 : -172 * Math.min(1, progress / 0.7);
+  const opened = progress >= 0.55;
 
   return (
     <div ref={ref} className="relative mx-auto max-w-6xl">
@@ -132,13 +151,14 @@ export function StorybookWorlds() {
         </ul>
       </div>
 
-      {/* The premium leather cover that swings open once */}
+      {/* The premium leather cover that swings open as you scroll */}
       <div className="absolute inset-0 z-20 [perspective:2600px] [pointer-events:none]" aria-hidden>
         <div
-          className="absolute inset-0 origin-left transition-transform ease-[cubic-bezier(0.7,0,0.3,1)] [transform-style:preserve-3d]"
+          className="absolute inset-0 origin-left [transform-style:preserve-3d]"
           style={{
-            transitionDuration: "1500ms",
-            transform: opened ? "rotateY(-172deg)" : "rotateY(0deg)",
+            transform: `rotateY(${coverAngle}deg)`,
+            opacity: coverAngle <= -171 ? 0 : 1,
+            transition: "opacity 200ms ease-out",
           }}
         >
           {/* front of cover — luxury leather + gold foil */}
@@ -156,7 +176,7 @@ export function StorybookWorlds() {
             />
             <img src={logo} alt="" className="w-40 max-w-[55%] opacity-95 drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)] sm:w-56" />
             <p className="t-engrave mt-6 px-6 text-center text-[0.7rem] tracking-[0.3em] text-gold-300 sm:text-sm">
-              Open the book — choose your chapter
+              Scroll to open the book — choose your chapter
             </p>
           </div>
           {/* back of cover — parchment page */}
