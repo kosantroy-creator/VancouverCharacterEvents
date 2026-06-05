@@ -5,6 +5,13 @@ import mermaidMedallion from "@/assets/chapters/mermaid.png";
 import mascotMedallion from "@/assets/chapters/mascot.png";
 import holidayMedallion from "@/assets/chapters/holiday.png";
 import corporateMedallion from "@/assets/chapters/corporate.png";
+import princessScene from "@/assets/worlds/princess.jpg";
+import heroScene from "@/assets/worlds/hero.jpg";
+import dinosaurScene from "@/assets/worlds/dinosaur.jpg";
+import mermaidScene from "@/assets/worlds/mermaid.jpg";
+import mascotScene from "@/assets/worlds/mascot.jpg";
+import holidayScene from "@/assets/worlds/holiday.jpg";
+import corporateScene from "@/assets/worlds/corporate.jpg";
 
 export type ChapterPackage = {
   name: string;
@@ -303,17 +310,18 @@ export type StorybookWorld = {
   slug: string;
   accent: string;
   medallion: string;
+  scene: string;
   blurb: string;
 };
 
 export const storybookWorlds: StorybookWorld[] = [
-  { name: "Princess Kingdom", slug: "princess-events", accent: "princess", medallion: princessMedallion, blurb: "Royal welcomes, sing-alongs, and fairytale photo moments." },
-  { name: "Hero Headquarters", slug: "hero-events", accent: "hero", medallion: heroMedallion, blurb: "High-energy missions and brave adventures for young heroes." },
-  { name: "Jurassic Valley", slug: "dinosaur-events", accent: "dinosaur", medallion: dinosaurMedallion, blurb: "Larger-than-life prehistoric encounters led by expert trainers." },
-  { name: "Mermaid Cove", slug: "mermaid-events", accent: "mermaid", medallion: mermaidMedallion, blurb: "Shimmering under-the-sea magic for parties and poolside events." },
-  { name: "Mascot Meadows", slug: "mascot-events", accent: "mascot", medallion: mascotMedallion, blurb: "Friendly, crowd-pleasing characters that light up any event." },
-  { name: "Holiday Village", slug: "holiday-events", accent: "holiday", medallion: holidayMedallion, blurb: "Seasonal characters that make every holiday unforgettable." },
-  { name: "Corporate District", slug: "corporate-events", accent: "corporate", medallion: corporateMedallion, blurb: "Polished, reliable entertainment for public and brand events." },
+  { name: "Princess Kingdom", slug: "princess-events", accent: "princess", medallion: princessMedallion, scene: princessScene, blurb: "Royal welcomes, sing-alongs, and fairytale photo moments." },
+  { name: "Hero Headquarters", slug: "hero-events", accent: "hero", medallion: heroMedallion, scene: heroScene, blurb: "High-energy missions and brave adventures for young heroes." },
+  { name: "Jurassic Valley", slug: "dinosaur-events", accent: "dinosaur", medallion: dinosaurMedallion, scene: dinosaurScene, blurb: "Larger-than-life prehistoric encounters led by expert trainers." },
+  { name: "Mermaid Cove", slug: "mermaid-events", accent: "mermaid", medallion: mermaidMedallion, scene: mermaidScene, blurb: "Shimmering under-the-sea magic for parties and poolside events." },
+  { name: "Mascot Meadows", slug: "mascot-events", accent: "mascot", medallion: mascotMedallion, scene: mascotScene, blurb: "Friendly, crowd-pleasing characters that light up any event." },
+  { name: "Holiday Village", slug: "holiday-events", accent: "holiday", medallion: holidayMedallion, scene: holidayScene, blurb: "Seasonal characters that make every holiday unforgettable." },
+  { name: "Corporate District", slug: "corporate-events", accent: "corporate", medallion: corporateMedallion, scene: corporateScene, blurb: "Polished, reliable entertainment for public and brand events." },
 ];
 
 export type Testimonial = {
