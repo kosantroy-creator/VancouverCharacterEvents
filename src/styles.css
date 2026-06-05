@@ -14,15 +14,15 @@
    ============================================================================= */
 
 :root {
-  /* INK — storybook twilight sky (lightened) */
-  --ink-900: #0E1C30;
-  --ink-800: #142840;
-  --ink-700: #1B3450;
-  --ink-600: #294A6B;
-  --ink-500: #3A6088;
-  --ink-400: #6488AB;
-  --ink-300: #99AEC8;
-  --ink-200: #C6D3E2;
+  /* INK — storybook twilight sky (lightened twice) */
+  --ink-900: #1B3656;
+  --ink-800: #244268;
+  --ink-700: #30537E;
+  --ink-600: #426E99;
+  --ink-500: #5685AE;
+  --ink-400: #7BA0C2;
+  --ink-300: #A9BED6;
+  --ink-200: #D2DDEA;
 
   /* GOLD — champagne / antique gold */
   --gold-700: #936C30;
@@ -98,7 +98,7 @@
   --glow-gold-soft: 0 0 40px -8px rgba(224, 195, 131, 0.55);
 
   /* GRADIENTS */
-  --grad-night-sky: linear-gradient(180deg, #142840 0%, #1B3450 45%, #294A6B 100%);
+  --grad-night-sky: linear-gradient(180deg, #244268 0%, #30537E 45%, #426E99 100%);
   --grad-dawn: linear-gradient(180deg, #122339 0%, #2E5478 60%, #CFA862 130%);
   --grad-gold-rule: linear-gradient(90deg, rgba(207, 168, 98, 0) 0%, var(--gold-500) 50%, rgba(207, 168, 98, 0) 100%);
   --grad-page: linear-gradient(180deg, #FCF9F2 0%, #F8F1E3 100%);
@@ -313,9 +313,27 @@
   }
 }
 
+/* ---- Storybook ambient motion ---- */
+@keyframes sb-twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+@keyframes sb-glow-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.7; }
+}
+@keyframes sb-shimmer {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  100% { transform: translateX(220%) skewX(-12deg); }
+}
+.sb-twinkle { animation: sb-twinkle 3.5s ease-in-out infinite; }
+.sb-glow-pulse { animation: sb-glow-pulse 5s ease-in-out infinite; }
+.sb-shimmer { animation: sb-shimmer 4.5s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
