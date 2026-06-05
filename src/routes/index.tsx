@@ -8,7 +8,7 @@ import { CTAButton } from "@/components/site/CTAButton";
 import { BookingForm } from "@/components/site/BookingForm";
 import { StorybookWorlds } from "@/components/site/StorybookWorlds";
 import { Testimonials } from "@/components/site/Testimonials";
-import { ServiceAreaMap, ServiceAreaChips } from "@/components/site/ServiceAreaMap";
+import { ServiceAreaChips } from "@/components/site/ServiceAreaMap";
 import { bookingSteps } from "@/lib/site-data";
 import fairytaleImg from "@/assets/scenes/featured-fairytale.jpg";
 import dinosaurImg from "@/assets/scenes/featured-dinosaur.jpg";
@@ -137,18 +137,14 @@ function Home() {
 
       {/* Service area */}
       <Section tone="cream">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <ServiceAreaMap />
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="Serving Metro Vancouver"
-              title="A local team, across the Lower Mainland"
-              description="Proudly bringing premium character experiences to communities throughout Metro Vancouver."
-            />
-            <div className="mt-8">
-              <ServiceAreaChips />
-            </div>
+        <div className="mx-auto max-w-2xl text-center">
+          <SectionHeading
+            eyebrow="Serving Metro Vancouver"
+            title="A local team, across the Lower Mainland"
+            description="Proudly bringing premium character experiences to communities throughout Metro Vancouver."
+          />
+          <div className="mt-8">
+            <ServiceAreaChips />
           </div>
         </div>
       </Section>
