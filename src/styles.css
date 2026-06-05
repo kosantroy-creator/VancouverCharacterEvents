@@ -14,15 +14,15 @@
    ============================================================================= */
 
 :root {
-  /* INK — storybook night sky */
-  --ink-900: #08111F;
-  --ink-800: #0C1A2E;
-  --ink-700: #122339;
-  --ink-600: #1C3A57;
-  --ink-500: #2E5478;
-  --ink-400: #5A7C9F;
-  --ink-300: #8FA6C0;
-  --ink-200: #BFCEDE;
+  /* INK — storybook twilight sky (lightened) */
+  --ink-900: #0E1C30;
+  --ink-800: #142840;
+  --ink-700: #1B3450;
+  --ink-600: #294A6B;
+  --ink-500: #3A6088;
+  --ink-400: #6488AB;
+  --ink-300: #99AEC8;
+  --ink-200: #C6D3E2;
 
   /* GOLD — champagne / antique gold */
   --gold-700: #936C30;
