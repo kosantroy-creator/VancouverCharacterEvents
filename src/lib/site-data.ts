@@ -302,6 +302,9 @@ export const chapters: Chapter[] = [
   },
 ];
 
+export const chapterBySlug = (slug: string) => chapters.find((c) => c.slug === slug);
+
+
 export const navChapters = chapters;
 
 export type EventType = {
