@@ -1390,7 +1390,7 @@ export const howItWorks = [
   },
   {
     step: "02",
-    title: "We match the right character",
+    title: "We match the right character & world",
     body: "We help you choose the world and format that fits your guests, your space, and your goals.",
   },
   {
@@ -1400,13 +1400,8 @@ export const howItWorks = [
   },
   {
     step: "04",
-    title: "Your team arrives prepared",
-    body: "A trained, polished performer — with support where needed — arrives ready to go.",
-  },
-  {
-    step: "05",
-    title: "Enjoy & capture the memories",
-    body: "You're free to be present while we create the moments, and the photos, you'll keep.",
+    title: "We arrive & you enjoy the memories",
+    body: "A trained, polished performer arrives ready — you stay present while we create the moments, and photos, you'll keep.",
   },
 ];
 

@@ -5,13 +5,13 @@ import { StorybookWorlds } from "@/components/site/StorybookWorlds";
 import { FindYourEvent } from "@/components/site/FindYourEvent";
 import { WhyChooseUs } from "@/components/site/WhyChooseUs";
 import { Testimonials } from "@/components/site/Testimonials";
-import { ProcessSteps } from "@/components/site/ProcessSteps";
+import { JourneyPath } from "@/components/site/JourneyPath";
 import { GalleryGrid, type GalleryItem } from "@/components/site/GalleryGrid";
 import { ServiceAreaChips } from "@/components/site/ServiceAreaMap";
 import { Mountains } from "@/components/site/Scenery";
 import { CTAButton } from "@/components/site/CTAButton";
 import { Section, SectionHeading, GoldRule } from "@/components/site/Section";
-import { howItWorks, worldBySlug } from "@/lib/site-data";
+import { worldBySlug } from "@/lib/site-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -133,7 +133,7 @@ function Home() {
           description="Booking premium character entertainment should feel as easy as it is exciting."
         />
         <div className="mt-12">
-          <ProcessSteps steps={howItWorks} />
+          <JourneyPath />
         </div>
       </Section>
 

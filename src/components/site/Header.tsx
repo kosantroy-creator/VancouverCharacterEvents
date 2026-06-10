@@ -72,22 +72,25 @@ export function Header() {
           : "bg-ink-900/80 backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-2 px-5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-2 px-5 sm:px-6 lg:px-8">
+        {/* Brand — left on desktop, centered & prominent on mobile/tablet */}
         <Link
           to="/"
-          className="group flex shrink-0 items-center gap-3"
+          aria-label="Vancouver Character Events — home"
+          className="group flex shrink-0 items-center gap-2.5 max-[1139px]:absolute max-[1139px]:left-1/2 max-[1139px]:-translate-x-1/2"
           onClick={() => setOpen(false)}
         >
           <img
             src={logo}
-            alt="Vancouver Character Events"
+            alt=""
+            aria-hidden
             className="h-11 w-11 rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
             width={44}
             height={44}
           />
-          <span className="hidden flex-col leading-tight min-[1280px]:flex">
-            <span className="t-engrave text-[0.95rem] text-gold-400">Vancouver</span>
-            <span className="t-engrave text-[0.62rem] tracking-[0.28em] text-fg-on-ink/70">
+          <span className="flex flex-col whitespace-nowrap leading-tight">
+            <span className="t-engrave text-[1rem] leading-none text-gold-400">Vancouver</span>
+            <span className="t-engrave mt-0.5 text-[0.64rem] tracking-[0.26em] text-fg-on-ink/75">
               Character Events
             </span>
           </span>
@@ -215,7 +218,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-fg-on-ink transition-colors hover:text-gold-400 min-[1140px]:hidden"
+          className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-md text-fg-on-ink transition-colors hover:text-gold-400 min-[1140px]:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"
