@@ -15,7 +15,10 @@ export const Route = createFileRoute("/contact")({
           "Request a booking for premium character entertainment in Metro Vancouver. Birthdays, schools, malls, festivals, holidays, and corporate events.",
       },
       { property: "og:title", content: "Book Now | Vancouver Character Events" },
-      { property: "og:description", content: "Start your booking request and bring the story to life." },
+      {
+        property: "og:description",
+        content: "Start your booking request and bring the story to life.",
+      },
       { property: "og:url", content: "/contact" },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
@@ -24,9 +27,21 @@ export const Route = createFileRoute("/contact")({
 });
 
 const nextSteps = [
-  { step: "01", title: "We review your request", body: "Our team reads your details and checks availability for your date and location." },
-  { step: "02", title: "We help you choose", body: "We'll recommend the right chapter, format, and package for your event and audience." },
-  { step: "03", title: "We confirm the magic", body: "Once details are locked in, your character team prepares to deliver an unforgettable experience." },
+  {
+    step: "01",
+    title: "We review your request",
+    body: "Our team reads your details and checks availability for your date and location.",
+  },
+  {
+    step: "02",
+    title: "We help you choose",
+    body: "We'll recommend the right chapter, format, and package for your event and audience.",
+  },
+  {
+    step: "03",
+    title: "We confirm the magic",
+    body: "Once details are locked in, your character team prepares to deliver an unforgettable experience.",
+  },
 ];
 
 function ContactPage() {
@@ -51,19 +66,27 @@ function ContactPage() {
               <ul className="mt-4 space-y-4">
                 <li className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-5 w-5 text-gold-600" />
-                  <a href="mailto:hello@vancouvercharacterevents.ca" className="text-sm text-fg transition-colors hover:text-fg-gold">
+                  <a
+                    href="mailto:hello@vancouvercharacterevents.ca"
+                    className="text-sm text-fg transition-colors hover:text-fg-gold"
+                  >
                     hello@vancouvercharacterevents.ca
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-5 w-5 text-gold-600" />
-                  <a href="tel:+16040000000" className="text-sm text-fg transition-colors hover:text-fg-gold">
+                  <a
+                    href="tel:+16040000000"
+                    className="text-sm text-fg transition-colors hover:text-fg-gold"
+                  >
                     (604) 000-0000
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-5 w-5 text-gold-600" />
-                  <span className="text-sm text-fg-2">Serving all of Metro Vancouver & the Lower Mainland</span>
+                  <span className="text-sm text-fg-2">
+                    Serving all of Metro Vancouver & the Lower Mainland
+                  </span>
                 </li>
               </ul>
             </div>

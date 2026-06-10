@@ -10,14 +10,24 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <Link to="/" className="flex items-center gap-3">
-              <img src={logo} alt="Vancouver Character Events" className="h-12 w-12 rounded-full object-cover" width={48} height={48} loading="lazy" />
+              <img
+                src={logo}
+                alt="Vancouver Character Events"
+                className="h-12 w-12 rounded-full object-cover"
+                width={48}
+                height={48}
+                loading="lazy"
+              />
               <span className="flex flex-col leading-tight">
                 <span className="t-engrave text-base text-gold-400">Vancouver</span>
-                <span className="t-engrave text-[0.62rem] tracking-[0.28em] text-fg-on-ink/70">Character Events</span>
+                <span className="t-engrave text-[0.62rem] tracking-[0.28em] text-fg-on-ink/70">
+                  Character Events
+                </span>
               </span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-fg-on-ink/70">
-              Premium character entertainment across Metro Vancouver. One mothership, many adventures — choose your chapter and bring the story to life.
+              Premium character entertainment across Metro Vancouver. One mothership, many
+              adventures — choose your chapter and bring the story to life.
             </p>
             <div className="mt-6 flex gap-3">
               {[Instagram, Facebook, Youtube].map((Icon, i) => (
@@ -38,7 +48,10 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5">
               {navChapters.map((c) => (
                 <li key={c.slug}>
-                  <Link to={`/${c.slug}`} className="text-sm text-fg-on-ink/75 transition-colors hover:text-gold-400">
+                  <Link
+                    to={`/${c.slug}`}
+                    className="text-sm text-fg-on-ink/75 transition-colors hover:text-gold-400"
+                  >
                     {c.name}
                   </Link>
                 </li>
@@ -51,12 +64,19 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5">
               {[
                 { label: "Home", to: "/" },
+                { label: "Our Team", to: "/our-team" },
+                { label: "Pricing", to: "/pricing" },
                 { label: "Gallery", to: "/gallery" },
+                { label: "The Journal", to: "/blog" },
                 { label: "About", to: "/about" },
+                { label: "Corporate Portal", to: "/corporate-portal" },
                 { label: "Book Now", to: "/contact" },
               ].map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="text-sm text-fg-on-ink/75 transition-colors hover:text-gold-400">
+                  <Link
+                    to={l.to}
+                    className="text-sm text-fg-on-ink/75 transition-colors hover:text-gold-400"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -70,11 +90,19 @@ export function Footer() {
               {serviceAreas.slice(0, 10).join(" · ")} and surrounding Lower Mainland communities.
             </p>
             <div className="mt-5 space-y-2">
-              <a href="mailto:hello@vancouvercharacterevents.ca" className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400">
-                <Mail className="h-4 w-4 text-gold-500" /><span>hello@vancouvercharacterevents.ca</span>
+              <a
+                href="mailto:hello@vancouvercharacterevents.ca"
+                className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400"
+              >
+                <Mail className="h-4 w-4 text-gold-500" />
+                <span>hello@vancouvercharacterevents.ca</span>
               </a>
-              <a href="tel:+16040000000" className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400">
-                <Phone className="h-4 w-4 text-gold-500" /><span>(604) 000-0000</span>
+              <a
+                href="tel:+16040000000"
+                className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400"
+              >
+                <Phone className="h-4 w-4 text-gold-500" />
+                <span>(604) 000-0000</span>
               </a>
             </div>
           </div>

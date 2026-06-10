@@ -15,7 +15,9 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
           <AccordionTrigger className="text-left font-display text-lg text-fg hover:text-fg-gold hover:no-underline">
             {faq.q}
           </AccordionTrigger>
-          <AccordionContent className="text-base leading-relaxed text-fg-2">{faq.a}</AccordionContent>
+          <AccordionContent className="text-base leading-relaxed text-fg-2">
+            {faq.a}
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>

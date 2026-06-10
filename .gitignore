@@ -20,6 +20,12 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Generated / local artifacts (not part of the app)
+graphify-out/
+package-lock.json
+public/video/*.mp4
+public/video/*.webm
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

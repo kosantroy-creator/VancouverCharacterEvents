@@ -32,7 +32,9 @@ export function ProcessSteps({ steps, onInk = false }: { steps: Step[]; onInk?: 
         <div
           key={s.step}
           className={`relative rounded-[var(--radius-lg)] border p-7 transition-all duration-700 ease-out ${
-            onInk ? "border-ink-600/50 bg-ink-700/50" : "border-border-soft bg-surface shadow-[var(--shadow-sm)]"
+            onInk
+              ? "border-ink-600/50 bg-ink-700/50"
+              : "border-border-soft bg-surface shadow-[var(--shadow-sm)]"
           }`}
           style={{
             opacity: shown ? 1 : 0,
@@ -41,8 +43,14 @@ export function ProcessSteps({ steps, onInk = false }: { steps: Step[]; onInk?: 
           }}
         >
           <span className="font-display text-5xl text-gold-500/40">{s.step}</span>
-          <h3 className={`mt-3 font-display text-xl ${onInk ? "text-star-white" : "text-fg"}`}>{s.title}</h3>
-          <p className={`mt-2 text-sm leading-relaxed ${onInk ? "text-fg-on-ink/70" : "text-fg-2"}`}>{s.body}</p>
+          <h3 className={`mt-3 font-display text-xl ${onInk ? "text-star-white" : "text-fg"}`}>
+            {s.title}
+          </h3>
+          <p
+            className={`mt-2 text-sm leading-relaxed ${onInk ? "text-fg-on-ink/70" : "text-fg-2"}`}
+          >
+            {s.body}
+          </p>
         </div>
       ))}
     </div>

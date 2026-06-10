@@ -3,15 +3,29 @@ import { serviceAreas } from "@/lib/site-data";
 /** Decorative, stylized Metro Vancouver map. Not geographically exact — a premium
  *  illustrative backdrop with glowing location markers. */
 const markers = [
-  { x: 26, y: 40 }, { x: 38, y: 34 }, { x: 33, y: 50 }, { x: 48, y: 44 },
-  { x: 58, y: 54 }, { x: 44, y: 62 }, { x: 22, y: 28 }, { x: 30, y: 22 },
-  { x: 62, y: 38 }, { x: 70, y: 50 }, { x: 54, y: 70 }, { x: 78, y: 62 },
+  { x: 26, y: 40 },
+  { x: 38, y: 34 },
+  { x: 33, y: 50 },
+  { x: 48, y: 44 },
+  { x: 58, y: 54 },
+  { x: 44, y: 62 },
+  { x: 22, y: 28 },
+  { x: 30, y: 22 },
+  { x: 62, y: 38 },
+  { x: 70, y: 50 },
+  { x: 54, y: 70 },
+  { x: 78, y: 62 },
 ];
 
 export function ServiceAreaMap() {
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-xl)] border border-gold-500/25 bg-ink-800 shadow-[var(--shadow-ink)]">
-      <svg viewBox="0 0 100 75" className="h-full w-full" role="img" aria-label="Stylized map of Metro Vancouver service area">
+      <svg
+        viewBox="0 0 100 75"
+        className="h-full w-full"
+        role="img"
+        aria-label="Stylized map of Metro Vancouver service area"
+      >
         {/* water */}
         <rect width="100" height="75" fill="var(--ink-900)" />
         {/* landmass shapes */}
