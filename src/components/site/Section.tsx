@@ -2,7 +2,18 @@ import { cn } from "@/lib/utils";
 import type { ReactNode, ElementType } from "react";
 
 /** Light-first storybook tones; navy/ink are rare accents, not the field. */
-type Tone = "ivory" | "parchment" | "champagne" | "sky" | "navy" | "page" | "cream" | "ink";
+type Tone =
+  | "ivory"
+  | "parchment"
+  | "champagne"
+  | "sky"
+  | "navy"
+  | "page"
+  | "cream"
+  | "ink"
+  | "blush"
+  | "pearl"
+  | "rose";
 
 const TONE_BG: Record<Tone, string> = {
   ivory: "var(--grad-ivory)",
@@ -13,6 +24,10 @@ const TONE_BG: Record<Tone, string> = {
   cream: "var(--grad-cream-warm)",
   navy: "var(--grad-navy-panel)",
   ink: "var(--grad-ink-dusk)",
+  // Princess Kingdom fields — blush/pearl/rose with gold accents.
+  blush: "var(--grad-blush)",
+  pearl: "var(--grad-pearl)",
+  rose: "var(--grad-rose)",
 };
 
 type SectionProps = {
@@ -27,6 +42,8 @@ type SectionProps = {
   sparkle?: boolean;
   /** tighten vertical rhythm */
   compact?: boolean;
+  /** clip decorative bleed (default). Disable for position:sticky children. */
+  clip?: boolean;
 };
 
 /**
@@ -45,6 +62,7 @@ export function Section({
   filigree = true,
   sparkle = false,
   compact = false,
+  clip = true,
 }: SectionProps) {
   const dark = tone === "navy" || tone === "ink";
   const toneClass = tone === "ink" ? "ink-section" : tone === "navy" ? "navy-section" : "text-fg";
@@ -53,7 +71,8 @@ export function Section({
     <Tag
       id={id}
       className={cn(
-        "relative isolate overflow-hidden",
+        "relative isolate",
+        clip && "overflow-hidden",
         compact ? "py-12 md:py-16" : "py-16 md:py-24",
         toneClass,
         className,

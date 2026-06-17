@@ -31,18 +31,29 @@ function WorldPriceCard({ world }: { world: WorldPricing }) {
   return (
     <div
       id={world.slug}
-      className="flex scroll-mt-28 flex-col overflow-hidden rounded-[var(--radius-xl)] border border-border-soft bg-surface shadow-[var(--shadow-sm)]"
+      className="group relative flex scroll-mt-28 flex-col overflow-hidden rounded-[var(--radius-xl)] border border-border-soft bg-surface shadow-[var(--shadow-sm)] transition-all duration-300 ease-[var(--ease-out)] hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-22px_rgba(8,17,31,0.35)]"
     >
+      {/* accent border bloom on hover */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[var(--radius-xl)] opacity-0 ring-2 ring-inset transition-opacity duration-300 group-hover:opacity-100"
+        style={{ ["--tw-ring-color" as string]: `color-mix(in oklab, ${accent} 65%, transparent)` }}
+      />
       <div
-        className="flex items-center gap-3 px-6 py-4"
+        className="relative flex items-center gap-3 px-6 py-4 transition-colors duration-300"
         style={{ background: `color-mix(in oklab, ${accent} 16%, var(--surface))` }}
       >
         <span
-          className="inline-flex h-3 w-3 shrink-0 rounded-full"
+          className="inline-flex h-3 w-3 shrink-0 rounded-full transition-transform duration-300 group-hover:scale-125"
           style={{ background: accent }}
           aria-hidden
         />
         <h3 className="font-display text-2xl text-fg">{world.world}</h3>
+        <SparkleIcon
+          className="ml-auto h-4 w-4 -rotate-12 scale-50 opacity-0 transition-all duration-300 group-hover:rotate-0 group-hover:scale-100 group-hover:opacity-100"
+          style={{ color: accent }}
+          aria-hidden
+        />
       </div>
 
       <div className="flex flex-1 flex-col gap-5 p-6">

@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { CinemaProvider } from "@/lib/cinema";
 
 function NotFoundComponent() {
   return (
@@ -136,7 +137,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Parisienne&family=Kaushan+Script&display=swap",
       },
       {
         rel: "stylesheet",
@@ -177,14 +178,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      <CinemaProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </CinemaProvider>
     </QueryClientProvider>
   );
 }

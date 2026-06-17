@@ -6,7 +6,7 @@ type Variant = "primary" | "ghost" | "ghost-ink";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] font-semibold tracking-wide transition-all duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 disabled:opacity-60 disabled:pointer-events-none";
+  "btn-magic inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] font-semibold tracking-wide transition-all duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 disabled:opacity-60 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -30,7 +30,7 @@ type CommonProps = {
 };
 
 type LinkProps = CommonProps & { to: string; params?: Record<string, string>; href?: never };
-type AnchorProps = CommonProps & { href: string; to?: never };
+type AnchorProps = CommonProps & { href: string; to?: never; onClick?: () => void };
 type ButtonProps = CommonProps & {
   to?: never;
   href?: never;
@@ -51,7 +51,7 @@ export function CTAButton(props: LinkProps | AnchorProps | ButtonProps) {
   }
   if ("href" in props && props.href) {
     return (
-      <a href={props.href} className={classes}>
+      <a href={props.href} onClick={props.onClick} className={classes}>
         {children}
       </a>
     );

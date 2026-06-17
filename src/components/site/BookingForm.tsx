@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Crown, Loader2 } from "lucide-react";
 import { eventTypes } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
 
@@ -43,6 +43,7 @@ function buildMailto(p: Record<string, string>) {
     `Email: ${p.email || ""}`,
     `Phone: ${p.phone || ""}`,
     "",
+    ...(p.requestedGuest ? [`Requested guest: ${p.requestedGuest}`] : []),
     `Event type: ${p.eventType || ""}`,
     `Date: ${p.date || ""}   Time: ${p.time || ""}`,
     `Address: ${p.address || ""}`,
@@ -58,7 +59,14 @@ function buildMailto(p: Record<string, string>) {
   return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
+export function BookingForm({
+  defaultInterest,
+  requestedGuest,
+}: {
+  defaultInterest?: string;
+  /** Set by "Request This Guest" links — carried through payload & email. */
+  requestedGuest?: string;
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [mode, setMode] = useState<"endpoint" | "mailto">("endpoint");
 
@@ -143,6 +151,17 @@ export function BookingForm({ defaultInterest }: { defaultInterest?: string }) {
         <label htmlFor="company">Company (leave blank)</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+
+      {requestedGuest ? (
+        <div className="mb-6 flex items-center gap-3 rounded-[var(--radius-lg)] border border-gold-500/40 bg-gold-500/10 px-4 py-3">
+          <Crown className="h-5 w-5 shrink-0 text-gold-600" aria-hidden />
+          <p className="text-sm text-fg">
+            Requesting <strong className="font-semibold">{requestedGuest}</strong> — we&apos;ll
+            confirm availability for your date.
+          </p>
+          <input type="hidden" name="requestedGuest" value={requestedGuest} />
+        </div>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>

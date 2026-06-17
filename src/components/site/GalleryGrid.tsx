@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 export type GalleryItem = {
   label: string;
   category: string;
@@ -55,6 +58,67 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
       {items.map((item, i) => (
         <Tile key={`${item.label}-${i}`} item={item} />
       ))}
+    </div>
+  );
+}
+
+/**
+ * GalleryScroller — four tiles in view, the rest a sideways glide away.
+ * Snap scrolling with arrow nudges; the thin gold scrollbar hints at more.
+ */
+export function GalleryScroller({ items }: { items: GalleryItem[] }) {
+  const trackRef = useRef<HTMLUListElement>(null);
+
+  const nudge = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.75, behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <ul
+        ref={trackRef}
+        className="scroll-gold -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-3"
+        aria-label="Event photo gallery"
+      >
+        {items.map((item, i) => (
+          <li
+            key={`${item.label}-${i}`}
+            className="w-[78%] shrink-0 snap-start sm:w-[42%] lg:w-[calc((100%-3rem)/4)]"
+          >
+            <Tile item={item} />
+          </li>
+        ))}
+      </ul>
+
+      {/* edge fades */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[rgba(255,250,252,0.9)] to-transparent"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[rgba(255,250,252,0.9)] to-transparent"
+      />
+
+      {/* arrows */}
+      <button
+        type="button"
+        aria-label="Scroll gallery left"
+        onClick={() => nudge(-1)}
+        className="btn-magic absolute -left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-gold-500/60 bg-white/95 text-fg shadow-[var(--shadow-md)] transition-all hover:text-fg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+      >
+        <ChevronLeft className="h-5 w-5" aria-hidden />
+      </button>
+      <button
+        type="button"
+        aria-label="Scroll gallery right"
+        onClick={() => nudge(1)}
+        className="btn-magic absolute -right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-gold-500/60 bg-white/95 text-fg shadow-[var(--shadow-md)] transition-all hover:text-fg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+      >
+        <ChevronRight className="h-5 w-5" aria-hidden />
+      </button>
     </div>
   );
 }

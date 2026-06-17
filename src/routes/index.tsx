@@ -12,6 +12,8 @@ import { Mountains } from "@/components/site/Scenery";
 import { CTAButton } from "@/components/site/CTAButton";
 import { Section, SectionHeading, GoldRule } from "@/components/site/Section";
 import { worldBySlug } from "@/lib/site-data";
+import realPrincessMoment from "@/assets/princess/real-frog-entrance.jpg";
+import realMermaidMoment from "@/assets/princess/real-mermaid-portrait.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,20 +37,20 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-/** Real-moments gallery — sample world scenes until real event photos drop in. */
+/** Real-moments gallery — real event photography first, world scenes filling in. */
 const realMoments: GalleryItem[] = (
   [
-    ["princess-events", "Royal welcomes"],
-    ["hero-events", "Heroic missions"],
-    ["dinosaur-events", "Prehistoric encounters"],
-    ["mermaid-events", "Under-the-sea magic"],
-    ["mascot-events", "Crowd favourites"],
-    ["holiday-events", "Seasonal magic"],
+    ["princess-events", "Royal welcomes", realPrincessMoment],
+    ["hero-events", "Heroic missions", undefined],
+    ["dinosaur-events", "Prehistoric encounters", undefined],
+    ["mermaid-events", "Under-the-sea magic", realMermaidMoment],
+    ["mascot-events", "Crowd favourites", undefined],
+    ["holiday-events", "Seasonal magic", undefined],
   ] as const
-).map(([slug, label]) => {
+).map(([slug, label, photo]) => {
   const w = worldBySlug(slug);
   return {
-    src: w?.scene,
+    src: photo ?? w?.scene,
     label,
     category: w?.navLabel ?? "",
     accent: `var(--chapter-${w?.accent ?? "princess"})`,
@@ -96,7 +98,7 @@ function Home() {
         <SectionHeading
           eyebrow="Loved across Metro Vancouver"
           title="Stories from real events"
-          description="Sample client stories shown — swap in your own anytime."
+          description="From birthdays to brand activations — here's what hosts remember."
         />
         <div className="mt-12">
           <Testimonials />
@@ -142,7 +144,7 @@ function Home() {
         <SectionHeading
           eyebrow="Real event moments"
           title="A glimpse of the magic"
-          description="Sample scenes shown — your real event photos and videos drop right in."
+          description="Real performers, real reactions — and a gallery that grows every season."
         />
         <div className="mt-10">
           <GalleryGrid items={realMoments} />

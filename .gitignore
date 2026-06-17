@@ -23,12 +23,22 @@ dist-ssr
 # Generated / local artifacts (not part of the app)
 graphify-out/
 package-lock.json
-public/video/*.mp4
-public/video/*.webm
 
-# Editor directories and files
+# Site videos ship with the repo (kept lean); raw footage stays out.
+public/video/*
+!public/video/hero.mp4
+!public/video/hero.webm
+!public/video/hero-action.mp4
+!public/video/README.md
+!public/video/doors
+!public/video/doors/*.mp4
+!public/video/hero-portals
+!public/video/hero-portals/*.mp4
+
+# Editor / local tooling directories and files
 .vscode/*
 !.vscode/extensions.json
+.claude/
 .idea
 .DS_Store
 *.suo
@@ -36,3 +46,6 @@ public/video/*.webm
 *.njsproj
 *.sln
 *.sw?
+
+# Local asset staging (source renders, originals)
+.assets-staging/

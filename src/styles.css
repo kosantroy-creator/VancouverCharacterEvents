@@ -52,6 +52,26 @@
   --chapter-hero-deep: #234A93;
   --chapter-hero-glow: #B9D8FF;
   --chapter-hero-accent: #C24A40;
+
+  /* HERO HEADQUARTERS — brighter light-blue + bold-red hero palette. Light blue
+     carries the page; navy is depth/typography; red is the confident accent
+     (sub-brand lockup, CTAs, glows, motion lines); gold is sparing. */
+  --hero-ice: #EEF7FF;
+  --hero-sky: #DCEEFF;
+  --hero-blue: #4F8FDC;
+  --hero-blue-deep: #23518F;
+  --hero-navy: #18365D;
+  --hero-red: #D83A4A;
+  --hero-red-deep: #A92534;
+  --hero-red-soft: #F2B7BF;
+  --hero-gold: #D7A646;
+  /* Legacy tokens still referenced by the not-yet-refined showcase sections
+     (HeroDivisions, MissionControl, pricing/gallery accents). Phase-by-phase
+     refinement will fold these into the red/blue set above. */
+  --hero-mist: #BFD4EE;
+  --hero-midnight: #0E1B33;
+  --hero-rose: #B85B63;
+  --hero-rose-soft: #D9A9B1;
   --chapter-dinosaur: #7FB04E;
   --chapter-dinosaur-deep: #2F5226;
   --chapter-dinosaur-glow: #CCF59A;
@@ -693,6 +713,116 @@
 .cta-pulse { animation: kf-cta-pulse 3.4s ease-in-out infinite; }
 .cta-pulse:hover { animation-play-state: paused; }
 
+/* Hero red idle pulse — for the primary "Explore Heroes" CTA. */
+@keyframes kf-cta-pulse-hero {
+  0%, 100% { box-shadow: 0 8px 22px -10px rgba(216, 58, 74, 0.55); }
+  50% { box-shadow: 0 12px 34px -8px rgba(216, 58, 74, 0.92); }
+}
+.cta-pulse-hero { animation: kf-cta-pulse-hero 2.6s ease-in-out infinite; }
+.cta-pulse-hero:hover { animation-play-state: paused; }
+
+/* Hero "Watch Us In Action" reel button — a special, glowing, ringed CTA. */
+@keyframes kf-watch-glow {
+  0%, 100% { box-shadow: var(--shadow-md), 0 0 0 0 rgba(216, 58, 74, 0); }
+  50% { box-shadow: var(--shadow-md), 0 0 24px -2px rgba(216, 58, 74, 0.5); }
+}
+.watch-cta { animation: kf-watch-glow 2.8s ease-in-out infinite; }
+.watch-cta:hover { animation-play-state: paused; }
+@keyframes kf-watch-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+.watch-ring { animation: kf-watch-ring 1.8s ease-out infinite; }
+
+/* HERO MISSION BRIEFING — "You've Been Called to Hero HQ". On scroll-in the
+   panel slides up, the navy dossier lifts, the mission plan slides out, the
+   shield badge pulses once, and the CTA fades in. Pure CSS, IO-triggered. */
+.hmb-panel {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.hmb.is-open .hmb-panel { opacity: 1; transform: translateY(0); }
+.hmb-folder {
+  opacity: 0;
+  transform: translateY(22px) scale(0.98);
+  transition: opacity 600ms var(--ease-out) 160ms, transform 600ms var(--ease-out) 160ms;
+}
+.hmb.is-open .hmb-folder { opacity: 1; transform: translateY(0) scale(1); }
+.hmb-paper { transform: translateY(54px); transition: transform 700ms var(--ease-out) 320ms; }
+.hmb.is-open .hmb-paper { transform: translateY(0); }
+.hmb-cta {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 400ms var(--ease-out) 520ms, transform 400ms var(--ease-out) 520ms;
+}
+.hmb.is-open .hmb-cta { opacity: 1; transform: translateY(0); }
+@keyframes kf-hmb-badge {
+  0% { filter: drop-shadow(0 0 0 rgba(79, 143, 220, 0)); }
+  45% { filter: drop-shadow(0 0 14px rgba(79, 143, 220, 0.85)); }
+  100% { filter: drop-shadow(0 0 6px rgba(79, 143, 220, 0.4)); }
+}
+.hmb.is-open .hmb-badge { animation: kf-hmb-badge 900ms var(--ease-out) 560ms 1 both; }
+@media (prefers-reduced-motion: reduce) {
+  .hmb-panel,
+  .hmb-folder,
+  .hmb-paper,
+  .hmb-cta {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+  .hmb.is-open .hmb-badge { animation: none; }
+}
+
+/* HERO PORTAL — each "Assemble Your Squad" world activates as it scrolls in:
+   the bay-door glow rises, a red accent line sweeps the frame once, then the
+   title, hero cards (staggered) and CTA settle in. IO toggles .is-active. */
+.hportal-glow { opacity: 0.3; transition: opacity 800ms var(--ease-out); }
+.hportal.is-active .hportal-glow { opacity: 1; }
+.hportal-frame { box-shadow: 0 0 0 0 rgba(79, 143, 220, 0); transition: box-shadow 800ms var(--ease-out); }
+.hportal.is-active .hportal-frame { box-shadow: 0 0 56px -12px rgba(79, 143, 220, 0.6); }
+.hportal-redline { transform: scaleX(0); transform-origin: left center; opacity: 0; }
+.hportal.is-active .hportal-redline { animation: kf-hportal-redline 800ms var(--ease-out) 220ms both; }
+@keyframes kf-hportal-redline {
+  0% { transform: scaleX(0); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0.85; }
+}
+.hportal-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.hportal.is-active .hportal-reveal { opacity: 1; transform: translateY(0); }
+.hportal-card {
+  opacity: 0;
+  transform: translateY(22px) scale(0.97);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.hportal.is-active .hportal-card { opacity: 1; transform: translateY(0) scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .hportal-glow,
+  .hportal-frame,
+  .hportal-reveal,
+  .hportal-card {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hportal.is-active .hportal-redline { animation: none; transform: scaleX(1); opacity: 0.85; }
+}
+
+/* Hero CTA — a confident red glow pulse (sibling of .cta-pulse). Pauses on
+   hover so the btn-magic shine + lift take over. Reduced-motion safe via the
+   global guard at the foot of this file. */
+@keyframes kf-cta-pulse-hero {
+  0%, 100% { box-shadow: 0 8px 22px -10px rgba(216, 58, 74, 0.55); }
+  50% { box-shadow: 0 14px 34px -8px rgba(216, 58, 74, 0.9), 0 0 0 4px rgba(216, 58, 74, 0.10); }
+}
+.cta-pulse-hero { animation: kf-cta-pulse-hero 2.6s ease-in-out infinite; }
+.cta-pulse-hero:hover { animation-play-state: paused; }
+
 /* Premium mega-menu tile — hovers into its own chapter color (set via --tile). */
 .world-tile {
   border: 1px solid var(--border-soft);
@@ -733,6 +863,1105 @@
   50% { transform: translate3d(0, -6px, 0) scale(1.08); }
 }
 .card-decor { animation: kf-decor-drift 9s ease-in-out infinite; will-change: transform; }
+
+/* ===========================================================================
+   PRINCESS KINGDOM THEME — blush, pearl & gold. The world-page palette
+   mirrors the homepage's "chapter one" rose panel, with richer gold accents
+   for the premium feel. Navy survives only as ink: text, buttons, hairlines.
+   =========================================================================== */
+:root {
+  --font-script: 'Parisienne', 'Segoe Script', cursive;
+  --font-script-hero: 'Kaushan Script', 'Segoe Script', cursive;
+
+  /* Princess pinks (anchored to --chapter-princess #E59AC0) */
+  --pp-magenta: #C9337E;
+  --pp-magenta-deep: #A21B61;
+  --pp-pink-soft: #F9D9E8;
+
+  /* Page fields — light, airy, rose-gold warmed */
+  --grad-blush: linear-gradient(165deg, #FFF6FA 0%, #FBEDF3 50%, #F9E9DF 100%);
+  --grad-pearl: linear-gradient(180deg, #FFFBFD 0%, #FDF4F8 58%, #FAEFE9 100%);
+  --grad-rose: radial-gradient(120% 95% at 50% -10%, #FFF9FB 0%, #FBE7F0 62%, #F7DEE8 100%);
+
+  /* Co-branded header surface */
+  --pp-header-pink: linear-gradient(180deg, #FBD7E6 0%, #F8CCDD 100%);
+}
+
+/* Script accent — the "Princess" in the lockup. */
+.t-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+/* Hero wordmark — a bold brush script (Kaushan), confident not delicate. */
+.t-script-hero {
+  font-family: var(--font-script-hero);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+/* Slim gold hairline used by the co-branded header & section dividers. */
+.pp-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-500) 18%, var(--gold-500) 82%, transparent);
+  opacity: 0.7;
+}
+
+/* ---------------------------------------------------------------------------
+   MAGIC BUTTONS — every CTA gets a lift + a gold shine sweep on hover.
+   --------------------------------------------------------------------------- */
+@keyframes kf-btn-shine {
+  0% { left: -45%; opacity: 0; }
+  18% { opacity: 1; }
+  100% { left: 118%; opacity: 0; }
+}
+/* Layered so positioning utilities (.absolute) can still override it. */
+@layer base {
+  .btn-magic { position: relative; }
+}
+.btn-magic {
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-magic::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -45%;
+  width: 38%;
+  transform: skewX(-18deg);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.btn-magic:hover { transform: translateY(-2px); }
+.btn-magic:active { transform: translateY(0) scale(0.985); }
+.btn-magic:hover::after { animation: kf-btn-shine 750ms ease; }
+
+/* ---------------------------------------------------------------------------
+   KINGDOM DOORS v3 — a layered, dimensional storybook doorway.
+   Structure (back → front): environment / glowing world / arch frame /
+   hinged leaves (real 3D rotateY, GSAP-driven) / seam glow / light spill /
+   text. Materials are themed per realm with inline --realm-* custom props:
+     --realm-leaf / --realm-leaf-deep   door panel gradient stops
+     --realm-trim                       frame, molding & inlay trim
+     --realm-glow                       magical light color
+   GSAP owns all motion (timeline per gate, scroll-triggered); CSS here is
+   purely material: wood grain, metal, glass, glow. Reduced-motion shows the
+   doors already open via gsap.set in the component.
+   --------------------------------------------------------------------------- */
+
+/* 3D space for the whole doorway. */
+.g3-scene { perspective: 1500px; }
+.g3-door { transform-style: preserve-3d; }
+
+/* Arch frame — stone molding with an inner shadow reveal. */
+.g3-frame {
+  border-radius: 999px 999px 16px 16px;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--realm-trim) 45%, #ffffff) 0%, var(--realm-trim) 58%, color-mix(in oklab, var(--realm-trim) 72%, #6E5A4A) 100%);
+  box-shadow:
+    0 34px 80px -34px rgba(40, 24, 38, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -3px 8px rgba(60, 40, 50, 0.25);
+}
+.g3-doorway {
+  border-radius: 999px 999px 10px 10px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--realm-glow) 14%, #312A52);
+  box-shadow: inset 0 0 0 3px rgba(40, 28, 46, 0.35);
+}
+
+/* The glowing world behind the doors (GSAP fades/scales it in). */
+.g3-world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 78%;
+  background:
+    radial-gradient(72% 60% at 50% 74%, rgba(255, 246, 218, 0.95) 0%, var(--realm-glow) 44%, transparent 80%),
+    linear-gradient(180deg, color-mix(in oklab, var(--realm-glow) 30%, #463E6E) 0%, color-mix(in oklab, var(--realm-glow) 52%, #3E3664) 100%);
+}
+
+/* Hinged leaves — real doors on real hinges. GSAP rotates these. */
+.g3-leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.4%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  background: linear-gradient(160deg, var(--realm-leaf) 0%, var(--realm-leaf-deep) 100%);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in oklab, var(--realm-trim) 78%, transparent),
+    inset 0 0 30px rgba(255, 255, 255, 0.12),
+    inset 0 -18px 30px rgba(30, 20, 34, 0.2);
+}
+.g3-leaf-l { left: 0; transform-origin: left center; border-radius: 999px 0 0 10px; }
+.g3-leaf-r { right: 0; transform-origin: right center; border-radius: 0 999px 10px 0; }
+
+/* Carved inset panels on each leaf. */
+.g3-panel {
+  position: absolute;
+  border: 2px solid color-mix(in oklab, var(--realm-trim) 75%, rgba(255, 255, 255, 0.45));
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.14), rgba(30, 20, 34, 0.08));
+  box-shadow:
+    inset 0 2px 6px rgba(30, 20, 34, 0.18),
+    inset 0 -2px 5px rgba(255, 255, 255, 0.16),
+    0 1px 1px rgba(255, 255, 255, 0.35);
+}
+.g3-panel-top { inset: 7% 13% auto 13%; height: 38%; border-radius: 999px 999px 10px 10px; }
+.g3-panel-bottom { inset: auto 13% 7% 13%; height: 36%; border-radius: 10px; }
+
+/* Gold hardware: ring handles + hinges. */
+.g3-handle {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 4px solid;
+  border-color: #F2D693 #CFA862 #8A6320 #CFA862;
+  background: radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.7), transparent 50%);
+  box-shadow:
+    0 2px 5px rgba(60, 40, 20, 0.4),
+    0 0 10px color-mix(in oklab, var(--realm-glow) 70%, transparent);
+}
+.g3-handle::after {
+  /* mounting plate */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -9px;
+  width: 9px;
+  height: 9px;
+  transform: translateX(-50%) rotate(45deg);
+  background: linear-gradient(135deg, #F2D693, #9A7330);
+  border-radius: 2px;
+}
+.g3-leaf-l .g3-handle { right: 6%; }
+.g3-leaf-r .g3-handle { left: 6%; }
+.g3-hinge {
+  position: absolute;
+  width: 7px;
+  height: 30px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #E8C77E 0%, #A87E36 60%, #6E5318 100%);
+  box-shadow: 0 1px 2px rgba(40, 26, 10, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+.g3-leaf-l .g3-hinge { left: 2px; }
+.g3-leaf-r .g3-hinge { right: 2px; }
+
+/* Seam glow + magical light spill (GSAP animates opacity/scale). */
+.g3-seam {
+  position: absolute;
+  inset: 5% calc(50% - 2px);
+  background: linear-gradient(180deg, transparent, var(--realm-glow) 28%, #FFF3D0 50%, var(--realm-glow) 72%, transparent);
+  filter: blur(2.5px);
+  border-radius: 999px;
+}
+.g3-spill {
+  position: absolute;
+  inset: -6% -14%;
+  background: radial-gradient(52% 58% at 50% 62%, rgba(255, 242, 204, 0.85) 0%, color-mix(in oklab, var(--realm-glow) 85%, transparent) 42%, transparent 74%);
+  pointer-events: none;
+}
+
+/* Flanking columns + keystone emblem. */
+.g3-column {
+  position: absolute;
+  bottom: 0;
+  width: clamp(14px, 1.6vw, 20px);
+  height: 74%;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--realm-trim) 50%, #fff) 0%, var(--realm-trim) 100%);
+  box-shadow: inset -2px 0 4px rgba(60, 44, 56, 0.25), inset 2px 0 3px rgba(255, 255, 255, 0.5);
+}
+.g3-column::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -22%;
+  right: -22%;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #fff8, transparent), var(--realm-trim);
+  box-shadow: 0 2px 4px rgba(60, 44, 56, 0.25);
+}
+.g3-keystone {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: #8A6320;
+  background: radial-gradient(circle at 35% 30%, #FFF6E0, #EBCF96 60%, #C9A45C 100%);
+  box-shadow: 0 4px 10px rgba(60, 44, 30, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+/* Ground mist + door shadow anchoring the doorway to the floor. */
+.g3-mist {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(26px);
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75), transparent 75%);
+}
+.g3-floor-shadow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  filter: blur(14px);
+  background: radial-gradient(closest-side, rgba(58, 40, 56, 0.32), transparent 75%);
+}
+
+/* Hover affordance on the door button — handles glow, never touched by GSAP. */
+.g3-hoverlight {
+  opacity: 0;
+  transition: opacity 450ms ease;
+  pointer-events: none;
+}
+.g3-door-btn:hover .g3-hoverlight,
+.g3-door-btn:focus-visible .g3-hoverlight { opacity: 1; }
+
+/* Character cards — themed, elegant hover. GSAP reveals them. */
+.g3-card {
+  transition:
+    transform 320ms var(--ease-out),
+    box-shadow 320ms var(--ease-out),
+    border-color 320ms var(--ease-out);
+}
+.g3-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklab, var(--realm-glow) 80%, var(--gold-500));
+  box-shadow:
+    0 22px 44px -20px color-mix(in oklab, var(--realm-glow) 65%, rgba(40, 24, 38, 0.5)),
+    0 0 0 1px color-mix(in oklab, var(--realm-glow) 45%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+   ROYAL INVITATION — the envelope that opens itself.
+   --------------------------------------------------------------------------- */
+.invite-env { perspective: 900px; }
+.invite-flap {
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 700ms cubic-bezier(0.6, 0, 0.3, 1) 150ms;
+  z-index: 4;
+  backface-visibility: visible;
+}
+.invite.is-open .invite-flap { transform: rotateX(-168deg); z-index: 1; transition-delay: 0ms; }
+.invite-seal {
+  transition: opacity 300ms ease 280ms, transform 420ms ease 280ms;
+}
+.invite.is-open .invite-seal { opacity: 0; transform: scale(0.6) rotate(-14deg); transition-delay: 0ms; }
+.invite-card {
+  transform: translateY(34%) scale(0.94);
+  transition: transform 800ms var(--ease-out) 520ms;
+  z-index: 2;
+}
+.invite.is-open .invite-card { transform: translateY(-34%) scale(1); }
+.invite-glow {
+  opacity: 0;
+  transition: opacity 700ms ease 600ms;
+}
+.invite.is-open .invite-glow { opacity: 1; }
+
+/* ---------------------------------------------------------------------------
+   FAIRY GODMOTHER — gentle hover + wand twinkle.
+   --------------------------------------------------------------------------- */
+@keyframes kf-godmother {
+  0%, 100% { transform: translateY(0) rotate(-1.6deg); }
+  50% { transform: translateY(-9px) rotate(1.4deg); }
+}
+.godmother { animation: kf-godmother 6.5s ease-in-out infinite; transform-origin: 50% 80%; }
+@keyframes kf-wand-twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.7) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(18deg); }
+}
+.wand-star { animation: kf-wand-twinkle 2.6s ease-in-out infinite; transform-origin: center; }
+
+/* ---------------------------------------------------------------------------
+   ROYAL COURT v7 — card sway + hover detail popover.
+   --------------------------------------------------------------------------- */
+/* Gentle side-to-side drift once a card has landed (starts from rest). */
+@keyframes kf-card-sway {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-3px) rotate(-1.1deg); }
+  75% { transform: translateX(3px) rotate(1.1deg); }
+}
+.card-sway {
+  animation: kf-card-sway var(--sway-d, 7s) ease-in-out infinite;
+  animation-delay: var(--sway-delay, 2s);
+  transform-origin: 50% 85%;
+  will-change: transform;
+}
+/* Pause the drift while the visitor is reading the expanded card. */
+.card-sway:hover,
+.card-sway:focus-within { animation-play-state: paused; }
+
+/* Expand-in-place — the hovered card itself grows into a detail view
+   (bigger portrait + gown + welcome line + Book Now), overlapping its
+   neighbours rather than spawning a popover above. */
+.group\/card { z-index: 1; }
+.group\/card:hover,
+.group\/card:focus-within { z-index: 60; }
+
+.cardx {
+  z-index: 1;
+  transition:
+    width 360ms var(--ease-out),
+    box-shadow 360ms var(--ease-out);
+  will-change: width;
+}
+.group\/card:hover .cardx,
+.group\/card:focus-within .cardx {
+  width: 232px;
+  box-shadow: 0 26px 50px -18px rgba(28, 16, 30, 0.62);
+}
+@media (min-width: 640px) {
+  .group\/card:hover .cardx,
+  .group\/card:focus-within .cardx {
+    width: 248px;
+  }
+}
+
+/* Detail rows stay collapsed until the card expands. */
+.cardx-extra {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 420ms var(--ease-out),
+    opacity 320ms var(--ease-out);
+}
+.group\/card:hover .cardx-extra,
+.group\/card:focus-within .cardx-extra {
+  max-height: 240px;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardx,
+  .cardx-extra {
+    transition: none;
+  }
+}
+
+/* The royal-court eyebrow sits on the LIGHT (cream→lavender) top of the navy
+   seam, where the onInk light gold washes out — use the deep gold + a soft
+   white halo so "Meet the Royal Court" stays legible. */
+.rc-heading .t-eyebrow {
+  color: var(--gold-700);
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Hero Headquarters heading sits on the LIGHT-blue top of its seam — deep blue
+   eyebrow + soft white halo keeps it legible (sibling of .rc-heading). */
+.hq-heading .t-eyebrow {
+  color: var(--hero-blue-deep);
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.55);
+}
+
+/* Horizontal gallery scroller — thin gold scrollbar. */
+.scroll-gold { scrollbar-width: thin; scrollbar-color: var(--gold-500) transparent; }
+.scroll-gold::-webkit-scrollbar { height: 6px; }
+.scroll-gold::-webkit-scrollbar-track { background: transparent; }
+.scroll-gold::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--gold-500) 65%, transparent);
+  border-radius: 999px;
+}
+
+/* ---------------------------------------------------------------------------
+   GATE ATMOSPHERES — a handful of tiny particles per realm. Position, size
+   and color come inline from the component; these provide only the motion.
+   --------------------------------------------------------------------------- */
+@keyframes kf-snowfall {
+  0% { transform: translate3d(0, -12px, 0); opacity: 0; }
+  16% { opacity: 0.9; }
+  82% { opacity: 0.5; }
+  100% { transform: translate3d(var(--dx, 10px), 92px, 0); opacity: 0; }
+}
+@keyframes kf-bubble-rise {
+  0% { transform: translate3d(0, 34px, 0) scale(0.75); opacity: 0; }
+  18% { opacity: 0.85; }
+  100% { transform: translate3d(var(--dx, -8px), -78px, 0) scale(1.08); opacity: 0; }
+}
+@keyframes kf-petal-fall {
+  0% { transform: translate3d(0, -14px, 0) rotate(0deg); opacity: 0; }
+  16% { opacity: 0.9; }
+  100% { transform: translate3d(var(--dx, 22px), 96px, 0) rotate(150deg); opacity: 0; }
+}
+.pcl {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.pcl-snow { animation-name: kf-snowfall; }
+.pcl-bubble { animation-name: kf-bubble-rise; }
+.pcl-petal { animation-name: kf-petal-fall; border-radius: 60% 40% 55% 45%; }
+.pcl-spark { animation-name: kf-ember; }
+
+/* ---------------------------------------------------------------------------
+   SCROLL TIMELINE (What happens at a princess party) — progress rail.
+   --------------------------------------------------------------------------- */
+.tl-rail {
+  background: color-mix(in oklab, var(--gold-500) 26%, transparent);
+}
+.tl-rail-fill {
+  background: linear-gradient(180deg, var(--pp-magenta), var(--gold-500));
+}
+.tl-step { transition: opacity 350ms ease, transform 350ms var(--ease-out); }
+.tl-visual { transition: opacity 480ms ease, transform 560ms var(--ease-out); }
+
+/* ============================================================================
+   HERO MISSION CONTROL — the AI matchmaker console on /hero-events.
+   A frosted light-blue glass panel with an animated "AI core". On scroll-in the
+   console powers on (.is-active): the core pulses and the copy / chips / CTA
+   stagger in. Selecting a trait pings the core; the CTA only arms (.is-armed)
+   once a trait is chosen. Bright + family-friendly — never a dark hacker UI.
+   Reduced-motion is handled by the global guard at the foot of this file.
+   ============================================================================ */
+.mc-aura {
+  position: absolute;
+  inset: -10% -4%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 52% at 50% 24%, rgba(79, 143, 220, 0.22), transparent 70%),
+    radial-gradient(46% 42% at 50% 86%, rgba(216, 58, 74, 0.08), transparent 76%);
+  filter: blur(8px);
+}
+.mc-panel {
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(228, 240, 255, 0.85) 100%);
+  border: 1px solid rgba(79, 143, 220, 0.4);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 0 34px -10px rgba(79, 143, 220, 0.45),
+    0 26px 64px -28px rgba(23, 54, 93, 0.55);
+  -webkit-backdrop-filter: blur(8px) saturate(1.05);
+  backdrop-filter: blur(8px) saturate(1.05);
+}
+/* illuminated blue → red signal border */
+.mc-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(79, 143, 220, 0.85),
+    rgba(220, 238, 255, 0.25) 38%,
+    rgba(216, 58, 74, 0.5) 72%,
+    rgba(79, 143, 220, 0.8)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.9;
+  pointer-events: none;
+}
+/* faint HUD grid + target wash, feathered to the centre */
+.mc-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(79, 143, 220, 0.1), transparent 40%),
+    repeating-linear-gradient(0deg, rgba(79, 143, 220, 0.05) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(79, 143, 220, 0.05) 0 1px, transparent 1px 28px);
+  -webkit-mask: radial-gradient(125% 92% at 50% 28%, #000 32%, transparent 82%);
+  mask: radial-gradient(125% 92% at 50% 28%, #000 32%, transparent 82%);
+}
+/* red signal corner brackets */
+.mc-corner {
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  pointer-events: none;
+  border: 0 solid var(--hero-red);
+  opacity: 0.7;
+}
+.mc-corner--tl { top: 14px; left: 14px; border-top-width: 2px; border-left-width: 2px; border-top-left-radius: 12px; }
+.mc-corner--tr { top: 14px; right: 14px; border-top-width: 2px; border-right-width: 2px; border-top-right-radius: 12px; }
+.mc-corner--bl { bottom: 14px; left: 14px; border-bottom-width: 2px; border-left-width: 2px; border-bottom-left-radius: 12px; }
+.mc-corner--br { bottom: 14px; right: 14px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 12px; }
+/* small pulsing red signal dots near the top corners */
+.mc-sig {
+  position: absolute;
+  top: 18px;
+  height: 5px;
+  width: 5px;
+  border-radius: 9999px;
+  background: var(--hero-red);
+  box-shadow: 0 0 8px var(--hero-red);
+  pointer-events: none;
+}
+.mc-sig--l { left: 46px; }
+.mc-sig--r { right: 46px; animation-delay: 1.2s; }
+.mc.is-active .mc-sig { animation: kf-mc-sig 2.4s ease-in-out infinite; }
+@keyframes kf-mc-sig { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* AI core */
+.mc-ring { position: absolute; border-radius: 9999px; pointer-events: none; }
+.mc-ring--outer {
+  inset: 0;
+  border: 1px solid rgba(79, 143, 220, 0.4);
+  box-shadow: 0 0 24px -4px rgba(79, 143, 220, 0.5), 0 0 0 6px rgba(79, 143, 220, 0.06);
+}
+.mc-ring--mid { inset: 13%; border: 1.5px solid rgba(79, 143, 220, 0.55); }
+.mc-disc {
+  position: relative;
+  height: 56%;
+  width: 56%;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 36%, #ffffff, #dceeff 66%, #bfd4ee 100%);
+  border: 1px solid rgba(79, 143, 220, 0.6);
+  box-shadow: 0 6px 18px -8px rgba(23, 54, 93, 0.55), 0 0 18px -2px rgba(79, 143, 220, 0.55) inset;
+}
+.mc-core-icon { color: var(--hero-blue-deep); }
+.mc-dot {
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: var(--hero-red);
+  box-shadow: 0 0 8px var(--hero-red);
+  pointer-events: none;
+}
+.mc-dot--a { top: 7%; right: 17%; }
+.mc-dot--b { bottom: 13%; left: 12%; }
+/* faint radar sweep arc inside the core */
+.mc-sweepline {
+  position: absolute;
+  inset: 8%;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: conic-gradient(from 0deg, rgba(79, 143, 220, 0.45), transparent 28%);
+  -webkit-mask: radial-gradient(closest-side, transparent 58%, #000 60%);
+  mask: radial-gradient(closest-side, transparent 58%, #000 60%);
+  opacity: 0;
+}
+.mc.is-active .mc-sweepline { animation: kf-mc-sweepline 4.2s linear infinite; opacity: 0.8; }
+@keyframes kf-mc-sweepline { to { transform: rotate(360deg); } }
+/* gentle continuous core breathe */
+.mc.is-active .mc-ring--outer { animation: kf-mc-core 3.4s ease-in-out infinite; }
+@keyframes kf-mc-core {
+  0%, 100% { box-shadow: 0 0 22px -6px rgba(79, 143, 220, 0.45), 0 0 0 6px rgba(79, 143, 220, 0.06); transform: scale(1); }
+  50% { box-shadow: 0 0 34px -2px rgba(79, 143, 220, 0.75), 0 0 0 7px rgba(79, 143, 220, 0.12); transform: scale(1.03); }
+}
+/* one-shot expanding ping — replays via React key (power-on + each interaction) */
+.mc-core-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(79, 143, 220, 0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.mc.is-active .mc-core-ping { animation: kf-mc-ping 820ms var(--ease-out) 1; }
+@keyframes kf-mc-ping {
+  0% { transform: scale(0.7); opacity: 0.85; border-color: rgba(216, 58, 74, 0.7); }
+  100% { transform: scale(1.65); opacity: 0; border-color: rgba(79, 143, 220, 0); }
+}
+
+/* trait chips — AI selection inputs */
+.mc-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 0.68rem 0.85rem;
+  font-weight: 600;
+  color: var(--hero-navy);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(228, 240, 255, 0.72));
+  border: 1px solid rgba(79, 143, 220, 0.35);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset, 0 6px 16px -12px rgba(23, 54, 93, 0.4);
+  transition:
+    transform 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out),
+    background 0.18s var(--ease-out);
+}
+.mc-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 143, 220, 0.7);
+  background: linear-gradient(180deg, #ffffff, rgba(220, 238, 255, 0.9));
+  box-shadow: 0 12px 24px -14px rgba(79, 143, 220, 0.7), 0 0 0 1px rgba(79, 143, 220, 0.25);
+}
+.mc-chip:focus-visible { outline: 2px solid var(--hero-blue); outline-offset: 2px; }
+.mc-chip-ic {
+  display: grid;
+  place-items: center;
+  height: 1.9rem;
+  width: 1.9rem;
+  flex: none;
+  border-radius: 10px;
+  color: var(--hero-blue-deep);
+  background: rgba(79, 143, 220, 0.12);
+  border: 1px solid rgba(79, 143, 220, 0.25);
+  transition: inherit;
+}
+.mc-chip-check {
+  display: grid;
+  place-items: center;
+  height: 1.05rem;
+  width: 1.05rem;
+  flex: none;
+  border-radius: 9999px;
+  color: #fff;
+  background: var(--hero-red);
+  box-shadow: 0 0 0 2px rgba(216, 58, 74, 0.2);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+.mc-chip.is-on {
+  color: var(--hero-blue-deep);
+  background: linear-gradient(180deg, rgba(79, 143, 220, 0.24), rgba(79, 143, 220, 0.12));
+  border-color: var(--hero-blue);
+  box-shadow:
+    0 0 0 1px var(--hero-blue),
+    inset 3px 0 0 var(--hero-red),
+    0 12px 26px -14px rgba(79, 143, 220, 0.75);
+}
+.mc-chip.is-on .mc-chip-ic { background: var(--hero-blue); color: #fff; border-color: var(--hero-blue); }
+.mc-chip.is-on .mc-chip-check { opacity: 1; transform: scale(1); }
+/* one-shot red signal sweep when a chip is selected (mounts on select) */
+.mc-chip-sweep { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; overflow: hidden; }
+.mc-chip-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 42%;
+  background: linear-gradient(90deg, transparent, rgba(216, 58, 74, 0.35), transparent);
+  transform: translateX(-150%);
+  animation: kf-mc-chip-sweep 620ms var(--ease-out) 1;
+}
+@keyframes kf-mc-chip-sweep { to { transform: translateX(320%); } }
+
+/* CTA — primary blue console button */
+.mc-cta {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  padding: 0.85rem 2rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(180deg, #5c97de 0%, var(--hero-blue) 52%, #3c78c8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 12px 28px -12px rgba(79, 143, 220, 0.7),
+    0 0 0 1px rgba(79, 143, 220, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.55) inset;
+  transition:
+    transform 0.2s var(--ease-out),
+    box-shadow 0.25s var(--ease-out),
+    filter 0.2s var(--ease-out),
+    opacity 0.2s var(--ease-out);
+}
+.mc-cta:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 38px -12px rgba(79, 143, 220, 0.85), 0 0 26px -2px rgba(79, 143, 220, 0.6); }
+.mc-cta:focus-visible { outline: 2px solid var(--hero-blue-deep); outline-offset: 3px; }
+.mc-cta.is-idle { opacity: 0.5; filter: grayscale(0.15); pointer-events: none; }
+/* hover light sweep */
+.mc-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: translateX(-160%) skewX(-12deg);
+  pointer-events: none;
+}
+.mc-cta:hover::after { animation: kf-mc-cta-sweep 720ms var(--ease-out) 1; }
+@keyframes kf-mc-cta-sweep { to { transform: translateX(330%) skewX(-12deg); } }
+/* armed glow pulse once a trait is selected */
+.mc.is-armed .mc-cta { animation: kf-mc-cta-armed 2.4s ease-in-out infinite; }
+.mc.is-armed .mc-cta:hover { animation-play-state: paused; }
+@keyframes kf-mc-cta-armed {
+  0%, 100% { box-shadow: 0 12px 28px -12px rgba(79, 143, 220, 0.7), 0 0 0 1px rgba(79, 143, 220, 0.35); }
+  50% { box-shadow: 0 16px 34px -10px rgba(79, 143, 220, 0.9), 0 0 0 4px rgba(79, 143, 220, 0.16), 0 0 22px -2px rgba(216, 58, 74, 0.22); }
+}
+.mc.is-armed .mc-cta-icon { animation: kf-mc-cta-icon 2.4s ease-in-out infinite; }
+@keyframes kf-mc-cta-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+/* one-shot flash on press (replays via React key) */
+.mc-cta-flash {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6), transparent 70%);
+  animation: kf-mc-cta-flash 620ms var(--ease-out) 1;
+}
+@keyframes kf-mc-cta-flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+
+/* scroll-in reveal stagger (delays set inline per element) */
+.mc-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.mc.is-active .mc-reveal { opacity: 1; transform: none; }
+
+/* HERO REVIEWS — red-emphasised phrase + tapered underline inside testimonials. */
+.mr-em {
+  position: relative;
+  color: var(--hero-red);
+  font-weight: 700;
+}
+.mr-em::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--hero-red) 14%, var(--hero-red) 86%, transparent);
+  opacity: 0.85;
+}
+
+/* PRINCESS ROYAL NOTES — magenta-emphasised phrase + soft gold→pink underline. */
+.pr-em {
+  position: relative;
+  color: var(--pp-magenta-deep);
+  font-weight: 700;
+}
+.pr-em::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #cfa862 16%, var(--pp-magenta) 84%, transparent);
+  opacity: 0.8;
+}
+
+/* PRINCESS FAIRY GODMOTHER — magical trait chips, sparkle burst, armed CTA glow.
+   Soft gold/pink only (no hero red/blue energy). Reduced-motion = global guard. */
+.fg-chip.is-on {
+  background: linear-gradient(180deg, rgba(207, 168, 98, 0.22), rgba(194, 24, 106, 0.1));
+  animation: kf-fg-glow 3s ease-in-out infinite;
+}
+@keyframes kf-fg-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(207, 168, 98, 0.85), 0 10px 24px -14px rgba(207, 168, 98, 0.55), 0 0 16px -4px rgba(240, 158, 188, 0.4); }
+  50% { box-shadow: 0 0 0 1px rgba(207, 168, 98, 1), 0 12px 28px -12px rgba(207, 168, 98, 0.7), 0 0 22px -2px rgba(240, 158, 188, 0.55); }
+}
+.fg-sparkle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.fg-sparkle-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 8px;
+  width: 8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 236, 180, 0.95), rgba(240, 158, 188, 0.2) 60%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: kf-fg-sparkle 720ms var(--ease-out) 1;
+}
+@keyframes kf-fg-sparkle {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(6); }
+}
+.fg-armed {
+  animation: kf-fg-armed 2.6s ease-in-out infinite;
+}
+.fg-armed:hover {
+  animation-play-state: paused;
+}
+@keyframes kf-fg-armed {
+  0%, 100% { box-shadow: 0 8px 22px -10px rgba(207, 168, 98, 0.5); }
+  50% { box-shadow: 0 12px 30px -8px rgba(207, 168, 98, 0.7), 0 0 0 4px rgba(240, 158, 188, 0.14); }
+}
+
+/* ============================================================================
+   HERO BOOKING WIZARD — the 3-step "mission request" form on /hero-events.
+   Step slide/fade, the character "Hero Activated" energy burst, the "Squad
+   Ready" link, and the charged Continue button. Reduced motion: the global guard
+   at the foot of this file neutralises the keyframed effects (selected cards keep
+   their static glow + border).
+   ============================================================================ */
+.hwz-step {
+  animation: kf-hwz-step-fwd 0.42s var(--ease-out) both;
+}
+.hwz-step--back {
+  animation-name: kf-hwz-step-back;
+}
+@keyframes kf-hwz-step-fwd {
+  from { opacity: 0; transform: translateX(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes kf-hwz-step-back {
+  from { opacity: 0; transform: translateX(-26px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* character card persistent selected state */
+.hwz-char.is-on {
+  transform: scale(1.02);
+  border-color: var(--hero-red);
+  box-shadow:
+    0 0 0 1px var(--hero-red),
+    0 12px 30px -10px rgba(216, 58, 74, 0.4),
+    0 0 22px -2px rgba(79, 143, 220, 0.5);
+  animation: kf-hwz-aura 3s ease-in-out infinite;
+}
+@keyframes kf-hwz-aura {
+  0%, 100% { box-shadow: 0 0 0 1px var(--hero-red), 0 12px 30px -10px rgba(216, 58, 74, 0.36), 0 0 18px -2px rgba(79, 143, 220, 0.45); }
+  50% { box-shadow: 0 0 0 1px var(--hero-red), 0 14px 34px -8px rgba(216, 58, 74, 0.5), 0 0 28px 0 rgba(79, 143, 220, 0.6); }
+}
+
+/* one-shot activation burst — re-keyed on each ADD so both replay for "squad" */
+.hwz-activate {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.hwz-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--hero-blue);
+  animation: kf-hwz-pulse 720ms var(--ease-out) 1;
+}
+@keyframes kf-hwz-pulse {
+  0% { transform: scale(0.97); opacity: 0.9; border-color: var(--hero-blue); }
+  55% { border-color: var(--hero-red); }
+  100% { transform: scale(1.15); opacity: 0; border-color: var(--hero-red); }
+}
+.hwz-spark {
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: var(--hero-red);
+  box-shadow: 0 0 8px var(--hero-red);
+  opacity: 0;
+  animation: kf-hwz-spark 720ms var(--ease-out) 1;
+}
+.hwz-spark--tl { left: 5px; top: 5px; }
+.hwz-spark--tr { right: 5px; top: 5px; }
+.hwz-spark--bl { left: 5px; bottom: 5px; }
+.hwz-spark--br { right: 5px; bottom: 5px; }
+@keyframes kf-hwz-spark {
+  0% { opacity: 0; transform: scale(0); }
+  30% { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+
+/* squad-ready connecting flash across the character grid */
+.hwz-squadflash {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hwz-squadflash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(79, 143, 220, 0.16) 40%,
+    rgba(216, 58, 74, 0.16) 60%,
+    transparent 100%
+  );
+  transform: translateX(-70%);
+  animation: kf-hwz-link 640ms var(--ease-out) 1;
+}
+@keyframes kf-hwz-link {
+  0% { transform: translateX(-70%); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateX(70%); opacity: 0; }
+}
+
+/* squad-ready status badge pop */
+.hwz-status {
+  animation: kf-hwz-status 520ms var(--ease-out) 1;
+}
+@keyframes kf-hwz-status {
+  0% { transform: scale(0.8); }
+  55% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Continue / submit button states */
+.hwz-go {
+  background: linear-gradient(180deg, #5c97de 0%, var(--hero-blue) 52%, #3c78c8 100%);
+}
+.hwz-go.is-idle {
+  opacity: 0.5;
+  filter: grayscale(0.25);
+  pointer-events: none;
+}
+.hwz-go.is-ready {
+  box-shadow: 0 14px 30px -14px rgba(79, 143, 220, 0.7), 0 0 0 1px rgba(79, 143, 220, 0.35);
+}
+.hwz-go.is-send {
+  background: linear-gradient(180deg, var(--hero-red) 0%, var(--hero-red-deep) 100%);
+  box-shadow: 0 14px 30px -14px rgba(216, 58, 74, 0.7), 0 0 0 1px rgba(216, 58, 74, 0.35);
+}
+.hwz-go.is-charged {
+  animation: kf-hwz-charged 2s ease-in-out infinite;
+}
+@keyframes kf-hwz-charged {
+  0%, 100% { box-shadow: 0 14px 30px -14px rgba(79, 143, 220, 0.7), 0 0 0 1px rgba(79, 143, 220, 0.4); }
+  50% { box-shadow: 0 16px 36px -10px rgba(79, 143, 220, 0.9), 0 0 0 4px rgba(216, 58, 74, 0.18), 0 0 22px -2px rgba(216, 58, 74, 0.3); }
+}
+
+/* success rays */
+.hwz-sent-rays {
+  background: radial-gradient(60% 50% at 50% 30%, rgba(79, 143, 220, 0.16), transparent 70%);
+}
+
+/* ============================================================================
+   PRINCESS BOOKING WIZARD — the soft, magical twin of the hero wizard. Reuses the
+   generic step-slide + status-pop keyframes; selection plays a gentle gold/pink
+   sparkle "Princess Chosen" glow that links into "Royal Duo Ready" — never the
+   hero red/blue energy. Reduced motion = global guard at the foot of this file.
+   ============================================================================ */
+.pwz-step {
+  animation: kf-hwz-step-fwd 0.42s var(--ease-out) both;
+}
+.pwz-step--back {
+  animation-name: kf-hwz-step-back;
+}
+.pwz-char.is-on {
+  transform: scale(1.02);
+  border-color: var(--pp-magenta);
+  box-shadow:
+    0 0 0 1px var(--pp-magenta),
+    0 12px 30px -10px rgba(162, 27, 97, 0.32),
+    0 0 22px -2px rgba(207, 168, 98, 0.5);
+  animation: kf-pwz-aura 3s ease-in-out infinite;
+}
+@keyframes kf-pwz-aura {
+  0%, 100% { box-shadow: 0 0 0 1px var(--pp-magenta), 0 12px 28px -12px rgba(162, 27, 97, 0.3), 0 0 16px -4px rgba(207, 168, 98, 0.45); }
+  50% { box-shadow: 0 0 0 1px var(--pp-magenta), 0 14px 32px -10px rgba(162, 27, 97, 0.42), 0 0 26px 0 rgba(207, 168, 98, 0.6); }
+}
+.pwz-burst {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.pwz-burst-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(207, 168, 98, 0.75);
+  animation: kf-pwz-burst 760ms var(--ease-out) 1;
+}
+@keyframes kf-pwz-burst {
+  0% { transform: scale(0.97); opacity: 0.85; border-color: rgba(207, 168, 98, 0.85); }
+  100% { transform: scale(1.14); opacity: 0; border-color: rgba(194, 24, 106, 0); }
+}
+.pwz-twinkle {
+  position: absolute;
+  height: 7px;
+  width: 7px;
+  border-radius: 9999px;
+  opacity: 0;
+  background: radial-gradient(circle, #fff, rgba(255, 236, 180, 0.7) 50%, transparent 72%);
+  animation: kf-pwz-twinkle 760ms var(--ease-out) 1;
+}
+.pwz-twinkle--tl { left: 6px; top: 6px; }
+.pwz-twinkle--tr { right: 6px; top: 6px; }
+.pwz-twinkle--bl { left: 6px; bottom: 6px; }
+.pwz-twinkle--br { right: 6px; bottom: 6px; }
+@keyframes kf-pwz-twinkle {
+  0% { opacity: 0; transform: scale(0); }
+  35% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+.pwz-duoflash {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.pwz-duoflash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(207, 168, 98, 0.16) 40%,
+    rgba(194, 24, 106, 0.14) 60%,
+    transparent 100%
+  );
+  transform: translateX(-70%);
+  animation: kf-pwz-link 700ms var(--ease-out) 1;
+}
+@keyframes kf-pwz-link {
+  0% { transform: translateX(-70%); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateX(70%); opacity: 0; }
+}
+.pwz-status {
+  animation: kf-hwz-status 520ms var(--ease-out) 1;
+}
+.pwz-go {
+  background: linear-gradient(180deg, var(--pp-magenta), var(--pp-magenta-deep));
+}
+.pwz-go.is-idle {
+  opacity: 0.5;
+  filter: grayscale(0.2);
+  pointer-events: none;
+}
+.pwz-go.is-ready {
+  box-shadow: 0 14px 30px -14px rgba(162, 27, 97, 0.7), 0 0 0 1px rgba(162, 27, 97, 0.3);
+}
+.pwz-go.is-charged {
+  animation: kf-pwz-charged 2.2s ease-in-out infinite;
+}
+.pwz-go.is-charged:hover {
+  animation-play-state: paused;
+}
+@keyframes kf-pwz-charged {
+  0%, 100% { box-shadow: 0 14px 30px -14px rgba(162, 27, 97, 0.7), 0 0 0 1px rgba(162, 27, 97, 0.35); }
+  50% { box-shadow: 0 16px 36px -10px rgba(162, 27, 97, 0.9), 0 0 0 4px rgba(207, 168, 98, 0.2), 0 0 22px -2px rgba(207, 168, 98, 0.4); }
+}
+.pwz-sent-rays {
+  background: radial-gradient(60% 50% at 50% 30%, rgba(207, 168, 98, 0.16), transparent 70%);
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

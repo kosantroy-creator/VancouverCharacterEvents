@@ -5,7 +5,23 @@ import { BookingForm } from "@/components/site/BookingForm";
 import { ProcessSteps } from "@/components/site/ProcessSteps";
 import { serviceAreas } from "@/lib/site-data";
 
+/** Optional prefill params — used by "Request This Guest" CTAs on world pages. */
+const WORLD_TO_INTEREST: Record<string, string> = {
+  "princess-events": "Princesses",
+  "hero-events": "Heroes",
+  "dinosaur-events": "Dinosaurs",
+  "mermaid-events": "Mermaids",
+  "mascot-events": "Mascots",
+  "holiday-events": "Holiday Characters",
+  "specialty-events": "Specialty Characters",
+  "corporate-events": "Corporate / City Entertainment",
+};
+
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    guest: typeof search.guest === "string" ? search.guest : undefined,
+    world: typeof search.world === "string" ? search.world : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Book Now | Vancouver Character Events" },
@@ -45,20 +61,31 @@ const nextSteps = [
 ];
 
 function ContactPage() {
+  const { guest, world } = Route.useSearch();
+  const interest = world ? WORLD_TO_INTEREST[world] : undefined;
+
   return (
     <>
       <Section tone="ink" className="!pb-10">
         <SectionHeading
           onInk
-          eyebrow="Book now"
-          title="Start your booking request"
-          description="Tell us about your event and we'll be in touch to craft the perfect experience. The more you share, the better we can match your story."
+          eyebrow="Begin your story"
+          title={guest ? `${guest} would be delighted` : "Start your booking request"}
+          description={
+            guest
+              ? `You're requesting ${guest} for your celebration. Tell us a little about the big day and we'll take care of the rest.`
+              : "Tell us about your event and we'll be in touch to craft the perfect experience. The more you share, the better we can match your story."
+          }
         />
       </Section>
 
       <Section tone="page" className="!pt-12">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_0.85fr] lg:items-start">
-          <BookingForm />
+          <BookingForm
+            key={`${guest ?? ""}|${interest ?? ""}`}
+            defaultInterest={interest}
+            requestedGuest={guest}
+          />
 
           <aside className="space-y-6">
             <div className="rounded-[var(--radius-xl)] border border-border-soft bg-surface-warm p-7 shadow-[var(--shadow-sm)]">

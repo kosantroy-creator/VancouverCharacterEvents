@@ -1,50 +1,38 @@
 import { Star, ChevronDown } from "lucide-react";
-import heroPoster from "@/assets/scenes/hero-night-sky.jpg";
+import heroCharacters from "@/assets/scenes/hero-characters.jpg";
 import { CTAButton } from "./CTAButton";
 import { Reveal } from "./Reveal";
 
 /**
- * Hero — cinematic, video-led. The footage is the emotional proof; text is kept
- * light and readable over a subtle gradient scrim. Text entrance uses our CSS
- * Reveal primitive (no GSAP — the video is already the "wow" moment).
- *
- * VIDEO SLOT: drop a looping highlight reel at `public/video/hero.mp4`
- * (and optionally `hero.webm`). Until then, the night-sky poster shows — nothing
- * breaks if the file is missing. See public/video/README.md.
+ * Hero — image-led. One real photograph carries the promise: every world,
+ * side by side, on a Vancouver shoreline. Copy sits in the open sky/water on
+ * the left; scrims stay feather-light so the photo remains the star.
  */
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-[86svh] items-end overflow-hidden bg-ink-900 md:min-h-[92svh]">
-      {/* Background video (muted autoplay loop; poster fallback) */}
-      <video
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster={heroPoster}
-        aria-hidden="true"
-        tabIndex={-1}
-      >
-        <source src="/video/hero.webm" type="video/webm" />
-        <source src="/video/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Our characters on the North Shore — the whole pitch in one frame */}
+      <img
+        src={heroCharacters}
+        alt="Vancouver Character Events performers — mermaid, princess, dinosaur, and superhero together on a Vancouver beach at sunset"
+        fetchPriority="high"
+        className="absolute inset-0 -z-20 h-full w-full object-cover object-[72%_30%]"
+      />
 
-      {/* Readability scrims — subtle, so the footage stays the star */}
+      {/* Readability scrims — subtle, the photo stays the star */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(13,22,38,0.5) 0%, rgba(13,22,38,0.12) 28%, rgba(13,22,38,0.5) 70%, rgba(13,22,38,0.92) 100%)",
+            "linear-gradient(180deg, rgba(13,22,38,0.42) 0%, rgba(13,22,38,0.06) 30%, rgba(13,22,38,0.34) 68%, rgba(13,22,38,0.88) 100%)",
         }}
       />
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
         style={{
-          background: "radial-gradient(120% 78% at 12% 92%, rgba(8,17,31,0.72), transparent 58%)",
+          background: "radial-gradient(110% 80% at 10% 88%, rgba(8,17,31,0.66), transparent 56%)",
         }}
       />
 
