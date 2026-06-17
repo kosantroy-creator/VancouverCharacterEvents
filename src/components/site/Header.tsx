@@ -124,8 +124,9 @@ export function Header() {
       <div className="relative mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-2 px-5 sm:px-6 lg:px-8">
         {/* Left cluster — brand + co-brand seam lockup kept snug together as a
             single unit so justify-between only separates this group from the nav
-            and CTAs (not the brand from the lockup). */}
-        <div className="flex min-w-0 items-center">
+            and CTAs (not the brand from the lockup). The cluster spans the full
+            bar height so the brand's h-full navy panel reaches top and bottom. */}
+        <div className="flex h-full min-w-0 items-center">
           {/* Brand — left on desktop, centered & prominent on mobile/tablet.
             On royal pages the mothership brand sits in its own navy block. */}
           <Link
