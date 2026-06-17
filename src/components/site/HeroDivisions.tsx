@@ -378,17 +378,10 @@ function PortalVisual({
     : undefined;
   return (
     <div className="hportal-frame relative aspect-square w-full overflow-hidden rounded-[26px] border-2 border-[var(--hero-sky)]/55 bg-[var(--hero-navy)]">
-      {/* environment still — poster + reduced-motion fallback */}
-      <img
-        src={bg}
-        alt=""
-        aria-hidden
-        loading="lazy"
-        style={fxStyle}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      {/* activation video — plays once on scroll-in, then holds the final
-          open-portal frame (no loop). Only when active and motion is allowed. */}
+      {/* Single base layer. When active (and motion is allowed) the portal IS the
+          video — its own `poster` covers the brief load, so there's no separate
+          still stacked underneath to flash through during the swap (mirrors the
+          princess door portals). Reduced-motion / pre-activation shows the still. */}
       {active && !reduced ? (
         <video
           src={video}
@@ -400,7 +393,16 @@ function PortalVisual({
           style={fxStyle}
           className="absolute inset-0 h-full w-full object-cover"
         />
-      ) : null}
+      ) : (
+        <img
+          src={bg}
+          alt=""
+          aria-hidden
+          loading="lazy"
+          style={fxStyle}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
       {/* blue activation glow (dim → lit on activate) */}
       <span
         aria-hidden

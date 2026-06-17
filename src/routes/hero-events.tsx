@@ -157,28 +157,34 @@ function HeroHero() {
   const { isCinema, setCinema } = useCinema();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const openReel = () => {
-    setCinema(true);
+  const openReel = () => setCinema(true);
+  const closeReel = () => setCinema(false);
+
+  // Drive playback off the shared cinema flag so the reel plays no matter which
+  // trigger opened it — this hero button OR the "Watch the Mission Reel" card in
+  // the highlight reel below, both of which just flip `isCinema`. Try with sound;
+  // if the browser's autoplay policy blocks it, fall back to muted so it always
+  // plays something. Pause when the reel closes.
+  useEffect(() => {
     const v = videoRef.current;
-    if (v) {
+    if (!v) return;
+    if (isCinema) {
       v.currentTime = 0;
       v.muted = false;
-      void v.play().catch(() => undefined);
+      v.play().catch(() => {
+        v.muted = true;
+        void v.play().catch(() => undefined);
+      });
+    } else {
+      v.pause();
     }
-  };
-  const closeReel = () => {
-    setCinema(false);
-    videoRef.current?.pause();
-  };
+  }, [isCinema]);
 
   // Escape leaves the reel.
   useEffect(() => {
     if (!isCinema) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setCinema(false);
-        videoRef.current?.pause();
-      }
+      if (e.key === "Escape") setCinema(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
