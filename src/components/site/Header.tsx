@@ -122,104 +122,109 @@ export function Header() {
         />
       ) : null}
       <div className="relative mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-2 px-5 sm:px-6 lg:px-8">
-        {/* Brand — left on desktop, centered & prominent on mobile/tablet.
+        {/* Left cluster — brand + co-brand seam lockup kept snug together as a
+            single unit so justify-between only separates this group from the nav
+            and CTAs (not the brand from the lockup). */}
+        <div className="flex min-w-0 items-center">
+          {/* Brand — left on desktop, centered & prominent on mobile/tablet.
             On royal pages the mothership brand sits in its own navy block. */}
-        <Link
-          to="/"
-          aria-label="Vancouver Character Events — home"
-          className={cn(
-            "group flex shrink-0 items-center gap-2.5 max-[1139px]:absolute max-[1139px]:left-1/2 max-[1139px]:-translate-x-1/2",
-            (royal || hero) &&
-              "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-4 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
-          )}
-          style={royal || hero ? { background: "var(--grad-navy-panel)" } : undefined}
-          onClick={() => setOpen(false)}
-        >
-          <img
-            src={logo}
-            alt=""
-            aria-hidden
-            className="h-11 w-11 rounded-full object-cover transition-transform duration-300 group-hover:scale-105 max-[1139px]:h-9 max-[1139px]:w-9"
-            width={44}
-            height={44}
-          />
-          <span className="flex flex-col whitespace-nowrap leading-tight">
-            <span className="t-engrave text-[1rem] leading-none text-gold-400 max-[1139px]:text-[0.85rem]">
-              Vancouver
-            </span>
-            <span className="t-engrave mt-0.5 text-[0.64rem] tracking-[0.26em] text-fg-on-ink/75 max-[1139px]:text-[0.55rem] max-[1139px]:tracking-[0.16em]">
-              Character Events
-            </span>
-          </span>
-        </Link>
-
-        {/* Royal seam ✕ + Princess lockup (wide desktop only) */}
-        {royal ? (
-          <>
-            <span
+          <Link
+            to="/"
+            aria-label="Vancouver Character Events — home"
+            className={cn(
+              "group flex shrink-0 items-center gap-2.5 max-[1139px]:absolute max-[1139px]:left-1/2 max-[1139px]:-translate-x-1/2",
+              (royal || hero) &&
+                "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-4 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
+            )}
+            style={royal || hero ? { background: "var(--grad-navy-panel)" } : undefined}
+            onClick={() => setOpen(false)}
+          >
+            <img
+              src={logo}
+              alt=""
               aria-hidden
-              className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gold-500/60 bg-ink-900 text-[0.6rem] font-bold text-gold-400 min-[1280px]:flex"
-            >
-              ✕
+              className="h-11 w-11 rounded-full object-cover transition-transform duration-300 group-hover:scale-105 max-[1139px]:h-9 max-[1139px]:w-9"
+              width={44}
+              height={44}
+            />
+            <span className="flex flex-col whitespace-nowrap leading-tight">
+              <span className="t-engrave text-[1rem] leading-none text-gold-400 max-[1139px]:text-[0.85rem]">
+                Vancouver
+              </span>
+              <span className="t-engrave mt-0.5 text-[0.64rem] tracking-[0.26em] text-fg-on-ink/75 max-[1139px]:text-[0.55rem] max-[1139px]:tracking-[0.16em]">
+                Character Events
+              </span>
             </span>
-            <Link
-              to="/princess-events"
-              className="hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1280px]:flex"
-              aria-label="Vancouver Princess Events"
-            >
-              <span className="inline-flex items-center gap-1">
-                <Crown className="h-3 w-3 text-gold-600" aria-hidden />
-                <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--pp-magenta-deep)]">
-                  Vancouver
-                </span>
-              </span>
-              <span className="t-script mt-0.5 text-[1.45rem] text-[var(--pp-magenta)]">
-                Princess
-              </span>
-              <span className="t-engrave mt-0.5 text-[0.5rem] tracking-[0.32em] text-ink-700/80">
-                ✦ Events ✦
-              </span>
-            </Link>
-          </>
-        ) : null}
+          </Link>
 
-        {/* Hero seam ✕ + Vancouver Hero Events lockup (wide desktop only) */}
-        {hero ? (
-          <>
-            <span
-              aria-hidden
-              className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--hero-gold)]/60 bg-[var(--hero-navy)] text-[0.6rem] font-bold text-[var(--hero-gold)] min-[1280px]:flex"
-            >
-              ✕
-            </span>
-            <Link
-              to="/hero-events"
-              className="hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1280px]:flex"
-              aria-label="Vancouver Hero Events"
-            >
-              <span className="inline-flex items-center gap-1">
-                <Shield className="h-3 w-3 text-[var(--hero-red)]" aria-hidden />
-                <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--hero-navy)]">
-                  Vancouver
+          {/* Royal seam ✕ + Princess lockup (wide desktop only) */}
+          {royal ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gold-500/60 bg-ink-900 text-[0.6rem] font-bold text-gold-400 min-[1180px]:flex"
+              >
+                ✕
+              </span>
+              <Link
+                to="/princess-events"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Princess Events"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Crown className="h-3 w-3 text-gold-600" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--pp-magenta-deep)]">
+                    Vancouver
+                  </span>
                 </span>
+                <span className="t-script mt-0.5 text-[1.45rem] text-[var(--pp-magenta)]">
+                  Princess
+                </span>
+                <span className="t-engrave mt-0.5 text-[0.5rem] tracking-[0.32em] text-ink-700/80">
+                  ✦ Events ✦
+                </span>
+              </Link>
+            </>
+          ) : null}
+
+          {/* Hero seam ✕ + Vancouver Hero Events lockup (wide desktop only) */}
+          {hero ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--hero-gold)]/60 bg-[var(--hero-navy)] text-[0.6rem] font-bold text-[var(--hero-gold)] min-[1180px]:flex"
+              >
+                ✕
               </span>
-              <span className="t-script-hero mt-0.5 text-[1.5rem] leading-none text-[var(--hero-red)]">
-                Hero
-              </span>
-              <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[var(--hero-navy)]/85">
-                <Star
-                  className="h-2 w-2 fill-[var(--hero-red)] text-[var(--hero-red)]"
-                  aria-hidden
-                />
-                Events
-                <Star
-                  className="h-2 w-2 fill-[var(--hero-red)] text-[var(--hero-red)]"
-                  aria-hidden
-                />
-              </span>
-            </Link>
-          </>
-        ) : null}
+              <Link
+                to="/hero-events"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Hero Events"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Shield className="h-3 w-3 text-[var(--hero-red)]" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--hero-navy)]">
+                    Vancouver
+                  </span>
+                </span>
+                <span className="t-script-hero mt-0.5 text-[1.5rem] leading-none text-[var(--hero-red)]">
+                  Hero
+                </span>
+                <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[var(--hero-navy)]/85">
+                  <Star
+                    className="h-2 w-2 fill-[var(--hero-red)] text-[var(--hero-red)]"
+                    aria-hidden
+                  />
+                  Events
+                  <Star
+                    className="h-2 w-2 fill-[var(--hero-red)] text-[var(--hero-red)]"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
+            </>
+          ) : null}
+        </div>
 
         <nav className="hidden items-center gap-0.5 min-[1140px]:flex" aria-label="Primary">
           <Link to="/our-team" className={linkClass} activeProps={{ className: activeLink }}>
