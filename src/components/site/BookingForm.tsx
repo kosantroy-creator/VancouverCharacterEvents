@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { AlertCircle, CheckCircle2, Crown, Loader2 } from "lucide-react";
 import { eventTypes } from "@/lib/site-data";
+import { submitInquiry } from "@/lib/inquiry";
 import { CTAButton } from "./CTAButton";
 
 /**
@@ -19,16 +20,8 @@ const characterCategories = [
   "Corporate / City Entertainment",
 ];
 
-/**
- * Where booking requests are sent.
- *
- * Set VITE_BOOKING_ENDPOINT (e.g. a Formspree / Web3Forms / custom URL) to POST
- * inquiries as JSON. If it is not set, the form falls back to opening a
- * pre-filled email draft so requests genuinely reach the inbox instead of being
- * silently discarded. See the booking-form notes in the project summary.
- */
-const BOOKING_ENDPOINT = import.meta.env.VITE_BOOKING_ENDPOINT as string | undefined;
-const BOOKING_EMAIL = "hello@vancouvercharacterevents.ca";
+/** Business inbox shown in the fallback / error links. */
+const BOOKING_EMAIL = "info@vancouvercharacterevents.com";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -36,39 +29,18 @@ const fieldClass =
   "w-full rounded-[var(--radius-md)] border border-border-strong bg-cream-50 px-4 py-2.5 text-base text-fg placeholder:text-fg-3/70 transition-colors focus:border-gold-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-gold-500";
 const labelClass = "mb-1.5 block text-sm font-semibold text-fg";
 
-function buildMailto(p: Record<string, string>) {
-  const subject = `Booking request — ${p.eventType || "Event"}${p.name ? ` · ${p.name}` : ""}`;
-  const body = [
-    `Name: ${p.name || ""}`,
-    `Email: ${p.email || ""}`,
-    `Phone: ${p.phone || ""}`,
-    "",
-    ...(p.requestedGuest ? [`Requested guest: ${p.requestedGuest}`] : []),
-    `Event type: ${p.eventType || ""}`,
-    `Date: ${p.date || ""}   Time: ${p.time || ""}`,
-    `Address: ${p.address || ""}`,
-    `Event name: ${p.eventName || ""}`,
-    `Child's name: ${p.childName || ""}`,
-    `Character interest: ${p.interest || ""}`,
-    `Package: ${p.package || ""}`,
-    `Guest count: ${p.guests || ""}`,
-    "",
-    "Details:",
-    p.message || "",
-  ].join("\n");
-  return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 export function BookingForm({
   defaultInterest,
   requestedGuest,
+  source = "Booking form",
 }: {
   defaultInterest?: string;
   /** Set by "Request This Guest" links — carried through payload & email. */
   requestedGuest?: string;
+  /** Identifies which page/form the inquiry came from (shown in the email). */
+  source?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
-  const [mode, setMode] = useState<"endpoint" | "mailto">("endpoint");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,29 +50,16 @@ export function BookingForm({
     // Honeypot — bots fill hidden fields; real visitors leave it empty.
     if (data.get("company")) return;
 
-    const payload = Object.fromEntries(
+    const fields = Object.fromEntries(
       [...data.entries()].filter(([key]) => key !== "company"),
     ) as Record<string, string>;
 
     setStatus("submitting");
-    try {
-      if (BOOKING_ENDPOINT) {
-        const res = await fetch(BOOKING_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-        setMode("endpoint");
-      } else {
-        // No backend configured yet — open an email draft so the inquiry
-        // actually reaches the business rather than disappearing.
-        setMode("mailto");
-        window.location.href = buildMailto(payload);
-      }
+    const res = await submitInquiry(source, fields);
+    if (res.ok) {
       form.reset();
       setStatus("success");
-    } catch {
+    } else {
       setStatus("error");
     }
   };
@@ -109,25 +68,11 @@ export function BookingForm({
     return (
       <div className="flex flex-col items-center rounded-[var(--radius-xl)] border border-gold-500/40 bg-cream-100 p-10 text-center shadow-[var(--shadow-md)]">
         <CheckCircle2 className="h-12 w-12 text-[var(--success)]" />
-        <h3 className="mt-4 font-display text-3xl text-fg">
-          {mode === "mailto" ? "Your email draft is ready" : "Your request is on its way"}
-        </h3>
+        <h3 className="mt-4 font-display text-3xl text-fg">Your request is on its way</h3>
         <p className="mt-3 max-w-md text-fg-2">
-          {mode === "mailto" ? (
-            <>
-              We&apos;ve opened a pre-filled email to our team — just press send and we&apos;ll take
-              it from there. If nothing opened, email us directly at{" "}
-              <a
-                href={`mailto:${BOOKING_EMAIL}`}
-                className="font-semibold text-fg-gold underline-offset-4 hover:underline"
-              >
-                {BOOKING_EMAIL}
-              </a>
-              .
-            </>
-          ) : (
-            "Thank you — we've received your booking request. Our team will be in touch shortly to help match your event with the perfect chapter. Keep an eye on your inbox."
-          )}
+          Thank you — we&apos;ve received your booking request and sent a confirmation to your
+          email. Our team will be in touch within one business day to help match your event with the
+          perfect chapter. (If you don&apos;t see the confirmation, check your spam folder.)
         </p>
         <button
           type="button"

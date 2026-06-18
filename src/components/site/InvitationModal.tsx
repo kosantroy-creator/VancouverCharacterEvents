@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { Check, Send, Sparkles, Stamp, X } from "lucide-react";
 import type { Adventure } from "@/lib/adventures";
+import { submitInquiry } from "@/lib/inquiry";
 import { cn } from "@/lib/utils";
 
 /**
@@ -50,6 +51,7 @@ export function InvitationModal({
   const [data, setData] = useState<FormData>(EMPTY);
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [hp, setHp] = useState("");
   const firstFieldRef = useRef<HTMLInputElement>(null);
   const titleId = "inv-title";
@@ -65,6 +67,7 @@ export function InvitationModal({
     setData(EMPTY);
     setSent(false);
     setSubmitting(false);
+    setError(null);
     setHp("");
     const id = window.setTimeout(() => firstFieldRef.current?.focus(), 80);
     return () => window.clearTimeout(id);
@@ -97,14 +100,24 @@ export function InvitationModal({
     data.children &&
     data.ageRange;
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (hp || !valid) return;
+    const fields: Record<string, string> = {
+      name: data.parentName,
+      email: data.email,
+      phone: data.phone,
+      children: data.children,
+      ageRange: data.ageRange,
+      event: subject,
+      requestType: heading,
+    };
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setSent(true);
-    }, 800);
+    setError(null);
+    const res = await submitInquiry("Character Adventures", fields);
+    setSubmitting(false);
+    if (res.ok) setSent(true);
+    else setError(res.error || "Something went wrong. Please try again.");
   };
 
   const labelCls = "mb-1.5 block text-[0.82rem] font-semibold";
@@ -312,6 +325,15 @@ export function InvitationModal({
                   </div>
                 </div>
               </div>
+
+              {error ? (
+                <p
+                  role="alert"
+                  className="mt-5 rounded-[var(--radius-md)] border border-[#c0392b]/40 bg-[#c0392b]/10 px-4 py-2.5 text-[0.82rem] text-ink-800"
+                >
+                  {error} You can also email us directly at info@vancouvercharacterevents.com.
+                </p>
+              ) : null}
 
               <button
                 type="submit"

@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { heroSquad } from "@/lib/hero-roster";
+import { submitInquiry } from "@/lib/inquiry";
 import { cn } from "@/lib/utils";
 
 import cutWebSlinger from "@/assets/hero/cutouts/web-slinger.webp";
@@ -141,6 +142,7 @@ export function HeroBookingForm({ requestedHero }: { requestedHero?: string }) {
   }));
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [hp, setHp] = useState(""); // honeypot
   /** bumped on every character ADD — re-keys activation overlays so selecting a
    *  second hero replays both bursts together (the "squad linked" beat). */
@@ -205,15 +207,33 @@ export function HeroBookingForm({ requestedHero }: { requestedHero?: string }) {
     );
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (hp) return; // honeypot
     if (!canSubmit) return;
+    const c1 = data.char1 ? CHAR_BY_ID[data.char1] : null;
+    const c2 = data.char2 ? CHAR_BY_ID[data.char2] : null;
+    const fields: Record<string, string> = {
+      name: data.clientName,
+      email: data.email,
+      phone: data.phone,
+      childName: data.childName,
+      eventType: data.eventType,
+      package: data.pkg,
+      heroes: [c1?.name, c2?.name].filter(Boolean).join(" + "),
+      date: data.eventDate,
+      time: data.eventTime,
+      venue: data.venueName,
+      address: [data.street, data.city].filter(Boolean).join(", "),
+      guests: data.guestCount,
+      specialNotes: data.specialNotes,
+    };
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setSent(true);
-    }, 700);
+    setError(null);
+    const res = await submitInquiry("Hero Headquarters", fields);
+    setSubmitting(false);
+    if (res.ok) setSent(true);
+    else setError(res.error || "Something went wrong. Please try again.");
   };
 
   if (sent)
@@ -287,6 +307,15 @@ export function HeroBookingForm({ requestedHero }: { requestedHero?: string }) {
           ) : (
             <StepHint hint={step3Hint()} />
           )}
+
+          {error ? (
+            <p
+              role="alert"
+              className="mt-3 rounded-[var(--radius-md)] border border-[var(--hero-red)]/40 bg-[var(--hero-red)]/10 px-4 py-2.5 text-sm text-[var(--hero-navy)]"
+            >
+              {error} You can also email us directly at info@vancouvercharacterevents.com.
+            </p>
+          ) : null}
 
           <div className="mt-3 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
             {step > 1 ? (

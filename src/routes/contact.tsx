@@ -94,10 +94,10 @@ function ContactPage() {
                 <li className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-5 w-5 text-gold-600" />
                   <a
-                    href="mailto:hello@vancouvercharacterevents.ca"
+                    href="mailto:info@vancouvercharacterevents.com"
                     className="text-sm text-fg transition-colors hover:text-fg-gold"
                   >
-                    hello@vancouvercharacterevents.ca
+                    info@vancouvercharacterevents.com
                   </a>
                 </li>
                 <li className="flex items-start gap-3">

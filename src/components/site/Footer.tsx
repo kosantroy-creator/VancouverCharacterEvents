@@ -91,11 +91,11 @@ export function Footer() {
             </p>
             <div className="mt-5 space-y-2">
               <a
-                href="mailto:hello@vancouvercharacterevents.ca"
+                href="mailto:info@vancouvercharacterevents.com"
                 className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400"
               >
                 <Mail className="h-4 w-4 text-gold-500" />
-                <span>hello@vancouvercharacterevents.ca</span>
+                <span>info@vancouvercharacterevents.com</span>
               </a>
               <a
                 href="tel:+17788006940"

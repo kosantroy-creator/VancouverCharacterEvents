@@ -14,6 +14,7 @@ import {
   Wand2,
 } from "lucide-react";
 import { princessCourt } from "@/lib/royal-court";
+import { submitInquiry } from "@/lib/inquiry";
 import { CARD_ART } from "./KingdomDoors";
 import { cn } from "@/lib/utils";
 
@@ -108,6 +109,7 @@ export function PrincessBookingForm({ requestedGuest }: { requestedGuest?: strin
   }));
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [hp, setHp] = useState("");
   const [selToken, setSelToken] = useState(0);
   const [duoToken, setDuoToken] = useState(0);
@@ -170,15 +172,33 @@ export function PrincessBookingForm({ requestedGuest }: { requestedGuest?: strin
     );
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (hp) return;
     if (!canSubmit) return;
+    const r1 = data.royal1 ? ROYAL_BY_ID[data.royal1] : null;
+    const r2 = data.royal2 ? ROYAL_BY_ID[data.royal2] : null;
+    const fields: Record<string, string> = {
+      name: data.clientName,
+      email: data.email,
+      phone: data.phone,
+      childName: data.childName,
+      eventType: data.eventType,
+      package: data.pkg,
+      princess: [r1?.name, r2?.name].filter(Boolean).join(" + "),
+      date: data.eventDate,
+      time: data.eventTime,
+      venue: data.venueName,
+      address: [data.street, data.city].filter(Boolean).join(", "),
+      guests: data.guestCount,
+      wishes: data.wishes,
+    };
     setSubmitting(true);
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setSent(true);
-    }, 700);
+    setError(null);
+    const res = await submitInquiry("Princess Events", fields);
+    setSubmitting(false);
+    if (res.ok) setSent(true);
+    else setError(res.error || "Something went wrong. Please try again.");
   };
 
   if (sent) {
@@ -249,6 +269,15 @@ export function PrincessBookingForm({ requestedGuest }: { requestedGuest?: strin
           ) : (
             <StepHint hint={step3Hint()} />
           )}
+
+          {error ? (
+            <p
+              role="alert"
+              className="mt-3 rounded-[var(--radius-md)] border border-[var(--error)]/40 bg-[var(--error)]/10 px-4 py-2.5 text-sm text-[var(--pp-magenta-deep)]"
+            >
+              {error} You can also email us directly at info@vancouvercharacterevents.com.
+            </p>
+          ) : null}
 
           <div className="mt-3 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
             {step > 1 ? (

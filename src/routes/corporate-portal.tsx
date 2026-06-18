@@ -92,8 +92,8 @@ function CorporatePortalPage() {
             >
               The corporate portal isn't live yet. Existing clients — please reach your account
               manager at{" "}
-              <a href="mailto:hello@vancouvercharacterevents.ca" className="underline">
-                hello@vancouvercharacterevents.ca
+              <a href="mailto:info@vancouvercharacterevents.com" className="underline">
+                info@vancouvercharacterevents.com
               </a>
               .
             </p>
