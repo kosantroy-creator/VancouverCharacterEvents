@@ -10,7 +10,14 @@ import { FaqAccordion } from "./FaqAccordion";
 import { BlogCard } from "./BlogCard";
 import { Sparkles } from "./Scenery";
 
-export function ServicePageTemplate({ chapter }: { chapter: Chapter }) {
+export function ServicePageTemplate({
+  chapter,
+  hideHero = false,
+}: {
+  chapter: Chapter;
+  /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
+  hideHero?: boolean;
+}) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
 
@@ -29,61 +36,63 @@ export function ServicePageTemplate({ chapter }: { chapter: Chapter }) {
 
   return (
     <>
-      {/* Service hero — light, accent-washed */}
-      <section
-        className="relative isolate overflow-hidden"
-        style={{
-          background: `linear-gradient(165deg, color-mix(in oklab, ${accent} 20%, var(--ivory)) 0%, var(--warm-white) 68%, var(--parchment) 100%)`,
-        }}
-      >
-        <div aria-hidden className="tx-filigree absolute inset-0" style={{ opacity: 0.06 }} />
-        <Sparkles color={accent} count={4} />
-        <div className="relative mx-auto w-full max-w-[1200px] px-5 pb-16 pt-28 sm:px-6 md:pt-32 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_0.7fr]">
-            <div>
-              <p
-                className="t-eyebrow"
-                style={{ color: `color-mix(in oklab, ${accent} 72%, var(--ink-800))` }}
-              >
-                {chapter.tagline}
-              </p>
-              <h1 className="mt-4 font-display text-4xl leading-tight text-fg md:text-6xl">
-                {chapter.name}
-              </h1>
-              <p className="mt-4 font-display text-2xl italic text-fg-2 md:text-3xl">
-                {chapter.emotionalHeadline}
-              </p>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-fg-2">{chapter.intro}</p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <CTAButton to="/contact" size="lg">
-                  Book this experience
-                </CTAButton>
-                <Link
-                  to="/"
-                  hash="choose-your-chapter"
-                  className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] border border-border-strong px-8 py-3.5 text-base font-semibold text-fg transition-colors hover:border-gold-500 hover:text-fg-gold"
+      {/* Service hero — light, accent-washed. Skipped when the page brings its own. */}
+      {!hideHero && (
+        <section
+          className="relative isolate overflow-hidden"
+          style={{
+            background: `linear-gradient(165deg, color-mix(in oklab, ${accent} 20%, var(--ivory)) 0%, var(--warm-white) 68%, var(--parchment) 100%)`,
+          }}
+        >
+          <div aria-hidden className="tx-filigree absolute inset-0" style={{ opacity: 0.06 }} />
+          <Sparkles color={accent} count={4} />
+          <div className="relative mx-auto w-full max-w-[1200px] px-5 pb-16 pt-28 sm:px-6 md:pt-32 lg:px-8">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_0.7fr]">
+              <div>
+                <p
+                  className="t-eyebrow"
+                  style={{ color: `color-mix(in oklab, ${accent} 72%, var(--ink-800))` }}
                 >
-                  <ArrowLeft className="h-4 w-4" /> All chapters
-                </Link>
+                  {chapter.tagline}
+                </p>
+                <h1 className="mt-4 font-display text-4xl leading-tight text-fg md:text-6xl">
+                  {chapter.name}
+                </h1>
+                <p className="mt-4 font-display text-2xl italic text-fg-2 md:text-3xl">
+                  {chapter.emotionalHeadline}
+                </p>
+                <p className="mt-5 max-w-xl text-lg leading-relaxed text-fg-2">{chapter.intro}</p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <CTAButton to="/contact" size="lg">
+                    Book this experience
+                  </CTAButton>
+                  <Link
+                    to="/"
+                    hash="choose-your-chapter"
+                    className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] border border-border-strong px-8 py-3.5 text-base font-semibold text-fg transition-colors hover:border-gold-500 hover:text-fg-gold"
+                  >
+                    <ArrowLeft className="h-4 w-4" /> All chapters
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="hidden justify-self-center lg:block">
-              <div
-                className="overflow-hidden rounded-full bg-surface p-2 shadow-[var(--shadow-lg)]"
-                style={{ outline: `2px solid ${accent}`, outlineOffset: "6px" }}
-              >
-                <img
-                  src={scene ?? chapter.medallion}
-                  alt={`${chapter.name} in Metro Vancouver`}
-                  className="h-56 w-56 rounded-full object-cover"
-                  width={224}
-                  height={224}
-                />
+              <div className="hidden justify-self-center lg:block">
+                <div
+                  className="overflow-hidden rounded-full bg-surface p-2 shadow-[var(--shadow-lg)]"
+                  style={{ outline: `2px solid ${accent}`, outlineOffset: "6px" }}
+                >
+                  <img
+                    src={scene ?? chapter.medallion}
+                    alt={`${chapter.name} in Metro Vancouver`}
+                    className="h-56 w-56 rounded-full object-cover"
+                    width={224}
+                    height={224}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* What this experience is */}
       <Section tone="ivory">

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, ChevronDown, Lock, Crown, Shield, Star } from "lucide-react";
+import { Menu, X, ChevronDown, Lock, Crown, Shield, Star, Leaf } from "lucide-react";
 import logo from "@/assets/brand/logo-primary.png";
 import { characterWorlds } from "@/lib/site-data";
 import { CTAButton } from "./CTAButton";
@@ -30,6 +30,9 @@ export function Header() {
   const royal = pathname.startsWith("/princess-events");
   // Hero Headquarters keeps the standard header but books on-page (#book).
   const hero = pathname.startsWith("/hero-events");
+  // Jurassic Expedition — a navy × sage-green co-branded header (sibling of the
+  // Princess Kingdom and Hero Headquarters headers).
+  const dino = pathname.startsWith("/dinosaur-events");
   // Cinema mode (hero "Watch Us In Action" reel) glides the header out of view.
   const { isCinema } = useCinema();
 
@@ -39,13 +42,17 @@ export function Header() {
       ? "text-ink-800/85 hover:text-[var(--pp-magenta-deep)]"
       : hero
         ? "text-[var(--hero-navy)]/85 hover:text-[var(--hero-red-deep)]"
-        : "text-fg-on-ink/85 hover:text-gold-300",
+        : dino
+          ? "text-[#2E4A38]/85 hover:text-[var(--chapter-dinosaur-deep)]"
+          : "text-fg-on-ink/85 hover:text-gold-300",
   );
   const activeLink = royal
     ? "is-active text-[var(--pp-magenta-deep)]"
     : hero
       ? "is-active text-[var(--hero-red-deep)]"
-      : "is-active text-gold-300";
+      : dino
+        ? "is-active text-[var(--chapter-dinosaur-deep)]"
+        : "is-active text-gold-300";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -97,9 +104,13 @@ export function Header() {
             ? scrolled
               ? "shadow-[0_10px_30px_-14px_rgba(36,66,104,0.35)] backdrop-blur-md"
               : "backdrop-blur-sm"
-            : scrolled
-              ? "bg-ink-900/92 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
-              : "bg-ink-900/80 backdrop-blur-sm",
+            : dino
+              ? scrolled
+                ? "shadow-[0_10px_30px_-14px_rgba(47,82,38,0.32)] backdrop-blur-md"
+                : "backdrop-blur-sm"
+              : scrolled
+                ? "bg-ink-900/92 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
+                : "bg-ink-900/80 backdrop-blur-sm",
         isCinema && "pointer-events-none -translate-y-full opacity-0",
       )}
       style={
@@ -107,7 +118,9 @@ export function Header() {
           ? { background: "var(--pp-header-pink)" }
           : hero
             ? { background: scrolled ? "rgba(220,238,255,0.96)" : "rgba(220,238,255,0.82)" }
-            : undefined
+            : dino
+              ? { background: scrolled ? "rgba(236,242,219,0.96)" : "rgba(236,242,219,0.82)" }
+              : undefined
       }
     >
       {royal ? <span aria-hidden className="pp-hairline absolute inset-x-0 top-0" /> : null}
@@ -118,6 +131,16 @@ export function Header() {
           style={{
             background:
               "linear-gradient(90deg, transparent, var(--hero-red) 28%, var(--hero-gold) 50%, var(--hero-blue) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {dino ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-dinosaur) 28%, #C8923E 50%, var(--chapter-dinosaur-deep) 72%, transparent)",
           }}
         />
       ) : null}
@@ -134,10 +157,10 @@ export function Header() {
             aria-label="Vancouver Character Events — home"
             className={cn(
               "group flex shrink-0 items-center gap-2.5 max-[1139px]:absolute max-[1139px]:left-1/2 max-[1139px]:-translate-x-1/2",
-              (royal || hero) &&
+              (royal || hero || dino) &&
                 "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-4 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
             )}
-            style={royal || hero ? { background: "var(--grad-navy-panel)" } : undefined}
+            style={royal || hero || dino ? { background: "var(--grad-navy-panel)" } : undefined}
             onClick={() => setOpen(false)}
           >
             <img
@@ -221,6 +244,38 @@ export function Header() {
                     className="h-2 w-2 fill-[var(--hero-red)] text-[var(--hero-red)]"
                     aria-hidden
                   />
+                </span>
+              </Link>
+            </>
+          ) : null}
+
+          {/* Jurassic seam ✕ + Vancouver Jurassic Expedition lockup (wide desktop only) */}
+          {dino ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--chapter-dinosaur)]/60 bg-ink-900 text-[0.6rem] font-bold text-gold-300 min-[1180px]:flex"
+              >
+                ✕
+              </span>
+              <Link
+                to="/dinosaur-events"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Jurassic Expedition"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Leaf className="h-3 w-3 text-[var(--chapter-dinosaur-deep)]" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--chapter-dinosaur-deep)]">
+                    Vancouver
+                  </span>
+                </span>
+                <span className="t-script-hero mt-0.5 text-[1.5rem] leading-none text-[var(--chapter-dinosaur-deep)]">
+                  Jurassic
+                </span>
+                <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[#2E4A38]/85">
+                  <Leaf className="h-2 w-2 text-[var(--chapter-dinosaur)]" aria-hidden />
+                  Expedition
+                  <Leaf className="h-2 w-2 text-[var(--chapter-dinosaur)]" aria-hidden />
                 </span>
               </Link>
             </>
@@ -310,6 +365,13 @@ export function Header() {
           <Link to="/pricing" className={linkClass} activeProps={{ className: activeLink }}>
             Pricing
           </Link>
+          <Link
+            to="/character-adventures"
+            className={linkClass}
+            activeProps={{ className: activeLink }}
+          >
+            Adventures
+          </Link>
           {navLinks.map((l) => (
             <Link
               key={l.to}
@@ -331,14 +393,18 @@ export function Header() {
                 ? "border-ink-800/35 bg-white/40 text-ink-800/90 hover:border-[var(--pp-magenta)] hover:text-[var(--pp-magenta-deep)]"
                 : hero
                   ? "border-[var(--hero-navy)]/30 bg-white/55 text-[var(--hero-navy)]/90 hover:border-[var(--hero-blue)] hover:text-[var(--hero-blue-deep)]"
-                  : "border-gold-500/35 text-fg-on-ink/80 hover:border-gold-400 hover:text-gold-300",
+                  : dino
+                    ? "border-[var(--chapter-dinosaur-deep)]/30 bg-white/55 text-[var(--chapter-dinosaur-deep)]/90 hover:border-[var(--chapter-dinosaur)] hover:text-[var(--chapter-dinosaur-deep)]"
+                    : "border-gold-500/35 text-fg-on-ink/80 hover:border-gold-400 hover:text-gold-300",
             )}
             activeProps={{
               className: royal
                 ? "text-[var(--pp-magenta-deep)] border-[var(--pp-magenta)]"
                 : hero
                   ? "text-[var(--hero-blue-deep)] border-[var(--hero-blue)]"
-                  : "text-gold-300 border-gold-400",
+                  : dino
+                    ? "text-[var(--chapter-dinosaur-deep)] border-[var(--chapter-dinosaur)]"
+                    : "text-gold-300 border-gold-400",
             }}
           >
             <Lock className="h-3.5 w-3.5" aria-hidden />
@@ -361,6 +427,15 @@ export function Header() {
             >
               Book Now
             </CTAButton>
+          ) : dino ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !bg-[#D4A017] !text-[#2A1C05] hover:!bg-[#C8923E] hover:!shadow-[0_0_24px_rgba(212,160,23,0.45)]"
+            >
+              <Leaf className="h-4 w-4" aria-hidden />
+              Book Now
+            </CTAButton>
           ) : (
             <CTAButton to="/contact" size="md" className="cta-pulse">
               Book Now
@@ -376,7 +451,9 @@ export function Header() {
               ? "text-ink-800 hover:text-[var(--pp-magenta-deep)]"
               : hero
                 ? "text-[var(--hero-navy)] hover:text-[var(--hero-red-deep)]"
-                : "text-fg-on-ink hover:text-gold-400",
+                : dino
+                  ? "text-[var(--chapter-dinosaur-deep)] hover:text-[#1d3326]"
+                  : "text-fg-on-ink hover:text-gold-400",
           )}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -394,6 +471,16 @@ export function Header() {
           style={{
             background:
               "linear-gradient(90deg, transparent, var(--hero-red) 28%, var(--hero-gold) 50%, var(--hero-blue) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {dino ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-dinosaur) 28%, #C8923E 50%, var(--chapter-dinosaur-deep) 72%, transparent)",
           }}
         />
       ) : null}
@@ -442,6 +529,7 @@ export function Header() {
           {[
             { label: "Our Team", to: "/our-team" as const },
             { label: "Pricing", to: "/pricing" as const },
+            { label: "Character Adventures", to: "/character-adventures" as const },
             { label: "Blog", to: "/blog" as const },
             { label: "Contact Us", to: "/contact" as const },
             { label: "Corporate Portal", to: "/corporate-portal" as const },
@@ -470,6 +558,15 @@ export function Header() {
               href="#book"
               size="lg"
               className="mt-3 w-full !bg-gradient-to-r !from-[var(--hero-red)] !to-[var(--hero-red-deep)] !text-white"
+              onClick={() => setOpen(false)}
+            >
+              Book Now
+            </CTAButton>
+          ) : dino ? (
+            <CTAButton
+              to="/contact"
+              size="lg"
+              className="mt-3 w-full !bg-[#D4A017] !text-[#2A1C05]"
               onClick={() => setOpen(false)}
             >
               Book Now

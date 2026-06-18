@@ -1963,6 +1963,244 @@
   background: radial-gradient(60% 50% at 50% 30%, rgba(207, 168, 98, 0.16), transparent 70%);
 }
 
+/* ===========================================================================
+   JURASSIC EXPEDITION — Harvey hero (Chapter Three).
+   A sunlit golden-hour PNW forest where Harvey (our 13-ft T-Rex) stays mostly
+   hidden — you catch his amber eye through the ferns, plus one slow blink. Awe,
+   not threat: light, warm, storybook, gold-accented; a sibling of the Princess
+   Kingdom and Hero Headquarters heroes.
+
+   Layers (back→front) push in together once on load; ferns sway, pollen drifts,
+   mist breathes, the eye tracks the cursor and blinks. ALL motion is gated
+   behind `.harvey-anim` (added by the component only when motion is allowed) AND
+   the global reduced-motion guard at the foot of this file — so reduced-motion
+   users get the full scene composed and STILL (eye open, footprint pressed,
+   headline visible). Transform/opacity/filter only. Authored CSS, never purged.
+   =========================================================================== */
+.harvey-hero {
+  --hv-cream: #FBF3DF;
+  --hv-gold: #D4A017;
+  --hv-gold-deep: #9C7406;
+  --hv-amber: #D99A32;
+  --hv-fern: #6E9A5E;
+  --hv-cedar: #2E4A38;
+  --hv-cedar-deep: #1D3326;
+  --hv-bark: #8A5A3C;
+  /* pointer/tilt parallax, written by the component in [-1, 1] */
+  --px: 0;
+  --py: 0;
+}
+
+/* Parallax — each layer sets its own depth via inline --dx/--dy (px). Front
+   layers get the largest values, so moving reveals a little more of Harvey. */
+.hv-par {
+  transform: translate3d(calc(var(--px) * var(--dx, 0px)), calc(var(--py) * var(--dy, 0px)), 0);
+  will-change: transform;
+}
+.harvey-anim .hv-par { transition: transform 220ms var(--ease-out); }
+
+/* Slow camera push-in of the whole scene, once, then rest. */
+.harvey-anim .hv-stage { animation: kf-hv-pushin 7000ms var(--ease-out) both; }
+@keyframes kf-hv-pushin { from { transform: scale(1.06); } to { transform: scale(1); } }
+
+/* Generic intro rise — eyebrow, sub, CTAs, chips, chapter tab, scroll cue. */
+.hv-rise { opacity: 1; transform: none; }
+.harvey-anim:not(.is-ready) .hv-rise { opacity: 0; transform: translate3d(0, 16px, 0); }
+.harvey-anim .hv-rise { transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
+
+/* Atmosphere bloom — mist, rays, sun, eye glow and Harvey's mass fade in. */
+.harvey-anim:not(.is-ready) .hv-fade { opacity: 0; }
+.harvey-anim .hv-fade { transition: opacity 1200ms var(--ease-out); }
+
+/* Headline stamps in word-by-word: fade + slight scale + un-blur (gold ink). */
+.hv-word { display: inline-block; }
+.harvey-anim:not(.is-ready) .hv-word {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0) scale(0.96);
+  filter: blur(6px);
+}
+.harvey-anim .hv-word {
+  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out),
+    filter 620ms var(--ease-out);
+}
+
+/* Ferns sway from their base — per-frond duration/delay set inline. */
+.harvey-anim .hv-frond {
+  animation: kf-hv-sway var(--sway-d, 7s) ease-in-out var(--sway-delay, 0s) infinite;
+  transform-origin: bottom center;
+}
+@keyframes kf-hv-sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
+
+/* Drifting cream mist. */
+.harvey-anim .hv-mist-band { animation: kf-hv-mist var(--mist-d, 30s) ease-in-out infinite; }
+@keyframes kf-hv-mist {
+  0%, 100% { transform: translate3d(-3%, 0, 0); }
+  50% { transform: translate3d(3%, -4%, 0); }
+}
+
+/* God rays — barely-there breathing. */
+.harvey-anim .hv-rays { animation: kf-hv-rays 14s ease-in-out infinite; }
+@keyframes kf-hv-rays { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.8; } }
+
+/* Pollen motes drifting up & sideways — per-mote vars inline. */
+.harvey-anim .hv-pollen { animation: kf-hv-pollen var(--p-d, 16s) linear var(--p-delay, 0s) infinite; }
+@keyframes kf-hv-pollen {
+  0% { transform: translate3d(0, 12px, 0); opacity: 0; }
+  12% { opacity: 0.85; }
+  80% { opacity: 0.5; }
+  100% { transform: translate3d(var(--p-x, 18px), -130px, 0); opacity: 0; }
+}
+
+/* The amber eye blinks every ~6.5s — mostly open, one quick close. */
+.harvey-anim .hv-eyelid { animation: kf-hv-blink 6500ms ease-in-out infinite; }
+@keyframes kf-hv-blink {
+  0%, 84%, 100% { transform: translateY(-102%); }
+  90%, 92% { transform: translateY(0%); }
+}
+
+/* The footprint presses in around the 2.5s mark with a dust puff, then rests. */
+.hv-print { opacity: 1; transform: none; }
+.harvey-anim:not(.is-ready) .hv-print { opacity: 0; transform: translateY(-10px) scale(0.7); }
+.harvey-anim .hv-print {
+  transition: opacity 460ms var(--ease-out) 2500ms,
+    transform 560ms cubic-bezier(0.34, 1.56, 0.64, 1) 2500ms;
+}
+.harvey-anim.is-ready .hv-dust { animation: kf-hv-dust 900ms ease-out 2500ms 1 both; }
+@keyframes kf-hv-dust {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 0.7; }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+
+/* Video slot — when HARVEY_VIDEO_SRC is set the component adds `has-video`,
+   fading the looping clip in and the coded eye/mass out. */
+.hv-video { opacity: 0; }
+.harvey-hero.has-video .hv-video { opacity: 1; }
+.harvey-hero.has-video .hv-coded { opacity: 0; }
+.harvey-anim .hv-video, .harvey-anim .hv-coded { transition: opacity 800ms var(--ease-out); }
+
+/* ===========================================================================
+   CHARACTER ADVENTURES — the year-long ticketed adventure programme. A premium
+   theme-park-calendar feel: a montage hero, a vertical adventure roadmap with
+   month nodes that light up as you scroll, themed event cards (each carries its
+   own palette via inline --adv-* props), and a wax-sealed invitation letter for
+   collecting interest. Authored CSS, never purged. Reduced-motion safe via the
+   global guard at the foot of this file (animations use fill-mode `both`, so
+   they snap to their finished, visible state).
+   =========================================================================== */
+
+/* Montage hero — slow ken-burns drift on each blended world tile. */
+@keyframes kf-adv-drift-a {
+  0%, 100% { transform: scale(1.1) translate3d(0, 0, 0); }
+  50% { transform: scale(1.18) translate3d(-2%, -1.5%, 0); }
+}
+@keyframes kf-adv-drift-b {
+  0%, 100% { transform: scale(1.12) translate3d(0, 0, 0); }
+  50% { transform: scale(1.06) translate3d(2%, 1%, 0); }
+}
+.adv-drift-a { animation: kf-adv-drift-a 26s ease-in-out infinite; }
+.adv-drift-b { animation: kf-adv-drift-b 32s ease-in-out infinite; }
+
+/* Adventure roadmap — animated month markers. Each badge pops + spins in as it
+   scrolls into view, a ring bursts outward, the month label fades up, then the
+   icon settles into a gentle idle float. Hidden until in view so the entrance
+   reads on scroll. */
+/* Badge is visible by default (never stuck hidden if the observer is delayed);
+   the pop is an enhancement that plays when the marker scrolls in. */
+.adv-node-badge { will-change: transform; transition: filter 400ms var(--ease-out); }
+.adv-node:not(.is-in) .adv-node-badge { filter: saturate(0.78) brightness(0.97); }
+.adv-node.is-in .adv-node-badge { animation: kf-adv-pop 720ms var(--ease-out) both; }
+@keyframes kf-adv-pop {
+  0% { opacity: 0; transform: scale(0.4) rotate(-35deg); }
+  55% { opacity: 1; transform: scale(1.14) rotate(8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.adv-node-icon { will-change: transform; }
+.adv-node.is-in .adv-node-icon { animation: kf-adv-icon-bob 3.8s ease-in-out 760ms infinite; }
+@keyframes kf-adv-icon-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-4deg); }
+}
+
+.adv-node-ring { opacity: 0; }
+.adv-node.is-in .adv-node-ring { animation: kf-adv-ring 1200ms var(--ease-out) 160ms; }
+@keyframes kf-adv-ring {
+  0% { opacity: 0.7; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+.adv-node-month { transition: opacity 500ms var(--ease-out) 240ms; }
+.adv-node:not(.is-in) .adv-node-month { opacity: 0.5; }
+.adv-node.is-in .adv-node-month { opacity: 1; }
+
+/* Themed event card — lifts into its own colour on hover. */
+.adv-card {
+  transition: transform 360ms var(--ease-out), box-shadow 360ms var(--ease-out),
+    border-color 360ms var(--ease-out);
+}
+.adv-card:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in oklab, var(--adv-accent) 65%, transparent);
+  box-shadow: 0 34px 64px -30px color-mix(in oklab, var(--adv-accent) 52%, rgba(8, 17, 31, 0.5));
+}
+.adv-poster-img { transition: transform 800ms var(--ease-out); }
+.adv-card:hover .adv-poster-img { transform: scale(1.06); }
+
+/* Month chip sheen that sweeps once as the card reveals. */
+@keyframes kf-adv-sheen { 0% { transform: translateX(-130%) skewX(-16deg); } 100% { transform: translateX(260%) skewX(-16deg); } }
+.adv-card:hover .adv-sheen { animation: kf-adv-sheen 900ms var(--ease-out); }
+
+/* ---- INVITATION LETTER — the themed "send a letter" interest form. ---- */
+.inv-overlay { animation: kf-inv-overlay 240ms ease both; }
+@keyframes kf-inv-overlay { from { opacity: 0; } to { opacity: 1; } }
+
+.inv-letter { animation: kf-inv-letter 440ms var(--ease-out) both; }
+@keyframes kf-inv-letter {
+  from { opacity: 0; transform: translateY(22px) scale(0.965) rotate(-0.6deg); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Wax seal presses in just after the letter opens. */
+.inv-seal { animation: kf-inv-seal 640ms var(--ease-out) 140ms both; }
+@keyframes kf-inv-seal {
+  0% { opacity: 0; transform: scale(1.75) rotate(-14deg); }
+  58% { opacity: 1; transform: scale(0.9) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* On submit the request "stamps" — a big seal presses down over the letter. */
+.inv-stamp { animation: kf-inv-stamp 720ms var(--ease-out) both; }
+@keyframes kf-inv-stamp {
+  0% { opacity: 0; transform: scale(2.3) rotate(-20deg); }
+  55% { opacity: 1; transform: scale(0.88) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.inv-rise { animation: kf-rise 600ms var(--ease-out) 220ms both; }
+
+/* ===========================================================================
+   EXPEDITION CREDENTIALS — the Jurassic trust-badge checkpoint bridge. Badges
+   rise and get "stamped" as the strip scrolls in. Visible by default (never
+   stuck hidden if the observer is delayed); the entrance is an enhancement.
+   Per-badge delay is set inline. Reduced-motion safe via the global guard.
+   =========================================================================== */
+.cred-badge { will-change: transform, opacity; }
+.cred.is-in .cred-badge { animation: kf-cred-rise 620ms var(--ease-out) both; }
+@keyframes kf-cred-rise {
+  0% { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: none; }
+}
+.cred-stamp { will-change: transform; }
+.cred.is-in .cred-stamp { animation: kf-cred-stamp 600ms var(--ease-out) both; }
+@keyframes kf-cred-stamp {
+  0% { opacity: 0; transform: scale(1.9) rotate(-14deg); }
+  55% { opacity: 1; transform: scale(0.9) rotate(4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.cred-print { opacity: 0; }
+.cred.is-in .cred-print { animation: kf-cred-print 700ms var(--ease-out) 320ms both; }
+@keyframes kf-cred-print { from { opacity: 0; } to { opacity: 0.6; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

@@ -22,6 +22,7 @@ import { Route as DinosaurEventsRouteImport } from './routes/dinosaur-events'
 import { Route as CorporatePortalRouteImport } from './routes/corporate-portal'
 import { Route as CorporateEventsRouteImport } from './routes/corporate-events'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CharacterAdventuresRouteImport } from './routes/character-adventures'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -92,6 +93,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CharacterAdventuresRoute = CharacterAdventuresRouteImport.update({
+  id: '/character-adventures',
+  path: '/character-adventures',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -116,6 +122,7 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/character-adventures': typeof CharacterAdventuresRoute
   '/contact': typeof ContactRoute
   '/corporate-events': typeof CorporateEventsRoute
   '/corporate-portal': typeof CorporatePortalRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/character-adventures': typeof CharacterAdventuresRoute
   '/contact': typeof ContactRoute
   '/corporate-events': typeof CorporateEventsRoute
   '/corporate-portal': typeof CorporatePortalRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/character-adventures': typeof CharacterAdventuresRoute
   '/contact': typeof ContactRoute
   '/corporate-events': typeof CorporateEventsRoute
   '/corporate-portal': typeof CorporatePortalRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/character-adventures'
     | '/contact'
     | '/corporate-events'
     | '/corporate-portal'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/character-adventures'
     | '/contact'
     | '/corporate-events'
     | '/corporate-portal'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/character-adventures'
     | '/contact'
     | '/corporate-events'
     | '/corporate-portal'
@@ -234,6 +246,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CharacterAdventuresRoute: typeof CharacterAdventuresRoute
   ContactRoute: typeof ContactRoute
   CorporateEventsRoute: typeof CorporateEventsRoute
   CorporatePortalRoute: typeof CorporatePortalRoute
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/character-adventures': {
+      id: '/character-adventures'
+      path: '/character-adventures'
+      fullPath: '/character-adventures'
+      preLoaderRoute: typeof CharacterAdventuresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -378,6 +398,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CharacterAdventuresRoute: CharacterAdventuresRoute,
   ContactRoute: ContactRoute,
   CorporateEventsRoute: CorporateEventsRoute,
   CorporatePortalRoute: CorporatePortalRoute,
