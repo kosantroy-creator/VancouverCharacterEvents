@@ -9,7 +9,7 @@ import {
 import {
   ArrowRight,
   Camera,
-  Eye,
+  DoorOpen,
   Footprints,
   Leaf,
   ShieldCheck,
@@ -17,6 +17,7 @@ import {
   Users,
   Volume2,
 } from "lucide-react";
+import gsap from "gsap";
 import { CTAButton } from "./CTAButton";
 import { Frond } from "./HarveyHero";
 import { cn } from "@/lib/utils";
@@ -31,10 +32,12 @@ import harveyReveal from "@/assets/dinosaur/harvey-reveal.webp";
  *                       shifts; "the trail changes… the trainers know he's close."
  *   3 · Shadow Moment — a massive soft T-Rex silhouette looms behind blurred
  *                       leaves and mist as you scroll; "he's closer than you think."
- *   4 · Meet Harvey   — the FLAGSHIP moment: Harvey waits behind two foliage
- *                       gates (mist + torchlight). The visitor clicks "Reveal
- *                       Harvey" to part them, brighten the scene, and meet him —
- *                       then the stat badges and booking CTA rise in one by one.
+ *   4 · Meet Harvey   — the FLAGSHIP moment: a jungle "viewing blind". Harvey
+ *                       already sits in the image behind a leafy, misty, lantern-
+ *                       lit cover. Clicking "Open the Viewing Gate" runs a ~1.6s
+ *                       GSAP sequence (shake → fog → passing shadow → the leaf
+ *                       panels split & slide outward → sunlight) that reveals him;
+ *                       the label + Book/Packages CTAs become the conversion payoff.
  *
  * Motion is scroll-led but ROBUST: entrances are IntersectionObserver-driven
  * (`.is-in`) and the shadow's loom is driven by a rAF-throttled scroll-progress
@@ -185,9 +188,90 @@ export function HarveyReveal() {
   const [shadowRef, shadowIn] = useInView<HTMLElement>(0.3);
   const [revealRef, revealIn] = useInView<HTMLElement>(0.3);
 
-  // The flagship moment is INTENTIONAL: Harvey stays behind the foliage gates
-  // until the visitor chooses to reveal him. Once revealed, he stays revealed.
-  const [revealed, setRevealed] = useState(false);
+  // The flagship moment is INTENTIONAL and CINEMATIC. Three phases:
+  //   idle     — Harvey hides behind the misty leafy viewing gate.
+  //   opening  — a ~1.6s GSAP sequence runs (shake → fog → shadow → gates split).
+  //   revealed — Harvey is shown; label + CTAs become the conversion payoff.
+  // Once revealed he stays revealed.
+  const [phase, setPhase] = useState<"idle" | "opening" | "revealed">("idle");
+  const cardRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<ReturnType<typeof gsap.timeline> | null>(null);
+  const fallbackRef = useRef<number | undefined>(undefined);
+  const reducedRef = useRef(false);
+  useEffect(() => {
+    reducedRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+  useEffect(
+    () => () => {
+      tlRef.current?.kill();
+      window.clearTimeout(fallbackRef.current);
+    },
+    [],
+  );
+
+  // The visitor "opens the viewing gate". Reduced-motion (or no card) reveals
+  // instantly; otherwise a transform-based GSAP timeline runs the encounter.
+  const openGate = () => {
+    if (phase !== "idle") return;
+    setPhase("opening");
+    const card = cardRef.current;
+    if (reducedRef.current || !card) {
+      setPhase("revealed");
+      return;
+    }
+    const q = (s: string) => card.querySelector<HTMLElement>(s);
+    const qa = (s: string) => Array.from(card.querySelectorAll<HTMLElement>(s));
+    const small = window.matchMedia("(max-width: 640px)").matches;
+    const tl = gsap.timeline({
+      defaults: { ease: "power2.out" },
+      onComplete: () => {
+        window.clearTimeout(fallbackRef.current);
+        setPhase("revealed");
+      },
+    });
+    // 0.0 button text already flips via state; the center plate fades out
+    tl.to(q(".hvr-cover-center"), { autoAlpha: 0, duration: 0.3 }, 0.05);
+    // 0.2 subtle card shake (gentler on mobile) + lantern flare
+    tl.to(
+      card,
+      {
+        x: small ? -2.5 : -6,
+        duration: 0.06,
+        repeat: small ? 3 : 5,
+        yoyo: true,
+        ease: "sine.inOut",
+      },
+      0.2,
+    ).set(card, { x: 0 });
+    tl.to(qa(".hvr-lantern"), { opacity: 1.15, duration: 0.12, repeat: 3, yoyo: true }, 0.2);
+    // 0.4 fog thickens across the card
+    tl.to(q(".hvr-fog"), { opacity: 1, duration: 0.4 }, 0.4);
+    // 0.6 a large shadow passes behind the leaves
+    tl.fromTo(
+      q(".hvr-pass"),
+      { xPercent: -48, opacity: 0 },
+      { xPercent: 26, opacity: 0.6, duration: 0.7, ease: "sine.inOut" },
+      0.55,
+    ).to(q(".hvr-pass"), { opacity: 0, duration: 0.35 }, 1.05);
+    // 0.8–1.0 the leafy cover splits from the center and slides outward
+    tl.to(q(".hvr-blind-l"), { xPercent: -112, duration: 0.9, ease: "power3.inOut" }, 0.8);
+    tl.to(q(".hvr-blind-r"), { xPercent: 112, duration: 0.9, ease: "power3.inOut" }, 0.8);
+    tl.to(qa(".hvr-lantern"), { opacity: 0, duration: 0.5 }, 1.0);
+    tl.to([q(".hvr-cover-hint"), q(".hvr-glint")], { opacity: 0, duration: 0.5 }, 1.0);
+    // 1.1 fog clears as Harvey is revealed underneath
+    tl.to(q(".hvr-fog"), { opacity: 0, duration: 0.6 }, 1.15);
+    // 1.6 warm sunlight glow + dust clearing settles over the image
+    tl.fromTo(q(".hvr-sun"), { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2).to(
+      q(".hvr-sun"),
+      { opacity: 0.32, duration: 0.7 },
+      1.8,
+    );
+    tlRef.current = tl;
+    // Safety net: if the rAF ticker is ever throttled (e.g. a backgrounded tab),
+    // still resolve to the revealed state so Harvey always appears.
+    fallbackRef.current = window.setTimeout(() => setPhase("revealed"), 2600);
+  };
+  const revealed = phase === "revealed";
 
   // Keep the shadow-beat ref in sync with the in-view ref (same element).
   const setShadowRefs = (el: HTMLElement | null) => {
@@ -481,7 +565,7 @@ export function HarveyReveal() {
         }}
       >
         <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-24 pt-24 sm:px-6 md:pb-28 md:pt-28 lg:px-8">
-          {/* heading — always visible, above the reveal panel */}
+          {/* heading — always visible, above the viewing gate */}
           <div className="text-center">
             <p className="hvr-rise t-engrave text-[0.62rem] tracking-[0.34em] text-[#F4E2A6]">
               The Reveal · Field Note 04
@@ -501,79 +585,92 @@ export function HarveyReveal() {
             </p>
           </div>
 
-          {/* the reveal panel — Harvey waits behind parting foliage gates until the
-              visitor chooses to step closer and reveal him. */}
+          {/* THE VIEWING GATE — Harvey already sits behind the leafy, misty cover;
+              clicking "Open the Viewing Gate" runs a short cinematic sequence that
+              parts the blind and reveals him. */}
           <figure className="hvr-frame relative mt-9 overflow-hidden rounded-[28px] shadow-[0_44px_96px_-42px_rgba(20,30,16,0.85)] ring-1 ring-[#3E5E32]/35">
-            <img
-              src={harveyReveal}
-              alt="Harvey, our friendly life-sized green Tyrannosaurus Rex, standing in a sunlit golden-hour jungle clearing"
-              width={1280}
-              height={720}
-              className="block aspect-[16/9] w-full object-cover"
-              loading="lazy"
-            />
-            {/* warm gold bloom that blooms in at the moment of reveal */}
-            <span
-              aria-hidden
-              className="hvr-bloom pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(70% 90% at 50% 12%, rgba(255,236,176,0.55), transparent 60%)",
-              }}
-            />
-            {/* caption settles in after the reveal */}
-            <figcaption className="hvr-cap pointer-events-none absolute inset-x-0 bottom-0 z-[2] bg-[linear-gradient(0deg,rgba(20,30,16,0.72),transparent)] px-6 pb-6 pt-16 text-left md:px-9">
-              <span className="t-engrave text-[0.6rem] tracking-[0.3em] text-[#F4E2A6]">
-                Harvey · our 13-foot T-Rex
-              </span>
-            </figcaption>
+            <div ref={cardRef} className="hvr-card-inner relative">
+              <img
+                src={harveyReveal}
+                alt="Harvey, our friendly life-sized green Tyrannosaurus Rex, standing in a sunlit golden-hour jungle clearing"
+                width={1280}
+                height={720}
+                className="block aspect-[16/9] w-full object-cover"
+                loading="lazy"
+              />
+              {/* warm sunlight glow + dust that clears over Harvey at the end */}
+              <span
+                aria-hidden
+                className="hvr-sun pointer-events-none absolute inset-0 z-[2]"
+                style={{
+                  background:
+                    "radial-gradient(75% 95% at 50% 8%, rgba(255,234,170,0.6), transparent 62%)",
+                }}
+              />
+              {/* the conversion label, settles in after the reveal */}
+              <figcaption className="hvr-cap pointer-events-none absolute inset-x-0 bottom-0 z-[3] bg-[linear-gradient(0deg,rgba(18,28,15,0.86),rgba(18,28,15,0.45)_55%,transparent)] px-6 pb-6 pt-20 text-left md:px-9 md:pb-7">
+                <p className="t-engrave text-[0.7rem] font-bold tracking-[0.28em] text-[#F4E2A6]">
+                  HARVEY — OUR 13-FOOT T-REX
+                </p>
+                <p className="mt-1.5 max-w-xl text-[0.92rem] leading-relaxed text-[#EAF1DD]">
+                  A realistic dinosaur encounter for birthdays, schools, festivals, and special
+                  events.
+                </p>
+              </figcaption>
 
-            {/* ===== THE COVER — parts outward when the visitor reveals him ===== */}
-            <div
-              className={cn("hvr-cover", revealed && "is-open")}
-              aria-hidden={revealed || undefined}
-            >
-              {/* the two foliage gates that meet in the middle */}
-              <div className="hvr-gate hvr-gate-l">
-                <GateFronds side="l" />
-              </div>
-              <div className="hvr-gate hvr-gate-r">
-                <GateFronds side="r" />
-              </div>
-              {/* torchlight at the gateposts */}
-              <span aria-hidden className="hvr-torch hvr-torch-l" />
-              <span aria-hidden className="hvr-torch hvr-torch-r" />
-              {/* drifting mist that clears on reveal */}
-              <span aria-hidden className="hvr-cover-mist" />
-              {/* a faint hint of something massive behind the leaves */}
-              <span aria-hidden className="hvr-cover-hint">
-                <HarveyShadow />
-              </span>
-              {/* center copy + the reveal button */}
-              <div className="hvr-cover-center">
-                <p className="t-engrave text-[0.62rem] tracking-[0.32em] text-[#E7C271]">
-                  Beyond the leaves
-                </p>
-                <p
-                  className="mt-2 max-w-sm font-display text-[clamp(1.15rem,2.6vw,1.7rem)] font-semibold leading-snug text-[#FBF6EC]"
-                  style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
-                >
-                  A 13-foot encounter is waiting beyond the leaves.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setRevealed(true)}
-                  aria-expanded={revealed}
-                  aria-label="Reveal Harvey, our 13-foot T-Rex"
-                  tabIndex={revealed ? -1 : undefined}
-                  className="hvr-reveal-btn group mt-6 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[0.95rem] font-semibold text-[#2A1C05]"
-                >
-                  Reveal Harvey
-                  <Eye
-                    className="h-4 w-4 transition-transform duration-200 group-hover:scale-110"
-                    aria-hidden
-                  />
-                </button>
+              {/* ===== THE COVER — the leafy viewing blind that parts on click ===== */}
+              <div
+                className={cn("hvr-cover", revealed && "is-revealed")}
+                aria-hidden={revealed || undefined}
+              >
+                {/* the dark Harvey silhouette behind the leaves + a subtle eye glint */}
+                <span aria-hidden className="hvr-cover-hint">
+                  <HarveyShadow />
+                </span>
+                <span aria-hidden className="hvr-glint" />
+                {/* a larger shadow that passes behind the leaves mid-sequence */}
+                <span aria-hidden className="hvr-pass">
+                  <HarveyShadow />
+                </span>
+                {/* the two leafy/fog panels that split from the center and slide out */}
+                <div aria-hidden className="hvr-blind hvr-blind-l">
+                  <GateFronds side="l" />
+                </div>
+                <div aria-hidden className="hvr-blind hvr-blind-r">
+                  <GateFronds side="r" />
+                </div>
+                {/* drifting fog inside the card (thickens, then clears) */}
+                <span aria-hidden className="hvr-fog" />
+                {/* soft lantern flicker on each side */}
+                <span aria-hidden className="hvr-lantern hvr-lantern-l" />
+                <span aria-hidden className="hvr-lantern hvr-lantern-r" />
+                {/* center plate — microcopy + the themed gate button */}
+                <div className="hvr-cover-center">
+                  <p className="t-engrave text-[0.62rem] tracking-[0.32em] text-[#E7C271]">
+                    The Viewing Blind
+                  </p>
+                  <p
+                    className="mt-2 max-w-sm font-display text-[clamp(1.15rem,2.6vw,1.7rem)] font-semibold leading-snug text-[#FBF6EC]"
+                    style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
+                  >
+                    A 13-foot encounter is waiting beyond the leaves.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={openGate}
+                    disabled={phase !== "idle"}
+                    aria-expanded={revealed}
+                    aria-label="Open the viewing gate to reveal Harvey, our 13-foot T-Rex"
+                    tabIndex={revealed ? -1 : undefined}
+                    className="hvr-gate-btn group mt-6"
+                  >
+                    <DoorOpen
+                      className="h-4 w-4 transition-transform duration-200 group-hover:scale-110"
+                      aria-hidden
+                    />
+                    {phase === "opening" ? "Stand back…" : "Open the Viewing Gate"}
+                  </button>
+                </div>
               </div>
             </div>
           </figure>
@@ -585,18 +682,26 @@ export function HarveyReveal() {
             ))}
           </ul>
 
-          {/* CTA — appears after the reveal */}
-          <div className="hvr-cta mt-10 flex justify-center">
+          {/* CTAs — the conversion payoff, appear after the reveal */}
+          <div className="hvr-cta mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <CTAButton
               to="/contact"
               size="lg"
               className="group !bg-[#D4A017] !text-[#2A1C05] hover:!bg-[#D99A32] hover:!shadow-[0_0_34px_rgba(212,160,23,0.5)]"
             >
-              Bring Harvey to Your Event
+              Book Harvey
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                 aria-hidden
               />
+            </CTAButton>
+            <CTAButton
+              to="/pricing"
+              variant="ghost"
+              size="lg"
+              className="!border-[#2E4A38]/40 !text-[#2E4A38] hover:!border-[#2E4A38] hover:!text-[#1d3326]"
+            >
+              View Packages
             </CTAButton>
           </div>
         </div>
