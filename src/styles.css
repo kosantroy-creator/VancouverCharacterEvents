@@ -2522,6 +2522,124 @@
     transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms;
 }
 
+/* ===========================================================================
+   DINO COMPARISON — "Not a Mascot. A Full Dinosaur Encounter." The positioning
+   section after the Trainer Academy: a calm, respectful "Typical Dinosaur Visit"
+   panel beside an emphasized "Harvey Expedition" panel (amber border, soft
+   glow-pulse, badge, gold check stamps). Header beats reveal in sequence, panels
+   slide in from their sides, bullets stamp in, the callout fades up last — all
+   VISIBLE BY DEFAULT (hidden states only under `.cmp.anim` before `.is-in`), so
+   reduced-motion / pre-JS render gets everything composed and still. Warm cream +
+   sand + moss + amber. Authored CSS, never purged.
+   =========================================================================== */
+.cmp-tex {
+  background-image: radial-gradient(rgba(140, 110, 60, 0.10) 1px, transparent 1.6px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+  -webkit-mask-image: radial-gradient(130% 92% at 50% 0%, #000 44%, transparent 100%);
+  mask-image: radial-gradient(130% 92% at 50% 0%, #000 44%, transparent 100%);
+}
+
+/* ---- panels ---- */
+.cmp-panel { position: relative; overflow: hidden; border-radius: 22px; background: #FFFDF7; }
+.cmp-left {
+  border: 1px solid #E6DCC4;
+  box-shadow: 0 16px 40px -30px rgba(70, 60, 40, 0.45);
+}
+.cmp-right {
+  border: 2px solid rgba(212, 160, 23, 0.55);
+  box-shadow: 0 30px 70px -42px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.16);
+}
+
+.cmp-banner { position: relative; height: 9.5rem; overflow: hidden; }
+@media (min-width: 640px) { .cmp-banner { height: 11rem; } }
+.cmp-img-muted { filter: saturate(0.86) brightness(1.01); }
+.cmp-banner-label {
+  position: absolute; left: 1rem; bottom: 0.7rem; z-index: 1;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.18rem; color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+.cmp-banner::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(0deg, rgba(28, 24, 16, 0.66) 0%, rgba(28, 24, 16, 0.1) 42%, transparent 70%);
+}
+.cmp-right .cmp-banner::after {
+  background: linear-gradient(0deg, rgba(20, 33, 18, 0.78) 0%, rgba(20, 33, 18, 0.12) 46%, transparent 72%);
+}
+.cmp-banner-label-strong { color: #FBF6EC; font-size: 1.28rem; }
+
+/* badge on the emphasized panel */
+.cmp-badge {
+  position: absolute; right: 0.85rem; top: 0.85rem; z-index: 2;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  border-radius: 9999px; padding: 0.3rem 0.7rem;
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #2A1C05; background: linear-gradient(150deg, #F0C04A, #D4A017);
+  border: 1px solid rgba(255, 240, 200, 0.7);
+  box-shadow: 0 8px 18px -8px rgba(212, 160, 23, 0.7);
+}
+
+/* ---- bullet lists ---- */
+.cmp-list { padding: 1.1rem 1.25rem 1.35rem; display: flex; flex-direction: column; gap: 0.62rem; }
+.cmp-point { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.92rem; line-height: 1.4; }
+.cmp-dot {
+  margin-top: 0.18rem; height: 0.95rem; width: 0.95rem; flex: none; border-radius: 9999px;
+  border: 2px solid #CBBE9E; background: #F4EEDD;
+}
+.cmp-check {
+  margin-top: 0.05rem; display: grid; place-items: center; height: 1.3rem; width: 1.3rem; flex: none;
+  border-radius: 9999px; color: #fff;
+  background: linear-gradient(150deg, #E8B53C, #6E9A5E);
+  box-shadow: 0 6px 12px -6px rgba(46, 74, 56, 0.55);
+}
+
+/* ---- scroll reveal sequence (enhancement only; visible by default) ---- */
+.cmp-eyebrow, .cmp-title, .cmp-sub, .cmp-intro, .cmp-panel, .cmp-callout { opacity: 1; transform: none; }
+
+.cmp.anim:not(.is-in) .cmp-eyebrow { opacity: 0; transform: translateY(10px); }
+.cmp.anim:not(.is-in) .cmp-title { opacity: 0; transform: translateY(16px); }
+.cmp.anim:not(.is-in) .cmp-sub { opacity: 0; transform: translateY(10px); }
+.cmp.anim:not(.is-in) .cmp-intro { opacity: 0; transform: translateY(10px); }
+.cmp.anim:not(.is-in) .cmp-left { opacity: 0; transform: translateX(-30px) scale(0.985); }
+.cmp.anim:not(.is-in) .cmp-right { opacity: 0; transform: translateX(30px) scale(0.985); }
+.cmp.anim:not(.is-in) .cmp-callout { opacity: 0; transform: translateY(18px); }
+
+.cmp.anim .cmp-eyebrow { transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
+.cmp.anim .cmp-title { transition: opacity 640ms var(--ease-out) 120ms, transform 640ms var(--ease-out) 120ms; }
+.cmp.anim .cmp-sub { transition: opacity 600ms var(--ease-out) 260ms, transform 600ms var(--ease-out) 260ms; }
+.cmp.anim .cmp-intro { transition: opacity 600ms var(--ease-out) 360ms, transform 600ms var(--ease-out) 360ms; }
+.cmp.anim .cmp-left { transition: opacity 720ms var(--ease-out) 460ms, transform 720ms var(--ease-out) 460ms; }
+.cmp.anim .cmp-right { transition: opacity 720ms var(--ease-out) 540ms, transform 720ms var(--ease-out) 540ms; }
+.cmp.anim .cmp-callout { transition: opacity 640ms var(--ease-out) 1320ms, transform 640ms var(--ease-out) 1320ms; }
+
+/* bullets stamp in one by one, after their panel arrives */
+.cmp-point { opacity: 1; }
+.cmp.anim:not(.is-in) .cmp-point { opacity: 0; transform: translateY(8px) scale(0.96); }
+.cmp.anim .cmp-point {
+  transition: opacity 460ms var(--ease-out), transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(820ms + var(--i) * 70ms);
+}
+.cmp.anim .cmp-right .cmp-point { transition-delay: calc(900ms + var(--i) * 70ms); }
+
+/* the badge presses in like a field stamp */
+.cmp-badge { opacity: 1; }
+.cmp.anim:not(.is-in) .cmp-badge { opacity: 0; transform: scale(1.5) rotate(-10deg); }
+.cmp.anim .cmp-badge {
+  transition: opacity 460ms var(--ease-out) 760ms,
+    transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 760ms;
+}
+
+/* the emphasized panel glows amber once when it arrives, then settles */
+.cmp.anim.is-in .cmp-right { animation: kf-cmp-glow 2400ms ease-out 1200ms 1 both; }
+@keyframes kf-cmp-glow {
+  0% { box-shadow: 0 30px 70px -42px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.16); }
+  45% {
+    box-shadow: 0 30px 70px -42px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.5),
+      0 0 42px -2px rgba(212, 160, 23, 0.5);
+  }
+  100% { box-shadow: 0 30px 70px -42px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.16); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

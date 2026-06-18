@@ -5,6 +5,7 @@ import { ExpeditionCredentials } from "@/components/site/ExpeditionCredentials";
 import { HarveyHero } from "@/components/site/HarveyHero";
 import { HarveyReveal } from "@/components/site/HarveyReveal";
 import { TrainerAcademy } from "@/components/site/TrainerAcademy";
+import { DinoComparison } from "@/components/site/DinoComparison";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("dinosaur-events")!;
@@ -39,7 +40,9 @@ function DinosaurPage() {
       <HarveyReveal />
       {/* 5 · How the event works — the Junior Dinosaur Trainer Academy trail. */}
       <TrainerAcademy />
-      {/* 6 · The details. */}
+      {/* 6 · Positioning — why Harvey is more than a mascot appearance. */}
+      <DinoComparison />
+      {/* 7 · The details. */}
       <div id="expedition" className="scroll-mt-24">
         <ServicePageTemplate chapter={chapter} hideHero />
       </div>
