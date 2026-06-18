@@ -80,7 +80,7 @@ export function JurassicGateHero() {
           <Reveal delay={320} y={14}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <CTAButton
-                href="#expedition"
+                href="#meet-harvey"
                 size="lg"
                 className="group !bg-[#D4A017] !text-[#2A1C05] hover:!bg-[#D99A32] hover:!shadow-[0_0_30px_rgba(212,160,23,0.45)]"
               >

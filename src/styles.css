@@ -2201,6 +2201,191 @@
 .cred.is-in .cred-print { animation: kf-cred-print 700ms var(--ease-out) 320ms both; }
 @keyframes kf-cred-print { from { opacity: 0; } to { opacity: 0.6; } }
 
+/* ===========================================================================
+   HARVEY REVEAL — the cinematic scroll-led pay-off after the eye section.
+   Three beats (Trail Signs → Shadow Moment → Meet Harvey) build suspense, then
+   the dark scrim LIFTS to reveal the full, sunlit Harvey. No horror, no jump
+   scares — warm cream/amber → moss/jungle → warm gold.
+
+   ROBUSTNESS: every layer is VISIBLE BY DEFAULT. The pre-entrance hidden state
+   only applies while `.hvr.anim` (added on mount when motion is allowed) AND the
+   beat is `:not(.is-in)`. So reduced-motion users, SSR, and anyone before JS
+   runs get the whole sequence composed, bright and still. The shadow's loom is
+   driven by `--sp` (scroll progress, written by the component; 0 at rest).
+   Transform/opacity/filter only. Authored CSS, never purged.
+   =========================================================================== */
+.hvr { --hvr-shadow: #16270F; }
+.hvr-beat { position: relative; isolation: isolate; overflow: hidden; }
+
+/* Atmosphere (light shafts, mist masses) bloom in with the beat. */
+.hvr-fade { opacity: 1; }
+.hvr.anim .hvr-beat:not(.is-in) .hvr-fade { opacity: 0; }
+.hvr.anim .hvr-beat .hvr-fade { transition: opacity 1200ms var(--ease-out); }
+
+/* Copy rises + fades, with a per-element --rise-delay for staggering. */
+.hvr-rise { opacity: 1; transform: none; }
+.hvr.anim .hvr-beat:not(.is-in) .hvr-rise { opacity: 0; transform: translate3d(0, 20px, 0); }
+.hvr.anim .hvr-beat .hvr-rise {
+  transition: opacity 720ms var(--ease-out), transform 720ms var(--ease-out);
+  transition-delay: var(--rise-delay, 0ms);
+}
+
+/* Footprints press into the path one after another (stagger via --print-delay).
+   Rotation lives on the wrapper (inline) so the press animates the inner svg. */
+.hvr-print svg { opacity: 1; transform-origin: 50% 80%; }
+.hvr.anim .hvr-trail:not(.is-in) .hvr-print svg {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.66);
+}
+.hvr.anim .hvr-trail .hvr-print svg {
+  transition: opacity 480ms var(--ease-out), transform 560ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--print-delay, 0ms);
+}
+
+/* Foliage dissolves toward its base so it melts into the seam instead of being
+   hard-cut where the beat's overflow clips it at the section edge. */
+.hvr-leaf {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 60%, transparent 100%);
+}
+/* Foliage shifts gently from its base — per-leaf duration/delay set inline. */
+.hvr.anim .hvr-leaf {
+  animation: kf-hvr-sway var(--leaf-d, 10s) ease-in-out var(--leaf-delay, 0s) infinite;
+  transform-origin: bottom center;
+}
+@keyframes kf-hvr-sway { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+
+/* Mist breathes across the path / over the silhouette. */
+.hvr.anim .hvr-mist { animation: kf-hvr-mist var(--mist-d, 26s) ease-in-out infinite; }
+@keyframes kf-hvr-mist {
+  0%, 100% { transform: translate3d(-3%, 0, 0); }
+  50% { transform: translate3d(3%, -3%, 0); }
+}
+
+/* The massive silhouette drifts + looms with scroll progress (--sp, 0→1). At
+   rest (--sp:0) it sits composed, partly in frame — never fully shown. */
+.hvr-silhouette {
+  opacity: 0.96;
+  transform-origin: bottom center;
+  will-change: transform;
+  transform:
+    translateX(-50%)
+    translateX(calc(var(--sp, 0) * 60px - 30px))
+    translateY(calc((1 - var(--sp, 0)) * 4%))
+    scale(calc(0.98 + var(--sp, 0) * 0.08));
+}
+
+/* Meet Harvey — the panel rises into view as you scroll to it; the actual reveal
+   is INTENTIONAL (click), handled by the foliage-gate cover below. */
+.hvr-frame { opacity: 1; }
+.hvr.anim .hvr-reveal:not(.is-in) .hvr-frame { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.985); }
+.hvr.anim .hvr-reveal .hvr-frame {
+  transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-out);
+}
+
+/* ---- The click-to-reveal cover: foliage gates + mist + torchlight ---- */
+.hvr-cover { position: absolute; inset: 0; z-index: 3; overflow: hidden; border-radius: inherit; }
+.hvr-cover.is-open { pointer-events: none; }
+
+/* the two foliage gates meet in the middle and part outward on reveal */
+.hvr-gate {
+  position: absolute; top: 0; bottom: 0; width: 53%; overflow: hidden;
+  will-change: transform;
+  transition: transform 1150ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+.hvr-gate-l { left: 0; background: linear-gradient(96deg, #16250F 0%, #1D3015 62%, #26401C 100%); }
+.hvr-gate-r { right: 0; background: linear-gradient(264deg, #16250F 0%, #1D3015 62%, #26401C 100%); }
+/* warm torch-lit inner edges where the gates meet */
+.hvr-gate-l::after, .hvr-gate-r::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 70px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(217, 154, 50, 0.34));
+}
+.hvr-gate-l::after { right: 0; }
+.hvr-gate-r::after { left: 0; transform: scaleX(-1); }
+.hvr-cover.is-open .hvr-gate-l { transform: translateX(-104%); }
+.hvr-cover.is-open .hvr-gate-r { transform: translateX(104%); }
+
+/* torchlight glows at the gateposts (gentle flicker), fade as the gates open */
+.hvr-torch {
+  position: absolute; top: 6%; width: 40%; height: 88%; pointer-events: none;
+  background: radial-gradient(40% 46% at 50% 32%, rgba(255, 196, 104, 0.5), rgba(217, 154, 50, 0.16) 42%, transparent 72%);
+  filter: blur(8px); transition: opacity 800ms var(--ease-out);
+}
+.hvr-torch-l { left: -10%; }
+.hvr-torch-r { right: -10%; }
+.hvr.anim .hvr-torch { animation: kf-hvr-flicker 3.4s ease-in-out infinite; }
+@keyframes kf-hvr-flicker { 0%, 100% { opacity: 0.85; } 45% { opacity: 1; } 72% { opacity: 0.7; } }
+.hvr-cover.is-open .hvr-torch { opacity: 0; }
+
+/* drifting mist over the cover, clears on reveal */
+.hvr-cover-mist {
+  position: absolute; inset: -8%; pointer-events: none;
+  background: radial-gradient(60% 70% at 38% 60%, rgba(230, 238, 216, 0.5), transparent 70%),
+    radial-gradient(54% 64% at 74% 46%, rgba(230, 238, 216, 0.4), transparent 72%);
+  filter: blur(20px); transition: opacity 900ms var(--ease-out);
+}
+.hvr.anim .hvr-cover-mist { animation: kf-hvr-mist 28s ease-in-out infinite; }
+.hvr-cover.is-open .hvr-cover-mist { opacity: 0; }
+
+/* a faint hint of something massive behind the leaves */
+.hvr-cover-hint {
+  position: absolute; bottom: 0; left: 50%; width: min(118%, 980px); height: 86%;
+  transform: translateX(-50%); pointer-events: none; opacity: 0.4;
+  transition: opacity 700ms var(--ease-out);
+}
+.hvr-cover-hint svg path { fill: #0E1B0A; }
+.hvr-cover.is-open .hvr-cover-hint { opacity: 0; }
+
+/* center copy + reveal button — fades out as the gates part */
+.hvr-cover-center {
+  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 1.5rem; text-align: center;
+  transition: opacity 460ms var(--ease-out), transform 460ms var(--ease-out);
+}
+.hvr-cover.is-open .hvr-cover-center { opacity: 0; transform: scale(0.96); }
+
+/* the reveal button — warm amber with a gentle idle pulse inviting the click */
+.hvr-reveal-btn {
+  background: linear-gradient(150deg, #E8B53C, #D4A017);
+  box-shadow: 0 10px 26px -8px rgba(212, 160, 23, 0.6), 0 0 0 0 rgba(255, 210, 120, 0.5);
+  transition: transform 160ms var(--ease-out), box-shadow 220ms var(--ease-out), background 200ms;
+}
+.hvr-reveal-btn:hover { background: linear-gradient(150deg, #F2C24A, #D99A32); transform: translateY(-1px); }
+.hvr-reveal-btn:focus-visible { outline: 3px solid #FFE7A6; outline-offset: 3px; }
+.hvr.anim .hvr-reveal-btn { animation: kf-hvr-btn-pulse 2.6s ease-in-out infinite; }
+@keyframes kf-hvr-btn-pulse {
+  0%, 100% { box-shadow: 0 10px 26px -8px rgba(212, 160, 23, 0.55), 0 0 0 0 rgba(255, 210, 120, 0.5); }
+  50% { box-shadow: 0 12px 30px -8px rgba(212, 160, 23, 0.7), 0 0 0 11px rgba(255, 210, 120, 0); }
+}
+/* a bright flash the instant it's clicked */
+.hvr-cover.is-open .hvr-reveal-btn { animation: kf-hvr-btn-flash 520ms var(--ease-out) both; }
+@keyframes kf-hvr-btn-flash {
+  0% { box-shadow: 0 0 0 0 rgba(255, 224, 150, 0.9); transform: scale(1); }
+  40% { box-shadow: 0 0 42px 12px rgba(255, 224, 150, 0.7); transform: scale(1.06); }
+  100% { box-shadow: 0 0 64px 18px rgba(255, 224, 150, 0); transform: scale(1.12); }
+}
+
+/* warm gold bloom blooms in at the moment of reveal */
+.hvr-bloom { opacity: 0; }
+.hvr-reveal.is-revealed .hvr-bloom { animation: kf-hvr-bloom 2600ms var(--ease-out) 250ms both; }
+@keyframes kf-hvr-bloom { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: 0.32; } }
+
+/* the image caption settles in just after the reveal */
+.hvr-cap { opacity: 0; transition: opacity 800ms var(--ease-out) 500ms; }
+.hvr-reveal.is-revealed .hvr-cap { opacity: 1; }
+
+/* stat badges + CTA stay hidden until Harvey is revealed, then rise in one by one */
+.hvr-stat, .hvr-cta { opacity: 0; transform: translate3d(0, 16px, 0); }
+.hvr-reveal.is-revealed .hvr-stat {
+  opacity: 1; transform: none;
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+  transition-delay: var(--stat-delay, 0ms);
+}
+.hvr-reveal.is-revealed .hvr-cta {
+  opacity: 1; transform: none;
+  transition: opacity 600ms var(--ease-out) 620ms, transform 600ms var(--ease-out) 620ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

@@ -3,6 +3,7 @@ import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { JurassicGateHero } from "@/components/site/JurassicGateHero";
 import { ExpeditionCredentials } from "@/components/site/ExpeditionCredentials";
 import { HarveyHero } from "@/components/site/HarveyHero";
+import { HarveyReveal } from "@/components/site/HarveyReveal";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("dinosaur-events")!;
@@ -32,7 +33,10 @@ function DinosaurPage() {
       <ExpeditionCredentials />
       {/* 3 · Move deeper / something is watching — the suspenseful eye section. */}
       <HarveyHero />
-      {/* 4 · The reveal & details. The CTAs above scroll here. */}
+      {/* 4 · The cinematic reveal — trail signs → massive shadow → Meet Harvey
+          (carries the #meet-harvey anchor the hero CTAs scroll to). */}
+      <HarveyReveal />
+      {/* 5 · The details. */}
       <div id="expedition" className="scroll-mt-24">
         <ServicePageTemplate chapter={chapter} hideHero />
       </div>

@@ -822,7 +822,7 @@ export function HarveyHero() {
 
           <div className="hv-rise mt-8" style={{ transitionDelay: "900ms" }}>
             <CTAButton
-              href="#expedition"
+              href="#meet-harvey"
               size="lg"
               className="group !bg-[var(--hv-gold)] !text-[#2A1C05] hover:!bg-[var(--hv-amber)] hover:!shadow-[0_0_30px_rgba(212,160,23,0.45)]"
             >
@@ -845,6 +845,15 @@ export function HarveyHero() {
         <span className="t-engrave text-[0.56rem] tracking-[0.3em]">Follow the trail</span>
         <ChevronDown className="bob-soft h-4 w-4" />
       </div>
+
+      {/* base fade — settle the clearing floor to the trail beat's moss green so
+          the eye section melts into it (covers the clipped foreground ferns; the
+          footprints carry on into the trail beat below). No hard seam line. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-36"
+        style={{ background: "linear-gradient(180deg, transparent 0%, #5E8240 100%)" }}
+      />
     </section>
   );
 }
