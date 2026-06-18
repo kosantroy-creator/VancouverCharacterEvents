@@ -98,11 +98,11 @@ export function Footer() {
                 <span>hello@vancouvercharacterevents.ca</span>
               </a>
               <a
-                href="tel:+16040000000"
+                href="tel:+17788006940"
                 className="flex items-center gap-2 text-sm text-fg-on-ink/80 transition-colors hover:text-gold-400"
               >
                 <Phone className="h-4 w-4 text-gold-500" />
-                <span>(604) 000-0000</span>
+                <span>(778) 800-6940</span>
               </a>
             </div>
           </div>

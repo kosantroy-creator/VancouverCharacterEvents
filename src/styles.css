@@ -2426,6 +2426,102 @@
   transition: opacity 600ms var(--ease-out) 700ms, transform 600ms var(--ease-out) 700ms;
 }
 
+/* ===========================================================================
+   TRAINER ACADEMY — the field-guide trail after the Harvey reveal. Eleven steps
+   run down a winding expedition trail (alternating cards on desktop, a stacked
+   path on mobile) with badge-stamp checkpoints. Cards fade/slide in, the dashed
+   footprint trail draws downward, and the stamps press in — all VISIBLE BY
+   DEFAULT (the pre-entrance hidden state only applies under `.aca.anim` + a step
+   that hasn't entered), so reduced-motion / pre-JS render gets the whole trail
+   composed and still. Warm cream + moss + amber. Authored CSS, never purged.
+   =========================================================================== */
+.aca-tex {
+  background-image: radial-gradient(rgba(110, 154, 94, 0.12) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  opacity: 0.45;
+  -webkit-mask-image: radial-gradient(125% 90% at 50% 0%, #000 42%, transparent 100%);
+  mask-image: radial-gradient(125% 90% at 50% 0%, #000 42%, transparent 100%);
+}
+
+/* the central dashed footprint trail — draws downward when the list scrolls in */
+.aca-list::before {
+  content: "";
+  position: absolute;
+  top: 6px; bottom: 6px; left: 26px;
+  width: 3px; border-radius: 3px;
+  transform-origin: top;
+  background: repeating-linear-gradient(
+    180deg, #6E9A5E 0, #6E9A5E 9px, transparent 9px, transparent 18px
+  );
+}
+.aca.anim .aca-list::before { transition: transform 1300ms var(--ease-out); }
+.aca.anim .aca-list:not(.is-in)::before { transform: scaleY(0); }
+
+/* each checkpoint */
+.aca-step { position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 0 1rem; }
+.aca-step + .aca-step { margin-top: 1.6rem; }
+
+.aca-node {
+  position: relative; z-index: 1; grid-column: 1; align-self: start;
+  display: grid; place-items: center;
+  width: 52px; height: 52px; border-radius: 9999px;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.1rem; color: #fff;
+  background: linear-gradient(150deg, #D99A32, #6E9A5E);
+  border: 3px solid #FBF6EC;
+  box-shadow: 0 8px 18px -8px rgba(46, 74, 56, 0.6);
+}
+
+.aca-card {
+  grid-column: 2;
+  border: 1px solid rgba(110, 154, 94, 0.28);
+  border-radius: 18px;
+  background: #FFFDF7;
+  padding: 1.1rem 1.25rem;
+  box-shadow: 0 18px 40px -28px rgba(46, 74, 56, 0.5);
+}
+.aca-ic {
+  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; flex: none;
+  border-radius: 9999px; color: #fff;
+  background: linear-gradient(150deg, #E8B53C, #6E9A5E);
+  box-shadow: 0 8px 16px -8px rgba(46, 74, 56, 0.55);
+}
+.aca-tag {
+  border-radius: 9999px; border: 1px dashed rgba(110, 154, 94, 0.5);
+  background: #FBF6EC; padding: 0.18rem 0.6rem;
+  font-size: 0.72rem; font-weight: 600; color: #4b6b41;
+}
+
+/* ---- desktop: a winding, alternating trail down a centre line ---- */
+@media (min-width: 768px) {
+  .aca-list::before { left: 50%; transform: translateX(-50%); }
+  .aca.anim .aca-list:not(.is-in)::before { transform: translateX(-50%) scaleY(0); }
+  .aca-step { grid-template-columns: 1fr 72px 1fr; align-items: center; }
+  .aca-step + .aca-step { margin-top: 2.4rem; }
+  .aca-node { grid-column: 2; justify-self: center; align-self: center; }
+  .aca-card { max-width: 430px; }
+  .aca-step[data-side="l"] .aca-card { grid-column: 1; margin-left: auto; margin-right: 1.4rem; }
+  .aca-step[data-side="r"] .aca-card { grid-column: 3; margin-right: auto; margin-left: 1.4rem; }
+}
+
+/* ---- scroll reveals (enhancement only) ---- */
+.aca-step { opacity: 1; }
+.aca.anim .aca-step:not(.is-in) { opacity: 0; transform: translate3d(0, 26px, 0); }
+.aca.anim .aca-step {
+  transition: opacity 640ms var(--ease-out), transform 640ms var(--ease-out);
+}
+@media (min-width: 768px) {
+  .aca.anim .aca-step[data-side="l"]:not(.is-in) { transform: translate3d(-28px, 18px, 0); }
+  .aca.anim .aca-step[data-side="r"]:not(.is-in) { transform: translate3d(28px, 18px, 0); }
+}
+/* the stamp presses in just after its card arrives (grid-centred in both layouts,
+   so a plain scale/rotate works for desktop and mobile) */
+.aca-node { will-change: transform; }
+.aca.anim .aca-step:not(.is-in) .aca-node { opacity: 0; transform: scale(1.6) rotate(-12deg); }
+.aca.anim .aca-step .aca-node {
+  transition: opacity 480ms var(--ease-out) 140ms,
+    transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

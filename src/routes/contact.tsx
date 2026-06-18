@@ -103,10 +103,10 @@ function ContactPage() {
                 <li className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-5 w-5 text-gold-600" />
                   <a
-                    href="tel:+16040000000"
+                    href="tel:+17788006940"
                     className="text-sm text-fg transition-colors hover:text-fg-gold"
                   >
-                    (604) 000-0000
+                    (778) 800-6940
                   </a>
                 </li>
                 <li className="flex items-start gap-3">

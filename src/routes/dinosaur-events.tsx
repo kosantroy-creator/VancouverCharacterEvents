@@ -4,6 +4,7 @@ import { JurassicGateHero } from "@/components/site/JurassicGateHero";
 import { ExpeditionCredentials } from "@/components/site/ExpeditionCredentials";
 import { HarveyHero } from "@/components/site/HarveyHero";
 import { HarveyReveal } from "@/components/site/HarveyReveal";
+import { TrainerAcademy } from "@/components/site/TrainerAcademy";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("dinosaur-events")!;
@@ -36,7 +37,9 @@ function DinosaurPage() {
       {/* 4 · The cinematic reveal — trail signs → massive shadow → Meet Harvey
           (carries the #meet-harvey anchor the hero CTAs scroll to). */}
       <HarveyReveal />
-      {/* 5 · The details. */}
+      {/* 5 · How the event works — the Junior Dinosaur Trainer Academy trail. */}
+      <TrainerAcademy />
+      {/* 6 · The details. */}
       <div id="expedition" className="scroll-mt-24">
         <ServicePageTemplate chapter={chapter} hideHero />
       </div>

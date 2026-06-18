@@ -1,7 +1,7 @@
 import { ArrowRight, ChevronDown, Leaf } from "lucide-react";
 import { CTAButton } from "./CTAButton";
 import { Reveal } from "./Reveal";
-import gate from "@/assets/dinosaur/jurassic-gate-hero.webp";
+import heroPoster from "@/assets/dinosaur/harvey-hero-poster.webp";
 
 /**
  * JurassicGateHero — Section 1, the flagship first impression. The bright golden
@@ -20,15 +20,20 @@ export function JurassicGateHero() {
       aria-label="Welcome to the Jurassic Expedition"
       className="relative isolate flex min-h-[90svh] items-center overflow-hidden bg-[#FBF3DF]"
     >
-      {/* the gate — right-weighted so the open valley/sky sits behind the copy */}
-      <img
-        src={gate}
-        alt="A grand stone Jurassic Expedition gate at golden hour, opening onto a lush prehistoric jungle valley with a distant waterfall"
-        fetchPriority="high"
-        width={1672}
-        height={941}
-        className="absolute inset-0 -z-20 h-full w-full object-cover object-[72%_42%]"
-      />
+      {/* the hero film — Harvey on the trail with a trainer, right-weighted so the
+          forest sits behind the copy. Looping, muted, with a poster for first paint. */}
+      <video
+        className="absolute inset-0 -z-20 h-full w-full object-cover object-[68%_38%]"
+        poster={heroPoster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label="Harvey, our life-sized T-Rex, on a redwood forest trail with a safari trainer at golden hour"
+      >
+        <source src="/video/harvey-reveal.mp4" type="video/mp4" />
+      </video>
       {/* cream wash on the left keeps the copy crisp over the bright art */}
       <div
         aria-hidden

@@ -21,7 +21,7 @@ import gsap from "gsap";
 import { CTAButton } from "./CTAButton";
 import { Frond } from "./HarveyHero";
 import { cn } from "@/lib/utils";
-import harveyReveal from "@/assets/dinosaur/harvey-reveal.webp";
+import harveyMeet from "@/assets/dinosaur/harvey-meet.webp";
 
 /**
  * HarveyReveal — the cinematic, scroll-led pay-off that follows the eye section.
@@ -591,10 +591,10 @@ export function HarveyReveal() {
           <figure className="hvr-frame relative mt-9 overflow-hidden rounded-[28px] shadow-[0_44px_96px_-42px_rgba(20,30,16,0.85)] ring-1 ring-[#3E5E32]/35">
             <div ref={cardRef} className="hvr-card-inner relative">
               <img
-                src={harveyReveal}
-                alt="Harvey, our friendly life-sized green Tyrannosaurus Rex, standing in a sunlit golden-hour jungle clearing"
-                width={1280}
-                height={720}
+                src={harveyMeet}
+                alt="Harvey, our life-sized T-Rex, meeting a safari trainer on a sunlit forest trail at golden hour"
+                width={1672}
+                height={941}
                 className="block aspect-[16/9] w-full object-cover"
                 loading="lazy"
               />
