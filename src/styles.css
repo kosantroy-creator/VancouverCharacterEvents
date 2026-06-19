@@ -2427,99 +2427,174 @@
 }
 
 /* ===========================================================================
-   TRAINER ACADEMY — the field-guide trail after the Harvey reveal. Eleven steps
-   run down a winding expedition trail (alternating cards on desktop, a stacked
-   path on mobile) with badge-stamp checkpoints. Cards fade/slide in, the dashed
-   footprint trail draws downward, and the stamps press in — all VISIBLE BY
-   DEFAULT (the pre-entrance hidden state only applies under `.aca.anim` + a step
-   that hasn't entered), so reduced-motion / pre-JS render gets the whole trail
-   composed and still. Warm cream + moss + amber. Authored CSS, never purged.
+   TRAINER ACADEMY — the compact "What Happens at the Party" field guide. A two-
+   column expedition spread: a left "Expedition Map" panel (jungle, a drawn
+   footprint trail, checkpoint stamps, a watching amber eye) and a right set of
+   five condensed beats — a 2×2 card grid with the glowing "Harvey Arrives" reveal
+   card, plus a full-width "Photos & Graduation". Header beats, map, trail, stamps
+   and cards reveal in sequence — all VISIBLE BY DEFAULT (hidden only under
+   `.aca.anim` before `.is-in`), so reduced-motion / pre-JS render is composed and
+   still (trail shown full, never drawing). Authored CSS, never purged.
    =========================================================================== */
 .aca-tex {
-  background-image: radial-gradient(rgba(110, 154, 94, 0.12) 1px, transparent 1.6px);
-  background-size: 26px 26px;
-  opacity: 0.45;
-  -webkit-mask-image: radial-gradient(125% 90% at 50% 0%, #000 42%, transparent 100%);
-  mask-image: radial-gradient(125% 90% at 50% 0%, #000 42%, transparent 100%);
+  background-image: radial-gradient(rgba(140, 110, 60, 0.10) 1px, transparent 1.6px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+  -webkit-mask-image: radial-gradient(130% 92% at 50% 0%, #000 44%, transparent 100%);
+  mask-image: radial-gradient(130% 92% at 50% 0%, #000 44%, transparent 100%);
 }
 
-/* the central dashed footprint trail — draws downward when the list scrolls in */
-.aca-list::before {
-  content: "";
-  position: absolute;
-  top: 6px; bottom: 6px; left: 26px;
-  width: 3px; border-radius: 3px;
-  transform-origin: top;
-  background: repeating-linear-gradient(
-    180deg, #6E9A5E 0, #6E9A5E 9px, transparent 9px, transparent 18px
-  );
+/* ---- the Expedition Map panel ---- */
+.aca-map {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 24rem; border-radius: 22px;
+  background:
+    radial-gradient(90% 60% at 78% 14%, rgba(255, 232, 168, 0.22), transparent 60%),
+    radial-gradient(80% 70% at 22% 92%, rgba(16, 28, 16, 0.55), transparent 70%),
+    linear-gradient(162deg, #3C5A3A 0%, #314E2D 48%, #243C1E 100%);
+  box-shadow: 0 28px 64px -40px rgba(20, 35, 22, 0.75);
 }
-.aca.anim .aca-list::before { transition: transform 1300ms var(--ease-out); }
-.aca.anim .aca-list:not(.is-in)::before { transform: scaleY(0); }
+.aca-map::after {
+  content: ""; position: absolute; inset: 8px; border-radius: 15px; pointer-events: none; z-index: 5;
+  border: 1px solid rgba(244, 226, 166, 0.26);
+}
+.aca-map-plate {
+  position: absolute; left: 1rem; top: 1rem; z-index: 4;
+  border-radius: 12px; padding: 0.5rem 0.8rem;
+  background: linear-gradient(160deg, rgba(16, 28, 16, 0.84), rgba(16, 28, 16, 0.6));
+  border: 1px solid rgba(244, 226, 166, 0.28);
+}
 
-/* each checkpoint */
-.aca-step { position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 0 1rem; }
-.aca-step + .aca-step { margin-top: 1.6rem; }
+.aca-eye { position: absolute; right: 7%; top: 33%; z-index: 2; width: 60px; height: 36px; pointer-events: none; }
+.aca-eye-glow {
+  position: absolute; inset: -130% -95%;
+  background: radial-gradient(closest-side, rgba(217, 154, 50, 0.42), transparent 72%);
+  filter: blur(6px);
+}
+.aca.anim .aca-eye-glow { animation: kf-aca-eyepulse 5s ease-in-out infinite; }
+@keyframes kf-aca-eyepulse { 0%, 100% { opacity: 0.65; } 50% { opacity: 1; } }
 
-.aca-node {
-  position: relative; z-index: 1; grid-column: 1; align-self: start;
-  display: grid; place-items: center;
-  width: 52px; height: 52px; border-radius: 9999px;
-  font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.1rem; color: #fff;
-  background: linear-gradient(150deg, #D99A32, #6E9A5E);
-  border: 3px solid #FBF6EC;
-  box-shadow: 0 8px 18px -8px rgba(46, 74, 56, 0.6);
+.aca-mist {
+  position: absolute; inset-inline: -10%; bottom: 6%; height: 42%; z-index: 1; pointer-events: none;
+  background: radial-gradient(60% 100% at 35% 60%, rgba(225, 235, 210, 0.32), transparent 72%),
+    radial-gradient(50% 100% at 72% 50%, rgba(225, 235, 210, 0.24), transparent 74%);
+  filter: blur(16px);
+}
+.aca.anim .aca-mist { animation: kf-aca-mist 26s ease-in-out infinite; }
+@keyframes kf-aca-mist { 0%, 100% { transform: translateX(-3%); } 50% { transform: translate3d(3%, -3%, 0); } }
+
+/* winding footprint trail — draws on scroll (pathLength=1) */
+.aca-trail-path { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.85; }
+.aca.anim .aca-trail-path { transition: stroke-dashoffset 1500ms var(--ease-out) 520ms; }
+.aca.anim:not(.is-in) .aca-trail-path { stroke-dashoffset: 1; }
+
+/* checkpoint stamps along the trail */
+.aca-mnode {
+  position: absolute; z-index: 3; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.18rem;
+  width: max-content; pointer-events: none; will-change: transform;
+}
+.aca-mnode-stamp {
+  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px;
+  color: #fff; background: linear-gradient(150deg, #D99A32, #6E9A5E);
+  border: 3px solid #F4ECD7; box-shadow: 0 8px 18px -8px rgba(16, 28, 16, 0.85);
+}
+.aca-mnode-label {
+  font-size: 0.52rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+  color: #F4E2A6; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+}
+.aca-mnode-reveal .aca-mnode-stamp {
+  background: linear-gradient(150deg, #F2C24A, #D4A017); border-color: #FFF0C8;
+}
+.aca-mnode-reveal .aca-mnode-label { color: #FFE7A6; }
+.aca.anim .aca-mnode-reveal .aca-mnode-stamp { animation: kf-aca-nodeglow 2.6s ease-in-out infinite; }
+@keyframes kf-aca-nodeglow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.2), 0 0 18px -2px rgba(212, 160, 23, 0.55); }
+  50% { box-shadow: 0 0 0 5px rgba(212, 160, 23, 0.28), 0 0 28px 0 rgba(212, 160, 23, 0.8); }
+}
+.aca-mnode { opacity: 1; }
+.aca.anim:not(.is-in) .aca-mnode { opacity: 0; transform: translate(-50%, -50%) scale(1.55) rotate(-8deg); }
+.aca.anim .aca-mnode {
+  transition: opacity 460ms var(--ease-out), transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(720ms + var(--i) * 130ms);
+}
+
+/* ---- right column: heading + beats ---- */
+.aca-divider { display: flex; align-items: center; gap: 0.7rem; }
+.aca-divider::before, .aca-divider::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(110, 154, 94, 0.55), transparent);
+}
+.aca-divider span {
+  font-size: 0.64rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #6E9A5E; white-space: nowrap;
 }
 
 .aca-card {
-  grid-column: 2;
-  border: 1px solid rgba(110, 154, 94, 0.28);
-  border-radius: 18px;
-  background: #FFFDF7;
-  padding: 1.1rem 1.25rem;
-  box-shadow: 0 18px 40px -28px rgba(46, 74, 56, 0.5);
+  position: relative; display: flex; gap: 0.8rem;
+  border-radius: 16px; padding: 0.95rem 1rem;
+  border: 1px solid rgba(110, 154, 94, 0.26); background: #FFFDF7;
+  box-shadow: 0 14px 30px -24px rgba(46, 74, 56, 0.5);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.aca-card:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(46, 74, 56, 0.55); }
+.aca-card-wide { align-items: center; }
+.aca-card-reveal {
+  border: 1.5px solid rgba(212, 160, 23, 0.6);
+  background: linear-gradient(150deg, #FFF6DF, #FFFDF7 62%);
+  box-shadow: 0 18px 40px -26px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.18);
 }
 .aca-ic {
-  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; flex: none;
+  display: grid; place-items: center; height: 2.4rem; width: 2.4rem; flex: none; align-self: flex-start;
   border-radius: 9999px; color: #fff;
   background: linear-gradient(150deg, #E8B53C, #6E9A5E);
   box-shadow: 0 8px 16px -8px rgba(46, 74, 56, 0.55);
 }
-.aca-tag {
-  border-radius: 9999px; border: 1px dashed rgba(110, 154, 94, 0.5);
-  background: #FBF6EC; padding: 0.18rem 0.6rem;
-  font-size: 0.72rem; font-weight: 600; color: #4b6b41;
+.aca-card-reveal .aca-ic { background: linear-gradient(150deg, #F2C24A, #D4A017); }
+.aca-card-body { flex: 1; min-width: 0; }
+.aca-card-title {
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.96rem;
+  line-height: 1.2; color: #2E4A38;
+}
+.aca-card-no { color: #9c7406; font-weight: 800; }
+.aca-card-desc { margin-top: 0.28rem; font-size: 0.82rem; line-height: 1.45; color: rgba(46, 74, 56, 0.78); }
+.aca-card-badge {
+  position: absolute; right: 0.7rem; top: -0.6rem; z-index: 2;
+  border-radius: 9999px; padding: 0.2rem 0.62rem;
+  font-size: 0.55rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #2A1C05; background: linear-gradient(150deg, #F0C04A, #D4A017);
+  border: 1px solid rgba(255, 240, 200, 0.7); box-shadow: 0 6px 14px -6px rgba(212, 160, 23, 0.7);
 }
 
-/* ---- desktop: a winding, alternating trail down a centre line ---- */
-@media (min-width: 768px) {
-  .aca-list::before { left: 50%; transform: translateX(-50%); }
-  .aca.anim .aca-list:not(.is-in)::before { transform: translateX(-50%) scaleY(0); }
-  .aca-step { grid-template-columns: 1fr 72px 1fr; align-items: center; }
-  .aca-step + .aca-step { margin-top: 2.4rem; }
-  .aca-node { grid-column: 2; justify-self: center; align-self: center; }
-  .aca-card { max-width: 430px; }
-  .aca-step[data-side="l"] .aca-card { grid-column: 1; margin-left: auto; margin-right: 1.4rem; }
-  .aca-step[data-side="r"] .aca-card { grid-column: 3; margin-right: auto; margin-left: 1.4rem; }
-}
+/* ---- reveal sequence (enhancement only; visible by default) ---- */
+.aca-eyebrow, .aca-title, .aca-sub, .aca-divider, .aca-map, .aca-card { opacity: 1; transform: none; }
+.aca.anim:not(.is-in) .aca-eyebrow { opacity: 0; transform: translateY(10px); }
+.aca.anim:not(.is-in) .aca-title { opacity: 0; transform: translateY(16px); }
+.aca.anim:not(.is-in) .aca-sub { opacity: 0; transform: translateY(10px); }
+.aca.anim:not(.is-in) .aca-divider { opacity: 0; transform: translateY(8px); }
+.aca.anim:not(.is-in) .aca-map { opacity: 0; transform: scale(0.97); }
+.aca.anim:not(.is-in) .aca-card { opacity: 0; transform: translateY(14px) scale(0.97); }
 
-/* ---- scroll reveals (enhancement only) ---- */
-.aca-step { opacity: 1; }
-.aca.anim .aca-step:not(.is-in) { opacity: 0; transform: translate3d(0, 26px, 0); }
-.aca.anim .aca-step {
-  transition: opacity 640ms var(--ease-out), transform 640ms var(--ease-out);
+.aca.anim .aca-eyebrow { transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
+.aca.anim .aca-title { transition: opacity 640ms var(--ease-out) 120ms, transform 640ms var(--ease-out) 120ms; }
+.aca.anim .aca-sub { transition: opacity 600ms var(--ease-out) 240ms, transform 600ms var(--ease-out) 240ms; }
+.aca.anim .aca-divider { transition: opacity 600ms var(--ease-out) 360ms, transform 600ms var(--ease-out) 360ms; }
+.aca.anim .aca-map { transition: opacity 820ms var(--ease-out) 120ms, transform 900ms var(--ease-out) 120ms; }
+.aca.anim .aca-card {
+  transition: opacity 480ms var(--ease-out), transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(640ms + var(--i) * 120ms);
 }
-@media (min-width: 768px) {
-  .aca.anim .aca-step[data-side="l"]:not(.is-in) { transform: translate3d(-28px, 18px, 0); }
-  .aca.anim .aca-step[data-side="r"]:not(.is-in) { transform: translate3d(28px, 18px, 0); }
-}
-/* the stamp presses in just after its card arrives (grid-centred in both layouts,
-   so a plain scale/rotate works for desktop and mobile) */
-.aca-node { will-change: transform; }
-.aca.anim .aca-step:not(.is-in) .aca-node { opacity: 0; transform: scale(1.6) rotate(-12deg); }
-.aca.anim .aca-step .aca-node {
-  transition: opacity 480ms var(--ease-out) 140ms,
-    transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms;
+.aca.anim .aca-card:hover { transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out); }
+
+/* the reveal card glows amber once when it arrives, then settles */
+.aca.anim.is-in .aca-card-reveal { animation: kf-aca-cardglow 2200ms ease-out 1150ms 1 both; }
+@keyframes kf-aca-cardglow {
+  0% { box-shadow: 0 18px 40px -26px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.18); }
+  45% {
+    box-shadow: 0 18px 40px -26px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.5),
+      0 0 34px -2px rgba(212, 160, 23, 0.55);
+  }
+  100% { box-shadow: 0 18px 40px -26px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.18); }
 }
 
 /* ===========================================================================
