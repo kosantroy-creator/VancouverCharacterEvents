@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
 import { Camera, Leaf, Megaphone, Search, Users } from "lucide-react";
-import { Frond } from "./HarveyHero";
 import { cn } from "@/lib/utils";
+import expeditionMap from "@/assets/dinosaur/expedition-map.webp";
 
 /**
  * TrainerAcademy — the compact "What Happens at the Party" field guide after the
@@ -68,16 +68,6 @@ const BEATS: Beat[] = [
   },
 ];
 
-/* Checkpoint stamps placed along the map trail (left/top within the panel). */
-const MAP_NODES: { left: string; top: string; short: string; icon: IconType; reveal?: boolean }[] =
-  [
-    { left: "58%", top: "15%", short: "Recruit", icon: Users },
-    { left: "27%", top: "35%", short: "Discover", icon: Search },
-    { left: "55%", top: "55%", short: "Learn", icon: Megaphone },
-    { left: "71%", top: "73%", short: "Harvey", icon: DinoTrack, reveal: true },
-    { left: "33%", top: "90%", short: "Photos", icon: Camera },
-  ];
-
 export function TrainerAcademy() {
   const ref = useRef<HTMLElement>(null);
   const [motionOK, setMotionOK] = useState(false);
@@ -120,88 +110,18 @@ export function TrainerAcademy() {
       <div aria-hidden className="aca-tex pointer-events-none absolute inset-0" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-20 pt-16 sm:px-6 md:pb-24 md:pt-20 lg:px-8">
-        <div className="grid items-stretch gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:gap-9">
+        <div className="grid items-center gap-7 lg:grid-cols-[0.76fr_1.24fr] lg:gap-9">
           {/* ===================== LEFT — the Expedition Map ===================== */}
-          <div className="aca-map">
-            {/* framing foliage (kept to the corners, never over the labels) */}
-            <div
-              aria-hidden
-              className="absolute -right-6 -top-7 w-28 opacity-90"
-              style={{ transform: "rotate(168deg)", transformOrigin: "top center" }}
-            >
-              <Frond fill="#1E3320" className="h-auto w-full" />
-            </div>
-            <div
-              aria-hidden
-              className="absolute -bottom-9 -left-6 w-28 opacity-85"
-              style={{ transform: "rotate(20deg)", transformOrigin: "bottom center" }}
-            >
-              <Frond fill="#1E3320" className="h-auto w-full" />
-            </div>
-
-            {/* the watching amber eye, half-hidden in the leaves */}
-            <span aria-hidden className="aca-eye">
-              <span className="aca-eye-glow" />
-              <svg viewBox="0 0 60 36" className="relative h-full w-full">
-                <path d="M3 18 Q30 1 57 18 Q30 35 3 18 Z" fill="#16271C" />
-                <circle cx="30" cy="18" r="13" fill="url(#acaIris)" />
-                <ellipse cx="30" cy="18" rx="3.4" ry="12" fill="#0E140C" />
-                <circle cx="25" cy="12" r="2.6" fill="#FFFDF2" opacity="0.9" />
-                <defs>
-                  <radialGradient id="acaIris" cx="42%" cy="36%" r="70%">
-                    <stop offset="0%" stopColor="#FCE39A" />
-                    <stop offset="45%" stopColor="#D99A32" />
-                    <stop offset="100%" stopColor="#8A5A12" />
-                  </radialGradient>
-                </defs>
-              </svg>
-            </span>
-
-            {/* drifting mist */}
-            <span aria-hidden className="aca-mist" />
-
-            {/* the winding footprint trail — draws on scroll */}
-            <svg
-              aria-hidden
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              className="pointer-events-none absolute inset-0 h-full w-full"
-            >
-              <path
-                className="aca-trail-path"
-                pathLength={1}
-                d="M58 15 C44 24 30 26 27 35 C24 46 53 46 55 55 C57 66 66 64 71 73 C75 83 52 82 33 90"
-                fill="none"
-                stroke="#86A765"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
-            </svg>
-
-            {/* checkpoint stamps */}
-            {MAP_NODES.map((node, i) => (
-              <div
-                key={node.short}
-                className={cn("aca-mnode", node.reveal && "aca-mnode-reveal")}
-                style={{ left: node.left, top: node.top, "--i": i } as Vars}
-              >
-                <span className="aca-mnode-stamp">
-                  <node.icon className="h-4 w-4" />
-                </span>
-                <span className="aca-mnode-label">{node.short}</span>
-              </div>
-            ))}
-
-            {/* title plate + caption */}
-            <div className="aca-map-plate">
-              <span className="t-engrave block text-[0.62rem] font-bold tracking-[0.28em] text-[#F4E2A6]">
-                Expedition Map
-              </span>
-              <span className="mt-0.5 block text-[0.78rem] italic text-[#EAF1DD]/90">
-                Everything points toward Harvey.
-              </span>
-            </div>
-          </div>
+          <figure className="aca-map">
+            <img
+              src={expeditionMap}
+              alt="Illustrated expedition map — a winding footprint trail leads past fossils, a waterfall, a watching amber eye and a friendly long-necked dinosaur through five marked stops: Recruit, Discover, Learn, Harvey and Graduate, all pointing toward Harvey."
+              className="aca-map-img"
+              width={941}
+              height={1672}
+              loading="lazy"
+            />
+          </figure>
 
           {/* ===================== RIGHT — heading + five beats ===================== */}
           <div className="aca-right flex flex-col">

@@ -2445,79 +2445,15 @@
 }
 
 /* ---- the Expedition Map panel ---- */
+/* The Expedition Map is now a single illustrated plate (title, footprint trail,
+   checkpoints and the watching eye are all painted into the artwork). */
 .aca-map {
-  position: relative; isolation: isolate; overflow: hidden;
-  min-height: 24rem; border-radius: 22px;
-  background:
-    radial-gradient(90% 60% at 78% 14%, rgba(255, 232, 168, 0.22), transparent 60%),
-    radial-gradient(80% 70% at 22% 92%, rgba(16, 28, 16, 0.55), transparent 70%),
-    linear-gradient(162deg, #3C5A3A 0%, #314E2D 48%, #243C1E 100%);
-  box-shadow: 0 28px 64px -40px rgba(20, 35, 22, 0.75);
+  position: relative; margin: 0; isolation: isolate; overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(120, 90, 50, 0.22);
+  box-shadow: 0 30px 64px -40px rgba(20, 35, 22, 0.72);
 }
-.aca-map::after {
-  content: ""; position: absolute; inset: 8px; border-radius: 15px; pointer-events: none; z-index: 5;
-  border: 1px solid rgba(244, 226, 166, 0.26);
-}
-.aca-map-plate {
-  position: absolute; left: 1rem; top: 1rem; z-index: 4;
-  border-radius: 12px; padding: 0.5rem 0.8rem;
-  background: linear-gradient(160deg, rgba(16, 28, 16, 0.84), rgba(16, 28, 16, 0.6));
-  border: 1px solid rgba(244, 226, 166, 0.28);
-}
-
-.aca-eye { position: absolute; right: 7%; top: 33%; z-index: 2; width: 60px; height: 36px; pointer-events: none; }
-.aca-eye-glow {
-  position: absolute; inset: -130% -95%;
-  background: radial-gradient(closest-side, rgba(217, 154, 50, 0.42), transparent 72%);
-  filter: blur(6px);
-}
-.aca.anim .aca-eye-glow { animation: kf-aca-eyepulse 5s ease-in-out infinite; }
-@keyframes kf-aca-eyepulse { 0%, 100% { opacity: 0.65; } 50% { opacity: 1; } }
-
-.aca-mist {
-  position: absolute; inset-inline: -10%; bottom: 6%; height: 42%; z-index: 1; pointer-events: none;
-  background: radial-gradient(60% 100% at 35% 60%, rgba(225, 235, 210, 0.32), transparent 72%),
-    radial-gradient(50% 100% at 72% 50%, rgba(225, 235, 210, 0.24), transparent 74%);
-  filter: blur(16px);
-}
-.aca.anim .aca-mist { animation: kf-aca-mist 26s ease-in-out infinite; }
-@keyframes kf-aca-mist { 0%, 100% { transform: translateX(-3%); } 50% { transform: translate3d(3%, -3%, 0); } }
-
-/* winding footprint trail — draws on scroll (pathLength=1) */
-.aca-trail-path { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.85; }
-.aca.anim .aca-trail-path { transition: stroke-dashoffset 1500ms var(--ease-out) 520ms; }
-.aca.anim:not(.is-in) .aca-trail-path { stroke-dashoffset: 1; }
-
-/* checkpoint stamps along the trail */
-.aca-mnode {
-  position: absolute; z-index: 3; transform: translate(-50%, -50%);
-  display: flex; flex-direction: column; align-items: center; gap: 0.18rem;
-  width: max-content; pointer-events: none; will-change: transform;
-}
-.aca-mnode-stamp {
-  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px;
-  color: #fff; background: linear-gradient(150deg, #D99A32, #6E9A5E);
-  border: 3px solid #F4ECD7; box-shadow: 0 8px 18px -8px rgba(16, 28, 16, 0.85);
-}
-.aca-mnode-label {
-  font-size: 0.52rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
-  color: #F4E2A6; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
-}
-.aca-mnode-reveal .aca-mnode-stamp {
-  background: linear-gradient(150deg, #F2C24A, #D4A017); border-color: #FFF0C8;
-}
-.aca-mnode-reveal .aca-mnode-label { color: #FFE7A6; }
-.aca.anim .aca-mnode-reveal .aca-mnode-stamp { animation: kf-aca-nodeglow 2.6s ease-in-out infinite; }
-@keyframes kf-aca-nodeglow {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.2), 0 0 18px -2px rgba(212, 160, 23, 0.55); }
-  50% { box-shadow: 0 0 0 5px rgba(212, 160, 23, 0.28), 0 0 28px 0 rgba(212, 160, 23, 0.8); }
-}
-.aca-mnode { opacity: 1; }
-.aca.anim:not(.is-in) .aca-mnode { opacity: 0; transform: translate(-50%, -50%) scale(1.55) rotate(-8deg); }
-.aca.anim .aca-mnode {
-  transition: opacity 460ms var(--ease-out), transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: calc(720ms + var(--i) * 130ms);
-}
+.aca-map-img { display: block; width: 100%; height: auto; }
 
 /* ---- right column: heading + beats ---- */
 .aca-divider { display: flex; align-items: center; gap: 0.7rem; }
