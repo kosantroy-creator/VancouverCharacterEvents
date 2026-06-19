@@ -1,39 +1,61 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, Check, Leaf, Star } from "lucide-react";
-import { CTAButton } from "./CTAButton";
+import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
+import {
+  Award,
+  BookOpen,
+  Camera,
+  Check,
+  Clock,
+  Egg,
+  Eye,
+  Handshake,
+  ShieldCheck,
+  Users,
+  Workflow,
+} from "lucide-react";
+import { Frond } from "./HarveyHero";
 import { cn } from "@/lib/utils";
-import inflatable from "@/assets/dinosaur/inflatable-typical.webp";
-import harveyMeet from "@/assets/dinosaur/harvey-meet.webp";
 
 /**
- * DinoComparison — the positioning section after the Trainer Academy. A premium
- * field-guide comparison that makes Harvey read as a full trainer-led attraction,
- * not a costume cameo: "Typical Dinosaur Visit" (clean, neutral, respectful) vs
- * "The Harvey Expedition" (emphasized — amber border, soft glow-pulse, badge, gold
- * check stamps). Reveals are IntersectionObserver-driven and visible-by-default,
- * so reduced-motion / pre-JS render gets everything composed and still. The left
- * side is never mocked — it just feels simpler. See the "DINO COMPARISON" CSS block.
+ * DinoComparison — "Why Harvey Feels Different". A premium expedition-dossier
+ * field report (not a generic comparison table): a respectful, pale "Typical
+ * Dinosaur Visit" card beside the emphasized, jungle-green "Harvey Expedition"
+ * card — amber glow frame, gold medallions + check stamps, field-guide stamps
+ * (Trainer-Led / 13 FT / Big Reveal), and a footprint trail transforming a simple
+ * visit into a full expedition. Aged-parchment ground, corner foliage. Reveals are
+ * IntersectionObserver-driven and visible-by-default, so reduced-motion / pre-JS
+ * render gets it composed & still. See the "DINO COMPARISON" CSS block.
  */
 type Vars = CSSProperties & Record<string, string | number>;
+type IconType = ComponentType<{ className?: string }>;
 
-const TYPICAL = [
-  "Quick appearance",
-  "Basic meet and greet",
-  "Simple photos",
-  "Little structure",
-  "Minimal story or buildup",
-  "Kids may not know how to interact",
+/** A 3-toed dinosaur track. */
+function DinoTrack({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 80 104" className={className} fill="currentColor" aria-hidden="true">
+      <ellipse cx="40" cy="74" rx="19" ry="23" />
+      <path d="M40 56 C30 40 24 22 30 12 C36 4 44 4 50 12 C56 22 50 40 40 56 Z" />
+      <path d="M22 64 C10 54 4 40 8 30 C12 22 22 22 26 32 C30 44 30 56 22 64 Z" />
+      <path d="M58 64 C70 54 76 40 72 30 C68 22 58 22 54 32 C50 44 50 56 58 64 Z" />
+    </svg>
+  );
+}
+
+const TYPICAL: { icon: IconType; label: string }[] = [
+  { icon: Clock, label: "Quick appearance" },
+  { icon: Handshake, label: "Basic meet and greet" },
+  { icon: Camera, label: "Simple photos" },
+  { icon: Workflow, label: "Little structure" },
+  { icon: BookOpen, label: "Minimal story or buildup" },
 ];
 
-const HARVEY = [
-  "A 13-foot T-Rex encounter",
-  "Two safari trainers on-site",
-  "A structured Junior Trainer Academy",
-  "A big, planned reveal moment",
-  "Commands, clues, eggs, fossils & story",
-  "Organized photos + birthday-child feature moment",
-  "Family-friendly safety built into every step",
-  "Built for birthdays, schools, festivals & larger events",
+const HARVEY: { icon: IconType; label: string }[] = [
+  { icon: DinoTrack, label: "13-foot T-Rex encounter" },
+  { icon: Users, label: "Two safari trainers on-site" },
+  { icon: Award, label: "Junior Dinosaur Trainer Academy" },
+  { icon: Eye, label: "Big reveal moment" },
+  { icon: Egg, label: "Commands, clues, eggs, fossils, and story" },
+  { icon: Camera, label: "Organized photos + birthday child feature moment" },
+  { icon: ShieldCheck, label: "Family-friendly safety built into the experience" },
 ];
 
 export function DinoComparison() {
@@ -59,7 +81,7 @@ export function DinoComparison() {
           io.disconnect();
         }
       },
-      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(root);
     return () => io.disconnect();
@@ -70,111 +92,145 @@ export function DinoComparison() {
       ref={ref}
       aria-labelledby="cmp-title"
       className={cn("cmp relative isolate overflow-hidden", motionOK && "anim", inView && "is-in")}
-      style={{
-        background: "linear-gradient(180deg, #FFFCF6 0%, #F7EFDD 46%, #F3EAD6 78%, #FBF6EC 100%)",
-      }}
     >
+      {/* aged-parchment ground + faint tracks + corner foliage */}
+      <div aria-hidden className="cmp-paper absolute inset-0" />
       <div aria-hidden className="cmp-tex pointer-events-none absolute inset-0" />
+      <div aria-hidden className="cmp-prints pointer-events-none absolute inset-0">
+        <DinoTrack className="absolute left-[6%] top-[40%] w-7 rotate-[18deg]" />
+        <DinoTrack className="absolute left-[12%] top-[58%] w-6 -rotate-[8deg]" />
+        <DinoTrack className="absolute right-[8%] top-[18%] w-7 rotate-[24deg]" />
+        <DinoTrack className="absolute right-[14%] bottom-[16%] w-6 -rotate-[12deg]" />
+      </div>
+      <div aria-hidden className="cmp-frond cmp-frond-tl">
+        <Frond fill="#3E5E32" className="h-auto w-full" />
+      </div>
+      <div aria-hidden className="cmp-frond cmp-frond-tr">
+        <Frond fill="#3E5E32" className="h-auto w-full" />
+      </div>
+      <div aria-hidden className="cmp-frond cmp-frond-br">
+        <Frond fill="#3E5E32" className="h-auto w-full" />
+      </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-24 pt-20 sm:px-6 md:pb-28 md:pt-24 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-20 pt-16 sm:px-6 md:pb-24 md:pt-20 lg:px-8">
         {/* header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="cmp-eyebrow t-engrave inline-flex items-center gap-2 text-[0.66rem] font-bold tracking-[0.3em] text-[#9c7406]">
-            <Leaf className="h-3 w-3 text-[#6E9A5E]" aria-hidden />
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="cmp-eyebrow">Field Guide 02</span>
+          <h2 id="cmp-title" className="cmp-title">
             Why Harvey Feels Different
-            <Leaf className="h-3 w-3 -scale-x-100 text-[#6E9A5E]" aria-hidden />
-          </span>
-          <h2
-            id="cmp-title"
-            className="cmp-title t-display mt-2 text-3xl font-bold leading-tight text-[#2E4A38] md:text-[2.7rem]"
-          >
-            Not a Mascot. A Full Dinosaur Encounter.
           </h2>
-          <p className="cmp-sub mx-auto mt-3 max-w-2xl text-[1.05rem] font-semibold text-[#2E4A38]/80">
+          <p className="cmp-tagline">Not a Mascot. A Full Dinosaur Encounter.</p>
+          <p className="cmp-sub">
             A trainer-led experience built around story, safety, reactions, and the reveal moment
             kids remember.
           </p>
-          <p className="cmp-intro mx-auto mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#2E4A38]/75">
-            Most dinosaur visits are simple appearances. Harvey is different. With safari trainers,
-            a structured adventure, a massive 13-foot presence, and a planned reveal moment, the
-            experience feels like a real expedition arriving at your event.
-          </p>
         </div>
 
-        {/* comparison panels */}
-        <div className="mt-12 grid items-start gap-5 md:mt-14 md:grid-cols-[1fr_1.06fr] md:gap-6">
-          {/* LEFT — typical (neutral, respectful) */}
-          <article className="cmp-panel cmp-left">
-            <div className="cmp-banner">
-              <img
-                src={inflatable}
-                alt="A simple inflatable dinosaur costume at an ordinary backyard party"
-                className="cmp-img-muted h-full w-full object-cover"
-                loading="lazy"
-              />
-              <span className="cmp-banner-label">Typical Dinosaur Visit</span>
+        {/* the dossier */}
+        <div className="cmp-grid mt-12 md:mt-14">
+          {/* LEFT — typical visit */}
+          <article className="cmp-card-frame cmp-left-frame">
+            <div className="cmp-card cmp-left">
+              <h3 className="cmp-card-h">Typical Dinosaur Visit</h3>
+              <ul className="cmp-list">
+                {TYPICAL.map((p, i) => (
+                  <li key={p.label} className="cmp-row" style={{ "--i": i } as Vars}>
+                    <span className="cmp-ic-dim">
+                      <p.icon className="h-[1.05rem] w-[1.05rem]" />
+                    </span>
+                    <span className="cmp-row-label">{p.label}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="cmp-list">
-              {TYPICAL.map((t, i) => (
-                <li key={t} className="cmp-point" style={{ "--i": i } as Vars}>
-                  <span className="cmp-dot" aria-hidden />
-                  <span className="text-[#2E4A38]/85">{t}</span>
-                </li>
-              ))}
-            </ul>
           </article>
 
-          {/* RIGHT — the Harvey Expedition (emphasized) */}
-          <article className="cmp-panel cmp-right">
-            <span className="cmp-badge">
-              <Star className="h-3 w-3" aria-hidden /> Feature Attraction
-            </span>
-            <div className="cmp-banner">
-              <img
-                src={harveyMeet}
-                alt="Harvey, our 13-foot T-Rex, with a safari trainer on a sunlit forest trail"
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-              <span className="cmp-banner-label cmp-banner-label-strong">
-                The Harvey Expedition
-              </span>
-            </div>
-            <ul className="cmp-list">
-              {HARVEY.map((t, i) => (
-                <li key={t} className="cmp-point" style={{ "--i": i } as Vars}>
-                  <span className="cmp-check" aria-hidden>
-                    <Check className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="font-medium text-[#2E4A38]">{t}</span>
-                </li>
+          {/* CENTER — the transformation (desktop) */}
+          <div aria-hidden className="cmp-mid">
+            <span className="cmp-mid-note cmp-mid-note-top">From a simple visit…</span>
+            <svg viewBox="0 0 60 200" preserveAspectRatio="xMidYMid meet" className="cmp-mid-trail">
+              {[
+                { x: 30, y: 38, r: 18 },
+                { x: 22, y: 64, r: -8 },
+                { x: 34, y: 88, r: 22 },
+                { x: 26, y: 112, r: -10 },
+                { x: 36, y: 136, r: 16 },
+              ].map((f, i) => (
+                <g
+                  key={i}
+                  className="cmp-mid-print"
+                  style={{ "--i": i } as Vars}
+                  transform={`translate(${f.x} ${f.y}) rotate(${f.r}) scale(0.16)`}
+                  fill="rgba(110,80,40,0.55)"
+                >
+                  <ellipse cx="40" cy="74" rx="19" ry="23" />
+                  <path d="M40 56 C30 40 24 22 30 12 C36 4 44 4 50 12 C56 22 50 40 40 56 Z" />
+                  <path d="M22 64 C10 54 4 40 8 30 C12 22 22 22 26 32 C30 44 30 56 22 64 Z" />
+                  <path d="M58 64 C70 54 76 40 72 30 C68 22 58 22 54 32 C50 44 50 56 58 64 Z" />
+                </g>
               ))}
-            </ul>
-          </article>
-        </div>
-
-        {/* bottom callout */}
-        <div className="cmp-callout mt-10 flex flex-col items-center gap-5 rounded-[22px] border border-[#D4A017]/30 bg-[#FFFDF7]/85 px-6 py-7 text-center shadow-[0_22px_50px_-34px_rgba(46,74,56,0.5)] backdrop-blur-sm sm:flex-row sm:justify-between sm:text-left md:px-9">
-          <div>
-            <p className="t-display text-[1.3rem] font-bold leading-snug text-[#2E4A38]">
-              Built like an attraction, delivered to your event.
-            </p>
-            <p className="mt-1.5 max-w-xl text-[0.92rem] leading-relaxed text-[#2E4A38]/75">
-              From the first trainer briefing to Harvey&apos;s big entrance, every part of the
-              experience is designed to feel organized, exciting, and unforgettable.
-            </p>
+              <path
+                className="cmp-mid-arrow"
+                d="M24 160 q14 8 20 20"
+                fill="none"
+                stroke="#9c7406"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+              <path
+                className="cmp-mid-arrow"
+                d="M44 180 l1 -8 m-1 8 l-7 -3"
+                fill="none"
+                stroke="#9c7406"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span className="cmp-mid-note cmp-mid-note-bot">…to a full expedition</span>
           </div>
-          <CTAButton
-            href="#expedition"
-            size="lg"
-            className="group shrink-0 !bg-[#D4A017] !text-[#2A1C05] hover:!bg-[#D99A32] hover:!shadow-[0_0_30px_rgba(212,160,23,0.4)]"
-          >
-            Choose Your Expedition
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-              aria-hidden
-            />
-          </CTAButton>
+
+          {/* RIGHT — the Harvey Expedition */}
+          <article className="cmp-card-frame cmp-harvey-frame">
+            <div className="cmp-card cmp-harvey">
+              {/* field-guide stamps */}
+              <span className="cmp-stamp cmp-stamp-trainer">
+                <span className="cmp-stamp-stars">★★★</span>
+                <span className="cmp-stamp-lg">Trainer-Led</span>
+                <span className="cmp-stamp-sm">Attraction</span>
+              </span>
+              <span className="cmp-stamp cmp-stamp-13ft">
+                <span className="cmp-stamp-xl">13 FT</span>
+                <span className="cmp-stamp-sm">Encounter</span>
+              </span>
+              <span className="cmp-stamp cmp-stamp-reveal">Big Reveal</span>
+
+              <h3 className="cmp-card-h cmp-card-h-gold">The Harvey Expedition</h3>
+              <ul className="cmp-list">
+                {HARVEY.map((p, i) => (
+                  <li key={p.label} className="cmp-row cmp-row-gold" style={{ "--i": i } as Vars}>
+                    <span className="cmp-ic-gold">
+                      <p.icon className="h-[1.05rem] w-[1.05rem]" />
+                    </span>
+                    <span className="cmp-row-label-light">{p.label}</span>
+                    <span className="cmp-check" aria-hidden>
+                      <Check className="h-3.5 w-3.5" />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        {/* ticket-stub callout */}
+        <div className="cmp-ticket">
+          <DinoTrack className="cmp-ticket-print" />
+          <span className="cmp-ticket-text">
+            Built like an attraction, delivered to your event.
+          </span>
+          <a href="#expedition" className="cmp-ticket-cta">
+            Choose Your Expedition <span aria-hidden>→</span>
+          </a>
         </div>
       </div>
     </section>
