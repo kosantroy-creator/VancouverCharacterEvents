@@ -321,6 +321,15 @@ export function HarveyReveal() {
           background: "linear-gradient(180deg, #5E8240 0%, #557B45 26%, #4A6F3C 60%, #3E5E32 100%)",
         }}
       >
+        {/* upper seam — open flat at the eye clearing's moss green so the trail
+            melts down from the section above (no hard boundary line) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-24"
+          style={{
+            background: "linear-gradient(180deg, #5E8240 0%, #5E8240 30%, transparent 100%)",
+          }}
+        />
         {/* warm amber light filtering through the canopy (behind everything) */}
         <div
           aria-hidden
@@ -446,6 +455,15 @@ export function HarveyReveal() {
           background: "linear-gradient(180deg, #3E5E32 0%, #314A28 34%, #26391F 70%, #22351C 100%)",
         }}
       >
+        {/* upper seam — start at the trail beat's bottom green so the silhouette
+            and fronds fade IN from the top instead of being hard-cut at the seam */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-32"
+          style={{
+            background: "linear-gradient(180deg, #3E5E32 0%, #3E5E32 28%, transparent 100%)",
+          }}
+        />
         {/* warm amber backlight that the silhouette is read against (never black) */}
         <div
           aria-hidden

@@ -102,10 +102,7 @@ export function DinoComparison() {
         <DinoTrack className="absolute right-[8%] top-[18%] w-7 rotate-[24deg]" />
         <DinoTrack className="absolute right-[14%] bottom-[16%] w-6 -rotate-[12deg]" />
       </div>
-      <div aria-hidden className="cmp-frond cmp-frond-tl">
-        <Frond fill="#3E5E32" className="h-auto w-full" />
-      </div>
-      <div aria-hidden className="cmp-frond cmp-frond-tr">
+      <div aria-hidden className="cmp-frond cmp-frond-bl">
         <Frond fill="#3E5E32" className="h-auto w-full" />
       </div>
       <div aria-hidden className="cmp-frond cmp-frond-br">

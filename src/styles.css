@@ -2621,10 +2621,9 @@
   mask-image: radial-gradient(130% 90% at 50% 10%, #000 40%, transparent 100%);
 }
 .cmp-prints { z-index: 0; color: rgba(110, 80, 40, 0.13); }
-.cmp-frond { position: absolute; z-index: 0; pointer-events: none; opacity: 0.42; }
-.cmp-frond-tl { top: -2.5rem; left: -2rem; width: 12rem; transform: rotate(150deg); }
-.cmp-frond-tr { top: -2.5rem; right: -2rem; width: 12rem; transform: rotate(208deg); }
-.cmp-frond-br { bottom: -2.8rem; right: -1.5rem; width: 11rem; transform: rotate(32deg); }
+.cmp-frond { position: absolute; z-index: 0; pointer-events: none; opacity: 0.4; }
+.cmp-frond-bl { bottom: -2.8rem; left: -2rem; width: 11rem; transform: rotate(28deg); }
+.cmp-frond-br { bottom: -2.8rem; right: -1.5rem; width: 11rem; transform: rotate(-28deg) scaleX(-1); }
 
 /* ---- header ---- */
 .cmp-eyebrow {
@@ -2853,8 +2852,8 @@
 }
 .pkg-prints { z-index: 0; color: rgba(110, 80, 40, 0.12); }
 .pkg-frond { position: absolute; z-index: 0; pointer-events: none; opacity: 0.4; }
-.pkg-frond-tl { top: -2.5rem; left: -2rem; width: 12rem; transform: rotate(150deg); }
-.pkg-frond-br { bottom: -2.6rem; right: -1.5rem; width: 11rem; transform: rotate(32deg); }
+.pkg-frond-bl { bottom: -2.8rem; left: -2rem; width: 11rem; transform: rotate(28deg); }
+.pkg-frond-br { bottom: -2.8rem; right: -1.5rem; width: 11rem; transform: rotate(-28deg) scaleX(-1); }
 
 /* header */
 .pkg-eyebrow {
@@ -3456,6 +3455,26 @@
 .ebk.anim .ebk-rule { transition: opacity 600ms var(--ease-out) 360ms; }
 .ebk.anim .ebk-sub { transition: opacity 600ms var(--ease-out) 420ms, transform 600ms var(--ease-out) 420ms; }
 .ebk.anim .ebk-card-frame { transition: opacity 700ms var(--ease-out) 520ms, transform 700ms var(--ease-out) 520ms; }
+
+/* ===========================================================================
+   CORNER FOLIAGE — responsive tuck. The decorative corner fronds on the dino
+   field-guide sections are sized for the wide desktop margins. As the viewport
+   narrows the centred header/copy fills the column, so the fronds are shrunk and
+   faded into the corners to keep all text clear and readable. The fronds only
+   live in the BOTTOM corners (no top fronds), so they never cross a heading and
+   never clip hard above a section. (Source order after the per-frond rules, so
+   these win at equal specificity.)
+   =========================================================================== */
+@media (max-width: 1023px) {
+  .cmp-frond, .pkg-frond, .gal-frond, .det-frond, .ebk-frond { width: 8rem; opacity: 0.26; }
+}
+@media (max-width: 639px) {
+  .cmp-frond, .pkg-frond, .gal-frond, .det-frond, .ebk-frond {
+    width: 5.25rem; opacity: 0.15; bottom: -1.6rem;
+  }
+  .cmp-frond-bl, .pkg-frond-bl, .gal-frond-bl, .det-frond-bl, .ebk-frond-bl { left: -1.6rem; }
+  .cmp-frond-br, .pkg-frond-br, .gal-frond-br, .det-frond-br, .ebk-frond-br { right: -1.4rem; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

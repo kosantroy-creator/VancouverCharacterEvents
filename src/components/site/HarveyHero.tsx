@@ -851,8 +851,11 @@ export function HarveyHero() {
           footprints carry on into the trail beat below). No hard seam line. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-36"
-        style={{ background: "linear-gradient(180deg, transparent 0%, #5E8240 100%)" }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-44"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(94,130,64,0.85) 60%, #5E8240 88%)",
+        }}
       />
     </section>
   );

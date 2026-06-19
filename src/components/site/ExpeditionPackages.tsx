@@ -156,7 +156,7 @@ export function ExpeditionPackages() {
         <DinoTrack className="absolute right-[7%] top-[30%] w-7 rotate-[22deg]" />
         <DinoTrack className="absolute right-[12%] bottom-[14%] w-6 -rotate-[14deg]" />
       </div>
-      <div aria-hidden className="pkg-frond pkg-frond-tl">
+      <div aria-hidden className="pkg-frond pkg-frond-bl">
         <Frond fill="#3E5E32" className="h-auto w-full" />
       </div>
       <div aria-hidden className="pkg-frond pkg-frond-br">
