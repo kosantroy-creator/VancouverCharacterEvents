@@ -29,7 +29,13 @@ type CommonProps = {
   className?: string;
 };
 
-type LinkProps = CommonProps & { to: string; params?: Record<string, string>; href?: never };
+type LinkProps = CommonProps & {
+  to: string;
+  params?: Record<string, string>;
+  search?: Record<string, unknown>;
+  hash?: string;
+  href?: never;
+};
 type AnchorProps = CommonProps & { href: string; to?: never; onClick?: () => void };
 type ButtonProps = CommonProps & {
   to?: never;
@@ -44,7 +50,13 @@ export function CTAButton(props: LinkProps | AnchorProps | ButtonProps) {
 
   if ("to" in props && props.to) {
     return (
-      <Link to={props.to} params={props.params} className={classes}>
+      <Link
+        to={props.to}
+        params={props.params}
+        search={props.search}
+        hash={props.hash}
+        className={classes}
+      >
         {children}
       </Link>
     );

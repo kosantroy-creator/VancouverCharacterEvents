@@ -229,7 +229,9 @@ export function ExpeditionPackages() {
                 </ul>
 
                 <CTAButton
-                  to="/contact"
+                  to="/dinosaur-events"
+                  search={{ package: p.name }}
+                  hash="book"
                   className={cn("pkg-cta group mt-auto w-full justify-center", p.ctaClass)}
                 >
                   {p.cta}
@@ -255,7 +257,9 @@ export function ExpeditionPackages() {
             </p>
           </div>
           <CTAButton
-            to="/contact"
+            to="/dinosaur-events"
+            search={{ package: "Not sure yet — help me choose" }}
+            hash="book"
             className="pkg-cta group shrink-0 !bg-[#2E4A38] !text-white hover:!bg-[#23381f]"
           >
             Help Me Choose
