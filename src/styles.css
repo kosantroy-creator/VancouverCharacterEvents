@@ -88,9 +88,11 @@
   --chapter-corporate: #D9B25A;
   --chapter-corporate-deep: #8A6A22;
   --chapter-corporate-glow: #FBE6A8;
-  --chapter-festival: #9A7BE0;
-  --chapter-festival-deep: #4A3A86;
-  --chapter-festival-glow: #D8C7FF;
+  /* Enchanted Bazaar — a vivid lantern-lit fuchsia + warm-gold market palette,
+     distinct from the Wonderverse Realm's moonlit lilac. */
+  --chapter-festival: #D14A86;
+  --chapter-festival-deep: #7C2350;
+  --chapter-festival-glow: #FCD3E6;
   --chapter-specialty: #B68BE6;
   --chapter-specialty-deep: #5C3F94;
   --chapter-specialty-glow: #E7D3FF;
@@ -664,6 +666,13 @@
 .wave-track { animation: kf-wave-x 22s linear infinite; }
 .bob-soft { animation: kf-bob 7s ease-in-out infinite; will-change: transform; }
 .shimmer-soft { animation: kf-shimmer-soft 6s ease-in-out infinite; }
+/* Enchanted Bazaar lanterns sway from the light string they hang on. */
+.bazaar-lanterns {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: kf-sway 7s ease-in-out infinite;
+  will-change: transform;
+}
 
 /* Framed image "plate" — the storybook illustration treatment. */
 .plate {

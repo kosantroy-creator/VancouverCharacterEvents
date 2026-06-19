@@ -16,7 +16,7 @@ const characterCategories = [
   "Mermaids",
   "Mascots",
   "Holiday Characters",
-  "Specialty Characters",
+  "Wonderverse Realm",
   "Corporate / City Entertainment",
 ];
 

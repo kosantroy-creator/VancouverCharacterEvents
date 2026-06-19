@@ -121,7 +121,8 @@ type DecorKind =
   | "confetti"
   | "holiday"
   | "skyline"
-  | "stars";
+  | "stars"
+  | "bazaar";
 
 export function WorldDecor({
   kind,
@@ -337,6 +338,68 @@ export function WorldDecor({
           </svg>
         </div>
       );
+    case "bazaar": {
+      // Enchanted night-market — a draped light string with hanging lanterns that
+      // sway gently, plus a little drifting market sparkle.
+      const lanterns = [
+        { x: 92, y: 56, c: accent },
+        { x: 200, y: 76, c: secondary },
+        { x: 320, y: 60, c: accent },
+        { x: 446, y: 80, c: secondary },
+        { x: 540, y: 56, c: accent },
+      ];
+      return (
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMin slice" className="h-full w-full">
+            {/* the draped light string the lanterns hang from */}
+            <path
+              d="M-20,16 C150,84 300,84 320,60 C340,84 470,90 620,20"
+              fill="none"
+              stroke={secondary}
+              strokeWidth="2.5"
+              opacity="0.5"
+            />
+            <g className="bazaar-lanterns">
+              {lanterns.map((l, i) => (
+                <g key={i} transform={`translate(${l.x} ${l.y})`}>
+                  <line
+                    x1="0"
+                    y1="-6"
+                    x2="0"
+                    y2="6"
+                    stroke={secondary}
+                    strokeWidth="1.5"
+                    opacity="0.6"
+                  />
+                  <circle cx="0" cy="24" r="22" fill={l.c} opacity="0.16" />
+                  <rect x="-9" y="6" width="18" height="26" rx="8" fill={l.c} opacity="0.7" />
+                  <rect x="-6" y="3" width="12" height="5" rx="2" fill={secondary} opacity="0.85" />
+                  <line
+                    x1="0"
+                    y1="32"
+                    x2="0"
+                    y2="39"
+                    stroke={l.c}
+                    strokeWidth="1.5"
+                    opacity="0.7"
+                  />
+                  <circle cx="0" cy="41" r="2" fill={secondary} opacity="0.85" />
+                </g>
+              ))}
+            </g>
+            {/* drifting market sparkle */}
+            <g fill={accent} opacity="0.75">
+              <path d="M150 200 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" />
+              <path d="M470 210 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 z" />
+            </g>
+            <g fill={secondary} opacity="0.85">
+              <path d="M300 230 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" />
+              <path d="M225 150 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" />
+            </g>
+          </svg>
+        </div>
+      );
+    }
     case "stars":
     default:
       // Specialty / theatre — moonlight, stars and a soft spotlight.

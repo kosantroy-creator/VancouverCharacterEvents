@@ -13,6 +13,7 @@ import mascotScene from "@/assets/worlds/mascot.jpg";
 import holidayScene from "@/assets/worlds/holiday.jpg";
 import corporateScene from "@/assets/worlds/corporate.jpg";
 import specialtyScene from "@/assets/worlds/specialty.jpg";
+import enchantedBazaarScene from "@/assets/worlds/enchanted-bazaar.webp";
 import characterExtrasMedallion from "@/assets/chapters/character-extras.png";
 import brandLogo from "@/assets/brand/logo-primary.png";
 
@@ -433,8 +434,8 @@ export const chapters: Chapter[] = [
   },
   {
     slug: "specialty-events",
-    name: "Specialty Characters",
-    navLabel: "Specialty",
+    name: "Wonderverse Realm",
+    navLabel: "Wonderverse",
     accent: "specialty",
     medallion: brandLogo,
     tagline: "Rare, one-of-a-kind characters for unique events",
@@ -664,18 +665,18 @@ export const storybookWorlds: StorybookWorld[] = [
     testimonialTheme: "mermaid",
   },
   {
-    name: "Specialty Characters",
+    name: "Wonderverse Realm",
     slug: "specialty-events",
-    navLabel: "Specialty",
+    navLabel: "Wonderverse",
     accent: "specialty",
     medallion: brandLogo,
     scene: specialtyScene,
     blurb: "Rare, one-of-a-kind characters and custom personas for unique events.",
     sampleCharacters: ["Good Witch", "Fairy", "Storybook Villain", "Custom Personas"],
     pricingSummary: "Custom pricing",
-    exploreLabel: "Explore Specialty Characters",
+    exploreLabel: "Explore the Wonderverse",
     exploreTo: "/specialty-events",
-    pricingLabel: "Request Specialty Pricing",
+    pricingLabel: "Request Wonderverse Pricing",
     pricingTo: "/contact",
     requestPricing: true,
     testimonialTheme: "specialty",
@@ -714,17 +715,17 @@ export const storybookWorlds: StorybookWorld[] = [
     testimonialTheme: "holiday",
   },
   {
-    name: "Character Extras",
+    name: "Enchanted Bazaar",
     slug: "character-extras",
-    navLabel: "Character Extras",
+    navLabel: "Enchanted Bazaar",
     accent: "festival",
     medallion: characterExtrasMedallion,
-    scene: specialtyScene,
+    scene: enchantedBazaarScene,
     blurb:
       "Face painting, balloon twisting, photography, and magical add-ons that make any event bigger.",
     sampleCharacters: ["Face Painting", "Balloon Twisting", "Photography", "Surprise Characters"],
     pricingSummary: "Custom add-ons",
-    exploreLabel: "Explore Character Extras",
+    exploreLabel: "Explore the Enchanted Bazaar",
     exploreTo: "/contact",
     pricingLabel: "Request Pricing",
     pricingTo: "/contact",
@@ -833,12 +834,12 @@ export const worldThemes: Record<string, WorldTheme> = {
     mood: "Magical theatre · moonlight",
   },
   "character-extras": {
-    bg: "linear-gradient(165deg, #F4EFFB 0%, #EEE9FB 52%, #FBF1F6 100%)",
+    bg: "linear-gradient(165deg, #FCEFF4 0%, #FBF1E6 52%, #F7F0FB 100%)",
     accent: "var(--chapter-festival)",
-    secondary: "#C9A2E8",
+    secondary: "#E7B24B",
     glow: "var(--chapter-festival-glow)",
-    decor: "confetti",
-    mood: "Surprise & sparkle · add-on magic",
+    decor: "bazaar",
+    mood: "Enchanted night market · lantern glow",
   },
 };
 
@@ -1173,12 +1174,12 @@ export const worldPricing: WorldPricing[] = [
   },
   {
     slug: "specialty-events",
-    world: "Specialty Characters",
+    world: "Wonderverse Realm",
     accent: "specialty",
     options: [],
     requestOnly: true,
-    requestLabel: "Request Specialty Pricing",
-    note: "Each specialty character is priced individually — costume, performance, and event needs vary.",
+    requestLabel: "Request Wonderverse Pricing",
+    note: "Each Wonderverse character is priced individually — costume, performance, and event needs vary.",
   },
   {
     slug: "holiday-events",
@@ -1191,7 +1192,7 @@ export const worldPricing: WorldPricing[] = [
   },
   {
     slug: "character-extras",
-    world: "Character Extras",
+    world: "Enchanted Bazaar",
     accent: "festival",
     options: [],
     requestOnly: true,
