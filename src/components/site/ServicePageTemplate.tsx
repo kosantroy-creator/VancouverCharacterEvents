@@ -17,6 +17,7 @@ export function ServicePageTemplate({
   hideIncluded = false,
   hidePackages = false,
   hideGallery = false,
+  hideFaq = false,
 }: {
   chapter: Chapter;
   /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
@@ -29,6 +30,8 @@ export function ServicePageTemplate({
   hidePackages?: boolean;
   /** Skip the generic gallery preview (e.g. a page supplies its own gallery section). */
   hideGallery?: boolean;
+  /** Skip the generic FAQ block (e.g. a page supplies its own FAQ section). */
+  hideFaq?: boolean;
 }) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
@@ -232,12 +235,14 @@ export function ServicePageTemplate({
       )}
 
       {/* FAQ */}
-      <Section tone="parchment">
-        <SectionHeading eyebrow="Good to know" title="Frequently asked" />
-        <div className="mx-auto mt-8 max-w-3xl">
-          <FaqAccordion faqs={chapter.faqs} />
-        </div>
-      </Section>
+      {!hideFaq && (
+        <Section tone="parchment">
+          <SectionHeading eyebrow="Good to know" title="Frequently asked" />
+          <div className="mx-auto mt-8 max-w-3xl">
+            <FaqAccordion faqs={chapter.faqs} />
+          </div>
+        </Section>
+      )}
 
       {/* From the journal — internal links */}
       <Section tone="ivory">

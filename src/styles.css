@@ -3141,6 +3141,189 @@
 .gal.anim .gal-cta { transition: opacity 560ms var(--ease-out) 1650ms; }
 .gal.anim .gal-handwrite { transition: opacity 560ms var(--ease-out) 1800ms; }
 
+/* ===========================================================================
+   EXPEDITION DETAILS — "Everything Parents Ask Before Booking Harvey". The
+   practical FAQ after the gallery, styled like an expedition manual: a sticky
+   "Need-to-Know Details" field-guide card on the left + an accessible accordion
+   on the right. Rows open with a smooth grid-rows height + opacity transition;
+   the plus icon rotates to an × on open and the active row warms to amber.
+   Reveal sequence is enhancement-only — everything VISIBLE BY DEFAULT (hidden
+   only under `.det.anim` before `.is-in`). Authored CSS, never purged.
+   =========================================================================== */
+.det-paper {
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgba(255, 250, 235, 0.85), transparent 60%),
+    radial-gradient(55% 50% at 8% 92%, rgba(120, 90, 50, 0.07), transparent 70%),
+    linear-gradient(175deg, #FBF4E3 0%, #F4E8CC 50%, #FAF1DC 100%);
+}
+.det-tex {
+  background-image: radial-gradient(rgba(120, 90, 50, 0.07) 1px, transparent 1.6px);
+  background-size: 30px 30px; opacity: 0.5;
+  -webkit-mask-image: radial-gradient(130% 90% at 50% 10%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(130% 90% at 50% 10%, #000 40%, transparent 100%);
+}
+.det-prints { z-index: 0; color: rgba(110, 80, 40, 0.12); }
+.det-frond { position: absolute; z-index: 0; pointer-events: none; opacity: 0.36; }
+.det-frond-bl { bottom: -2.8rem; left: -2.2rem; width: 12rem; transform: rotate(28deg); }
+.det-frond-br { bottom: -2.8rem; right: -1.8rem; width: 11rem; transform: rotate(-28deg) scaleX(-1); }
+
+/* header */
+.det-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: #9c7406;
+}
+.det-title {
+  margin-top: 0.55rem; text-align: center;
+  font-family: var(--font-display, inherit); font-weight: 800; letter-spacing: 0.005em;
+  line-height: 1.05; font-size: clamp(1.9rem, 4.8vw, 3.2rem); color: #2E4A38;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(46, 74, 56, 0.12);
+}
+.det-rule {
+  display: block; width: 132px; height: 12px; margin: 0.75rem auto 0;
+  background:
+    radial-gradient(circle at center, #D4A017 0 2.5px, transparent 3px) center / 100% no-repeat,
+    linear-gradient(90deg, transparent, #C9A85B 22%, #C9A85B 78%, transparent) center / 100% 1.5px no-repeat;
+}
+.det-sub { margin-top: 0.7rem; text-align: center; font-size: 1rem; line-height: 1.55; color: rgba(46, 74, 56, 0.78); }
+
+/* spread */
+.det-grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; align-items: start; }
+@media (min-width: 960px) { .det-grid { grid-template-columns: 0.86fr 1.14fr; gap: 1.8rem; } }
+
+/* left — sticky field-guide intro card */
+.det-aside { position: relative; }
+@media (min-width: 960px) { .det-aside { position: sticky; top: 6.5rem; } }
+.det-card {
+  position: relative; overflow: hidden;
+  border-radius: 20px; padding: 1.6rem 1.5rem 0;
+  background: linear-gradient(168deg, #FCF6E8 0%, #F6EBCF 100%);
+  border: 1px solid rgba(120, 90, 50, 0.2);
+  box-shadow: 0 22px 48px -30px rgba(46, 74, 56, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.det-badge {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.34rem 0.8rem; border-radius: var(--radius-pill, 999px);
+  background: #2E4A38; color: #F4E2A6;
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  box-shadow: 0 6px 14px -8px rgba(46, 74, 56, 0.7);
+}
+.det-card-stamp {
+  position: absolute; top: 1.3rem; right: 1.2rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.05rem;
+  width: 78px; height: 78px; border-radius: 999px; padding-top: 0.7rem;
+  border: 2px solid rgba(110, 80, 40, 0.34); color: rgba(80, 58, 30, 0.5);
+  transform: rotate(-9deg);
+}
+.det-card-stamp svg { color: rgba(80, 58, 30, 0.42); }
+.det-card-stamp-top, .det-card-stamp-bot {
+  font-weight: 800; font-size: 0.46rem; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.3;
+}
+.det-card-h {
+  margin-top: 1.1rem; max-width: 12ch;
+  font-family: var(--font-display, inherit); font-weight: 800; line-height: 1.05;
+  font-size: clamp(1.5rem, 2.4vw, 1.95rem); color: #233A22;
+}
+.det-card-rule { display: block; width: 46px; height: 3px; margin-top: 0.85rem; border-radius: 2px; background: #D4A017; }
+.det-card-p { margin-top: 0.85rem; font-size: 0.92rem; line-height: 1.6; color: rgba(46, 74, 56, 0.82); }
+.det-checks { margin-top: 1.1rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.det-check {
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.5rem 0; font-size: 0.92rem; font-weight: 600; color: #2E4A38;
+  border-bottom: 1px dashed rgba(120, 90, 50, 0.18);
+}
+.det-check:last-child { border-bottom: 0; }
+.det-check-ic {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 1.45rem; width: 1.45rem; flex-shrink: 0; border-radius: 999px;
+  background: #2E7D4A; color: #fff; box-shadow: 0 4px 10px -5px rgba(46, 125, 74, 0.9);
+}
+/* subtle expedition vista + compass anchored to the card's base */
+.det-vista {
+  position: relative; margin: 1.3rem -1.5rem 0; height: 96px;
+  background:
+    radial-gradient(120% 130% at 50% 130%, rgba(94, 138, 78, 0.55), transparent 70%),
+    linear-gradient(180deg, transparent, rgba(94, 138, 78, 0.16) 45%, rgba(62, 94, 50, 0.32));
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 38%);
+  mask-image: linear-gradient(180deg, transparent, #000 38%);
+}
+.det-compass {
+  position: absolute; right: 1.3rem; bottom: 0.7rem; width: 58px; height: 58px;
+  filter: drop-shadow(0 8px 14px rgba(46, 74, 56, 0.4));
+}
+
+/* right — FAQ accordion (expedition-manual rows) */
+.det-faq { display: flex; flex-direction: column; gap: 0.7rem; }
+.det-row {
+  border-radius: 14px;
+  background: rgba(252, 247, 236, 0.92);
+  border: 1px solid rgba(120, 90, 50, 0.2);
+  box-shadow: 0 10px 26px -22px rgba(46, 74, 56, 0.55);
+  transition: transform 200ms var(--ease-out), border-color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out), background 200ms var(--ease-out);
+}
+.det-row:hover { transform: translateY(-1px); border-color: rgba(212, 160, 23, 0.5); }
+.det-row.is-open {
+  background: linear-gradient(180deg, #FFF8E6 0%, #FCF4E0 100%);
+  border-color: rgba(212, 160, 23, 0.75);
+  box-shadow: 0 16px 32px -22px rgba(46, 74, 56, 0.5), 0 0 0 1px rgba(212, 160, 23, 0.4);
+}
+.det-row-h { margin: 0; }
+.det-q {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;
+  padding: 1rem 1.1rem; text-align: left; cursor: pointer; background: transparent; border: 0;
+  border-radius: 14px;
+}
+.det-q:focus-visible { outline: 2px solid #D4A017; outline-offset: 2px; }
+.det-q-text {
+  font-family: var(--font-display, inherit); font-size: 1.02rem; line-height: 1.35;
+  font-weight: 600; color: #2A4222;
+}
+.det-row.is-open .det-q-text { color: #9c7406; }
+.det-q-ic {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  height: 1.7rem; width: 1.7rem; border-radius: 999px;
+  background: rgba(212, 160, 23, 0.14); color: #B58208;
+  transition: transform 280ms var(--ease-out), background 200ms, color 200ms;
+}
+.det-q:hover .det-q-ic { background: rgba(212, 160, 23, 0.24); }
+.det-row.is-open .det-q-ic { transform: rotate(135deg); background: #D4A017; color: #2A1C05; }
+/* smooth height via grid-rows; answer fades in */
+.det-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 320ms var(--ease-out); }
+.det-row.is-open .det-a { grid-template-rows: 1fr; }
+.det-a-inner { overflow: hidden; opacity: 0; transition: opacity 260ms var(--ease-out); }
+.det-row.is-open .det-a-inner { opacity: 1; transition: opacity 320ms var(--ease-out) 90ms; }
+.det-a-inner p {
+  padding: 0 1.1rem 1.1rem; margin: 0; font-size: 0.95rem; line-height: 1.62;
+  color: rgba(46, 74, 56, 0.85);
+}
+
+/* ---- reveal sequence (enhancement only; visible by default) ---- */
+.det-tex, .det-prints, .det-frond, .det-eyebrow, .det-title, .det-rule, .det-sub,
+.det-card, .det-row { opacity: 1; }
+.det.anim:not(.is-in) .det-tex, .det.anim:not(.is-in) .det-prints, .det.anim:not(.is-in) .det-frond { opacity: 0; }
+.det.anim .det-tex, .det.anim .det-prints, .det.anim .det-frond { transition: opacity 1000ms var(--ease-out); }
+
+.det-eyebrow, .det-title, .det-rule, .det-sub, .det-card { transform: none; }
+.det.anim:not(.is-in) .det-eyebrow { opacity: 0; transform: translateY(8px); }
+.det.anim:not(.is-in) .det-title { opacity: 0; transform: translateY(18px); }
+.det.anim:not(.is-in) .det-rule { opacity: 0; }
+.det.anim:not(.is-in) .det-sub { opacity: 0; transform: translateY(10px); }
+.det.anim .det-eyebrow { transition: opacity 600ms var(--ease-out) 120ms, transform 600ms var(--ease-out) 120ms; }
+.det.anim .det-title { transition: opacity 660ms var(--ease-out) 220ms, transform 660ms var(--ease-out) 220ms; }
+.det.anim .det-rule { transition: opacity 600ms var(--ease-out) 360ms; }
+.det.anim .det-sub { transition: opacity 600ms var(--ease-out) 420ms, transform 600ms var(--ease-out) 420ms; }
+
+.det.anim:not(.is-in) .det-card { opacity: 0; transform: translateX(-16px); }
+.det.anim .det-card { transition: opacity 640ms var(--ease-out) 520ms, transform 640ms var(--ease-out) 520ms; }
+/* FAQ rows stagger in after the intro card */
+.det.anim:not(.is-in) .det-row { opacity: 0; transform: translateY(14px); }
+.det.anim .det-row {
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out),
+    border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), background 200ms var(--ease-out);
+  transition-delay: calc(640ms + var(--i) * 80ms);
+}
+.det.anim .det-row:hover { transition-delay: 0ms; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
