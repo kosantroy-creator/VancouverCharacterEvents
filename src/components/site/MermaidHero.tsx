@@ -28,17 +28,21 @@ import heroPoster from "@/assets/mermaid/mermaid-hero-poster.webp";
 type Vars = CSSProperties & Record<string, string | number>;
 const VIDEO_SRC = "/video/mermaid-cove-hero.mp4";
 
-/** Deterministic rising bubbles — identical on server & client. */
+/* Deterministic rising bubbles (identical on server & client). `c` tints each
+   bubble across the cove range — aqua, periwinkle-blue, and a soft shell-coral. */
+const AQUA = "#9FF3E8";
+const PERI = "#C2C9F2";
+const CORAL = "#F7CBC2";
 const BUBBLES = [
-  { left: "6%", bottom: "-6%", s: 12, delay: "0s", dur: "15s", dx: "18px" },
-  { left: "16%", bottom: "-8%", s: 8, delay: "3.2s", dur: "18s", dx: "-12px" },
-  { left: "27%", bottom: "-5%", s: 16, delay: "1.4s", dur: "16s", dx: "22px" },
-  { left: "39%", bottom: "-7%", s: 7, delay: "5.1s", dur: "20s", dx: "-16px" },
-  { left: "52%", bottom: "-6%", s: 11, delay: "2.3s", dur: "17s", dx: "14px" },
-  { left: "63%", bottom: "-9%", s: 9, delay: "6s", dur: "19s", dx: "-20px" },
-  { left: "74%", bottom: "-5%", s: 14, delay: "0.8s", dur: "15.5s", dx: "16px" },
-  { left: "84%", bottom: "-7%", s: 8, delay: "4.2s", dur: "18.5s", dx: "-14px" },
-  { left: "92%", bottom: "-6%", s: 12, delay: "2.9s", dur: "16.5s", dx: "18px" },
+  { left: "6%", bottom: "-6%", s: 12, delay: "0s", dur: "15s", dx: "18px", c: AQUA },
+  { left: "16%", bottom: "-8%", s: 8, delay: "3.2s", dur: "18s", dx: "-12px", c: PERI },
+  { left: "27%", bottom: "-5%", s: 16, delay: "1.4s", dur: "16s", dx: "22px", c: AQUA },
+  { left: "39%", bottom: "-7%", s: 7, delay: "5.1s", dur: "20s", dx: "-16px", c: CORAL },
+  { left: "52%", bottom: "-6%", s: 11, delay: "2.3s", dur: "17s", dx: "14px", c: PERI },
+  { left: "63%", bottom: "-9%", s: 9, delay: "6s", dur: "19s", dx: "-20px", c: AQUA },
+  { left: "74%", bottom: "-5%", s: 14, delay: "0.8s", dur: "15.5s", dx: "16px", c: PERI },
+  { left: "84%", bottom: "-7%", s: 8, delay: "4.2s", dur: "18.5s", dx: "-14px", c: AQUA },
+  { left: "92%", bottom: "-6%", s: 12, delay: "2.9s", dur: "16.5s", dx: "18px", c: PERI },
 ] as const;
 
 const INFO = [
@@ -71,22 +75,23 @@ export function MermaidHero() {
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
 
-      {/* pearl-aqua wash on the left keeps the copy crisp — bright, never dark */}
+      {/* cove wash on the left keeps the copy crisp — the homepage cove range:
+          aqua → soft sky-blue → lavender, bright and never dark */}
       <div
         aria-hidden
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(100deg, rgba(234,251,250,0.97) 0%, rgba(233,247,251,0.9) 26%, rgba(232,244,251,0.55) 46%, rgba(234,251,250,0.14) 64%, transparent 78%)",
+            "linear-gradient(104deg, rgba(234,251,250,0.97) 0%, rgba(225,242,251,0.91) 24%, rgba(235,236,250,0.6) 44%, rgba(240,237,251,0.2) 62%, transparent 78%)",
         }}
       />
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 -z-20 h-40"
-        style={{ background: "linear-gradient(180deg, rgba(234,251,250,0.78), transparent)" }}
+        style={{ background: "linear-gradient(180deg, rgba(234,247,251,0.78), transparent)" }}
       />
       {/* gentle overall lift on small screens so copy stays crisp over the film */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[#EAFBFA]/35 sm:hidden" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[#E6F2FB]/38 sm:hidden" />
 
       {/* drifting bubbles over the whole section */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -103,6 +108,7 @@ export function MermaidHero() {
                 animationDelay: b.delay,
                 animationDuration: b.dur,
                 "--dx": b.dx,
+                "--bub": b.c,
               } as Vars
             }
           />
