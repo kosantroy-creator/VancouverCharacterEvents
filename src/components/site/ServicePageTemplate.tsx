@@ -13,10 +13,19 @@ import { Sparkles } from "./Scenery";
 export function ServicePageTemplate({
   chapter,
   hideHero = false,
+  hideWhatItIs = false,
+  hideIncluded = false,
+  hidePackages = false,
 }: {
   chapter: Chapter;
   /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
   hideHero?: boolean;
+  /** Skip the "What this experience is" block (e.g. the dinosaur page tells its own story). */
+  hideWhatItIs?: boolean;
+  /** Skip the "What's included" block. */
+  hideIncluded?: boolean;
+  /** Skip the generic "Experience options" packages (e.g. a page supplies its own pricing). */
+  hidePackages?: boolean;
 }) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
@@ -95,104 +104,110 @@ export function ServicePageTemplate({
       )}
 
       {/* What this experience is */}
-      <Section tone="ivory">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="What this experience is"
-              title="Magic with a plan behind it"
-            />
-            <p className="mt-5 text-lg leading-relaxed text-fg-2">{chapter.whatItIs}</p>
-          </div>
-          <div className="rounded-[var(--radius-xl)] border border-border-soft bg-surface p-7 shadow-[var(--shadow-sm)]">
-            <h3
-              className="t-engrave text-xs tracking-[0.22em]"
-              style={{ color: chapter.accent === "corporate" ? "var(--gold-700)" : accent }}
-            >
-              Best for
-            </h3>
-            <div className="mt-4 flex flex-wrap gap-2.5">
-              {chapter.bestFor.map((b) => (
-                <span
-                  key={b}
-                  className="rounded-[var(--radius-pill)] border px-4 py-1.5 text-sm font-medium text-fg"
-                  style={{ borderColor: accent, background: "var(--warm-white)" }}
-                >
-                  {b}
-                </span>
-              ))}
+      {!hideWhatItIs && (
+        <Section tone="ivory">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+            <div>
+              <SectionHeading
+                align="left"
+                eyebrow="What this experience is"
+                title="Magic with a plan behind it"
+              />
+              <p className="mt-5 text-lg leading-relaxed text-fg-2">{chapter.whatItIs}</p>
             </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* What's included */}
-      <Section tone="parchment">
-        <SectionHeading eyebrow="What's included" title="Every visit, thoughtfully prepared" />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {chapter.included.map((item) => (
-            <div
-              key={item}
-              className="flex items-start gap-3 rounded-[var(--radius-lg)] border border-border-soft bg-surface p-5 shadow-[var(--shadow-sm)]"
-            >
-              <span
-                className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                style={{
-                  background: `color-mix(in oklab, ${accent} 16%, transparent)`,
-                  color: accent,
-                }}
+            <div className="rounded-[var(--radius-xl)] border border-border-soft bg-surface p-7 shadow-[var(--shadow-sm)]">
+              <h3
+                className="t-engrave text-xs tracking-[0.22em]"
+                style={{ color: chapter.accent === "corporate" ? "var(--gold-700)" : accent }}
               >
-                <Check className="h-4 w-4" />
-              </span>
-              <span className="text-base text-fg">{item}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Experience options */}
-      <Section tone="sky">
-        <SectionHeading
-          eyebrow="Experience options"
-          title="Choose the right format"
-          description="Three polished formats to match the scale of your event. Pricing is tailored to each booking."
-        />
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {chapter.packages.map((pkg, i) => (
-            <div
-              key={pkg.name}
-              className={`relative flex flex-col rounded-[var(--radius-xl)] border bg-surface p-7 shadow-[var(--shadow-sm)] ${
-                i === 1 ? "md:-translate-y-2" : ""
-              }`}
-              style={i === 1 ? { borderColor: accent } : { borderColor: "var(--border-soft)" }}
-            >
-              {i === 1 ? (
-                <span
-                  className="absolute right-5 top-5 rounded-[var(--radius-pill)] px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.18em]"
-                  style={{ background: accent, color: "var(--ink-900)" }}
-                >
-                  Most popular
-                </span>
-              ) : null}
-              <h3 className="font-display text-2xl text-fg">{pkg.name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-fg-2">{pkg.blurb}</p>
-              <ul className="mt-5 flex-1 space-y-2.5">
-                {pkg.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-2.5 text-sm text-fg-2">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: accent }} /> {h}
-                  </li>
+                Best for
+              </h3>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {chapter.bestFor.map((b) => (
+                  <span
+                    key={b}
+                    className="rounded-[var(--radius-pill)] border px-4 py-1.5 text-sm font-medium text-fg"
+                    style={{ borderColor: accent, background: "var(--warm-white)" }}
+                  >
+                    {b}
+                  </span>
                 ))}
-              </ul>
-              <div className="mt-7">
-                <CTAButton to="/contact" variant="ghost" className="w-full">
-                  Inquire for Availability
-                </CTAButton>
               </div>
             </div>
-          ))}
-        </div>
-      </Section>
+          </div>
+        </Section>
+      )}
+
+      {/* What's included */}
+      {!hideIncluded && (
+        <Section tone="parchment">
+          <SectionHeading eyebrow="What's included" title="Every visit, thoughtfully prepared" />
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {chapter.included.map((item) => (
+              <div
+                key={item}
+                className="flex items-start gap-3 rounded-[var(--radius-lg)] border border-border-soft bg-surface p-5 shadow-[var(--shadow-sm)]"
+              >
+                <span
+                  className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                  style={{
+                    background: `color-mix(in oklab, ${accent} 16%, transparent)`,
+                    color: accent,
+                  }}
+                >
+                  <Check className="h-4 w-4" />
+                </span>
+                <span className="text-base text-fg">{item}</span>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Experience options */}
+      {!hidePackages && (
+        <Section tone="sky">
+          <SectionHeading
+            eyebrow="Experience options"
+            title="Choose the right format"
+            description="Three polished formats to match the scale of your event. Pricing is tailored to each booking."
+          />
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {chapter.packages.map((pkg, i) => (
+              <div
+                key={pkg.name}
+                className={`relative flex flex-col rounded-[var(--radius-xl)] border bg-surface p-7 shadow-[var(--shadow-sm)] ${
+                  i === 1 ? "md:-translate-y-2" : ""
+                }`}
+                style={i === 1 ? { borderColor: accent } : { borderColor: "var(--border-soft)" }}
+              >
+                {i === 1 ? (
+                  <span
+                    className="absolute right-5 top-5 rounded-[var(--radius-pill)] px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.18em]"
+                    style={{ background: accent, color: "var(--ink-900)" }}
+                  >
+                    Most popular
+                  </span>
+                ) : null}
+                <h3 className="font-display text-2xl text-fg">{pkg.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-fg-2">{pkg.blurb}</p>
+                <ul className="mt-5 flex-1 space-y-2.5">
+                  {pkg.highlights.map((h) => (
+                    <li key={h} className="flex items-start gap-2.5 text-sm text-fg-2">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: accent }} /> {h}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-7">
+                  <CTAButton to="/contact" variant="ghost" className="w-full">
+                    Inquire for Availability
+                  </CTAButton>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Gallery preview */}
       <Section tone="ivory">
