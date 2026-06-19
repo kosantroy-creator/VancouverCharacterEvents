@@ -63,7 +63,7 @@ export function MermaidHero() {
           poster for first paint. Cropped so the glowing grotto sits to the right
           of the copy. */}
       <video
-        className="absolute inset-0 -z-30 h-full w-full object-cover object-[58%_44%]"
+        className="absolute inset-0 -z-40 h-full w-full object-cover object-[58%_44%]"
         poster={heroPoster}
         autoPlay
         muted
@@ -75,14 +75,25 @@ export function MermaidHero() {
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
 
-      {/* cove wash on the left keeps the copy crisp — the homepage cove range:
-          aqua → soft sky-blue → lavender, bright and never dark */}
+      {/* pastel cove veil over the whole film so the section reads light & airy in
+          the homepage cove range — pale aqua (top) → sky-blue → lavender (bottom),
+          not a dark turquoise. The film still shimmers through underneath. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-30"
+        style={{
+          background:
+            "linear-gradient(165deg, rgba(234,251,250,0.62) 0%, rgba(225,242,251,0.5) 48%, rgba(240,237,251,0.6) 100%)",
+        }}
+      />
+
+      {/* extra wash on the left keeps the copy crisp over the film */}
       <div
         aria-hidden
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(104deg, rgba(234,251,250,0.97) 0%, rgba(225,242,251,0.91) 24%, rgba(235,236,250,0.6) 44%, rgba(240,237,251,0.2) 62%, transparent 78%)",
+            "linear-gradient(104deg, rgba(234,251,250,0.92) 0%, rgba(225,242,251,0.82) 24%, rgba(235,236,250,0.42) 46%, rgba(240,237,251,0.1) 64%, transparent 80%)",
         }}
       />
       <div
