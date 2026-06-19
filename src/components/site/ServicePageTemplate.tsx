@@ -16,6 +16,7 @@ export function ServicePageTemplate({
   hideWhatItIs = false,
   hideIncluded = false,
   hidePackages = false,
+  hideGallery = false,
 }: {
   chapter: Chapter;
   /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
@@ -26,6 +27,8 @@ export function ServicePageTemplate({
   hideIncluded?: boolean;
   /** Skip the generic "Experience options" packages (e.g. a page supplies its own pricing). */
   hidePackages?: boolean;
+  /** Skip the generic gallery preview (e.g. a page supplies its own gallery section). */
+  hideGallery?: boolean;
 }) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
@@ -210,21 +213,23 @@ export function ServicePageTemplate({
       )}
 
       {/* Gallery preview */}
-      <Section tone="ivory">
-        <SectionHeading
-          eyebrow="Real moments"
-          title="A glimpse of the experience"
-          description="Sample moments — real event photos are added as each chapter grows."
-        />
-        <div className="mt-10">
-          <GalleryGrid items={galleryItems} />
-        </div>
-        <div className="mt-8 text-center">
-          <CTAButton to="/gallery" variant="ghost">
-            View the full gallery
-          </CTAButton>
-        </div>
-      </Section>
+      {!hideGallery && (
+        <Section tone="ivory">
+          <SectionHeading
+            eyebrow="Real moments"
+            title="A glimpse of the experience"
+            description="Sample moments — real event photos are added as each chapter grows."
+          />
+          <div className="mt-10">
+            <GalleryGrid items={galleryItems} />
+          </div>
+          <div className="mt-8 text-center">
+            <CTAButton to="/gallery" variant="ghost">
+              View the full gallery
+            </CTAButton>
+          </div>
+        </Section>
+      )}
 
       {/* FAQ */}
       <Section tone="parchment">

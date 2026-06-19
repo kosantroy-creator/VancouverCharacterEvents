@@ -3016,6 +3016,131 @@
   100% { box-shadow: 0 34px 64px -34px rgba(16, 28, 16, 0.6), 0 0 26px -4px rgba(212, 160, 23, 0.5); }
 }
 
+/* ===========================================================================
+   EXPEDITION GALLERY — "See Harvey in Action". A field-journal spread: a large
+   featured "hero moment" + a 2×2 grid of smaller moments, each a print laid into
+   the log (cream border, field-note caption tab, soft shadow). Photos settle in
+   one by one, labels stamp, the Field Notes stamp lands, the CTA fades last — all
+   VISIBLE BY DEFAULT (hidden only under `.gal.anim` before `.is-in`). Hover lifts
+   + gently zooms the print. Authored CSS, never purged.
+   =========================================================================== */
+.gal-paper {
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgba(255, 250, 235, 0.85), transparent 60%),
+    radial-gradient(55% 50% at 90% 92%, rgba(120, 90, 50, 0.07), transparent 70%),
+    linear-gradient(170deg, #FBF4E3 0%, #F4E8CC 46%, #F8EFDB 100%);
+}
+.gal-tex {
+  background-image: radial-gradient(rgba(120, 90, 50, 0.07) 1px, transparent 1.6px);
+  background-size: 30px 30px; opacity: 0.5;
+  -webkit-mask-image: radial-gradient(130% 90% at 50% 10%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(130% 90% at 50% 10%, #000 40%, transparent 100%);
+}
+.gal-prints { z-index: 0; color: rgba(110, 80, 40, 0.12); }
+.gal-frond { position: absolute; z-index: 0; pointer-events: none; opacity: 0.4; }
+.gal-frond-bl { bottom: -2.6rem; left: -2rem; width: 12rem; transform: rotate(28deg); }
+.gal-frond-br { bottom: -2.6rem; right: -1.5rem; width: 11rem; transform: rotate(-28deg) scaleX(-1); }
+
+.gal-stamp {
+  position: absolute; top: 2rem; left: 2.4rem; z-index: 4; transform: rotate(-7deg);
+  display: none; flex-direction: column; align-items: center; gap: 0.1rem;
+  padding: 0.5rem 0.9rem; border-radius: 6px; text-align: center;
+  border: 2px solid rgba(110, 80, 40, 0.45); color: rgba(80, 58, 30, 0.72);
+  background: rgba(251, 246, 236, 0.35);
+}
+@media (min-width: 1100px) { .gal-stamp { display: flex; } }
+.gal-stamp-lg { font-weight: 900; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.gal-stamp-sm { font-weight: 800; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* header */
+.gal-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: #9c7406;
+}
+.gal-title {
+  margin-top: 0.5rem; text-align: center;
+  font-family: var(--font-display, inherit); font-weight: 800; letter-spacing: 0.005em;
+  line-height: 1; font-size: clamp(2.1rem, 5.4vw, 3.6rem); color: #2E4A38;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(46, 74, 56, 0.12);
+}
+.gal-sub { margin-top: 0.7rem; text-align: center; font-size: 1rem; line-height: 1.55; color: rgba(46, 74, 56, 0.78); }
+
+/* journal spread */
+.gal-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; align-items: stretch; }
+@media (min-width: 900px) { .gal-grid { grid-template-columns: 1.02fr 1.2fr; gap: 1.1rem; } }
+.gal-small-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.gal-photo {
+  position: relative; overflow: hidden; border-radius: 16px;
+  border: 5px solid #FBF6EC; background: #EFE6D2;
+  box-shadow: 0 18px 40px -26px rgba(46, 74, 56, 0.5);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms;
+}
+.gal-img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+.gal-featured { aspect-ratio: 16 / 11; }
+.gal-small-grid .gal-photo { aspect-ratio: 4 / 3; }
+@media (min-width: 900px) { .gal-featured { aspect-ratio: auto; height: 100%; } }
+.gal-photo:hover {
+  transform: translateY(-4px); border-color: #FFF4DC;
+  box-shadow: 0 28px 52px -26px rgba(46, 74, 56, 0.55), 0 0 0 1px rgba(212, 160, 23, 0.25);
+}
+.gal-photo:hover .gal-img { transform: scale(1.045); }
+
+.gal-label {
+  position: absolute; left: 0.7rem; bottom: 0.7rem; z-index: 2;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.32rem 0.7rem; border-radius: 7px;
+  background: rgba(251, 246, 236, 0.94); border: 1px solid rgba(120, 90, 50, 0.25);
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.45);
+  font-size: 0.64rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #2E4A38;
+}
+.gal-label svg { color: #6E9A5E; }
+.gal-photo:hover .gal-label { background: #FFFDF7; }
+
+/* CTA row */
+.gal-cta-row {
+  margin-top: 2.4rem; display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0.6rem 1.4rem;
+}
+.gal-handwrite { font-family: var(--font-display, inherit); font-style: italic; font-size: 1.1rem; color: #6E9A5E; }
+
+/* ---- reveal sequence (enhancement only; visible by default) ---- */
+.gal-tex, .gal-prints, .gal-frond, .gal-eyebrow, .gal-title, .gal-sub,
+.gal-photo, .gal-label, .gal-stamp, .gal-cta, .gal-handwrite { opacity: 1; }
+.gal.anim:not(.is-in) .gal-tex, .gal.anim:not(.is-in) .gal-prints, .gal.anim:not(.is-in) .gal-frond { opacity: 0; }
+.gal.anim .gal-tex, .gal.anim .gal-prints, .gal.anim .gal-frond { transition: opacity 1000ms var(--ease-out); }
+
+.gal-eyebrow, .gal-title, .gal-sub { transform: none; }
+.gal.anim:not(.is-in) .gal-eyebrow { opacity: 0; transform: translateY(8px); }
+.gal.anim:not(.is-in) .gal-title { opacity: 0; transform: translateY(18px); }
+.gal.anim:not(.is-in) .gal-sub { opacity: 0; transform: translateY(10px); }
+.gal.anim .gal-eyebrow { transition: opacity 600ms var(--ease-out) 120ms, transform 600ms var(--ease-out) 120ms; }
+.gal.anim .gal-title { transition: opacity 660ms var(--ease-out) 220ms, transform 660ms var(--ease-out) 220ms; }
+.gal.anim .gal-sub { transition: opacity 600ms var(--ease-out) 360ms, transform 600ms var(--ease-out) 360ms; }
+
+/* photos settle into the log one by one (featured first) */
+.gal.anim:not(.is-in) .gal-photo { opacity: 0; transform: translateY(22px) rotate(-1deg) scale(0.975); }
+.gal.anim .gal-photo {
+  transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms;
+  transition-delay: calc(560ms + var(--i) * 170ms);
+}
+.gal.anim .gal-photo:hover {
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms;
+  transition-delay: 0ms;
+}
+/* caption labels stamp on after their photo */
+.gal.anim:not(.is-in) .gal-label { opacity: 0; transform: scale(1.4) rotate(-6deg); }
+.gal.anim .gal-label {
+  transition: opacity 360ms var(--ease-out), transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1), background 240ms;
+  transition-delay: calc(900ms + var(--i) * 170ms);
+}
+/* the Field Notes stamp lands, then the CTA fades in last */
+.gal.anim:not(.is-in) .gal-stamp { opacity: 0; transform: rotate(-7deg) scale(1.4); }
+.gal.anim .gal-stamp { transition: opacity 400ms var(--ease-out) 1500ms, transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1) 1500ms; }
+.gal.anim:not(.is-in) .gal-cta, .gal.anim:not(.is-in) .gal-handwrite { opacity: 0; }
+.gal.anim .gal-cta { transition: opacity 560ms var(--ease-out) 1650ms; }
+.gal.anim .gal-handwrite { transition: opacity 560ms var(--ease-out) 1800ms; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

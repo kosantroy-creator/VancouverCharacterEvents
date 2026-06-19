@@ -7,6 +7,7 @@ import { HarveyReveal } from "@/components/site/HarveyReveal";
 import { TrainerAcademy } from "@/components/site/TrainerAcademy";
 import { DinoComparison } from "@/components/site/DinoComparison";
 import { ExpeditionPackages } from "@/components/site/ExpeditionPackages";
+import { ExpeditionGallery } from "@/components/site/ExpeditionGallery";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("dinosaur-events")!;
@@ -45,10 +46,19 @@ function DinosaurPage() {
       <DinoComparison />
       {/* 7 · Pricing — choose your expedition (carries the #expedition anchor). */}
       <ExpeditionPackages />
-      {/* 8 · The remaining details — gallery, FAQ, journal, final CTA. The
-          "what this experience is", "what's included" and generic packages are
-          dropped here; the page tells its own story above. */}
-      <ServicePageTemplate chapter={chapter} hideHero hideWhatItIs hideIncluded hidePackages />
+      {/* 8 · Proof — the "See Harvey in Action" field-journal gallery. */}
+      <ExpeditionGallery />
+      {/* 9 · The remaining details — FAQ, journal, final CTA. The intro, included,
+          generic packages and generic gallery are dropped here; the page tells its
+          own story above. */}
+      <ServicePageTemplate
+        chapter={chapter}
+        hideHero
+        hideWhatItIs
+        hideIncluded
+        hidePackages
+        hideGallery
+      />
     </>
   );
 }
