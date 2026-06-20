@@ -104,8 +104,12 @@ export function MermaidHero() {
 
       {/* ===================== GLASS PANEL (left) ===================== */}
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 pb-28 pt-28 sm:px-6 md:pt-32 lg:px-8">
-        <Reveal y={30} duration={950} className="mco-panel-rise w-full max-w-[37rem]">
-          <div className="mco-panel">
+        {/* NB: the frosted panel must NOT sit inside a transformed/will-change
+            ancestor — that suppresses its backdrop-filter mid-entrance and snaps it
+            on when the transform clears. So this wrapper is a plain (untransformed)
+            box and the panel fades itself in via opacity only. */}
+        <div className="w-full max-w-[37rem]">
+          <div className="mco-panel mco-panel-in">
             <span aria-hidden className="mco-panel-caustic" />
             <span aria-hidden className="mco-panel-sheen" />
             {/* soft particles drifting around the panel */}
@@ -203,7 +207,7 @@ export function MermaidHero() {
               </ul>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
 
       {/* ===================== TIDE-WASH → trust strip ===================== */}
