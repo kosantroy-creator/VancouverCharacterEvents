@@ -165,7 +165,7 @@ export function MermaidMeet() {
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
           <path
             d="M0,40 C240,86 520,2 760,30 C1020,60 1230,96 1440,52 L1440,0 L0,0 Z"
-            fill="#B4CCEA"
+            fill="#ABD7EE"
           />
         </svg>
       </div>
