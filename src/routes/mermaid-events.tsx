@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { MermaidHero } from "@/components/site/MermaidHero";
 import { MermaidTrustStrip } from "@/components/site/MermaidTrustStrip";
+import { MermaidDifference } from "@/components/site/MermaidDifference";
+import { MermaidMeet } from "@/components/site/MermaidMeet";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("mermaid-events")!;
@@ -28,6 +30,10 @@ function MermaidPage() {
       <MermaidHero />
       {/* 2 · Trust strip — poolside magic, properly guided. */}
       <MermaidTrustStrip />
+      {/* 3 · What Makes Mermaid Cove Different — story panel + duo comparison. */}
+      <MermaidDifference />
+      {/* 4 · Meet the Cove Mermaids — three mermaid character cards + pirate support. */}
+      <MermaidMeet />
       {/* The remaining sections still come from the generic template for now
           (its hero is dropped — the page brings its own above). */}
       <ServicePageTemplate chapter={chapter} hideHero />

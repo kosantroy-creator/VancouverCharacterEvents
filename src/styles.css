@@ -3625,7 +3625,7 @@
 .mco-tide { z-index: 1; height: 130px; }
 .mco-tide-mist {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 30%, rgba(239, 248, 246, 0.55) 76%, #EFF8F6 100%);
+  background: linear-gradient(180deg, transparent 30%, rgba(199, 211, 236, 0.55) 76%, #C7D3EC 100%);
 }
 .mco-tide-wave { position: absolute; left: 0; bottom: -1px; display: block; width: 100%; height: 130px; }
 
@@ -3635,12 +3635,13 @@
    hover, and the icons carry a soft shimmer once in view. VISIBLE BY DEFAULT
    (hidden only under `.mct.anim` before `.is-in`). Authored, never purged.
    =========================================================================== */
-.mct { background: #EFF8F6; }
+.mct { background: #C3D0EA; }
 .mct-bg {
   background:
-    radial-gradient(60% 46% at 50% -6%, rgba(255, 255, 255, 0.9), transparent 56%),
-    radial-gradient(46% 44% at 50% 0%, rgba(159, 243, 232, 0.3), transparent 62%),
-    linear-gradient(180deg, #EFF8F6 0%, #E8F4F4 50%, #EEF6FB 100%);
+    radial-gradient(60% 46% at 50% -6%, rgba(255, 255, 255, 0.6), transparent 58%),
+    radial-gradient(48% 44% at 16% 4%, rgba(160, 206, 202, 0.5), transparent 62%),
+    radial-gradient(50% 46% at 84% 8%, rgba(198, 176, 220, 0.5), transparent 64%),
+    linear-gradient(180deg, #C7D3EC 0%, #BFCDE8 50%, #CCC6E6 100%);
 }
 .mct-tex {
   background-image: radial-gradient(circle at 50% 0%, rgba(54, 190, 176, 0.07) 0 5px, transparent 6px);
@@ -3676,7 +3677,7 @@
   position: relative; overflow: hidden; text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
   border-radius: 20px; padding: 1.5rem 1.2rem 1.4rem;
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92), rgba(230, 244, 243, 0.86));
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(223, 231, 246, 0.9));
   border: 1px solid rgba(226, 194, 118, 0.4);
   box-shadow: 0 20px 40px -28px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
@@ -3728,6 +3729,527 @@
   transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
   transition-delay: 0ms;
 }
+
+/* ===========================================================================
+   MERMAID COVE DIFFERENCE — Section 3 of /mermaid-events. "What Makes Mermaid
+   Cove Different": a bright aquatic two-column band on a seafoam seabed. Left =
+   a turquoise pearl-glass story panel (eyebrow, heading w/ a script "adventure",
+   sub, paragraph, 3 highlight badges). Right = a respectful comparison: a quiet
+   "Standard Character Visit" card beside a glowing "Mermaid Cove Experience"
+   card with a gold-rimmed shell badge, check rows and a MERMAID + PIRATE DUO
+   stamp. Calm, fluid motion; VISIBLE BY DEFAULT (hidden only under
+   .mdf.anim:not(.is-in)). Reuses kf-mco-caustic / kf-mco-sheen / kf-mco-pop.
+   Cove palette: aqua #36BEB0 · deep teal #0E6E7E · glow #9FF3E8 · coral
+   #F7CBC2 · brass gold #E2C276.
+   =========================================================================== */
+.mdf { background: #C0CFEA; color: #0E5A66; }
+.mdf-bg {
+  background:
+    radial-gradient(60% 40% at 50% -8%, rgba(255, 255, 255, 0.58), transparent 60%),
+    radial-gradient(52% 42% at 10% 12%, rgba(160, 206, 202, 0.46), transparent 64%),
+    radial-gradient(54% 44% at 90% 14%, rgba(200, 176, 220, 0.5), transparent 66%),
+    radial-gradient(80% 48% at 50% 116%, rgba(224, 180, 204, 0.36), transparent 70%),
+    linear-gradient(180deg, #C6D3EC 0%, #BFCDE8 48%, #CCC6E6 100%);
+}
+/* slow caustic light ripples drifting over the seabed */
+.mdf-caustic {
+  opacity: 0.5; mix-blend-mode: screen; filter: blur(6px);
+  background:
+    radial-gradient(28% 22% at 22% 16%, rgba(180, 245, 240, 0.5), transparent 60%),
+    radial-gradient(24% 20% at 70% 26%, rgba(150, 220, 240, 0.4), transparent 62%),
+    radial-gradient(30% 24% at 84% 70%, rgba(200, 250, 245, 0.34), transparent 64%),
+    radial-gradient(26% 22% at 30% 84%, rgba(190, 236, 232, 0.36), transparent 64%);
+  animation: kf-mdf-caustic 20s ease-in-out infinite;
+}
+@keyframes kf-mdf-caustic {
+  0%, 100% { transform: translate3d(-1.5%, 0, 0) scale(1); }
+  50% { transform: translate3d(2%, -1.5%, 0) scale(1.05); }
+}
+/* a few rising bubbles */
+.mdf-bubble {
+  position: absolute; bottom: -4%; border-radius: 9999px; opacity: 0; will-change: transform, opacity;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(159, 243, 232, 0.5) 50%, transparent 78%);
+  box-shadow: 0 0 8px rgba(159, 243, 232, 0.5);
+  animation: kf-mdf-rise ease-in infinite;
+}
+@keyframes kf-mdf-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: 0.7; }
+  80% { opacity: 0.5; }
+  100% { transform: translate3d(var(--dx, 0), -72vh, 0); opacity: 0; }
+}
+/* bottom-corner coral / shell glows */
+.mdf-coral {
+  position: absolute; bottom: -3rem; z-index: 0; width: 18rem; height: 11rem; pointer-events: none; opacity: 0.5; filter: blur(8px);
+  background: radial-gradient(58% 70% at 50% 100%, rgba(247, 175, 162, 0.4), transparent 72%);
+}
+.mdf-coral-l { left: -3rem; }
+.mdf-coral-r { right: -3rem; background: radial-gradient(58% 70% at 50% 100%, rgba(159, 243, 232, 0.42), transparent 72%); }
+
+/* layout */
+.mdf-grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; align-items: stretch; }
+@media (min-width: 1024px) { .mdf-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr); gap: 1.75rem; } }
+
+/* ---- LEFT: turquoise pearl-glass story panel ---- */
+.mdf-story {
+  position: relative; overflow: hidden; border-radius: 30px; padding: 2rem 1.6rem 1.8rem;
+  background: linear-gradient(162deg, rgba(198, 234, 230, 0.9) 0%, rgba(146, 208, 202, 0.7) 52%, rgba(126, 196, 190, 0.82) 100%);
+  -webkit-backdrop-filter: blur(5px) saturate(1.12); backdrop-filter: blur(5px) saturate(1.12);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 30px 70px -36px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 0 70px rgba(180, 235, 230, 0.3);
+}
+@media (min-width: 640px) { .mdf-story { padding: 2.6rem 2.4rem 2.2rem; } }
+/* gold inner trim ring */
+.mdf-story::after { content: ""; position: absolute; inset: 9px; border-radius: 23px; pointer-events: none; z-index: 5; border: 1px solid rgba(226, 194, 118, 0.55); }
+/* top-centre pearl shell medallion */
+.mdf-story-shell {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 6;
+  display: grid; place-items: center; height: 2.4rem; width: 3.4rem; border-radius: 0 0 9999px 9999px;
+  background: radial-gradient(circle at 50% 18%, #FFFFFF, #E7F6F3 72%);
+  border: 1px solid rgba(226, 194, 118, 0.7); border-top: none;
+  box-shadow: 0 6px 14px -8px rgba(8, 54, 64, 0.5);
+}
+.mdf-story-shell svg { color: #D9B25A; filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8)); }
+.mdf-story-caustic {
+  position: absolute; inset: -20%; z-index: 0; pointer-events: none; opacity: 0.45; mix-blend-mode: screen; filter: blur(8px);
+  background: radial-gradient(36% 30% at 26% 22%, rgba(255, 255, 255, 0.7), transparent 60%),
+    radial-gradient(30% 26% at 78% 66%, rgba(180, 235, 235, 0.5), transparent 62%);
+  animation: kf-mco-caustic 18s ease-in-out infinite;
+}
+.mdf-story-sheen { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; border-radius: 30px; }
+.mdf-story-sheen::before {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 36%; left: -60%; transform: skewX(-14deg);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+}
+.mdf.is-in .mdf-story-sheen::before { animation: kf-mco-sheen 2s ease-out 0.6s 1 both; }
+
+.mdf-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-engrave, inherit);
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #15807A;
+}
+.mdf-eyebrow svg { color: #D9B25A; }
+.mdf-title {
+  margin-top: 0.95rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.08;
+  font-size: clamp(1.9rem, 4vw, 2.85rem); letter-spacing: -0.01em; color: #114A54;
+}
+.mdf-title-script {
+  position: relative; display: inline-block; font-family: var(--font-script, cursive); font-weight: 400;
+  font-size: 1.16em; line-height: 1; color: #15968B; padding: 0 0.12em;
+}
+.mdf-swash {
+  position: absolute; left: 0.1em; right: 0.1em; bottom: -0.16em; height: 9px; pointer-events: none;
+  background: radial-gradient(circle at right center, #D9B25A 0 2px, transparent 2.6px) right center / 14px 100% no-repeat,
+    linear-gradient(90deg, transparent, rgba(217, 178, 90, 0.85) 28%, rgba(217, 178, 90, 0.9) 72%, transparent) left center / 100% 2px no-repeat;
+}
+.mdf-sub { margin-top: 1.1rem; font-size: 1rem; line-height: 1.6; font-weight: 500; color: #2C6B71; max-width: 30rem; }
+.mdf-rule { display: flex; align-items: center; gap: 0.5rem; margin: 1.2rem 0; width: 12rem; color: #D9B25A; }
+.mdf-rule::before { content: ""; flex: 0 0 2.2rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(217, 178, 90, 0.85)); }
+.mdf-rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(217, 178, 90, 0.85), transparent); }
+.mdf-para { font-size: 0.92rem; line-height: 1.62; color: #3A6E73; max-width: 30rem; }
+
+/* highlight badges */
+.mdf-badges { margin-top: 1.7rem; display: flex; flex-wrap: wrap; gap: 1rem 1.3rem; }
+.mdf-badge {
+  display: flex; flex-direction: column; align-items: center; gap: 0.45rem; width: 6.2rem; text-align: center;
+  animation: kf-mco-pop 480ms var(--ease-out) both; animation-delay: calc(900ms + var(--i, 0) * 150ms);
+}
+.mdf-badge-disc {
+  display: grid; place-items: center; height: 4rem; width: 4rem; border-radius: 9999px; border: 2px solid #E2C276;
+  box-shadow: 0 10px 22px -12px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.mdf-badge-disc svg { filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.7)); }
+.mdf-badge--aqua .mdf-badge-disc { background: radial-gradient(circle at 38% 30%, #EAFCFA, #BFEDE6 62%, #9BDCD3 100%); }
+.mdf-badge--aqua .mdf-badge-disc svg { color: #C99A38; }
+.mdf-badge--coral .mdf-badge-disc { background: radial-gradient(circle at 38% 30%, #FFF1EE, #FBD7D0 62%, #F4BDB3 100%); }
+.mdf-badge--coral .mdf-badge-disc svg { color: #D98A6E; }
+.mdf-badge--green .mdf-badge-disc { background: radial-gradient(circle at 38% 30%, #EEFAEF, #CDEBD2 62%, #AEDCB6 100%); }
+.mdf-badge--green .mdf-badge-disc svg { color: #5BA877; }
+.mdf-badge-label {
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.07em;
+  text-transform: uppercase; color: #0E6E7E; line-height: 1.25;
+}
+.mdf-badge-wave { width: 1.8rem; height: 0.4rem; color: rgba(54, 190, 176, 0.75); }
+
+/* ---- RIGHT: comparison ---- */
+.mdf-compare {
+  position: relative; border-radius: 28px; padding: 0.8rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.78), rgba(233, 245, 243, 0.7));
+  border: 1px solid rgba(226, 194, 118, 0.35);
+  box-shadow: 0 30px 70px -38px rgba(8, 54, 64, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.mdf-compare-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; height: 100%; }
+@media (min-width: 560px) { .mdf-compare-grid { grid-template-columns: 0.86fr 1fr; } }
+
+.mdf-col {
+  position: relative; overflow: hidden; border-radius: 22px; padding: 1.6rem 1.2rem 1.5rem; display: flex; flex-direction: column;
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
+}
+/* ripple shimmer sweep on hover */
+.mdf-col::before {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; transform: translateX(-60%);
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+}
+.mdf-col:hover::before { animation: kf-mco-cardshine 0.9s ease-out; }
+/* standard — quiet, never mocked */
+.mdf-std { background: linear-gradient(180deg, #F4F4F1, #ECEEEB); border: 1px solid rgba(120, 130, 130, 0.18); }
+.mdf-std:hover { transform: translateY(-2px); box-shadow: 0 18px 36px -26px rgba(8, 54, 64, 0.4); }
+/* cove — alive & premium */
+.mdf-mco {
+  background: linear-gradient(170deg, rgba(193, 238, 231, 0.96) 0%, rgba(126, 206, 200, 0.94) 55%, rgba(96, 190, 184, 0.96) 100%);
+  border: 1.5px solid rgba(226, 194, 118, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 18px 40px -24px rgba(8, 80, 84, 0.55);
+}
+.mdf-mco:hover {
+  transform: translateY(-4px); border-color: #E2C276;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 26px 50px -26px rgba(8, 80, 84, 0.6), 0 0 26px -4px rgba(159, 243, 232, 0.65);
+}
+.mdf-mco-glow { position: absolute; inset: -2px; z-index: 0; pointer-events: none; border-radius: 22px; opacity: 0; box-shadow: inset 0 0 36px 6px rgba(159, 243, 232, 0.7); }
+.mdf.is-in .mdf-mco-glow { animation: kf-mdf-glow 2.6s ease-in-out 0.85s 1; }
+@keyframes kf-mdf-glow { 0%, 100% { opacity: 0; } 42% { opacity: 0.95; } }
+.mdf-col > * { position: relative; z-index: 1; }
+
+.mdf-col-badge { align-self: center; display: grid; place-items: center; border-radius: 9999px; }
+.mdf-col-badge--muted {
+  height: 3.2rem; width: 3.2rem; color: #AEB8BB;
+  background: radial-gradient(circle at 40% 32%, #FBFBFA, #E3E6E4 72%); border: 1px solid rgba(150, 160, 160, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.mdf-col-badge--cove {
+  height: 3.7rem; width: 3.7rem; color: #FBF4DE;
+  background: radial-gradient(circle at 38% 30%, #EAFFFC, #8FE0D6 60%, #36BEB0 100%); border: 2px solid #E2C276;
+  box-shadow: 0 8px 18px -8px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.mdf-col-badge--cove svg { filter: drop-shadow(0 1px 2px rgba(8, 54, 64, 0.4)); }
+.mdf-col-title { margin-top: 0.8rem; text-align: center; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.18; font-size: 1.3rem; }
+.mdf-col-title--muted { color: #5E7176; }
+.mdf-col-title--cove { color: #0C4E58; }
+
+.mdf-list { margin-top: 1.1rem; display: flex; flex-direction: column; gap: 0.68rem; }
+.mdf-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; line-height: 1.3; }
+.mdf-row--no { color: #6C7B80; }
+.mdf-row--yes { color: #0C4E58; font-weight: 600; }
+.mdf-ic { flex: 0 0 auto; display: grid; place-items: center; height: 1.4rem; width: 1.4rem; border-radius: 9999px; color: #fff; }
+.mdf-ic--no { background: radial-gradient(circle at 38% 32%, #C4CBCD, #9AA6A9); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5); }
+.mdf-ic--yes { background: radial-gradient(circle at 38% 30%, #4FD0B8, #16A085); box-shadow: 0 3px 8px -3px rgba(8, 80, 70, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.55); }
+
+/* MERMAID + PIRATE DUO stamp */
+.mdf-stamp { margin-top: auto; padding-top: 1.5rem; display: flex; flex-direction: column; align-items: center; }
+.mdf-stamp-disc {
+  position: relative; display: grid; place-items: center; height: 5.2rem; width: 5.2rem; border-radius: 9999px; z-index: 2;
+  background: radial-gradient(circle at 42% 34%, #FFFFFF, #F4EACB 70%, #E7CF94 100%); border: 2px solid #E2C276;
+  box-shadow: 0 10px 22px -10px rgba(8, 54, 64, 0.5), inset 0 0 0 3px rgba(255, 255, 255, 0.6), inset 0 0 0 4px rgba(226, 194, 118, 0.5);
+}
+.mdf-stamp-star { position: absolute; top: -0.55rem; left: 50%; transform: translateX(-50%); height: 1.4rem; width: 1.4rem; color: #E7B24B; filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.7)); }
+.mdf-stamp-text { font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #0E6E7E; text-align: center; line-height: 1.3; }
+.mdf-stamp-ribbon {
+  position: relative; z-index: 3; margin-top: -0.7rem; padding: 0.32rem 1.1rem; border-radius: 6px; overflow: hidden;
+  font-family: var(--font-engrave, inherit); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #FBF4DE;
+  background: linear-gradient(180deg, #1E8E86, #0E6E7E); border: 1px solid rgba(226, 194, 118, 0.7);
+  box-shadow: 0 8px 16px -8px rgba(8, 54, 64, 0.5);
+}
+.mdf-stamp-ribbon::before { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; transform: skewX(-14deg); background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent); }
+.mdf.is-in .mdf-stamp-ribbon::before { animation: kf-mco-sheen 2s ease-out 1.5s 1 both; }
+.mdf-mco:hover .mdf-stamp-ribbon::before { animation: kf-mco-sheen 1.1s ease-out; }
+
+/* pool-safety note */
+.mdf-note { margin: 1.9rem auto 0; max-width: 54rem; text-align: center; font-size: 0.74rem; line-height: 1.5; color: rgba(14, 90, 102, 0.62); }
+
+/* ===========================================================================
+   MEET THE COVE MERMAIDS — character section of /mermaid-events. Three premium
+   mermaid guide cards (Marina = pearl-aqua · Coralina = coral-sunshine · Nerissa
+   = moonlit-violet) over a pale seafoam seabed, plus a compact pirate-handler
+   support panel. Cards share one structure; a per-card accent comes from CSS
+   custom props (--acc / --ink / --soft / --frame). The portrait leads; motion is
+   calm (cards float up, portraits shimmer, tags + badges stamp, panel arrives
+   last). VISIBLE BY DEFAULT (hidden only under .mcm.anim:not(.is-in)).
+   Cove palette: aqua #36BEB0 · deep teal #0E6E7E · glow #9FF3E8 · gold #E2C276.
+   =========================================================================== */
+.mcm { background: #B6C8E6; color: #0E5A66; }
+.mcm-wavetop { z-index: 2; line-height: 0; }
+.mcm-wavetop svg { display: block; width: 100%; height: 70px; }
+/* immersive cove backdrop — soft readable centre, deep blue/violet at the edges */
+.mcm-bg {
+  background:
+    radial-gradient(72% 52% at 50% 24%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 62%),
+    radial-gradient(48% 74% at -4% 40%, rgba(96, 128, 190, 0.36), transparent 72%),
+    radial-gradient(48% 74% at 104% 40%, rgba(146, 118, 192, 0.34), transparent 72%),
+    radial-gradient(60% 42% at 16% 98%, rgba(220, 162, 196, 0.3), transparent 70%),
+    radial-gradient(60% 42% at 84% 98%, rgba(140, 196, 202, 0.3), transparent 70%),
+    linear-gradient(180deg, #BFD1EC 0%, #C0CCE8 40%, #C9C3E4 72%, #BACDE6 100%);
+}
+/* soft sun rays from the surface */
+.mcm-rays {
+  z-index: 0; opacity: 0.55; mix-blend-mode: screen;
+  background:
+    linear-gradient(168deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 34%) 18% 0 / 26% 100% no-repeat,
+    linear-gradient(182deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 38%) 44% 0 / 30% 100% no-repeat,
+    linear-gradient(196deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 34%) 70% 0 / 24% 100% no-repeat,
+    linear-gradient(176deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 30%) 60% 0 / 16% 100% no-repeat;
+  -webkit-mask: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.55) 42%, transparent 80%);
+  mask: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.55) 42%, transparent 80%);
+}
+/* water-surface glow near the top */
+.mcm-surface { z-index: 0; height: 150px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0)); }
+.mcm-caustic {
+  opacity: 0.42; mix-blend-mode: screen; filter: blur(7px);
+  background:
+    radial-gradient(26% 20% at 20% 22%, rgba(180, 245, 240, 0.5), transparent 60%),
+    radial-gradient(22% 18% at 72% 30%, rgba(150, 220, 240, 0.4), transparent 62%),
+    radial-gradient(28% 22% at 84% 72%, rgba(200, 250, 245, 0.32), transparent 64%),
+    radial-gradient(24% 20% at 32% 82%, rgba(190, 236, 232, 0.34), transparent 64%);
+  animation: kf-mdf-caustic 22s ease-in-out infinite;
+}
+.mcm-bubble {
+  position: absolute; bottom: -4%; border-radius: 9999px; opacity: 0; will-change: transform, opacity;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(159, 243, 232, 0.5) 50%, transparent 78%);
+  box-shadow: 0 0 8px rgba(159, 243, 232, 0.5);
+  animation: kf-mdf-rise ease-in infinite;
+}
+.mcm-coral {
+  position: absolute; bottom: -3rem; z-index: 0; width: 18rem; height: 11rem; pointer-events: none; opacity: 0.5; filter: blur(8px);
+  background: radial-gradient(58% 70% at 50% 100%, rgba(247, 175, 162, 0.42), transparent 72%);
+}
+.mcm-coral-l { left: -3rem; }
+.mcm-coral-r { right: -3rem; background: radial-gradient(58% 70% at 50% 100%, rgba(159, 243, 232, 0.44), transparent 72%); }
+/* small reef ornaments anchoring the corners */
+.mcm-decor { position: absolute; z-index: 0; pointer-events: none; opacity: 0.4; filter: drop-shadow(0 2px 3px rgba(8, 54, 64, 0.15)); }
+.mcm-decor-bl { left: 1.1rem; bottom: 8.5rem; height: 2.6rem; width: 2.6rem; color: #F2A69E; transform: rotate(-14deg); }
+.mcm-decor-br { right: 1.3rem; bottom: 9.5rem; height: 2.2rem; width: 2.2rem; color: #E9C6CE; transform: rotate(12deg); }
+.mcm-decor-tr { right: 1.6rem; top: 2.2rem; height: 1.9rem; width: 1.9rem; color: #BCD6E4; transform: rotate(-8deg); }
+
+/* header */
+.mcm-eyebrow {
+  display: inline-block; font-family: var(--font-engrave, inherit);
+  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  background: linear-gradient(90deg, #2C9C93, #C79A40 50%, #2C9C93); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.mcm-title {
+  margin-top: 0.55rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.04;
+  font-size: clamp(2.1rem, 5vw, 3.4rem); color: #134C5A; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.mcm-rule {
+  display: block; height: 14px; width: clamp(8rem, 22vw, 13rem); margin: 0.85rem auto 0;
+  background:
+    radial-gradient(circle at center, #D9B25A 0 2.5px, transparent 3px) center / 100% no-repeat,
+    linear-gradient(90deg, transparent, rgba(240, 140, 160, 0.5) 22%, rgba(217, 178, 90, 0.8) 50%, rgba(54, 190, 176, 0.55) 78%, transparent) center / 100% 1.6px no-repeat;
+}
+.mcm-sub { margin-top: 1rem; font-size: 1rem; line-height: 1.6; font-weight: 500; color: #2C6B71; }
+
+/* card grid */
+.mcm-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: stretch; }
+@media (min-width: 680px) { .mcm-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .mcm-grid { grid-template-columns: repeat(3, 1fr); gap: 1.7rem; } }
+
+/* ---- card: a pearl-gold frame around a tinted inner ---- */
+.mcm-card {
+  position: relative; display: flex; padding: 7px; border-radius: 34px 34px 26px 26px;
+  background: linear-gradient(155deg, #FBEDC2 0%, #E4C277 26%, #C99A40 58%, #E9D08C 82%, #F6E8B8 100%);
+  box-shadow: 0 30px 60px -30px rgba(8, 54, 64, 0.5), 0 2px 6px rgba(120, 90, 30, 0.18), 0 0 0 6px rgba(255, 255, 255, 0.35);
+  transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out);
+}
+.mcm-card:hover { transform: translateY(-6px); box-shadow: 0 44px 76px -30px rgba(8, 54, 64, 0.55), 0 0 0 1px var(--acc), 0 0 40px -6px var(--glow), 0 0 0 6px rgba(255, 255, 255, 0.45); }
+.mcm-card-inner {
+  position: relative; display: flex; flex-direction: column; flex: 1; overflow: hidden; border-radius: 28px 28px 20px 20px;
+  background: var(--wave);
+}
+/* gold inner trim, drawn on top so the tinted body never hides it */
+.mcm-card-inner::after {
+  content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; border-radius: 28px 28px 20px 20px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), inset 0 0 0 2px rgba(201, 154, 64, 0.5);
+}
+/* shell ornament crowning the frame */
+.mcm-crown {
+  position: absolute; top: -1rem; left: 50%; transform: translateX(-50%); z-index: 9;
+  display: grid; place-items: center; height: 2.2rem; width: 2.2rem; border-radius: 9999px; color: #C99A38;
+  background: radial-gradient(circle at 40% 30%, #fff, #F4EBD2 76%); border: 2px solid #E2C276;
+  box-shadow: 0 6px 14px -8px rgba(8, 54, 64, 0.5);
+}
+/* per-mermaid accents */
+.mcm-card--pearl {
+  --acc: #2BB6A6; --ink: #128A81; --name: #0E6E7E; --soft: #DCF4F0; --ic: #1C9C90; --glow: rgba(54, 190, 176, 0.5);
+  --wave: #CFEAE3; --body: linear-gradient(180deg, #CFEAE3, #B4DCD3);
+  --btn: linear-gradient(158deg, #45CFBE 0%, #1FA89B 52%, #0C8077 100%); --btn-glow: rgba(40, 180, 168, 0.6);
+}
+.mcm-card--coral {
+  --acc: #F2899B; --ink: #BE4F6C; --name: #DA627C; --soft: #F6D6D9; --ic: #E47E92; --glow: rgba(247, 160, 175, 0.55);
+  --wave: #F5D7D6; --body: linear-gradient(180deg, #F5D7D6, #EDC0C8);
+  --btn: linear-gradient(158deg, #FB93A6 0%, #EA6A82 52%, #CF4862 100%); --btn-glow: rgba(238, 110, 134, 0.6);
+}
+.mcm-card--moon {
+  --acc: #A99CE0; --ink: #6655AE; --name: #7E62B8; --soft: #E2DAF4; --ic: #9886D6; --glow: rgba(154, 168, 230, 0.5);
+  --wave: #E0D8F2; --body: linear-gradient(180deg, #E0D8F2, #CCC2EA);
+  --btn: linear-gradient(158deg, #AC97E4 0%, #8A6FC8 52%, #6A4FA8 100%); --btn-glow: rgba(138, 111, 200, 0.6);
+}
+
+/* portrait */
+.mcm-portrait { position: relative; overflow: hidden; aspect-ratio: 4 / 5; }
+.mcm-img { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: 50% 24%; transition: transform 600ms var(--ease-out); }
+.mcm-card:hover .mcm-img { transform: scale(1.03); }
+/* soft inner glow / vignette on the portrait */
+.mcm-portrait-glow { position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 34px rgba(8, 54, 64, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.4); }
+.mcm-portrait-shine {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; transform: translateX(-120%);
+  background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, 0.55) 50%, transparent 64%);
+}
+.mcm.is-in .mcm-portrait-shine { animation: kf-mcm-shine 2.6s ease-out calc(1.1s + var(--i) * 220ms) 1 both; }
+.mcm-card:hover .mcm-portrait-shine { animation: kf-mcm-shine 0.95s ease-out; }
+@keyframes kf-mcm-shine { 0% { transform: translateX(-120%); } 60%, 100% { transform: translateX(150%); } }
+
+/* body (centred) — sits below a curved wave divider + small shell */
+.mcm-body {
+  position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; align-items: center; text-align: center;
+  padding: 1.75rem 1.1rem 1.3rem; background: var(--body);
+}
+.mcm-wave { position: absolute; top: -22px; left: 0; right: 0; height: 24px; z-index: 4; pointer-events: none; }
+.mcm-wave svg { display: block; width: 100%; height: 100%; }
+.mcm-wave-shell {
+  position: absolute; top: -1rem; left: 50%; transform: translateX(-50%); z-index: 5;
+  display: grid; place-items: center; height: 1.9rem; width: 1.9rem; border-radius: 9999px; color: #C99A38;
+  background: radial-gradient(circle at 40% 30%, #fff, var(--soft) 78%); border: 1.5px solid #E2C276;
+  box-shadow: 0 5px 12px -7px rgba(8, 54, 64, 0.45);
+}
+.mcm-name { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.5rem; line-height: 1.1; color: var(--name); }
+.mcm-style {
+  margin-top: 0.28rem; font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink);
+}
+.mcm-desc { margin-top: 0.7rem; font-size: 0.88rem; line-height: 1.55; color: #3A6E73; }
+.mcm-best-label { margin-top: 0.9rem; font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+.mcm-best-text { margin-top: 0.2rem; font-size: 0.82rem; line-height: 1.45; color: #2C6B71; }
+
+/* activity medallions */
+.mcm-tags { margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.55rem 0.25rem; }
+.mcm-tag { display: flex; flex-direction: column; align-items: center; gap: 0.28rem; width: 3.3rem; }
+.mcm-tag-ic {
+  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px; color: var(--ic);
+  background: radial-gradient(circle at 38% 30%, #fff, var(--soft) 80%); border: 1.5px solid rgba(226, 194, 118, 0.65);
+  box-shadow: 0 6px 14px -8px rgba(8, 54, 64, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+}
+.mcm-tag-label {
+  font-family: var(--font-engrave, inherit); font-size: 0.48rem; font-weight: 800; letter-spacing: 0.02em;
+  text-transform: uppercase; color: var(--ink); line-height: 1.18;
+}
+.mcm-card:hover .mcm-tag-ic { transform: translateY(-2px); box-shadow: 0 9px 18px -8px rgba(8, 54, 64, 0.5), 0 0 0 3px var(--glow); }
+.mcm.is-in .mcm-tag { animation: kf-mcm-tag 360ms var(--ease-out) both; animation-delay: calc(1s + var(--i) * 200ms + var(--j) * 70ms); }
+@keyframes kf-mcm-tag { from { opacity: 0; transform: translateY(8px) scale(0.92); } to { opacity: 1; transform: none; } }
+
+/* "Pirate Support Included" ribbon */
+.mcm-pirate-ribbon {
+  align-self: center; margin-top: auto;
+  display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.36rem 1.15rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #6B4A2A;
+  background: linear-gradient(180deg, #FBF1D6, #EFDCAC); border: 1px solid rgba(214, 172, 92, 0.7);
+  clip-path: polygon(6% 0, 94% 0, 100% 50%, 94% 100%, 6% 100%, 0 50%);
+  box-shadow: 0 5px 12px -8px rgba(8, 54, 64, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.mcm-pirate-ribbon svg { color: #B6892F; }
+.mcm.is-in .mcm-pirate-ribbon { animation: kf-mcm-stamp 440ms var(--ease-out) both; animation-delay: calc(1.45s + var(--i) * 200ms); }
+@keyframes kf-mcm-stamp { 0% { opacity: 0; transform: scale(0.86); } 60% { opacity: 1; transform: scale(1.04); } 100% { transform: scale(1); } }
+
+/* "Meet …" — the card's jewelled CTA: a glossy gem pill in the mermaid's colour,
+   ringed in gold with a pearl halo, a breathing glow, a sweeping shine, and a
+   shell + arrow lockup. Built to stand out. */
+.mcm-meet {
+  position: relative; isolation: isolate; overflow: hidden; align-self: center; margin-top: 1.1rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.66rem 1.5rem; border-radius: 9999px; cursor: pointer;
+  font-family: var(--font-engrave, inherit); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase;
+  color: #fff; text-shadow: 0 1px 3px rgba(8, 40, 46, 0.45);
+  background: var(--btn);
+  border: 2px solid #EBCF86;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.4),
+    0 14px 26px -10px var(--btn-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -6px 14px -6px rgba(8, 40, 46, 0.35);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), filter 240ms var(--ease-out);
+  animation: kf-mcm-meetglow 3.4s ease-in-out infinite;
+}
+/* glassy top highlight */
+.mcm-meet-gloss {
+  position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.08) 46%, rgba(255, 255, 255, 0) 60%);
+}
+/* sweeping shine */
+.mcm-meet-shine {
+  position: absolute; top: 0; bottom: 0; left: -65%; width: 42%; z-index: 0; pointer-events: none; transform: skewX(-18deg);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+.mcm-meet-shell { color: #FFF4D6; filter: drop-shadow(0 1px 1px rgba(8, 40, 46, 0.35)); }
+.mcm-meet-label { position: relative; z-index: 1; }
+.mcm-meet-arrow { transition: transform 240ms var(--ease-out); }
+@keyframes kf-mcm-meetglow {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35), 0 14px 26px -10px var(--btn-glow), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -6px 14px -6px rgba(8, 40, 46, 0.35); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5), 0 16px 30px -10px var(--btn-glow), 0 0 22px -2px var(--btn-glow), inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -6px 14px -6px rgba(8, 40, 46, 0.35); }
+}
+/* one shine sweep as the card arrives, then on hover */
+.mcm.is-in .mcm-meet-shine { animation: kf-mcm-meetshine 1.1s ease-out calc(1.7s + var(--i) * 0.2s) 1; }
+.mcm-card:hover .mcm-meet-shine, .mcm-meet:hover .mcm-meet-shine { animation: kf-mcm-meetshine 0.9s ease-out; }
+@keyframes kf-mcm-meetshine { 0% { left: -65%; } 100% { left: 130%; } }
+.mcm-card:hover .mcm-meet, .mcm-meet:hover { transform: translateY(-2px) scale(1.03); filter: saturate(1.08) brightness(1.04); }
+.mcm-card:hover .mcm-meet-arrow, .mcm-meet:hover .mcm-meet-arrow { transform: translateX(3px); }
+.mcm-meet:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .mcm-meet { animation: none; } }
+
+/* ---- pirate support panel ---- */
+.mcm-support {
+  position: relative; overflow: hidden; border-radius: 24px; padding: 1.6rem 1.5rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92), rgba(232, 244, 243, 0.86));
+  border: 1px solid rgba(214, 172, 92, 0.4);
+  box-shadow: 0 26px 54px -34px rgba(8, 54, 64, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+@media (min-width: 880px) { .mcm-support { display: grid; grid-template-columns: 1.05fr 1.4fr; align-items: center; gap: 2rem; padding: 1.7rem 2rem; } }
+.mcm-support-head { display: flex; align-items: flex-start; gap: 0.9rem; }
+.mcm-support-crest {
+  flex: 0 0 auto; display: grid; place-items: center; height: 3rem; width: 3rem; border-radius: 9999px; color: #C0913A;
+  background: radial-gradient(circle at 40% 32%, #FBF1D8, #EFDCAF 78%); border: 1px solid rgba(214, 172, 92, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.mcm-support-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.2rem; line-height: 1.18; color: #134C5A; }
+.mcm-support-copy { margin-top: 0.4rem; font-size: 0.86rem; line-height: 1.55; color: #3A6E73; }
+.mcm-support-grid { margin-top: 1.2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem 1rem; }
+@media (min-width: 560px) { .mcm-support-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 880px) { .mcm-support-grid { margin-top: 0; } }
+.mcm-support-item {
+  display: flex; align-items: center; gap: 0.55rem; text-align: left;
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #0E5A66; line-height: 1.2;
+}
+.mcm-support-ic {
+  flex: 0 0 auto; display: grid; place-items: center; height: 2.4rem; width: 2.4rem; border-radius: 9999px; color: #0E6E7E;
+  background: radial-gradient(circle at 36% 30%, #fff, #CDEFEA 74%); border: 1.5px solid rgba(226, 194, 118, 0.6);
+  box-shadow: 0 6px 14px -8px rgba(8, 54, 64, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+/* pool-safety note */
+.mcm-note { margin: 1.7rem auto 0; max-width: 54rem; text-align: center; font-size: 0.74rem; line-height: 1.5; color: rgba(14, 90, 102, 0.6); }
+
+/* ---- meet reveal (enhancement only; visible by default; no bounce) ---- */
+.mcm-bg, .mcm-head > *, .mcm-card, .mcm-support { opacity: 1; transform: none; }
+.mcm.anim:not(.is-in) .mcm-bg { opacity: 0; }
+.mcm.anim:not(.is-in) .mcm-head > * { opacity: 0; transform: translateY(14px); }
+.mcm.anim:not(.is-in) .mcm-card { opacity: 0; transform: translateY(26px); }
+.mcm.anim:not(.is-in) .mcm-support { opacity: 0; transform: translateY(22px); }
+.mcm.anim:not(.is-in) .mcm-tag, .mcm.anim:not(.is-in) .mcm-pirate-ribbon { opacity: 0; animation: none; }
+.mcm.anim .mcm-bg { transition: opacity 800ms var(--ease-out); }
+.mcm.anim .mcm-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.mcm.anim .mcm-head > *:nth-child(2) { transition-delay: 90ms; }
+.mcm.anim .mcm-head > *:nth-child(3) { transition-delay: 160ms; }
+.mcm.anim .mcm-head > *:nth-child(4) { transition-delay: 220ms; }
+.mcm.anim .mcm-card { transition: opacity 620ms var(--ease-out), transform 680ms var(--ease-out), box-shadow 280ms var(--ease-out); transition-delay: calc(420ms + var(--i) * 190ms); }
+.mcm.anim .mcm-card:hover { transition: transform 280ms var(--ease-out), box-shadow 280ms var(--ease-out); transition-delay: 0ms; }
+.mcm.anim .mcm-support { transition: opacity 640ms var(--ease-out) 1.1s, transform 700ms var(--ease-out) 1.1s; }
+
+/* ---- difference reveal (enhancement only; visible by default; no bounce) ---- */
+.mdf-bg, .mdf-story, .mdf-compare, .mdf-badge { opacity: 1; transform: none; }
+.mdf.anim:not(.is-in) .mdf-bg { opacity: 0; }
+.mdf.anim:not(.is-in) .mdf-story { opacity: 0; transform: translateX(-26px); }
+.mdf.anim:not(.is-in) .mdf-compare { opacity: 0; transform: translateX(26px); }
+.mdf.anim:not(.is-in) .mdf-badge { opacity: 0; transform: translateY(12px) scale(0.92); animation: none; }
+.mdf.anim .mdf-bg { transition: opacity 800ms var(--ease-out); }
+.mdf.anim .mdf-story { transition: opacity 700ms var(--ease-out) 120ms, transform 760ms var(--ease-out) 120ms; }
+.mdf.anim .mdf-compare { transition: opacity 700ms var(--ease-out) 260ms, transform 760ms var(--ease-out) 260ms; }
+.mdf.anim .mdf-col:hover { transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
