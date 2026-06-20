@@ -75,25 +75,15 @@ export function MermaidHero() {
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
 
-      {/* pastel cove veil over the whole film so the section reads light & airy in
-          the homepage cove range — pale aqua (top) → sky-blue → lavender (bottom),
-          not a dark turquoise. The film still shimmers through underneath. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-30"
-        style={{
-          background:
-            "linear-gradient(165deg, rgba(234,251,250,0.62) 0%, rgba(225,242,251,0.5) 48%, rgba(240,237,251,0.6) 100%)",
-        }}
-      />
-
-      {/* extra wash on the left keeps the copy crisp over the film */}
+      {/* a left-only cove wash keeps the copy crisp while the vibrant film comes
+          through everywhere else — pale aqua → sky-blue → lavender, fading out fast
+          so the right of the frame stays full-strength and saturated */}
       <div
         aria-hidden
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(104deg, rgba(234,251,250,0.92) 0%, rgba(225,242,251,0.82) 24%, rgba(235,236,250,0.42) 46%, rgba(240,237,251,0.1) 64%, transparent 80%)",
+            "linear-gradient(100deg, rgba(234,251,250,0.95) 0%, rgba(228,244,251,0.86) 22%, rgba(233,237,250,0.5) 40%, rgba(240,237,251,0.14) 56%, transparent 70%)",
         }}
       />
       <div
@@ -101,8 +91,16 @@ export function MermaidHero() {
         className="absolute inset-x-0 top-0 -z-20 h-40"
         style={{ background: "linear-gradient(180deg, rgba(234,247,251,0.78), transparent)" }}
       />
-      {/* gentle overall lift on small screens so copy stays crisp over the film */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[#E6F2FB]/38 sm:hidden" />
+      {/* a light top-weighted lift on small screens so the copy stays crisp while
+          the lower film stays vibrant */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 sm:hidden"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(230,242,251,0.6) 0%, rgba(230,242,251,0.34) 42%, transparent 72%)",
+        }}
+      />
 
       {/* drifting bubbles over the whole section */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
