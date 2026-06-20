@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
-import { Anchor, Crown, Droplets, Music, Sun, Waves } from "lucide-react";
+import { Anchor, Crown, Droplets, Music, Shell, Sun, Waves } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * MermaidTrustStrip — the feature/trust strip directly beneath the Mermaid Cove
- * hero. Six pearl-seafoam cards reassure parents at a glance: real swimming
- * mermaids, an included pirate handler, pool-ready, structured activities, and
- * summer-perfect. Cards fade/slide in on a soft stagger, lift on hover, and the
- * icons carry a gentle shimmer. Reveals are IntersectionObserver-driven and
- * VISIBLE BY DEFAULT (hidden only under `.mct.anim` before `.is-in`), so
- * reduced-motion / pre-JS render gets it composed & still. See the
- * "MERMAID COVE TRUST" block in styles.css.
+ * MermaidTrustStrip — the feature strip beneath the hero, styled as a row of
+ * tide-pool tokens: pearl-seafoam cards with a circular aqua icon badge ringed in
+ * gold, a short title + subtitle, on a pale shell-textured ground with soft water
+ * caustics and faint coral accents. The heading fades in, a gold tide-line draws
+ * beneath it, then the tokens rise on a gentle stagger with a pearl icon shimmer.
+ * Reveals are IntersectionObserver-driven and VISIBLE BY DEFAULT (hidden only
+ * under `.mct.anim` before `.is-in`). See the "MERMAID COVE TRUST" block in
+ * styles.css.
  */
 type Vars = CSSProperties & Record<string, string | number>;
 type IconType = ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
@@ -62,43 +62,35 @@ export function MermaidTrustStrip() {
       ref={ref}
       id="cove-trust"
       aria-labelledby="mct-title"
-      className={cn(
-        "mct relative isolate scroll-mt-24 overflow-hidden",
-        motionOK && "anim",
-        inView && "is-in",
-      )}
+      className={cn("mct relative isolate overflow-hidden", motionOK && "anim", inView && "is-in")}
     >
       <div aria-hidden className="mct-bg absolute inset-0" />
       <div aria-hidden className="mct-tex pointer-events-none absolute inset-0" />
+      {/* faint coral / shell accents anchoring the bottom corners */}
+      <span aria-hidden className="mct-coral mct-coral-l" />
+      <span aria-hidden className="mct-coral mct-coral-r" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-16 pt-14 sm:px-6 md:pb-20 md:pt-16 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-16 pt-12 sm:px-6 md:pb-20 md:pt-14 lg:px-8">
         {/* header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="mct-eyebrow">
-            <Waves className="h-3.5 w-3.5 text-[var(--chapter-mermaid)]" aria-hidden />
-            What&apos;s included
-          </span>
           <h2 id="mct-title" className="mct-title">
-            Poolside magic, properly guided
+            <Shell className="mct-title-shell h-4 w-4" aria-hidden />
+            Trusted for Magical Memories
+            <Shell className="mct-title-shell h-4 w-4 -scale-x-100" aria-hidden />
           </h2>
-          <p className="mct-sub">
-            Everything you need for an unforgettable Mermaid Cove visit — real swimming mermaids, a
-            pirate handler, and structured summer fun for any pool.
-          </p>
+          <span aria-hidden className="mct-rule" />
         </div>
 
-        {/* the six feature cards */}
+        {/* the six tide-pool tokens */}
         <div className="mct-grid mt-10 md:mt-12">
           {ITEMS.map((item, i) => (
             <article key={item.title} className="mct-card" style={{ "--i": i } as Vars}>
-              <span className="mct-ic" aria-hidden>
-                <item.icon className="h-5 w-5" />
-                <span className="mct-ic-shine" />
+              <span className="mct-token" aria-hidden>
+                <span className="mct-token-shine" />
+                <item.icon className="h-6 w-6" />
               </span>
-              <div className="mct-card-body">
-                <h3 className="mct-card-title">{item.title}</h3>
-                <p className="mct-card-note">{item.note}</p>
-              </div>
+              <h3 className="mct-card-title">{item.title}</h3>
+              <p className="mct-card-note">{item.note}</p>
             </article>
           ))}
         </div>
