@@ -31,6 +31,7 @@ import {
 import { RoyalInvitation } from "@/components/site/RoyalInvitation";
 import { ScrollTimeline, type TimelineStep } from "@/components/site/ScrollTimeline";
 import { PrincessBookingForm } from "@/components/site/PrincessBookingForm";
+import { WorldTrustStrip, type WorldTrustItem } from "@/components/site/WorldTrustStrip";
 import { chapterBySlug, worldPricing, pricingPromise } from "@/lib/site-data";
 import { princessCourt } from "@/lib/royal-court";
 
@@ -48,6 +49,52 @@ import galleryTwirl from "@/assets/princess/real-mermaid-twirl.jpg";
 
 const chapter = chapterBySlug("princess-events")!;
 const princessPricing = worldPricing.find((w) => w.slug === "princess-events")!;
+
+/* Small trust strip beneath the hero (shared WorldTrustStrip, blush/gold theme). */
+const PRINCESS_TRUST: WorldTrustItem[] = [
+  { icon: Crown, title: "Premium Gowns", note: "Beautifully detailed, character-accurate gowns." },
+  {
+    icon: BadgeCheck,
+    title: "Trained Performers",
+    note: "In-character singing, stories, and grace.",
+  },
+  {
+    icon: BookOpen,
+    title: "Storytime & Singing",
+    note: "Live storytelling and a sing-along moment.",
+  },
+  { icon: Camera, title: "Photos With Every Guest", note: "Unhurried photo time to treasure." },
+  {
+    icon: SparklesIcon,
+    title: "Coronation Moment",
+    note: "Your child crowned in their own ceremony.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Structured Experiences",
+    note: "Organized, age-aware party flow.",
+  },
+];
+const PRINCESS_TRUST_VARS: Record<string, string> = {
+  "--wts-base": "#FDEFF5",
+  "--wts-bg":
+    "radial-gradient(60% 46% at 50% -6%, rgba(255,255,255,0.6), transparent 58%), radial-gradient(48% 44% at 14% 4%, rgba(229,154,192,0.4), transparent 62%), radial-gradient(50% 46% at 86% 8%, rgba(207,168,98,0.26), transparent 64%), linear-gradient(180deg, #FDEFF5 0%, #FBE6F0 52%, #FDF0F6 100%)",
+  "--wts-dot": "rgba(201,51,126,0.07)",
+  "--wts-glow-c": "rgba(229,154,192,0.4)",
+  "--wts-title-c": "var(--pp-magenta-deep)",
+  "--wts-spark": "#CFA862",
+  "--wts-gold": "#D9B25A",
+  "--wts-gold-soft": "rgba(217,178,90,0.75)",
+  "--wts-accent": "rgba(201,51,126,0.4)",
+  "--wts-card": "linear-gradient(165deg, rgba(255,255,255,0.95), rgba(251,230,240,0.9))",
+  "--wts-card-bd": "rgba(207,168,98,0.4)",
+  "--wts-token": "radial-gradient(circle at 38% 32%, #FCE9F1, #F6CFE0 60%, #EBA9C8 100%)",
+  "--wts-token-bd": "#E2C276",
+  "--wts-ink": "#8E1F54",
+  "--wts-note": "rgba(122,33,81,0.72)",
+  "--wts-ring": "rgba(229,154,192,0.5)",
+  "--wts-sh": "120,20,70",
+};
 
 export const Route = createFileRoute("/princess-events")({
   head: () => ({
@@ -532,6 +579,15 @@ function PrincessPage() {
   return (
     <>
       <PrincessHero />
+
+      {/* Small trust strip — sibling of the Mermaid / Jurassic / Wonderverse bands. */}
+      <WorldTrustStrip
+        id="princess-trust"
+        title="Trusted for Royal Celebrations"
+        flankIcon={Crown}
+        items={PRINCESS_TRUST}
+        vars={PRINCESS_TRUST_VARS}
+      />
 
       {/* What happens — scroll timeline (clip off so the sticky stage can pin) */}
       <Section tone="pearl" id="what-happens" sparkle clip={false}>

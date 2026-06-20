@@ -31,6 +31,7 @@ import { CTAButton } from "@/components/site/CTAButton";
 import { Reveal } from "@/components/site/Reveal";
 import { type TimelineStep } from "@/components/site/ScrollTimeline";
 import { HeroMissionTimeline } from "@/components/site/HeroMissionTimeline";
+import { WorldTrustStrip, type WorldTrustItem } from "@/components/site/WorldTrustStrip";
 import { HeroMissionBriefing } from "@/components/site/HeroMissionBriefing";
 import { HeroDivisions } from "@/components/site/HeroDivisions";
 import { MissionControl } from "@/components/site/MissionControl";
@@ -783,6 +784,40 @@ function HeroPriceCard({ pkg, index }: { pkg: HeroPackage; index: number }) {
 /* ============================================================================
    THE PAGE — light from end to end; navy only inside the HQ showcase core.
    ============================================================================ */
+/* Small trust strip beneath the hero (shared WorldTrustStrip, ice/navy/gold theme). */
+const HERO_TRUST: WorldTrustItem[] = [
+  { icon: Shield, title: "Hero Training", note: "Action-packed missions and challenges." },
+  { icon: Star, title: "Sworn-In Ceremony", note: "Every child officially made a hero." },
+  { icon: Users, title: "Team Challenges", note: "Structured, inclusive group games." },
+  { icon: Camera, title: "Photos With Every Guest", note: "Heroic photo moments to keep." },
+  { icon: BadgeCheck, title: "Professional Performers", note: "Polished, in-character, reliable." },
+  {
+    icon: CalendarCheck,
+    title: "Structured Experiences",
+    note: "Organized timing, start to finish.",
+  },
+];
+const HERO_TRUST_VARS: Record<string, string> = {
+  "--wts-base": "var(--hero-ice)",
+  "--wts-bg":
+    "radial-gradient(60% 46% at 50% -6%, rgba(255,255,255,0.7), transparent 58%), radial-gradient(48% 44% at 14% 4%, rgba(79,143,220,0.26), transparent 62%), radial-gradient(50% 46% at 86% 8%, rgba(216,58,74,0.18), transparent 64%), linear-gradient(180deg, #EEF7FF 0%, #E4F0FD 52%, #EEF6FF 100%)",
+  "--wts-dot": "rgba(35,81,143,0.08)",
+  "--wts-glow-c": "rgba(79,143,220,0.34)",
+  "--wts-title-c": "var(--hero-navy)",
+  "--wts-spark": "var(--hero-gold)",
+  "--wts-gold": "#D7A646",
+  "--wts-gold-soft": "rgba(215,166,70,0.8)",
+  "--wts-accent": "rgba(79,143,220,0.45)",
+  "--wts-card": "linear-gradient(165deg, rgba(255,255,255,0.96), rgba(228,240,253,0.9))",
+  "--wts-card-bd": "rgba(215,166,70,0.45)",
+  "--wts-token": "radial-gradient(circle at 38% 32%, #EAF3FF, #C7DEF8 60%, #97BFEC 100%)",
+  "--wts-token-bd": "#E0B968",
+  "--wts-ink": "var(--hero-navy)",
+  "--wts-note": "rgba(24,54,93,0.7)",
+  "--wts-ring": "rgba(79,143,220,0.5)",
+  "--wts-sh": "24,54,93",
+};
+
 function HeroPage() {
   const { hero } = Route.useSearch();
 
@@ -806,6 +841,15 @@ function HeroPage() {
   return (
     <>
       <HeroHero />
+
+      {/* Small trust strip — sibling of the Mermaid / Jurassic / Wonderverse bands. */}
+      <WorldTrustStrip
+        id="hero-trust"
+        title="Trusted for Heroic Adventures"
+        flankIcon={Star}
+        items={HERO_TRUST}
+        vars={HERO_TRUST_VARS}
+      />
 
       {/* The Experience — hero "mission briefing" (clip off so the stage can pin) */}
       <Section tone="sky" id="what-happens" clip={false}>

@@ -5174,6 +5174,419 @@
   50% { opacity: 0.95; transform: scale(1.12); }
 }
 
+/* ===========================================================================
+   WONDERVERSE REALM TRUST — the small feature strip beneath the hero (celestial
+   sibling of the Mermaid Cove strip / Jurassic credentials band). Six compact
+   cards on a pale lilac star-dust ground; cards fade/slide in on a stagger, lift
+   on hover, medallions shimmer once in view. VISIBLE BY DEFAULT (hidden only
+   under `.wvt.anim` before `.is-in`). Reuses kf-mco-shine / kf-mco-cardshine.
+   =========================================================================== */
+.wvt { background: #ECE6FB; }
+.wvt-bg {
+  background:
+    radial-gradient(60% 46% at 50% -6%, rgba(255, 255, 255, 0.6), transparent 58%),
+    radial-gradient(48% 44% at 14% 4%, rgba(182, 139, 230, 0.34), transparent 62%),
+    radial-gradient(50% 46% at 86% 8%, rgba(110, 127, 214, 0.3), transparent 64%),
+    linear-gradient(180deg, #F3EFFB 0%, #E9E3FA 52%, #EFEAFB 100%);
+}
+.wvt-tex {
+  background-image: radial-gradient(circle at 50% 0%, rgba(124, 79, 200, 0.08) 0 5px, transparent 6px);
+  background-size: 26px 14px; opacity: 0.55;
+  -webkit-mask-image: radial-gradient(140% 100% at 50% 0%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(140% 100% at 50% 0%, #000 45%, transparent 100%);
+}
+.wvt-glow {
+  position: absolute; bottom: -2.5rem; z-index: 0; width: 16rem; height: 10rem; pointer-events: none; opacity: 0.5; filter: blur(8px);
+  background: radial-gradient(60% 72% at 50% 100%, rgba(182, 139, 230, 0.4), transparent 72%);
+}
+.wvt-glow-l { left: -2.5rem; }
+.wvt-glow-r { right: -2.5rem; }
+
+.wvt-title {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem;
+  font-family: var(--font-display, inherit); font-weight: 700;
+  font-size: clamp(1.4rem, 3vw, 1.95rem); line-height: 1.1; color: #5C3F94;
+}
+.wvt-title-spark { color: #D9B25A; }
+.wvt-rule {
+  display: block; height: 12px; width: clamp(7rem, 20vw, 11rem); margin: 0.6rem auto 0;
+  background:
+    radial-gradient(circle at center, #D9B25A 0 2.5px, transparent 3px) center / 100% no-repeat,
+    linear-gradient(90deg, transparent, rgba(182, 139, 230, 0.55) 22%, rgba(217, 178, 90, 0.75) 50%, rgba(182, 139, 230, 0.55) 78%, transparent) center / 100% 1.6px no-repeat;
+}
+
+.wvt-grid { display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
+@media (min-width: 560px) { .wvt-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .wvt-grid { grid-template-columns: repeat(3, 1fr); } }
+.wvt-card {
+  position: relative; overflow: hidden; text-align: left;
+  display: flex; flex-direction: row; align-items: center; gap: 0.85rem;
+  border-radius: 16px; padding: 0.8rem 1rem;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(234, 226, 250, 0.9));
+  border: 1px solid rgba(226, 194, 118, 0.4);
+  box-shadow: 0 16px 30px -26px rgba(46, 26, 84, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
+}
+.wvt-card-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.wvt-card:hover {
+  transform: translateY(-4px); border-color: rgba(217, 178, 90, 0.8);
+  box-shadow: 0 30px 50px -28px rgba(46, 26, 84, 0.55), 0 0 0 1px rgba(182, 139, 230, 0.35);
+}
+.wvt-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transform: translateX(-60%);
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+}
+.wvt-card:hover::before { animation: kf-mco-cardshine 0.9s ease-out; }
+.wvt-token {
+  position: relative; overflow: hidden; display: grid; place-items: center; z-index: 2; flex: 0 0 auto;
+  height: 2.7rem; width: 2.7rem; border-radius: 9999px; color: #5C3F94;
+  background: radial-gradient(circle at 38% 32%, #F4ECFF, #D8C6F4 60%, #B89BE6 100%);
+  border: 2px solid #E2C276;
+  box-shadow: 0 8px 18px -8px rgba(46, 26, 84, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: box-shadow 240ms var(--ease-out);
+}
+.wvt-card:hover .wvt-token { box-shadow: 0 10px 22px -8px rgba(46, 26, 84, 0.55), 0 0 0 4px rgba(231, 211, 255, 0.5); }
+.wvt-token-shine {
+  position: absolute; inset: 0; transform: translateX(-120%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.7) 50%, transparent 70%);
+}
+.wvt.is-in .wvt-token-shine { animation: kf-mco-shine 2.8s ease-in-out infinite; animation-delay: calc(1.1s + var(--i) * 140ms); }
+.wvt-card-title {
+  position: relative; z-index: 2;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.96rem; line-height: 1.2; color: #3F2A66;
+}
+.wvt-card-note { position: relative; z-index: 2; font-size: 0.76rem; line-height: 1.38; color: rgba(74, 53, 120, 0.78); }
+
+/* ---- trust reveal (enhancement only; visible by default; no bounce) ---- */
+.wvt-title, .wvt-rule, .wvt-card { opacity: 1; transform: none; }
+.wvt.anim:not(.is-in) .wvt-title { opacity: 0; transform: translateY(12px); }
+.wvt.anim:not(.is-in) .wvt-rule { opacity: 0; transform: scaleX(0.25); }
+.wvt.anim:not(.is-in) .wvt-card { opacity: 0; transform: translateY(18px); }
+.wvt.anim .wvt-title { transition: opacity 600ms var(--ease-out) 80ms, transform 600ms var(--ease-out) 80ms; }
+.wvt.anim .wvt-rule { transition: opacity 600ms var(--ease-out) 320ms, transform 700ms var(--ease-out) 320ms; }
+.wvt.anim .wvt-card {
+  transition: opacity 560ms var(--ease-out), transform 580ms var(--ease-out);
+  transition-delay: calc(420ms + var(--i) * 100ms);
+}
+.wvt.anim .wvt-card:hover {
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
+  transition-delay: 0ms;
+}
+
+/* ===========================================================================
+   REUSABLE WORLD TRUST STRIP — the same small trust strip as the Mermaid /
+   Wonderverse ones, themed entirely via `--wts-*` custom properties set inline
+   per page (used for the Princess + Hero worlds). VISIBLE BY DEFAULT (hidden only
+   under `.wts.anim` before `.is-in`). Reuses kf-mco-shine / kf-mco-cardshine.
+   =========================================================================== */
+.wts { background: var(--wts-base); }
+.wts-bg { background: var(--wts-bg); }
+.wts-tex {
+  background-image: radial-gradient(circle at 50% 0%, var(--wts-dot) 0 5px, transparent 6px);
+  background-size: 26px 14px; opacity: 0.55;
+  -webkit-mask-image: radial-gradient(140% 100% at 50% 0%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(140% 100% at 50% 0%, #000 45%, transparent 100%);
+}
+.wts-glow {
+  position: absolute; bottom: -2.5rem; z-index: 0; width: 16rem; height: 10rem; pointer-events: none; opacity: 0.5; filter: blur(8px);
+  background: radial-gradient(60% 72% at 50% 100%, var(--wts-glow-c), transparent 72%);
+}
+.wts-glow-l { left: -2.5rem; }
+.wts-glow-r { right: -2.5rem; }
+
+.wts-title {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem;
+  font-family: var(--font-display, inherit); font-weight: 700;
+  font-size: clamp(1.4rem, 3vw, 1.95rem); line-height: 1.1; color: var(--wts-title-c);
+}
+.wts-title-spark { color: var(--wts-spark); }
+.wts-rule {
+  display: block; height: 12px; width: clamp(7rem, 20vw, 11rem); margin: 0.6rem auto 0;
+  background:
+    radial-gradient(circle at center, var(--wts-gold) 0 2.5px, transparent 3px) center / 100% no-repeat,
+    linear-gradient(90deg, transparent, var(--wts-accent) 22%, var(--wts-gold-soft) 50%, var(--wts-accent) 78%, transparent) center / 100% 1.6px no-repeat;
+}
+
+.wts-grid { display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
+@media (min-width: 560px) { .wts-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .wts-grid { grid-template-columns: repeat(3, 1fr); } }
+.wts-card {
+  position: relative; overflow: hidden; text-align: left;
+  display: flex; flex-direction: row; align-items: center; gap: 0.85rem;
+  border-radius: 16px; padding: 0.8rem 1rem;
+  background: var(--wts-card); border: 1px solid var(--wts-card-bd);
+  box-shadow: 0 16px 30px -26px rgba(var(--wts-sh), 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
+}
+.wts-card-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.wts-card:hover {
+  transform: translateY(-4px); border-color: var(--wts-gold);
+  box-shadow: 0 30px 50px -28px rgba(var(--wts-sh), 0.55), 0 0 0 1px var(--wts-accent);
+}
+.wts-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transform: translateX(-60%);
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+}
+.wts-card:hover::before { animation: kf-mco-cardshine 0.9s ease-out; }
+.wts-token {
+  position: relative; overflow: hidden; display: grid; place-items: center; z-index: 2; flex: 0 0 auto;
+  height: 2.7rem; width: 2.7rem; border-radius: 9999px; color: var(--wts-ink);
+  background: var(--wts-token); border: 2px solid var(--wts-token-bd);
+  box-shadow: 0 8px 18px -8px rgba(var(--wts-sh), 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: box-shadow 240ms var(--ease-out);
+}
+.wts-card:hover .wts-token { box-shadow: 0 10px 22px -8px rgba(var(--wts-sh), 0.55), 0 0 0 4px var(--wts-ring); }
+.wts-token-shine {
+  position: absolute; inset: 0; transform: translateX(-120%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.7) 50%, transparent 70%);
+}
+.wts.is-in .wts-token-shine { animation: kf-mco-shine 2.8s ease-in-out infinite; animation-delay: calc(1.1s + var(--i) * 140ms); }
+.wts-card-title {
+  position: relative; z-index: 2;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.96rem; line-height: 1.2; color: var(--wts-ink);
+}
+.wts-card-note { position: relative; z-index: 2; font-size: 0.76rem; line-height: 1.38; color: var(--wts-note); }
+
+/* ---- reveal (enhancement only; visible by default; no bounce) ---- */
+.wts-title, .wts-rule, .wts-card { opacity: 1; transform: none; }
+.wts.anim:not(.is-in) .wts-title { opacity: 0; transform: translateY(12px); }
+.wts.anim:not(.is-in) .wts-rule { opacity: 0; transform: scaleX(0.25); }
+.wts.anim:not(.is-in) .wts-card { opacity: 0; transform: translateY(18px); }
+.wts.anim .wts-title { transition: opacity 600ms var(--ease-out) 80ms, transform 600ms var(--ease-out) 80ms; }
+.wts.anim .wts-rule { transition: opacity 600ms var(--ease-out) 320ms, transform 700ms var(--ease-out) 320ms; }
+.wts.anim .wts-card {
+  transition: opacity 560ms var(--ease-out), transform 580ms var(--ease-out);
+  transition-delay: calc(420ms + var(--i) * 100ms);
+}
+.wts.anim .wts-card:hover {
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms var(--ease-out);
+  transition-delay: 0ms;
+}
+
+/* ===========================================================================
+   WONDERVERSE REALM CAST — "Summon the Cast" character reveal. A looping violet
+   observatory film, a glowing moon-medallion, and six amethyst/gold category
+   cards (Princess-Kingdom card design rethemed) fanned around it. On scroll-in
+   each card bursts out of a ball of energy, then drifts gently. VISIBLE BY
+   DEFAULT (hidden only under `.wvc.anim` before `.is-in`), reduced-motion safe.
+   =========================================================================== */
+.wvc { background: #1A1036; color: #EDE4FF; }
+.wvc-veil {
+  background:
+    radial-gradient(130% 84% at 50% 42%, transparent 26%, rgba(18, 10, 40, 0.5) 78%, rgba(14, 8, 32, 0.7) 100%),
+    linear-gradient(180deg, rgba(20, 12, 46, 0.42) 0%, rgba(20, 12, 46, 0.18) 36%, rgba(20, 12, 46, 0.5) 100%);
+}
+.wvc-seam-top {
+  height: 150px;
+  background: linear-gradient(180deg, #ECE6FB 0%, rgba(236, 230, 251, 0.55) 26%, transparent 100%);
+}
+.wvc-seam-bottom {
+  height: 150px;
+  background: linear-gradient(0deg, var(--ivory) 0%, rgba(255, 252, 246, 0.55) 26%, transparent 100%);
+}
+
+/* header */
+.wvc-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-engrave, inherit);
+  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase; color: #F2D38C;
+}
+.wvc-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.05;
+  font-size: clamp(1.9rem, 4.4vw, 3rem); color: #F6EEFF; text-shadow: 0 2px 24px rgba(160, 110, 230, 0.6);
+}
+.wvc-sub { margin-top: 0.85rem; font-size: 1rem; line-height: 1.55; color: #CDBBF0; }
+
+/* the stage */
+.wvc-stage { position: relative; }
+.wvc-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.1rem; }
+
+/* centre moon-medallion — the interactive "Summon the Cast" trigger button */
+.wvc-core {
+  position: relative; display: grid; place-items: center; height: 11rem; width: 11rem; margin: 0 auto 2rem;
+  border: 0; background: transparent; border-radius: 9999px; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent;
+}
+.wvc-core:disabled { cursor: default; }
+.wvc-core:focus-visible { outline: 2px solid #F2D38C; outline-offset: 6px; }
+.wvc-core-ring {
+  position: absolute; inset: 0; border-radius: 9999px; border: 1px solid rgba(231, 211, 255, 0.5);
+  background: radial-gradient(circle at 50% 38%, rgba(74, 50, 122, 0.72), rgba(28, 16, 56, 0.85) 72%);
+  box-shadow: 0 0 46px rgba(160, 110, 230, 0.5), inset 0 0 34px rgba(160, 110, 230, 0.4), 0 0 0 6px rgba(214, 178, 90, 0.14);
+  transition: box-shadow 360ms var(--ease-out);
+}
+.wvc-core:not(:disabled):hover .wvc-core-ring {
+  box-shadow: 0 0 70px rgba(190, 140, 255, 0.75), inset 0 0 40px rgba(190, 140, 255, 0.55), 0 0 0 6px rgba(214, 178, 90, 0.26);
+}
+.wvc-core-rays {
+  position: absolute; inset: -8px; border-radius: 9999px; opacity: 0.55;
+  background: conic-gradient(from 0deg, transparent 0 8deg, rgba(242, 211, 140, 0.5) 9deg 10deg, transparent 11deg 30deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 56%, #000 60%, #000 74%, transparent 78%);
+  mask-image: radial-gradient(circle, transparent 56%, #000 60%, #000 74%, transparent 78%);
+  animation: kf-wvc-spin 40s linear infinite;
+}
+@keyframes kf-wvc-spin { to { transform: rotate(360deg); } }
+.wvc-core-pulse { position: absolute; inset: 0; border-radius: 9999px; border: 1px solid rgba(231, 211, 255, 0.6); opacity: 0; pointer-events: none; }
+.wvc-core-wave { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(214, 178, 90, 0.7); opacity: 0; pointer-events: none; }
+.wvc-core-moon {
+  position: absolute; top: 1.7rem; height: 2.4rem; width: 2.4rem; color: #F4D38C; filter: drop-shadow(0 0 10px rgba(247, 211, 140, 0.85));
+}
+.wvc-core-label {
+  position: relative; margin-top: 1.9rem; text-align: center; font-family: var(--font-display, inherit);
+  font-size: 1rem; font-weight: 700; line-height: 1.04; color: #F6EEFF; text-shadow: 0 1px 10px rgba(160, 110, 230, 0.8);
+}
+.wvc-core-hint {
+  position: absolute; bottom: -1.4rem; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-family: var(--font-engrave, inherit); font-size: 0.55rem; letter-spacing: 0.24em; text-transform: uppercase; color: #E7D3FF;
+}
+
+/* one casting card */
+.wvc-cell { position: relative; width: 150px; }
+.wvc-orb {
+  position: absolute; left: 50%; top: 42%; height: 28px; width: 28px; transform: translate(-50%, -50%); pointer-events: none;
+  border-radius: 9999px; opacity: 0;
+  background: radial-gradient(circle, #fff, #DCC0FF 38%, rgba(150, 90, 230, 0.55) 70%, transparent 78%);
+  box-shadow: 0 0 28px 10px rgba(184, 132, 255, 0.85);
+}
+.wvc-float { position: relative; }
+.wvc-bob { position: relative; }
+.wvc-card {
+  position: relative; overflow: hidden; border-radius: 14px; padding: 6px; transform: rotate(var(--rot, 0deg));
+  border: 1px solid rgba(214, 178, 90, 0.7);
+  background: linear-gradient(165deg, #3A2470 0%, #2A1856 52%, #241246 100%);
+  box-shadow: 0 18px 36px -16px rgba(8, 3, 26, 0.85), 0 0 0 1px rgba(231, 211, 255, 0.12),
+    0 0 30px -6px color-mix(in oklab, var(--acc, #9B6BE6) 60%, transparent);
+}
+.wvc-card-shine {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 60% at 50% -8%, rgba(231, 211, 255, 0.22), transparent 60%);
+}
+.wvc-portrait {
+  position: relative; overflow: hidden; display: grid; place-items: center; aspect-ratio: 7 / 9; border-radius: 9px;
+  border: 1px solid color-mix(in oklab, var(--acc, #9B6BE6) 45%, rgba(214, 178, 90, 0.5));
+  background: radial-gradient(120% 92% at 50% 16%, color-mix(in oklab, var(--acc, #9B6BE6) 42%, #2A1652), rgba(34, 18, 66, 0.94) 72%);
+}
+.wvc-portrait-img {
+  position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: 50% 10%;
+  transition: transform 360ms var(--ease-out);
+}
+.wvc-card:hover .wvc-portrait-img, .wvc-card:focus-within .wvc-portrait-img { transform: scale(1.06); }
+.wvc-portrait-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(70% 38% at 50% 0%, color-mix(in oklab, var(--acc, #C49CFF) 38%, transparent), transparent 70%),
+    linear-gradient(180deg, transparent 52%, rgba(18, 9, 38, 0.5) 100%);
+}
+.wvc-portrait-badge {
+  position: absolute; top: 6px; right: 6px; display: grid; place-items: center; height: 1.5rem; width: 1.5rem; border-radius: 9999px;
+  color: #fff; background: color-mix(in oklab, var(--acc, #5A3CA0) 55%, #2A1656);
+  border: 1px solid rgba(247, 231, 170, 0.7); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.wvc-meta { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; padding: 0.5rem 0.35rem 0.4rem; }
+.wvc-card-label {
+  font-family: var(--font-display, inherit); font-size: 0.82rem; font-weight: 700; line-height: 1.12; color: #F4ECFF; text-align: center;
+}
+.wvc-card-sub {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-align: center;
+  color: color-mix(in oklab, var(--acc, #CDBBF0) 55%, #CDBBF0);
+}
+
+/* hover reveal — a quick line + a premium Book Now (princess-card style) */
+.wvc-card-reveal {
+  width: 100%; overflow: hidden; max-height: 0; opacity: 0; margin-top: 0;
+  transition: max-height 320ms var(--ease-out), opacity 260ms var(--ease-out), margin-top 320ms var(--ease-out);
+}
+.wvc-card:hover .wvc-card-reveal, .wvc-card:focus-within .wvc-card-reveal { max-height: 8rem; opacity: 1; margin-top: 0.4rem; }
+.wvc-card-line { padding: 0 0.15rem; font-size: 0.66rem; line-height: 1.35; font-style: italic; text-align: center; color: #E7D9FA; }
+.wvc-card-book {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem; width: 100%; margin-top: 0.5rem;
+  border-radius: 9999px; padding: 0.42rem 0.6rem; font-family: var(--font-display, inherit); font-size: 0.72rem; font-weight: 700; color: #2A1656;
+  background: linear-gradient(120deg, #F4D88E, #E0B968); border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.6);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), background 200ms var(--ease-out);
+}
+.wvc-card-book:hover { background: linear-gradient(120deg, #F8E6AC, #E7C778); box-shadow: 0 8px 20px -6px color-mix(in oklab, var(--acc, #9B6BE6) 70%, rgba(0, 0, 0, 0.5)); }
+.wvc-card-book:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.wvc-card-book svg { transition: transform 200ms var(--ease-out); }
+.wvc-card-book:hover svg { transform: translateX(2px); }
+/* lift + raise + steady the hovered card */
+.wvc-card { transition: transform 260ms var(--ease-out), box-shadow 260ms var(--ease-out), border-color 260ms var(--ease-out); }
+.wvc-card:hover, .wvc-card:focus-within {
+  transform: rotate(0deg) translateY(-6px) scale(1.045); border-color: rgba(247, 231, 170, 0.95);
+  box-shadow: 0 26px 50px -18px rgba(8, 3, 26, 0.9), 0 0 0 1px rgba(247, 231, 170, 0.4),
+    0 0 40px -6px color-mix(in oklab, var(--acc, #9B6BE6) 75%, transparent);
+}
+.wvc-cell:hover, .wvc-cell:focus-within { z-index: 12; }
+.wvc-cell:hover .wvc-bob, .wvc-cell:focus-within .wvc-bob { animation-play-state: paused; }
+/* touch / smaller screens: the reveal is always shown (no hover) */
+@media (max-width: 1023px) {
+  .wvc-card-reveal { max-height: 8rem; opacity: 1; margin-top: 0.4rem; }
+}
+
+/* foot */
+.wvc-foot-line { font-size: 0.95rem; line-height: 1.55; color: #CDBBF0; }
+
+/* ---- reveal: tap-to-summon → energy burst → drift (visible by default) ---- */
+.wvc-float { opacity: 1; transform: none; }
+.wvc-orb { opacity: 0; }
+.wvc-flash { opacity: 0; pointer-events: none; background: radial-gradient(60% 50% at 50% 46%, rgba(231, 211, 255, 0.5), transparent 70%); }
+.wvc.is-armed:not(.is-summoned) .wvc-float { opacity: 0; transform: scale(0.08); }
+.wvc.is-armed:not(.is-summoned) .wvc-core-pulse { animation: kf-wvc-pulse 2.1s ease-out infinite; }
+.wvc.is-armed:not(.is-summoned) .wvc-core-ring { animation: kf-wvc-breathe 2.4s ease-in-out infinite; }
+.wvc.is-armed:not(.is-summoned) .wvc-core-hint { animation: kf-wvc-hint 2.1s ease-in-out infinite; }
+.wvc.is-summoned .wvc-float { animation: kf-wvc-pop 0.85s var(--d) cubic-bezier(0.18, 1.5, 0.32, 1) both; }
+.wvc.is-summoned .wvc-orb { animation: kf-wvc-orb 0.7s calc(var(--d) + 0.12s) ease-out both; }
+.wvc.is-summoned .wvc-bob { animation: kf-wvc-bob var(--fd) ease-in-out infinite; animation-delay: calc(var(--d) + 1.2s); }
+.wvc.is-summoned .wvc-flash { animation: kf-wvc-flash 0.85s ease-out 0.05s both; }
+.wvc.is-summoned .wvc-core-wave { animation: kf-wvc-wave 1s ease-out 0.05s both; }
+.wvc.is-summoned .wvc-core-wave--2 { animation-delay: 0.24s; border-color: rgba(190, 140, 255, 0.7); }
+/* header / core / foot entrance */
+.wvc-head > *, .wvc-foot, .wvc-core { opacity: 1; transform: none; }
+.wvc.anim:not(.is-in) .wvc-head > *, .wvc.anim:not(.is-in) .wvc-foot { opacity: 0; transform: translateY(14px); }
+.wvc.anim:not(.is-in) .wvc-core { opacity: 0; }
+.wvc.anim .wvc-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.wvc.anim .wvc-head > *:nth-child(2) { transition-delay: 80ms; }
+.wvc.anim .wvc-head > *:nth-child(3) { transition-delay: 150ms; }
+.wvc.anim .wvc-core { transition: opacity 700ms var(--ease-out) 150ms; }
+.wvc.anim .wvc-foot { transition: opacity 600ms var(--ease-out) 250ms, transform 600ms var(--ease-out) 250ms; }
+@keyframes kf-wvc-pop {
+  0% { opacity: 0; transform: scale(0.08); }
+  40% { opacity: 1; }
+  72% { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes kf-wvc-orb {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  28% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.7); }
+}
+@keyframes kf-wvc-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes kf-wvc-pulse { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5); } }
+@keyframes kf-wvc-breathe {
+  0%, 100% { box-shadow: 0 0 40px rgba(160, 110, 230, 0.5), inset 0 0 30px rgba(160, 110, 230, 0.4), 0 0 0 6px rgba(214, 178, 90, 0.14); }
+  50% { box-shadow: 0 0 72px rgba(190, 140, 255, 0.82), inset 0 0 42px rgba(190, 140, 255, 0.55), 0 0 0 6px rgba(214, 178, 90, 0.26); }
+}
+@keyframes kf-wvc-hint { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.95; } }
+@keyframes kf-wvc-flash { 0% { opacity: 0; } 16% { opacity: 0.8; } 100% { opacity: 0; } }
+@keyframes kf-wvc-wave { 0% { opacity: 0.85; transform: scale(0.9); } 100% { opacity: 0; transform: scale(3.4); } }
+
+/* desktop: arrange the ten cards in a summoning ring around the centre trigger */
+@media (min-width: 1024px) {
+  .wvc-stage { min-height: 760px; }
+  .wvc-core { position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%); z-index: 3; }
+  .wvc-grid { display: block; position: relative; height: 760px; }
+  .wvc-cell { position: absolute; left: var(--clx); top: var(--cly); width: 150px; transform: translate(-50%, -50%); }
+  .wvc.is-armed:not(.is-summoned) .wvc-float { transform: translate(var(--fx), var(--fy)) scale(0.08); }
+  .wvc.is-summoned .wvc-float { animation-name: kf-wvc-summon; }
+  @keyframes kf-wvc-summon {
+    0% { opacity: 0; transform: translate(var(--fx), var(--fy)) scale(0.08); }
+    40% { opacity: 1; }
+    72% { transform: translate(0, 0) scale(1.08); }
+    100% { opacity: 1; transform: translate(0, 0) scale(1); }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
