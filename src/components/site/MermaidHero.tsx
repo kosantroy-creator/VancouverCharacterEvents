@@ -104,7 +104,7 @@ export function MermaidHero() {
 
       {/* ===================== GLASS PANEL (left) ===================== */}
       <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 pb-28 pt-28 sm:px-6 md:pt-32 lg:px-8">
-        <Reveal y={30} duration={950} className="mco-panel-rise w-full max-w-[34rem]">
+        <Reveal y={30} duration={950} className="mco-panel-rise w-full max-w-[37rem]">
           <div className="mco-panel">
             <span aria-hidden className="mco-panel-caustic" />
             <span aria-hidden className="mco-panel-sheen" />
