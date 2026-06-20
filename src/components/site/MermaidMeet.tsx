@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { OceanDecor } from "./OceanDecor";
 import marinaImg from "@/assets/mermaid/marina-mermaid.webp";
 import coralinaImg from "@/assets/mermaid/coralina-mermaid.webp";
 import nerissaImg from "@/assets/mermaid/nerissa-mermaid.webp";
@@ -165,7 +166,7 @@ export function MermaidMeet() {
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
           <path
             d="M0,40 C240,86 520,2 760,30 C1020,60 1230,96 1440,52 L1440,0 L0,0 Z"
-            fill="#ABD7EE"
+            fill="#A6E0EE"
           />
         </svg>
       </div>
@@ -181,6 +182,7 @@ export function MermaidMeet() {
       <Shell aria-hidden className="mcm-decor mcm-decor-tr" />
       <span aria-hidden className="mcm-coral mcm-coral-l" />
       <span aria-hidden className="mcm-coral mcm-coral-r" />
+      <OceanDecor variant="a" />
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         {BUBBLES.map((b, i) => (
           <span

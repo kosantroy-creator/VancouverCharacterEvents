@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
 import { Anchor, Crown, Droplets, Music, Shell, Sun, Waves } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { OceanDecor } from "./OceanDecor";
 
 /**
  * MermaidTrustStrip — the feature strip beneath the hero, styled as a row of
@@ -69,8 +70,9 @@ export function MermaidTrustStrip() {
       {/* faint coral / shell accents anchoring the bottom corners */}
       <span aria-hidden className="mct-coral mct-coral-l" />
       <span aria-hidden className="mct-coral mct-coral-r" />
+      <OceanDecor variant="a" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-16 pt-12 sm:px-6 md:pb-20 md:pt-14 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-10 pt-9 sm:px-6 md:pb-12 md:pt-10 lg:px-8">
         {/* header */}
         <div className="mx-auto max-w-2xl text-center">
           <h2 id="mct-title" className="mct-title">
@@ -82,15 +84,17 @@ export function MermaidTrustStrip() {
         </div>
 
         {/* the six tide-pool tokens */}
-        <div className="mct-grid mt-10 md:mt-12">
+        <div className="mct-grid mt-7 md:mt-8">
           {ITEMS.map((item, i) => (
             <article key={item.title} className="mct-card" style={{ "--i": i } as Vars}>
               <span className="mct-token" aria-hidden>
                 <span className="mct-token-shine" />
-                <item.icon className="h-6 w-6" />
+                <item.icon className="h-5 w-5" />
               </span>
-              <h3 className="mct-card-title">{item.title}</h3>
-              <p className="mct-card-note">{item.note}</p>
+              <div className="mct-card-text">
+                <h3 className="mct-card-title">{item.title}</h3>
+                <p className="mct-card-note">{item.note}</p>
+              </div>
             </article>
           ))}
         </div>

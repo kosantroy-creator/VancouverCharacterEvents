@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
 import { Check, Shell, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { OceanDecor } from "./OceanDecor";
 
 /**
  * MermaidDifference — Section 3 of /mermaid-events: "What Makes Mermaid Cove
@@ -97,6 +98,7 @@ export function MermaidDifference() {
       <div aria-hidden className="mdf-caustic pointer-events-none absolute inset-0" />
       <span aria-hidden className="mdf-coral mdf-coral-l" />
       <span aria-hidden className="mdf-coral mdf-coral-r" />
+      <OceanDecor variant="b" />
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         {BUBBLES.map((b, i) => (
           <span
@@ -116,8 +118,24 @@ export function MermaidDifference() {
         ))}
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
-        <div className="mdf-grid">
+      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-5 py-14 sm:px-6 md:py-16 lg:px-8">
+        {/* centered section header — the title gets its own standout spot */}
+        <div className="mdf-head mx-auto max-w-3xl text-center">
+          <span className="mdf-h-eyebrow">
+            <Shell className="h-3 w-3" aria-hidden />
+            Why Mermaid Cove Feels Different
+            <Shell className="h-3 w-3 -scale-x-100" aria-hidden />
+          </span>
+          <h2 id="mdf-title" className="mdf-h-title">
+            Not just a visit. A poolside ocean{" "}
+            <span className="mdf-title-script">
+              adventure.
+              <span aria-hidden className="mdf-swash" />
+            </span>
+          </h2>
+        </div>
+
+        <div className="mdf-grid mt-10 md:mt-12">
           {/* ===================== LEFT — story panel ===================== */}
           <div className="mdf-story">
             <span aria-hidden className="mdf-story-shell">
@@ -127,21 +145,6 @@ export function MermaidDifference() {
             <span aria-hidden className="mdf-story-sheen" />
 
             <div className="relative">
-              <span className="mdf-eyebrow">
-                <Shell className="h-3 w-3" aria-hidden />
-                Why Mermaid Cove Feels Different
-                <Shell className="h-3 w-3 -scale-x-100" aria-hidden />
-              </span>
-
-              <h2 id="mdf-title" className="mdf-title">
-                Not just a visit.
-                <br />A poolside ocean{" "}
-                <span className="mdf-title-script">
-                  adventure.
-                  <span aria-hidden className="mdf-swash" />
-                </span>
-              </h2>
-
               <p className="mdf-sub">
                 Our mermaids can swim with the children while playful pirate handlers guide the
                 story, games, songs, crowning moments, and poolside magic.

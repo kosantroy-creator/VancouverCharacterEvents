@@ -18,6 +18,7 @@ export function ServicePageTemplate({
   hidePackages = false,
   hideGallery = false,
   hideFaq = false,
+  hideJournal = false,
 }: {
   chapter: Chapter;
   /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
@@ -32,6 +33,8 @@ export function ServicePageTemplate({
   hideGallery?: boolean;
   /** Skip the generic FAQ block (e.g. a page supplies its own FAQ section). */
   hideFaq?: boolean;
+  /** Skip the "From the journal" internal-links block. */
+  hideJournal?: boolean;
 }) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
@@ -245,18 +248,20 @@ export function ServicePageTemplate({
       )}
 
       {/* From the journal — internal links */}
-      <Section tone="ivory">
-        <SectionHeading
-          eyebrow="From the journal"
-          title="Planning ideas & guides"
-          description="Helpful, brand-safe planning tips for events across Metro Vancouver."
-        />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {related.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </Section>
+      {!hideJournal && (
+        <Section tone="ivory">
+          <SectionHeading
+            eyebrow="From the journal"
+            title="Planning ideas & guides"
+            description="Helpful, brand-safe planning tips for events across Metro Vancouver."
+          />
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {related.map((post) => (
+              <BlogCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Final CTA */}
       <Section tone="champagne" className="text-center">
