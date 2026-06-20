@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
+import { WonderverseHero } from "@/components/site/WonderverseHero";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("specialty-events")!;
@@ -16,5 +17,16 @@ export const Route = createFileRoute("/specialty-events")({
     ],
     links: [{ rel: "canonical", href: `/${chapter.slug}` }],
   }),
-  component: () => <ServicePageTemplate chapter={chapter} />,
+  component: WonderversePage,
 });
+
+function WonderversePage() {
+  return (
+    <>
+      {/* Bespoke celestial-gateway hero — the page brings its own above the
+          generic template (whose service hero is dropped). */}
+      <WonderverseHero />
+      <ServicePageTemplate chapter={chapter} hideHero />
+    </>
+  );
+}

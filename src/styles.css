@@ -5147,6 +5147,33 @@
 .mwz.anim .mwz-panel-wrap { transition: opacity 720ms var(--ease-out) 260ms, transform 760ms var(--ease-out) 260ms; }
 .mwz.anim .mwz-foot { transition: opacity 600ms var(--ease-out) 720ms; }
 
+/* ===========================================================================
+   WONDERVERSE REALM HERO — the violet theatre-hall film for /specialty-events.
+   Copy sits directly on the art over a left lilac wash (same on-media pattern as
+   the Princess / Hero / Jurassic heroes — no glass panel); drifting star-motes
+   and slow twinkles sparkle over the realms on the right. Reduced-motion safe.
+   =========================================================================== */
+.wvh-mote {
+  position: absolute; border-radius: 9999px; opacity: 0; will-change: transform, opacity;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--chapter-specialty-glow) 55%, transparent 80%);
+  box-shadow: 0 0 8px rgba(231, 211, 255, 0.85);
+  animation: kf-wvh-float linear infinite;
+}
+@keyframes kf-wvh-float {
+  0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+  18% { opacity: 0.9; }
+  82% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-28px) scale(1.05); }
+}
+.wvh-twinkle {
+  position: absolute; line-height: 1; color: var(--chapter-specialty-glow);
+  text-shadow: 0 0 10px rgba(231, 211, 255, 0.95); animation: kf-wvh-twinkle ease-in-out infinite;
+}
+@keyframes kf-wvh-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 0.95; transform: scale(1.12); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

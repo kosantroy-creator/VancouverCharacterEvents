@@ -1,19 +1,19 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { Anchor, Droplets, Play, Shell, Sun, Waves, X } from "lucide-react";
+import { Anchor, ChevronDown, Droplets, Play, Shell, Sun, Waves, X } from "lucide-react";
 import { CTAButton } from "./CTAButton";
 import { Reveal } from "./Reveal";
 import heroPoster from "@/assets/mermaid/mermaid-hero-poster.webp";
 
 /**
  * MermaidHero — Section 1 of the Mermaid Cove page. The vibrant cove film plays
- * full-bleed; a frosted pearl-aqua glass panel floats on the left holding the
- * lockup, headline, CTAs and feature badges — translucent so the water shimmers
- * through, with a light gold trim and a faint caustic shimmer. The panel rises in
- * like it's surfacing through water; the copy then staggers in; the pills bubble
- * up one by one. A soft tide-wash flows the hero into the trust strip below.
- * The video carries the motion, so the UI animation stays calm. Reduced-motion
- * safe (the global guard pauses the loops; entrances use the shared Reveal).
- * See the "MERMAID COVE HERO" block in styles.css.
+ * full-bleed; the copy sits directly on the art at the left over a soft pearl-aqua
+ * wash — the same lockup → headline → reel → CTAs → trust-row composition as the
+ * Princess, Hero and Jurassic heroes (no glass panel). A "Vancouver / Mermaid Cove
+ * / Events" wordmark, a display headline, a descriptive line, a "Watch Us In
+ * Action" reel, two CTAs and a trust row. Drifting bubbles add life and a soft
+ * tide-wash flows the hero into the trust strip below. Reduced-motion safe (the
+ * global guard pauses the loops; entrances use the shared Reveal). See the
+ * "MERMAID COVE HERO" block in styles.css.
  */
 type Vars = CSSProperties & Record<string, string | number>;
 const VIDEO_SRC = "/video/mermaid-cove-hero.mp4";
@@ -35,16 +35,7 @@ const BUBBLES = [
   { left: "95%", bottom: "-6%", s: 11, delay: "2.9s", dur: "16.5s", dx: "18px", c: AQUA },
 ] as const;
 
-/* Soft particles drifting around the glass panel. */
-const DUST = [
-  { left: "8%", top: "18%", s: 5, delay: "0s", dur: "9s" },
-  { left: "92%", top: "30%", s: 4, delay: "2s", dur: "11s" },
-  { left: "-3%", top: "62%", s: 6, delay: "1s", dur: "10s" },
-  { left: "97%", top: "74%", s: 4, delay: "3.4s", dur: "12s" },
-  { left: "50%", top: "-4%", s: 5, delay: "1.8s", dur: "10.5s" },
-] as const;
-
-const INFO = [
+const TRUST = [
   { icon: Shell, label: "Swimming mermaids" },
   { icon: Anchor, label: "Pirate handler included" },
   { icon: Droplets, label: "Public & private pools" },
@@ -60,7 +51,7 @@ export function MermaidHero() {
     >
       {/* the cove film — full-bleed, looping + muted, poster for first paint */}
       <video
-        className="absolute inset-0 -z-40 h-full w-full object-cover object-[58%_44%]"
+        className="absolute inset-0 -z-30 h-full w-full object-cover object-[58%_44%]"
         poster={heroPoster}
         autoPlay
         muted
@@ -72,13 +63,22 @@ export function MermaidHero() {
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
 
-      {/* very soft top fade so the film tucks under the header; the glass panel
-          carries copy readability so the film stays vibrant everywhere else */}
+      {/* left pearl-aqua wash — keeps the deep-teal copy legible over the bright film */}
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 -z-20 h-32"
-        style={{ background: "linear-gradient(180deg, rgba(228,246,250,0.6), transparent)" }}
+        className="absolute inset-0 -z-20"
+        style={{
+          background:
+            "linear-gradient(100deg, rgba(228,246,250,0.97) 0%, rgba(228,246,250,0.9) 26%, rgba(228,246,250,0.55) 46%, rgba(228,246,250,0.16) 62%, transparent 76%)",
+        }}
       />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 -z-20 h-40"
+        style={{ background: "linear-gradient(180deg, rgba(228,246,250,0.82), transparent)" }}
+      />
+      {/* gentle overall lift on small screens so copy stays crisp over the art */}
+      <div aria-hidden className="absolute inset-0 -z-20 bg-[#E4F6FA]/30 sm:hidden" />
 
       {/* drifting bubbles over the whole section */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -102,111 +102,96 @@ export function MermaidHero() {
         ))}
       </div>
 
-      {/* ===================== GLASS PANEL (left) ===================== */}
-      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 pb-28 pt-28 sm:px-6 md:pt-32 lg:px-8">
-        {/* NB: the frosted panel must NOT sit inside a transformed/will-change
-            ancestor — that suppresses its backdrop-filter mid-entrance and snaps it
-            on when the transform clears. So this wrapper is a plain (untransformed)
-            box and the panel fades itself in via opacity only. */}
-        <div className="w-full max-w-[37rem]">
-          <div className="mco-panel mco-panel-in">
-            <span aria-hidden className="mco-panel-caustic" />
-            <span aria-hidden className="mco-panel-sheen" />
-            {/* soft particles drifting around the panel */}
-            <div aria-hidden className="pointer-events-none absolute inset-0">
-              {DUST.map((d, i) => (
-                <span
-                  key={i}
-                  className="mco-dust"
-                  style={
-                    {
-                      left: d.left,
-                      top: d.top,
-                      width: d.s,
-                      height: d.s,
-                      animationDelay: d.delay,
-                      animationDuration: d.dur,
-                    } as Vars
-                  }
-                />
-              ))}
-            </div>
-
-            <div className="relative">
-              <Reveal y={10} delay={120}>
-                <span className="mco-eyebrow">
-                  <Shell className="h-3 w-3" aria-hidden />
-                  Chapter 04 · Ocean Magic · Summer Splash
-                  <Shell className="h-3 w-3 -scale-x-100" aria-hidden />
+      {/* ===================== COPY (left) ===================== */}
+      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-5 pb-28 pt-28 sm:px-6 md:pt-32 lg:px-8">
+        <div className="max-w-xl">
+          <Reveal y={16}>
+            <div className="flex flex-col items-start">
+              <span aria-hidden className="inline-flex items-center gap-2">
+                <Shell className="h-5 w-5 shrink-0 text-[var(--chapter-mermaid)]" aria-hidden />
+                <span className="t-engrave text-[clamp(1.05rem,2.3vw,1.65rem)] tracking-[0.2em] text-[var(--chapter-mermaid-deep)]">
+                  Vancouver
                 </span>
-              </Reveal>
-
-              <Reveal y={14} delay={200}>
-                <div className="mt-3 flex flex-col items-start leading-none">
-                  <span className="mco-brand">
-                    <span className="mco-brand-rule" aria-hidden />
-                    Vancouver
-                    <span className="mco-brand-rule" aria-hidden />
-                  </span>
-                  <h1 className="sr-only">Vancouver Mermaid Cove Events</h1>
-                  <span aria-hidden className="mco-name">
-                    Mermaid Cove
-                  </span>
-                  <span aria-hidden className="mco-divider">
-                    <span className="mco-divider-rule" />
-                    <Shell className="h-3.5 w-3.5" />
-                    <span className="mco-divider-rule" />
-                  </span>
-                  <span aria-hidden className="mco-events">
-                    Events
-                  </span>
-                </div>
-              </Reveal>
-
-              <Reveal y={14} delay={300}>
-                <p className="mco-headline mt-5">
-                  Real swimming mermaids for unforgettable pool parties
-                </p>
-              </Reveal>
-
-              <Reveal y={14} delay={370}>
-                <p className="mco-body mt-3.5">
-                  Bring ocean magic to your next celebration with real mermaids and playful pirate
-                  handlers — storytime, singing, crowning, mermaid rides, swim moments and summer
-                  games for public and private pool events.
-                </p>
-              </Reveal>
-
-              <Reveal y={14} delay={450}>
-                <div className="mco-cta-row mt-6">
-                  <CTAButton to="/contact" size="md" className="mco-cta-primary group">
-                    <Shell className="h-4 w-4" aria-hidden />
-                    Book Mermaid Cove
-                  </CTAButton>
-                  <CTAButton href="#cove-trust" size="md" className="mco-cta-ghost">
-                    Meet the Mermaids
-                  </CTAButton>
-                </div>
-              </Reveal>
-
-              <Reveal y={12} delay={530}>
-                <div className="mt-4">
-                  <MermaidReel />
-                </div>
-              </Reveal>
-
-              <ul className="mco-info">
-                {INFO.map(({ icon: Icon, label }, i) => (
-                  <li key={label} className="mco-info-pill" style={{ "--i": i } as Vars}>
-                    <span className="mco-info-ic" aria-hidden>
-                      <Icon className="h-3.5 w-3.5" />
-                    </span>
-                    {label}
-                  </li>
-                ))}
-              </ul>
+              </span>
+              <h1 className="sr-only">Vancouver Mermaid Cove Events</h1>
+              <span
+                aria-hidden
+                className="t-script-hero mt-1 block text-[clamp(2.6rem,7.4vw,4.8rem)] leading-[0.9] text-[var(--chapter-mermaid-deep)]"
+                style={{ textShadow: "0 2px 16px rgba(255,255,255,0.9)" }}
+              >
+                Mermaid Cove
+              </span>
+              <span
+                aria-hidden
+                className="t-engrave mt-2 inline-flex items-center gap-2.5 text-[clamp(0.78rem,1.5vw,1rem)] tracking-[0.4em] text-[var(--chapter-mermaid-deep)]"
+              >
+                <Waves className="h-3 w-3 text-[var(--chapter-mermaid)]" aria-hidden />
+                Events
+                <Waves className="h-3 w-3 -scale-x-100 text-[var(--chapter-mermaid)]" aria-hidden />
+              </span>
+              <span
+                aria-hidden
+                className="mt-4 block h-px w-56"
+                style={{
+                  background:
+                    "linear-gradient(90deg, var(--chapter-mermaid), #D9B25A 55%, transparent)",
+                }}
+              />
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal delay={200} y={16}>
+            <p className="t-display mt-3 text-[clamp(1.3rem,2.6vw,1.9rem)] leading-snug text-[#0E5A66]">
+              Real swimming mermaids for unforgettable pool parties
+            </p>
+          </Reveal>
+
+          <Reveal delay={260} y={16}>
+            <p className="mt-4 max-w-md text-lg leading-relaxed text-[#0E5A66]/85">
+              Bring ocean magic to your next celebration with real mermaids and playful pirate
+              handlers — storytime, singing, crowning, mermaid rides, swim moments and summer games
+              for public and private pool events.
+            </p>
+          </Reveal>
+
+          <Reveal delay={300} y={14}>
+            <MermaidReel />
+          </Reveal>
+
+          <Reveal delay={340} y={16}>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <CTAButton
+                to="/contact"
+                size="lg"
+                className="group cta-pulse !bg-[var(--chapter-mermaid)] !text-[#06363E] hover:!bg-[var(--chapter-mermaid-deep)] hover:!text-white hover:!shadow-[0_0_30px_rgba(54,190,176,0.45)]"
+              >
+                <Shell className="h-4 w-4" aria-hidden />
+                Book Mermaid Cove
+              </CTAButton>
+              <CTAButton
+                href="#cove-trust"
+                variant="ghost"
+                size="lg"
+                className="!border-[var(--chapter-mermaid-deep)]/45 !bg-white/75 !text-[var(--chapter-mermaid-deep)] hover:!border-[var(--chapter-mermaid)] hover:!text-[var(--chapter-mermaid-deep)]"
+              >
+                Meet the Mermaids
+              </CTAButton>
+            </div>
+          </Reveal>
+
+          <Reveal delay={380} y={14}>
+            <ul className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-2.5">
+              {TRUST.map(({ icon: Icon, label }) => (
+                <li
+                  key={label}
+                  className="inline-flex items-center gap-2 text-[0.82rem] font-semibold tracking-wide text-[var(--chapter-mermaid-deep)]"
+                >
+                  <Icon className="h-4 w-4 text-[var(--chapter-mermaid)]" aria-hidden />
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
       </div>
 
@@ -231,12 +216,20 @@ export function MermaidHero() {
           />
         </svg>
       </div>
+
+      <div
+        aria-hidden
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[var(--chapter-mermaid-deep)]/50"
+      >
+        <ChevronDown className="bob-soft h-5 w-5" />
+      </div>
     </section>
   );
 }
 
 /* ---------------------------------------------------------------------------
-   "Watch us in Action" — a small magical play token + a lazy video modal.
+   "Watch Us In Action" — a white play-pill + a lazy fullscreen video modal
+   (matches the Princess / Hero reel styling).
    --------------------------------------------------------------------------- */
 function MermaidReel() {
   const [open, setOpen] = useState(false);
@@ -256,12 +249,24 @@ function MermaidReel() {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="mco-reel group">
-        <span className="mco-reel-token">
-          <span aria-hidden className="mco-reel-ripple" />
-          <Play className="h-3.5 w-3.5 translate-x-px fill-current" aria-hidden />
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group mt-7 inline-flex items-center gap-3 rounded-[var(--radius-pill)] border border-[var(--chapter-mermaid)]/30 bg-white/85 py-2 pl-2 pr-5 text-left backdrop-blur-sm transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--chapter-mermaid)]"
+      >
+        <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[var(--chapter-mermaid)] to-[var(--chapter-mermaid-deep)] text-white shadow-[0_6px_16px_-6px_rgba(14,110,126,0.7)]">
+          <span
+            aria-hidden
+            className="watch-ring absolute inset-0 rounded-full ring-2 ring-[var(--chapter-mermaid)]/50"
+          />
+          <Play className="h-4 w-4 translate-x-px fill-white" aria-hidden />
         </span>
-        <span className="mco-reel-label">Watch us in action</span>
+        <span className="flex flex-col leading-tight">
+          <span className="t-engrave text-[0.56rem] tracking-[0.2em] text-[var(--chapter-mermaid-deep)]">
+            Featured Reel
+          </span>
+          <span className="text-[0.98rem] font-bold text-[#0E5A66]">Watch Us In Action</span>
+        </span>
       </button>
 
       {open ? (
