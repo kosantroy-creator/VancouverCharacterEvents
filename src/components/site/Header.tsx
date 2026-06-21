@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Menu,
@@ -27,8 +27,6 @@ const navLinks = [
 
 const baseLinkClass =
   "nav-link whitespace-nowrap rounded-md px-2.5 py-2 text-[0.82rem] font-medium leading-none transition-colors";
-
-const tileStyle = (accent: string) => ({ ["--tile"]: `var(--chapter-${accent})` }) as CSSProperties;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -143,8 +141,8 @@ export function Header() {
                     ? "shadow-[0_10px_30px_-14px_rgba(92,63,148,0.32)] backdrop-blur-md"
                     : "backdrop-blur-sm"
                   : scrolled
-                    ? "bg-ink-900/92 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
-                    : "bg-ink-900/80 backdrop-blur-sm",
+                    ? "bg-ink-900/95 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
+                    : "bg-ink-900/95 backdrop-blur-md",
         isCinema && "pointer-events-none -translate-y-full opacity-0",
       )}
       style={
@@ -214,9 +212,9 @@ export function Header() {
             to="/"
             aria-label="Vancouver Character Events — home"
             className={cn(
-              "group flex shrink-0 items-center gap-2.5 max-[1139px]:absolute max-[1139px]:left-1/2 max-[1139px]:-translate-x-1/2",
+              "group flex shrink-0 items-center gap-2.5",
               (royal || hero || dino || mermaid || wonderverse) &&
-                "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-4 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
+                "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-3 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
             )}
             style={
               royal || hero || dino || mermaid || wonderverse
@@ -237,7 +235,7 @@ export function Header() {
               <span className="t-engrave text-[1rem] leading-none text-gold-400 max-[1139px]:text-[0.85rem]">
                 Vancouver
               </span>
-              <span className="t-engrave mt-0.5 text-[0.64rem] tracking-[0.26em] text-fg-on-ink/75 max-[1139px]:text-[0.55rem] max-[1139px]:tracking-[0.16em]">
+              <span className="t-engrave mt-0.5 text-[0.64rem] tracking-[0.26em] text-fg-on-ink/75 max-[374px]:hidden max-[1139px]:text-[0.55rem] max-[1139px]:tracking-[0.16em]">
                 Character Events
               </span>
             </span>
@@ -450,8 +448,8 @@ export function Header() {
                   : "pointer-events-none invisible -translate-y-1 opacity-0",
               )}
             >
-              <div className="overflow-hidden rounded-[var(--radius-xl)] border border-border-soft bg-surface p-4 shadow-[var(--shadow-lg)]">
-                <p className="t-engrave px-2 pb-2 text-[0.6rem] tracking-[0.22em] text-fg-gold">
+              <div className="overflow-hidden rounded-[var(--radius-xl)] border border-ink-600/50 bg-ink-900/97 p-4 shadow-[var(--shadow-lg)] backdrop-blur-md">
+                <p className="t-engrave px-2 pb-2 text-[0.6rem] tracking-[0.22em] text-gold-400/80">
                   Choose a character world
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -460,32 +458,31 @@ export function Header() {
                       key={w.slug}
                       to={w.exploreTo}
                       onClick={() => setCharsOpen(false)}
-                      className="world-tile group flex items-start gap-3 rounded-[var(--radius-lg)] bg-surface p-2.5"
-                      style={tileStyle(w.accent)}
+                      className="group flex items-start gap-3 rounded-[var(--radius-lg)] p-2.5 text-fg-on-ink/85 transition-colors hover:bg-ink-700 hover:text-gold-400"
                     >
                       <img
                         src={w.medallion}
                         alt=""
                         aria-hidden
-                        className="h-10 w-10 shrink-0 rounded-full bg-warm-white object-contain p-0.5"
+                        className="h-10 w-10 shrink-0 rounded-full bg-ink-800/60 object-contain p-0.5"
                         width={40}
                         height={40}
                       />
                       <span className="flex flex-col">
-                        <span className="text-sm font-semibold text-fg">{w.name}</span>
-                        <span className="mt-0.5 text-[0.72rem] leading-snug text-fg-3">
+                        <span className="text-sm font-semibold text-fg-on-ink">{w.name}</span>
+                        <span className="mt-0.5 text-[0.72rem] leading-snug text-fg-on-ink/55">
                           {w.sampleCharacters.slice(0, 3).join(" · ")}
                         </span>
                       </span>
                     </Link>
                   ))}
                 </div>
-                <div className="mt-3 flex items-center justify-between gap-3 border-t border-border-soft pt-3">
-                  <span className="pl-2 text-xs text-fg-3">Not sure which world?</span>
+                <div className="mt-3 flex items-center justify-between gap-3 border-t border-ink-600/50 pt-3">
+                  <span className="pl-2 text-xs text-fg-on-ink/55">Not sure which world?</span>
                   <Link
                     to="/contact"
                     onClick={() => setCharsOpen(false)}
-                    className="rounded-[var(--radius-pill)] bg-ink-800 px-4 py-2 text-xs font-semibold text-fg-on-ink transition-colors hover:bg-ink-700"
+                    className="rounded-[var(--radius-pill)] bg-gold-500 px-4 py-2 text-xs font-semibold text-ink-900 transition-colors hover:bg-gold-400"
                   >
                     Tell us about your event
                   </Link>
@@ -601,29 +598,78 @@ export function Header() {
           )}
         </div>
 
-        <button
-          type="button"
-          className={cn(
-            "ml-auto inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors min-[1140px]:hidden",
-            royal
-              ? "text-ink-800 hover:text-[var(--pp-magenta-deep)]"
-              : hero
-                ? "text-[var(--hero-navy)] hover:text-[var(--hero-red-deep)]"
-                : dino
-                  ? "text-[var(--chapter-dinosaur-deep)] hover:text-[#1d3326]"
-                  : mermaid
-                    ? "text-[var(--chapter-mermaid-deep)] hover:text-[#0a4a55]"
-                    : wonderverse
-                      ? "text-[var(--chapter-specialty-deep)] hover:text-[#3f2a66]"
-                      : "text-fg-on-ink hover:text-gold-400",
+        {/* Mobile controls — an always-visible Book Now + the menu toggle. */}
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 min-[1140px]:hidden">
+          {royal ? (
+            <CTAButton
+              href="#book"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-ink-800 !text-gold-300 hover:!bg-ink-700"
+            >
+              Book Now
+            </CTAButton>
+          ) : hero ? (
+            <CTAButton
+              href="#book"
+              size="md"
+              className="cta-pulse-hero !px-3 !py-1.5 !text-[0.74rem] !bg-gradient-to-r !from-[var(--hero-red)] !to-[var(--hero-red-deep)] !text-white"
+            >
+              Book Now
+            </CTAButton>
+          ) : dino ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[#D4A017] !text-[#2A1C05]"
+            >
+              Book Now
+            </CTAButton>
+          ) : mermaid ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[var(--chapter-mermaid)] !text-[#06363E]"
+            >
+              Book Now
+            </CTAButton>
+          ) : wonderverse ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[var(--chapter-specialty)] !text-white"
+            >
+              Book Now
+            </CTAButton>
+          ) : (
+            <CTAButton to="/contact" size="md" className="cta-pulse !px-3 !py-1.5 !text-[0.74rem]">
+              Book Now
+            </CTAButton>
           )}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+
+          <button
+            type="button"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors",
+              royal
+                ? "text-ink-800 hover:text-[var(--pp-magenta-deep)]"
+                : hero
+                  ? "text-[var(--hero-navy)] hover:text-[var(--hero-red-deep)]"
+                  : dino
+                    ? "text-[var(--chapter-dinosaur-deep)] hover:text-[#1d3326]"
+                    : mermaid
+                      ? "text-[var(--chapter-mermaid-deep)] hover:text-[#0a4a55]"
+                      : wonderverse
+                        ? "text-[var(--chapter-specialty-deep)] hover:text-[#3f2a66]"
+                        : "text-fg-on-ink hover:text-gold-400",
+            )}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
       {royal ? <span aria-hidden className="pp-hairline absolute inset-x-0 bottom-0" /> : null}
       {hero ? (
