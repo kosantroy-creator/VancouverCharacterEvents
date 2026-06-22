@@ -2,6 +2,11 @@ import { useEffect, useRef, useState, type ComponentType, type CSSProperties } f
 import { BookOpen, Compass, Gem, Shell, Waves } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { OceanDecor } from "./OceanDecor";
+import welcomeImg from "@/assets/mermaid/journey/step01-welcome.webp";
+import arrivalImg from "@/assets/mermaid/journey/step02-arrival.webp";
+import crowningImg from "@/assets/mermaid/journey/step03-crowning.webp";
+import ridesImg from "@/assets/mermaid/journey/step04-rides.webp";
+import treasureImg from "@/assets/mermaid/journey/step05-treasure.webp";
 
 /**
  * MermaidJourney — "What Happens During a Mermaid Visit": the experience-flow
@@ -18,30 +23,46 @@ import { OceanDecor } from "./OceanDecor";
 type Vars = CSSProperties & Record<string, string | number>;
 type IconType = ComponentType<{ className?: string }>;
 
-const STEPS: { num: string; icon: IconType; title: string; desc: string; highlight?: boolean }[] = [
+const STEPS: {
+  num: string;
+  icon: IconType;
+  title: string;
+  desc: string;
+  img: string;
+  alt: string;
+  highlight?: boolean;
+}[] = [
   {
     num: "01",
     icon: Compass,
     title: "Pirate Welcome",
     desc: "The pirate helper gathers the crew, introduces the ocean adventure, and helps set the poolside flow before the mermaid arrives.",
+    img: welcomeImg,
+    alt: "A friendly pirate entertainer welcoming a group of happy children at a sunny poolside birthday party.",
   },
   {
     num: "02",
     icon: Shell,
     title: "Mermaid Arrival",
     desc: "The mermaid makes her entrance, greets the children, and brings the magic of Mermaid Cove to life.",
+    img: arrivalImg,
+    alt: "A mermaid performer with a sparkling teal-and-gold tail waving to delighted children from the edge of a sunlit pool.",
   },
   {
     num: "03",
     icon: BookOpen,
     title: "Songs, Stories & Crowning",
     desc: "Storytime, singing, ocean wishes, birthday crowning, and magical photo moments create the heart of the visit.",
+    img: crowningImg,
+    alt: "A mermaid performer reading a storybook and singing with a group of children at a sunny poolside birthday.",
   },
   {
     num: "04",
     icon: Waves,
     title: "Swim Moments & Mermaid Rides",
     desc: "Where pool rules and setup allow, the mermaid joins the children in the water for guided swim moments, games, and mermaid rides.",
+    img: ridesImg,
+    alt: "A mermaid performer giving a joyful child a gentle guided ride through a sparkling sunlit pool.",
     highlight: true,
   },
   {
@@ -49,6 +70,8 @@ const STEPS: { num: string; icon: IconType; title: string; desc: string; highlig
     icon: Gem,
     title: "Treasure Games & Farewell",
     desc: "The pirate leads treasure games and final activities before photos, goodbyes, and one last splash of Mermaid Cove magic.",
+    img: treasureImg,
+    alt: "Children in playful pirate hats gathered around an open treasure chest of golden coins at a sunny pool party.",
   },
 ];
 
@@ -188,6 +211,11 @@ export function MermaidJourney() {
                 <span aria-hidden className="mjr-medallion">
                   {s.highlight ? <span className="mjr-medallion-ripple" /> : null}
                   <s.icon className="h-7 w-7" />
+                </span>
+
+                <span className="mjr-photo">
+                  <img src={s.img} alt={s.alt} loading="lazy" decoding="async" />
+                  <span aria-hidden className="mjr-photo-sheen" />
                 </span>
 
                 <span aria-hidden className="mjr-num">

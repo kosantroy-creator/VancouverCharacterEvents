@@ -4380,6 +4380,23 @@
 }
 .mjr-medallion-ripple { position: absolute; inset: -3px; border-radius: 9999px; box-shadow: 0 0 0 0 rgba(120, 225, 218, 0.6); animation: kf-mco-ripple 2.6s ease-out infinite; }
 
+/* porthole photo */
+.mjr-photo {
+  position: relative; display: block; margin: 0.1rem 0 0.9rem; overflow: hidden; border-radius: 14px; aspect-ratio: 4 / 3;
+  background: #CBE9E8; border: 1.5px solid rgba(226, 194, 118, 0.7);
+  box-shadow: 0 12px 24px -16px rgba(8, 54, 64, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+.mjr-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 480ms var(--ease-out); }
+.mjr-card:hover .mjr-photo img { transform: scale(1.06); }
+.mjr-photo-sheen {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, transparent 24%, transparent 62%, rgba(8, 54, 64, 0.2) 100%);
+}
+.mjr-card--hi .mjr-photo {
+  border-color: #E2C276;
+  box-shadow: 0 14px 26px -16px rgba(8, 80, 84, 0.62), 0 0 16px -6px rgba(110, 216, 210, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
 .mjr-num { display: block; margin-top: 0.25rem; font-family: var(--font-engrave, inherit); font-size: 0.92rem; font-weight: 800; letter-spacing: 0.14em; color: #C99A38; }
 .mjr-card-title { margin-top: 0.25rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.12rem; line-height: 1.2; color: #0C4E58; }
 .mjr-card-desc { margin-top: 0.6rem; font-size: 0.82rem; line-height: 1.5; color: #356B72; }
@@ -4463,6 +4480,152 @@
   .od-coral { width: 7rem; opacity: 0.46; }
   .od-fish { display: none; }
 }
+
+/* ===========================================================================
+   MERMAID COVE TESTIMONIALS — "What the Cove Crew Says": social proof between the
+   Cove Experience journey and the cove packages. A wide pearl spotlight review
+   above a trio of supporting review cards on the same aqua cove stage — gold
+   five-star ratings, a soft shell quote glyph, pearl-shell initial avatars, foam
+   wave-top, caustics, ocean decor + drifting bubbles, closed by a script
+   sign-off. Bright readable pearl cards on teal depth. VISIBLE BY DEFAULT (hidden
+   only under .mts.anim:not(.is-in)). Reuses kf-mdf-caustic / kf-mdf-rise /
+   kf-mco-cardshine.
+   =========================================================================== */
+.mts { background: #9CD9E6; color: #0E5A66; }
+.mts-wavetop { z-index: 2; line-height: 0; }
+.mts-wavetop svg { display: block; width: 100%; height: 64px; }
+.mts-bg {
+  background:
+    radial-gradient(72% 50% at 50% 14%, rgba(255, 255, 255, 0.72), transparent 60%),
+    radial-gradient(50% 60% at -2% 50%, rgba(70, 190, 200, 0.26), transparent 72%),
+    radial-gradient(50% 60% at 102% 50%, rgba(92, 186, 216, 0.24), transparent 72%),
+    radial-gradient(82% 46% at 50% 116%, rgba(244, 232, 206, 0.46), transparent 70%),
+    linear-gradient(180deg, #B6E6F0 0%, #A6DEEC 44%, #ABE0EE 70%, #9CD9E6 100%);
+}
+.mts-surface { z-index: 0; height: 150px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); }
+.mts-caustic {
+  opacity: 0.4; mix-blend-mode: screen; filter: blur(7px);
+  background:
+    radial-gradient(26% 20% at 20% 22%, rgba(180, 245, 240, 0.5), transparent 60%),
+    radial-gradient(22% 18% at 72% 30%, rgba(150, 220, 240, 0.4), transparent 62%),
+    radial-gradient(28% 22% at 84% 72%, rgba(200, 250, 245, 0.32), transparent 64%),
+    radial-gradient(24% 20% at 32% 82%, rgba(190, 236, 232, 0.34), transparent 64%);
+  animation: kf-mdf-caustic 22s ease-in-out infinite;
+}
+.mts-bubble {
+  position: absolute; bottom: -4%; border-radius: 9999px; opacity: 0; will-change: transform, opacity;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(159, 243, 232, 0.5) 50%, transparent 78%);
+  box-shadow: 0 0 8px rgba(159, 243, 232, 0.5);
+  animation: kf-mdf-rise ease-in infinite;
+}
+
+/* header */
+.mts-crown {
+  display: grid; place-items: center; height: 2.4rem; width: 2.4rem; margin: 0 auto 0.6rem; border-radius: 9999px; color: #C99A38;
+  background: radial-gradient(circle at 40% 30%, #fff, #F4EBD2 76%); border: 1.5px solid #E2C276;
+  box-shadow: 0 6px 14px -8px rgba(8, 54, 64, 0.5);
+}
+.mts-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-engrave, inherit);
+  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; color: #0E7E78;
+}
+.mts-eyebrow-rule { width: 2.2rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(217, 178, 90, 0.85)); }
+.mts-eyebrow-rule:last-child { background: linear-gradient(90deg, rgba(217, 178, 90, 0.85), transparent); }
+.mts-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.05;
+  font-size: clamp(2rem, 4.8vw, 3.3rem); color: #114E5A; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.mts-sub { margin-top: 0.9rem; font-size: 0.98rem; line-height: 1.6; font-weight: 500; color: #2C6B71; }
+
+/* gold five-star rating */
+.mts-stars { display: inline-flex; align-items: center; gap: 0.22rem; color: #D9B25A; }
+.mts-stars svg { filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.5)); }
+
+/* shared author block */
+.mts-author { display: flex; align-items: center; gap: 0.8rem; }
+.mts-author--center { justify-content: center; }
+.mts-avatar {
+  display: grid; place-items: center; height: 2.7rem; width: 2.7rem; flex: 0 0 auto; border-radius: 9999px;
+  font-family: var(--font-display, inherit); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; color: #0E6E7E;
+  background: radial-gradient(circle at 38% 30%, #EAFCFA, #BFEDE6 60%, #8FD8CE 100%); border: 2px solid #E2C276;
+  box-shadow: 0 8px 18px -10px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.mts-author-meta { display: flex; flex-direction: column; line-height: 1.25; text-align: left; }
+.mts-name { font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.96rem; color: #0C4E58; }
+.mts-role { margin-top: 0.1rem; font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #2C8088; }
+
+/* spotlight review */
+.mts-spotlight {
+  position: relative; overflow: hidden; margin: 0 auto; max-width: 56rem; text-align: center;
+  border-radius: 26px; padding: 2.9rem 1.6rem 2rem; border: 2px solid rgba(226, 194, 118, 0.65);
+  background: linear-gradient(180deg, #FFFFFF, #E9F6F4);
+  box-shadow: 0 28px 56px -30px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: box-shadow 280ms var(--ease-out), border-color 280ms var(--ease-out);
+}
+@media (min-width: 760px) { .mts-spotlight { padding: 3.3rem 3rem 2.3rem; } }
+.mts-spotlight:hover { border-color: #E2C276; box-shadow: 0 32px 62px -30px rgba(8, 54, 64, 0.55), 0 0 26px -8px rgba(120, 212, 206, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.85); }
+.mts-crest {
+  position: absolute; top: -1.4rem; left: 50%; transform: translateX(-50%); z-index: 3; display: grid; place-items: center;
+  height: 2.8rem; width: 2.8rem; border-radius: 9999px; color: #0E6E7E;
+  background: radial-gradient(circle at 38% 30%, #EAFCFA, #BFEDE6 60%, #8FD8CE 100%); border: 2px solid #E2C276;
+  box-shadow: 0 8px 18px -8px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.mts-spotlight-mark { position: absolute; top: 1.5rem; left: 1.7rem; height: 3.2rem; width: 3.2rem; color: rgba(54, 190, 176, 0.16); pointer-events: none; }
+.mts-spotlight-stars { position: relative; z-index: 1; }
+.mts-spotlight-quote {
+  position: relative; z-index: 1; margin: 1rem auto 1.4rem; max-width: 44rem;
+  font-family: var(--font-display, inherit); font-weight: 500; font-style: italic; font-size: clamp(1.12rem, 2.2vw, 1.5rem); line-height: 1.5; color: #114E5A;
+}
+.mts-spotlight .mts-author { position: relative; z-index: 1; }
+
+/* supporting review cards */
+.mts-grid { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
+@media (min-width: 600px) { .mts-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 920px) { .mts-grid { grid-template-columns: repeat(3, 1fr); } }
+.mts-card {
+  position: relative; overflow: hidden; display: flex; flex-direction: column; border-radius: 20px; padding: 1.5rem 1.4rem 1.4rem;
+  background: linear-gradient(180deg, rgba(245, 252, 252, 0.96), rgba(213, 240, 240, 0.94));
+  border: 1.5px solid rgba(226, 194, 118, 0.6);
+  box-shadow: 0 20px 42px -26px rgba(8, 54, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: transform 260ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+.mts-card:hover {
+  transform: translateY(-5px); border-color: #E2C276;
+  box-shadow: 0 30px 54px -26px rgba(8, 54, 64, 0.55), 0 0 24px -8px rgba(120, 212, 206, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.mts-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: 20px; opacity: 0; transform: translateX(-60%);
+  background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.5) 50%, transparent 62%);
+}
+.mts-card:hover::after { animation: kf-mco-cardshine 0.9s ease-out; }
+.mts-card-mark { position: absolute; top: 0.9rem; right: 1rem; height: 2.3rem; width: 2.3rem; color: rgba(54, 190, 176, 0.16); pointer-events: none; }
+.mts-card .mts-stars { position: relative; z-index: 1; }
+.mts-text { position: relative; z-index: 1; margin-top: 0.85rem; font-size: 0.9rem; line-height: 1.6; color: #356B72; }
+.mts-rule { display: block; margin: 1.1rem 0 1rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(217, 178, 90, 0.55), transparent); }
+.mts-card .mts-author { margin-top: auto; }
+.mts-card-shell { position: absolute; right: 0.55rem; bottom: 0.5rem; height: 1rem; width: 1rem; color: rgba(217, 178, 90, 0.5); }
+
+/* script sign-off */
+.mts-foot { margin-top: 2.4rem; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; color: #C99A38; }
+.mts-foot-shell { color: #D9B25A; }
+.mts-foot-script { font-family: var(--font-script, cursive); font-size: clamp(1.3rem, 3vw, 1.7rem); color: #1F8E86; }
+
+/* ---- reveal (enhancement only; visible by default) ---- */
+.mts-bg, .mts-head > *, .mts-spotlight, .mts-card, .mts-foot { opacity: 1; transform: none; }
+.mts.anim:not(.is-in) .mts-bg { opacity: 0; }
+.mts.anim:not(.is-in) .mts-head > * { opacity: 0; transform: translateY(14px); }
+.mts.anim:not(.is-in) .mts-spotlight { opacity: 0; transform: translateY(24px) scale(0.98); }
+.mts.anim:not(.is-in) .mts-card { opacity: 0; transform: translateY(22px); }
+.mts.anim:not(.is-in) .mts-foot { opacity: 0; }
+.mts.anim .mts-bg { transition: opacity 800ms var(--ease-out); }
+.mts.anim .mts-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.mts.anim .mts-head > *:nth-child(2) { transition-delay: 80ms; }
+.mts.anim .mts-head > *:nth-child(3) { transition-delay: 150ms; }
+.mts.anim .mts-head > *:nth-child(4) { transition-delay: 220ms; }
+.mts.anim .mts-spotlight { transition: opacity 660ms var(--ease-out) 320ms, transform 700ms var(--ease-out) 320ms, border-color 280ms var(--ease-out), box-shadow 280ms var(--ease-out); }
+.mts.anim .mts-card { transition: opacity 600ms var(--ease-out), transform 660ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out); transition-delay: calc(520ms + var(--i) * 130ms); }
+.mts.anim .mts-card:hover { transition: transform 260ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out); transition-delay: 0ms; }
+.mts.anim .mts-foot { transition: opacity 700ms var(--ease-out) 1s; }
 
 /* ===========================================================================
    MERMAID COVE PRICING — "Choose Your Cove Adventure": three pearl-gold cove-pass

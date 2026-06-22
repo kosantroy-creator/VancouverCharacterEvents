@@ -5,6 +5,7 @@ import { MermaidTrustStrip } from "@/components/site/MermaidTrustStrip";
 import { MermaidDifference } from "@/components/site/MermaidDifference";
 import { MermaidMeet } from "@/components/site/MermaidMeet";
 import { MermaidJourney } from "@/components/site/MermaidJourney";
+import { MermaidTestimonials } from "@/components/site/MermaidTestimonials";
 import { MermaidPricing } from "@/components/site/MermaidPricing";
 import { MermaidGallery } from "@/components/site/MermaidGallery";
 import { MermaidFaq } from "@/components/site/MermaidFaq";
@@ -63,6 +64,8 @@ function MermaidPage() {
       <MermaidDifference />
       {/* 5 · What Happens During a Mermaid Visit — the five-step cove journey. */}
       <MermaidJourney />
+      {/* 5b · What the Cove Crew Says — testimonials before the packages. */}
+      <MermaidTestimonials />
       {/* 6 · Choose Your Cove Adventure — the three-package pricing passes. */}
       <MermaidPricing />
       {/* 7 · Real Mermaid Cove Moments — the Cove Journal gallery. */}
