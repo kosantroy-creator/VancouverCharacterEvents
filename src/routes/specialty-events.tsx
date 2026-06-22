@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { WonderverseHero } from "@/components/site/WonderverseHero";
 import { WonderverseTrust } from "@/components/site/WonderverseTrust";
+import { WonderverseWhere } from "@/components/site/WonderverseWhere";
 import { WonderverseCast } from "@/components/site/WonderverseCast";
+import { WonderversePricing } from "@/components/site/WonderversePricing";
+import { WonderverseGallery } from "@/components/site/WonderverseGallery";
+import { WonderverseTestimonials } from "@/components/site/WonderverseTestimonials";
+import { WonderverseFaq } from "@/components/site/WonderverseFaq";
+import { WonderverseBookingForm } from "@/components/site/WonderverseBookingForm";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("specialty-events")!;
@@ -30,9 +35,20 @@ function WonderversePage() {
       <WonderverseHero />
       {/* Small trust strip — sibling of the Mermaid / Jurassic trust bands. */}
       <WonderverseTrust />
+      {/* "Where the Rare Characters Appear" — the moonlit explainer + realm cards. */}
+      <WonderverseWhere />
       {/* "Summon the Cast" — the character-reveal stage (energy-burst cards). */}
       <WonderverseCast />
-      <ServicePageTemplate chapter={chapter} hideHero />
+      {/* "Choose Your Wonderverse Experience" — the celestial packages section. */}
+      <WonderversePricing />
+      {/* "Real Wonderverse Moments" — the moonlit memory-archive gallery. */}
+      <WonderverseGallery />
+      {/* "Loved Across the Wonderverse" — moonlit testimonials. */}
+      <WonderverseTestimonials />
+      {/* "Wonderverse Details" — the moonlit planning-guide FAQ. */}
+      <WonderverseFaq />
+      {/* "Request Your Wonderverse Visit" — the 3-step request wizard (#book). */}
+      <WonderverseBookingForm />
     </>
   );
 }

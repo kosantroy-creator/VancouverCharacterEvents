@@ -213,9 +213,10 @@ export function WonderverseCast() {
   return (
     <section
       ref={ref}
+      id="cast"
       aria-labelledby="wvc-title"
       className={cn(
-        "wvc relative isolate overflow-hidden",
+        "wvc relative isolate scroll-mt-24 overflow-hidden",
         motionOK && "anim",
         inView && "is-in",
         armed && "is-armed",

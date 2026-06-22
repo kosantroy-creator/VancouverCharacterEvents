@@ -19,6 +19,7 @@ export function ServicePageTemplate({
   hideGallery = false,
   hideFaq = false,
   hideJournal = false,
+  hideFinalCta = false,
 }: {
   chapter: Chapter;
   /** Skip the generic service hero — used when a page supplies its own (e.g. HarveyHero). */
@@ -35,6 +36,8 @@ export function ServicePageTemplate({
   hideFaq?: boolean;
   /** Skip the "From the journal" internal-links block. */
   hideJournal?: boolean;
+  /** Skip the generic champagne "Final CTA" (e.g. a page closes with its own booking form). */
+  hideFinalCta?: boolean;
 }) {
   const accent = `var(--chapter-${chapter.accent})`;
   const scene = storybookWorlds.find((w) => w.slug === chapter.slug)?.scene;
@@ -263,25 +266,27 @@ export function ServicePageTemplate({
         </Section>
       )}
 
-      {/* Final CTA */}
-      <Section tone="champagne" className="text-center">
-        <GoldRule className="mx-auto max-w-xs" />
-        <h2 className="font-display text-3xl text-fg md:text-4xl">
-          Ready to bring this chapter to life?
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-lg text-fg-2">
-          Tell us about your event and we&apos;ll help craft an unforgettable{" "}
-          {chapter.name.toLowerCase()} experience across Metro Vancouver.
-        </p>
-        <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <CTAButton to="/contact" size="lg">
-            Start your booking
-          </CTAButton>
-          <CTAButton to="/" variant="ghost" size="lg">
-            Explore more chapters
-          </CTAButton>
-        </div>
-      </Section>
+      {/* Final CTA — skipped when a page closes with its own booking form. */}
+      {!hideFinalCta && (
+        <Section tone="champagne" className="text-center">
+          <GoldRule className="mx-auto max-w-xs" />
+          <h2 className="font-display text-3xl text-fg md:text-4xl">
+            Ready to bring this chapter to life?
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-lg text-fg-2">
+            Tell us about your event and we&apos;ll help craft an unforgettable{" "}
+            {chapter.name.toLowerCase()} experience across Metro Vancouver.
+          </p>
+          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <CTAButton to="/contact" size="lg">
+              Start your booking
+            </CTAButton>
+            <CTAButton to="/" variant="ghost" size="lg">
+              Explore more chapters
+            </CTAButton>
+          </div>
+        </Section>
+      )}
     </>
   );
 }
