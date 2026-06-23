@@ -12,6 +12,9 @@ import {
   Shell,
   Waves,
   Sparkles,
+  Sun,
+  Flower2,
+  Gift,
 } from "lucide-react";
 import logo from "@/assets/brand/logo-primary.png";
 import { characterWorlds } from "@/lib/site-data";
@@ -49,6 +52,15 @@ export function Header() {
   // Wonderverse Realm — a celestial lilac × moonlight co-branded header (sibling
   // of the Princess Kingdom, Hero HQ, Jurassic Expedition and Mermaid Cove headers).
   const wonderverse = pathname.startsWith("/specialty-events");
+  // Mascot Meadow, Holiday Village & the Enchanted Bazaar — the remaining three
+  // character worlds each get their own co-branded header (orange sunny meadow,
+  // green festive village, festival-pink enchanted night market).
+  const mascot = pathname.startsWith("/mascot-events");
+  const holiday = pathname.startsWith("/holiday-events");
+  const bazaar = pathname.startsWith("/character-extras");
+  // Any co-branded world page swaps the dark mothership bar for its light theme.
+  const coBranded =
+    royal || hero || dino || mermaid || wonderverse || mascot || holiday || bazaar;
   // Cinema mode (hero "Watch Us In Action" reel) glides the header out of view.
   const { isCinema } = useCinema();
 
@@ -64,7 +76,13 @@ export function Header() {
             ? "text-[var(--chapter-mermaid-deep)]/85 hover:text-[var(--chapter-mermaid-deep)]"
             : wonderverse
               ? "text-[var(--chapter-specialty-deep)]/85 hover:text-[var(--chapter-specialty-deep)]"
-              : "text-fg-on-ink/85 hover:text-gold-300",
+              : mascot
+                ? "text-[var(--chapter-mascot-deep)]/85 hover:text-[var(--chapter-mascot-deep)]"
+                : holiday
+                  ? "text-[var(--chapter-holiday-deep)]/85 hover:text-[var(--chapter-holiday-deep)]"
+                  : bazaar
+                    ? "text-[var(--chapter-festival-deep)]/85 hover:text-[var(--chapter-festival-deep)]"
+                    : "text-fg-on-ink/85 hover:text-gold-300",
   );
   const activeLink = royal
     ? "is-active text-[var(--pp-magenta-deep)]"
@@ -76,7 +94,13 @@ export function Header() {
           ? "is-active text-[var(--chapter-mermaid-deep)]"
           : wonderverse
             ? "is-active text-[var(--chapter-specialty-deep)]"
-            : "is-active text-gold-300";
+            : mascot
+              ? "is-active text-[var(--chapter-mascot-deep)]"
+              : holiday
+                ? "is-active text-[var(--chapter-holiday-deep)]"
+                : bazaar
+                  ? "is-active text-[var(--chapter-festival-deep)]"
+                  : "is-active text-gold-300";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -140,9 +164,21 @@ export function Header() {
                   ? scrolled
                     ? "shadow-[0_10px_30px_-14px_rgba(92,63,148,0.32)] backdrop-blur-md"
                     : "backdrop-blur-sm"
-                  : scrolled
-                    ? "bg-ink-900/95 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
-                    : "bg-ink-900/95 backdrop-blur-md",
+                  : mascot
+                    ? scrolled
+                      ? "shadow-[0_10px_30px_-14px_rgba(181,101,26,0.32)] backdrop-blur-md"
+                      : "backdrop-blur-sm"
+                    : holiday
+                      ? scrolled
+                        ? "shadow-[0_10px_30px_-14px_rgba(21,74,54,0.32)] backdrop-blur-md"
+                        : "backdrop-blur-sm"
+                      : bazaar
+                        ? scrolled
+                          ? "shadow-[0_10px_30px_-14px_rgba(124,35,80,0.32)] backdrop-blur-md"
+                          : "backdrop-blur-sm"
+                        : scrolled
+                          ? "bg-ink-900/95 shadow-[0_8px_30px_-12px_rgba(8,17,31,0.6)] backdrop-blur-md"
+                          : "bg-ink-900/95 backdrop-blur-md",
         isCinema && "pointer-events-none -translate-y-full opacity-0",
       )}
       style={
@@ -156,7 +192,13 @@ export function Header() {
                 ? { background: scrolled ? "rgba(228,247,245,0.96)" : "rgba(228,247,245,0.82)" }
                 : wonderverse
                   ? { background: scrolled ? "rgba(243,239,251,0.96)" : "rgba(243,239,251,0.82)" }
-                  : undefined
+                  : mascot
+                    ? { background: scrolled ? "rgba(255,243,224,0.96)" : "rgba(255,243,224,0.82)" }
+                    : holiday
+                      ? { background: scrolled ? "rgba(230,247,236,0.96)" : "rgba(230,247,236,0.82)" }
+                      : bazaar
+                        ? { background: scrolled ? "rgba(252,239,244,0.96)" : "rgba(252,239,244,0.82)" }
+                        : undefined
       }
     >
       {royal ? <span aria-hidden className="pp-hairline absolute inset-x-0 top-0" /> : null}
@@ -200,6 +242,36 @@ export function Header() {
           }}
         />
       ) : null}
+      {mascot ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-mascot) 28%, #FFD79A 50%, var(--chapter-mascot-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {holiday ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, #B6F0C8 50%, var(--chapter-holiday-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {bazaar ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-festival) 28%, #E7B24B 50%, var(--chapter-festival-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
       <div className="relative mx-auto flex h-[68px] w-full max-w-[1360px] items-center justify-between gap-2 px-5 sm:px-6 lg:px-8">
         {/* Left cluster — brand + co-brand seam lockup kept snug together as a
             single unit so justify-between only separates this group from the nav
@@ -213,13 +285,11 @@ export function Header() {
             aria-label="Vancouver Character Events — home"
             className={cn(
               "group flex shrink-0 items-center gap-2.5",
-              (royal || hero || dino || mermaid || wonderverse) &&
+              coBranded &&
                 "h-[52px] rounded-[var(--radius-pill)] border border-gold-500/45 px-3 min-[1140px]:h-full min-[1140px]:rounded-none min-[1140px]:rounded-r-[26px] min-[1140px]:border-0 min-[1140px]:-ml-5 min-[1140px]:pl-5 min-[1140px]:pr-6 sm:min-[1140px]:-ml-6 sm:min-[1140px]:pl-6 lg:min-[1140px]:-ml-8 lg:min-[1140px]:pl-8",
             )}
             style={
-              royal || hero || dino || mermaid || wonderverse
-                ? { background: "var(--grad-navy-panel)" }
-                : undefined
+              coBranded ? { background: "var(--grad-navy-panel)" } : undefined
             }
             onClick={() => setOpen(false)}
           >
@@ -410,6 +480,114 @@ export function Header() {
               </Link>
             </>
           ) : null}
+
+          {/* Mascot seam ✕ + Vancouver Mascot Meadow lockup (wide desktop only) */}
+          {mascot ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--chapter-mascot)]/60 bg-ink-900 text-[0.6rem] font-bold text-[var(--chapter-mascot-glow)] min-[1180px]:flex"
+              >
+                ✕
+              </span>
+              <Link
+                to="/mascot-events"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Mascot Meadow"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Sun className="h-3 w-3 text-[var(--chapter-mascot-deep)]" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--chapter-mascot-deep)]">
+                    Vancouver
+                  </span>
+                </span>
+                <span className="t-script-hero mt-0.5 text-[1.5rem] leading-none text-[var(--chapter-mascot-deep)]">
+                  Mascot
+                </span>
+                <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[var(--chapter-mascot-deep)]/85">
+                  <Flower2 className="h-2 w-2 text-[var(--chapter-mascot)]" aria-hidden />
+                  Meadow
+                  <Flower2 className="h-2 w-2 text-[var(--chapter-mascot)]" aria-hidden />
+                </span>
+              </Link>
+            </>
+          ) : null}
+
+          {/* Holiday seam ✕ + Vancouver Holiday Village lockup (wide desktop only) */}
+          {holiday ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--chapter-holiday)]/60 bg-ink-900 text-[0.6rem] font-bold text-[var(--chapter-holiday-glow)] min-[1180px]:flex"
+              >
+                ✕
+              </span>
+              <Link
+                to="/holiday-events"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Holiday Village"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Gift className="h-3 w-3 text-[var(--chapter-holiday-deep)]" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--chapter-holiday-deep)]">
+                    Vancouver
+                  </span>
+                </span>
+                <span className="t-script-hero mt-0.5 text-[1.5rem] leading-none text-[var(--chapter-holiday-deep)]">
+                  Holiday
+                </span>
+                <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[var(--chapter-holiday-deep)]/85">
+                  <Star
+                    className="h-2 w-2 fill-[var(--chapter-holiday)] text-[var(--chapter-holiday)]"
+                    aria-hidden
+                  />
+                  Village
+                  <Star
+                    className="h-2 w-2 fill-[var(--chapter-holiday)] text-[var(--chapter-holiday)]"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
+            </>
+          ) : null}
+
+          {/* Bazaar seam ✕ + Vancouver Enchanted Bazaar lockup (wide desktop only) */}
+          {bazaar ? (
+            <>
+              <span
+                aria-hidden
+                className="z-10 -ml-6 hidden h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--chapter-festival)]/60 bg-ink-900 text-[0.6rem] font-bold text-[var(--chapter-festival-glow)] min-[1180px]:flex"
+              >
+                ✕
+              </span>
+              <Link
+                to="/character-extras"
+                className="ml-2.5 hidden shrink-0 flex-col items-center leading-none transition-transform hover:scale-[1.03] min-[1180px]:flex"
+                aria-label="Vancouver Enchanted Bazaar"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Sparkles className="h-3 w-3 text-[var(--chapter-festival-deep)]" aria-hidden />
+                  <span className="t-engrave text-[0.6rem] tracking-[0.2em] text-[var(--chapter-festival-deep)]">
+                    Vancouver
+                  </span>
+                </span>
+                <span className="t-script-hero mt-0.5 text-[1.2rem] leading-none text-[var(--chapter-festival)]">
+                  Enchanted
+                </span>
+                <span className="t-engrave mt-1 inline-flex items-center gap-1.5 text-[0.5rem] tracking-[0.32em] text-[var(--chapter-festival-deep)]/85">
+                  <Star
+                    className="h-2 w-2 fill-[var(--chapter-festival)] text-[var(--chapter-festival)]"
+                    aria-hidden
+                  />
+                  Bazaar
+                  <Star
+                    className="h-2 w-2 fill-[var(--chapter-festival)] text-[var(--chapter-festival)]"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
+            </>
+          ) : null}
         </div>
 
         <nav className="hidden items-center gap-0.5 min-[1140px]:flex" aria-label="Primary">
@@ -528,7 +706,13 @@ export function Header() {
                       ? "border-[var(--chapter-mermaid-deep)]/30 bg-white/55 text-[var(--chapter-mermaid-deep)]/90 hover:border-[var(--chapter-mermaid)] hover:text-[var(--chapter-mermaid-deep)]"
                       : wonderverse
                         ? "border-[var(--chapter-specialty-deep)]/30 bg-white/55 text-[var(--chapter-specialty-deep)]/90 hover:border-[var(--chapter-specialty)] hover:text-[var(--chapter-specialty-deep)]"
-                        : "border-gold-500/35 text-fg-on-ink/80 hover:border-gold-400 hover:text-gold-300",
+                        : mascot
+                          ? "border-[var(--chapter-mascot-deep)]/30 bg-white/55 text-[var(--chapter-mascot-deep)]/90 hover:border-[var(--chapter-mascot)] hover:text-[var(--chapter-mascot-deep)]"
+                          : holiday
+                            ? "border-[var(--chapter-holiday-deep)]/30 bg-white/55 text-[var(--chapter-holiday-deep)]/90 hover:border-[var(--chapter-holiday)] hover:text-[var(--chapter-holiday-deep)]"
+                            : bazaar
+                              ? "border-[var(--chapter-festival-deep)]/30 bg-white/55 text-[var(--chapter-festival-deep)]/90 hover:border-[var(--chapter-festival)] hover:text-[var(--chapter-festival-deep)]"
+                              : "border-gold-500/35 text-fg-on-ink/80 hover:border-gold-400 hover:text-gold-300",
             )}
             activeProps={{
               className: royal
@@ -541,7 +725,13 @@ export function Header() {
                       ? "text-[var(--chapter-mermaid-deep)] border-[var(--chapter-mermaid)]"
                       : wonderverse
                         ? "text-[var(--chapter-specialty-deep)] border-[var(--chapter-specialty)]"
-                        : "text-gold-300 border-gold-400",
+                        : mascot
+                          ? "text-[var(--chapter-mascot-deep)] border-[var(--chapter-mascot)]"
+                          : holiday
+                            ? "text-[var(--chapter-holiday-deep)] border-[var(--chapter-holiday)]"
+                            : bazaar
+                              ? "text-[var(--chapter-festival-deep)] border-[var(--chapter-festival)]"
+                              : "text-gold-300 border-gold-400",
             }}
           >
             <Lock className="h-3.5 w-3.5" aria-hidden />
@@ -587,6 +777,33 @@ export function Header() {
               to="/contact"
               size="md"
               className="cta-pulse !bg-[var(--chapter-specialty)] !text-white hover:!bg-[var(--chapter-specialty-deep)] hover:!shadow-[0_0_24px_rgba(182,139,230,0.5)]"
+            >
+              <Sparkles className="h-4 w-4" aria-hidden />
+              Book Now
+            </CTAButton>
+          ) : mascot ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !bg-[var(--chapter-mascot)] !text-[#3A2206] hover:!bg-[var(--chapter-mascot-deep)] hover:!text-white hover:!shadow-[0_0_24px_rgba(240,162,62,0.45)]"
+            >
+              <Sun className="h-4 w-4" aria-hidden />
+              Book Now
+            </CTAButton>
+          ) : holiday ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !bg-[var(--chapter-holiday)] !text-white hover:!bg-[var(--chapter-holiday-deep)] hover:!shadow-[0_0_24px_rgba(63,164,106,0.45)]"
+            >
+              <Gift className="h-4 w-4" aria-hidden />
+              Book Now
+            </CTAButton>
+          ) : bazaar ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !bg-[var(--chapter-festival)] !text-white hover:!bg-[var(--chapter-festival-deep)] hover:!shadow-[0_0_24px_rgba(209,74,134,0.45)]"
             >
               <Sparkles className="h-4 w-4" aria-hidden />
               Book Now
@@ -640,6 +857,30 @@ export function Header() {
             >
               Book Now
             </CTAButton>
+          ) : mascot ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[var(--chapter-mascot)] !text-[#3A2206]"
+            >
+              Book Now
+            </CTAButton>
+          ) : holiday ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[var(--chapter-holiday)] !text-white"
+            >
+              Book Now
+            </CTAButton>
+          ) : bazaar ? (
+            <CTAButton
+              to="/contact"
+              size="md"
+              className="cta-pulse !px-3 !py-1.5 !text-[0.74rem] !bg-[var(--chapter-festival)] !text-white"
+            >
+              Book Now
+            </CTAButton>
           ) : (
             <CTAButton to="/contact" size="md" className="cta-pulse !px-3 !py-1.5 !text-[0.74rem]">
               Book Now
@@ -660,7 +901,13 @@ export function Header() {
                       ? "text-[var(--chapter-mermaid-deep)] hover:text-[#0a4a55]"
                       : wonderverse
                         ? "text-[var(--chapter-specialty-deep)] hover:text-[#3f2a66]"
-                        : "text-fg-on-ink hover:text-gold-400",
+                        : mascot
+                          ? "text-[var(--chapter-mascot-deep)] hover:text-[#7a4513]"
+                          : holiday
+                            ? "text-[var(--chapter-holiday-deep)] hover:text-[#0c2c20]"
+                            : bazaar
+                              ? "text-[var(--chapter-festival-deep)] hover:text-[#5a1638]"
+                              : "text-fg-on-ink hover:text-gold-400",
             )}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -709,6 +956,36 @@ export function Header() {
           style={{
             background:
               "linear-gradient(90deg, transparent, var(--chapter-specialty) 28%, #6E7FD6 50%, var(--chapter-specialty-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {mascot ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-mascot) 28%, #FFD79A 50%, var(--chapter-mascot-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {holiday ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, #B6F0C8 50%, var(--chapter-holiday-deep) 72%, transparent)",
+          }}
+        />
+      ) : null}
+      {bazaar ? (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--chapter-festival) 28%, #E7B24B 50%, var(--chapter-festival-deep) 72%, transparent)",
           }}
         />
       ) : null}
@@ -813,6 +1090,33 @@ export function Header() {
               to="/contact"
               size="lg"
               className="mt-3 w-full !bg-[var(--chapter-specialty)] !text-white"
+              onClick={() => setOpen(false)}
+            >
+              Book Now
+            </CTAButton>
+          ) : mascot ? (
+            <CTAButton
+              to="/contact"
+              size="lg"
+              className="mt-3 w-full !bg-[var(--chapter-mascot)] !text-[#3A2206]"
+              onClick={() => setOpen(false)}
+            >
+              Book Now
+            </CTAButton>
+          ) : holiday ? (
+            <CTAButton
+              to="/contact"
+              size="lg"
+              className="mt-3 w-full !bg-[var(--chapter-holiday)] !text-white"
+              onClick={() => setOpen(false)}
+            >
+              Book Now
+            </CTAButton>
+          ) : bazaar ? (
+            <CTAButton
+              to="/contact"
+              size="lg"
+              className="mt-3 w-full !bg-[var(--chapter-festival)] !text-white"
               onClick={() => setOpen(false)}
             >
               Book Now

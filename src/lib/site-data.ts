@@ -726,7 +726,7 @@ export const storybookWorlds: StorybookWorld[] = [
     sampleCharacters: ["Face Painting", "Balloon Twisting", "Photography", "Surprise Characters"],
     pricingSummary: "Custom add-ons",
     exploreLabel: "Explore the Enchanted Bazaar",
-    exploreTo: "/contact",
+    exploreTo: "/character-extras",
     pricingLabel: "Request Pricing",
     pricingTo: "/contact",
     requestPricing: true,
