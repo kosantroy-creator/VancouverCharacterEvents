@@ -258,7 +258,7 @@ export function Header() {
           className="absolute inset-x-0 top-0 h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, #B6F0C8 50%, var(--chapter-holiday-deep) 72%, transparent)",
+              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, var(--chapter-holiday-glow) 50%, var(--chapter-holiday-deep) 72%, transparent)",
           }}
         />
       ) : null}
@@ -794,7 +794,7 @@ export function Header() {
             <CTAButton
               to="/contact"
               size="md"
-              className="cta-pulse !bg-[var(--chapter-holiday)] !text-white hover:!bg-[var(--chapter-holiday-deep)] hover:!shadow-[0_0_24px_rgba(63,164,106,0.45)]"
+              className="cta-pulse !bg-[var(--chapter-holiday)] !text-white hover:!bg-[var(--chapter-holiday-deep)] hover:!shadow-[0_0_24px_rgba(193,154,60,0.45)]"
             >
               <Gift className="h-4 w-4" aria-hidden />
               Book Now
@@ -975,7 +975,7 @@ export function Header() {
           className="absolute inset-x-0 bottom-0 h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, #B6F0C8 50%, var(--chapter-holiday-deep) 72%, transparent)",
+              "linear-gradient(90deg, transparent, var(--chapter-holiday) 28%, var(--chapter-holiday-glow) 50%, var(--chapter-holiday-deep) 72%, transparent)",
           }}
         />
       ) : null}

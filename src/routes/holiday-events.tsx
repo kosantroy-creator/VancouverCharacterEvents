@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { HolidayHero } from "@/components/site/HolidayHero";
 import { HolidayTrust } from "@/components/site/HolidayTrust";
-import { HolidaySeasons } from "@/components/site/HolidaySeasons";
-import { HolidayCalendar } from "@/components/site/HolidayCalendar";
+import { HolidayZones } from "@/components/site/HolidayZones";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("holiday-events")!;
@@ -32,10 +31,8 @@ function HolidayPage() {
       <div id="holiday-explore">
         {/* Compact "Holiday Promise" trust band bridging the hero into the page. */}
         <HolidayTrust />
-        {/* "Three Seasons. One Village." — the Spring / Spooky / Christmas band. */}
-        <HolidaySeasons />
-        {/* "Open the Village Calendar" — the interactive seasonal character reveal. */}
-        <HolidayCalendar />
+        {/* "Step into every season" — Easter / Spooky / Christmas character zones. */}
+        <HolidayZones />
         <ServicePageTemplate chapter={chapter} hideHero />
       </div>
     </>

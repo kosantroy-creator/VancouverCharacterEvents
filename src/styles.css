@@ -81,9 +81,9 @@
   --chapter-mascot: #F0A23E;
   --chapter-mascot-deep: #B5651A;
   --chapter-mascot-glow: #FFD79A;
-  --chapter-holiday: #3FA46A;
-  --chapter-holiday-deep: #154A36;
-  --chapter-holiday-glow: #B6F0C8;
+  --chapter-holiday: #6E2A48;
+  --chapter-holiday-deep: #4E1D34;
+  --chapter-holiday-glow: #E0C271;
   --chapter-holiday-accent: #C8413E;
   --chapter-corporate: #D9B25A;
   --chapter-corporate-deep: #8A6A22;
@@ -8068,6 +8068,138 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .hvc.anim .hvc-head > *:nth-child(3) { transition-delay: 150ms; }
 .hvc.anim .hvc-tabs { transition: opacity 600ms var(--ease-out) 220ms, transform 640ms var(--ease-out) 220ms; }
 .hvc.anim .hvc-panel { transition: opacity 700ms var(--ease-out) 320ms, transform 720ms var(--ease-out) 320ms, border-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out); }
+
+/* ===========================================================================
+   HOLIDAY VILLAGE ZONES — "Step into every season". The character roster as three
+   scenic seasonal worlds (the holiday sibling of MeadowFriends): each season has
+   its own village background, a reel portal opposite the entrance, and character
+   cards that explode out of the portal (GSAP) then drift + grow on hover to reveal
+   Book Now. Per-season accent via --za / --za-deep (Easter purple · Halloween
+   orange · Christmas evergreen). STATIC-FIRST, reduced-motion safe.
+   =========================================================================== */
+.hvz { color: #3E2C2E; background: linear-gradient(180deg, #FCF8EF 0%, #F6EFE0 34%, #FBF7EC 72%, #FCF8EF 100%); }
+.hvz-glow {
+  position: absolute; left: 50%; top: -3rem; z-index: 0; transform: translateX(-50%); width: 44rem; height: 22rem; pointer-events: none; border-radius: 9999px; opacity: 0.6; filter: blur(10px);
+  background: radial-gradient(circle at 50% 30%, rgba(255,236,190,0.55), transparent 62%);
+}
+.hvz-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; color: #6E2A48; }
+.hvz-eyebrow svg { color: #C19A3C; }
+.hvz-title { margin-top: 0.55rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.04; font-size: clamp(2rem, 4.4vw, 3rem); color: #6E2A48; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+.hvz-sub { margin-top: 0.8rem; font-size: 1rem; line-height: 1.6; color: #4A3A30; }
+.hvz-seam { height: 96px; background: linear-gradient(180deg, transparent, #FCF8EF 88%); }
+
+/* ---- three scenic seasonal zones ---- */
+.hvz-zone { position: relative; isolation: isolate; overflow: hidden; padding: 4.5rem 0; }
+@media (min-width: 1024px) { .hvz-zone { padding: 5.5rem 0; } }
+
+.hvz-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+.hvz-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; }
+.hvz-bg-grade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,251,240,0.16) 0%, rgba(255,251,240,0.04) 38%, rgba(255,251,240,0.32) 100%); }
+.hvz-bg-scrim { position: absolute; inset: 0; background: linear-gradient(to left, rgba(255,250,238,0.95) 0%, rgba(255,250,238,0.8) 34%, rgba(255,250,238,0.2) 56%, transparent 72%); }
+.hvz-zone--flip .hvz-bg-scrim { background: linear-gradient(to right, rgba(255,250,238,0.95) 0%, rgba(255,250,238,0.8) 34%, rgba(255,250,238,0.2) 56%, transparent 72%); }
+
+.hvz-grid { position: relative; z-index: 1; margin: 0 auto; max-width: 1200px; padding: 0 1.25rem; display: grid; gap: 1.8rem; align-items: center; }
+@media (min-width: 1024px) {
+  .hvz-grid { grid-template-columns: minmax(280px, 360px) 1fr; gap: 2.6rem; padding: 0 2rem; }
+  .hvz-zone--flip .hvz-portal { order: 2; }
+  .hvz-zone--flip .hvz-content { order: 1; }
+}
+
+/* reel portal */
+.hvz-portal {
+  position: relative; overflow: hidden; border-radius: 22px; aspect-ratio: 1 / 1; width: 100%; max-width: 360px; margin: 0 auto;
+  border: 2px solid color-mix(in oklab, var(--za) 60%, #E2C271);
+  box-shadow: 0 28px 56px -26px rgba(46,40,30,0.6), 0 0 40px -10px color-mix(in oklab, var(--za) 55%, transparent), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.hvz-portal-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; background: #EAE0D2; }
+.hvz-portal-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(30,20,24,0.06), transparent 30%, transparent 60%, rgba(28,18,22,0.42)); }
+.hvz-portal-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; height: 3.6rem; width: 3.6rem; border-radius: 9999px; color: #fff;
+  background: linear-gradient(150deg, var(--za), var(--za-deep)); border: 2px solid rgba(255,255,255,0.85); box-shadow: 0 10px 24px -8px color-mix(in oklab, var(--za-deep) 70%, transparent);
+}
+.hvz-portal-label {
+  position: absolute; left: 0.7rem; bottom: 0.7rem; display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 9999px; padding: 0.28rem 0.7rem;
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.04em; color: var(--za-deep); background: rgba(255,252,244,0.92); border: 1px solid color-mix(in oklab, var(--za) 45%, #E2C271); box-shadow: 0 4px 12px -6px rgba(46,40,30,0.5);
+}
+.hvz-portal-label svg { color: var(--za); }
+.hvz-portal-glow {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; border-radius: 9999px; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle, rgba(255,244,190,0.95), color-mix(in oklab, var(--za) 55%, transparent) 44%, transparent 72%); mix-blend-mode: screen; filter: blur(2px);
+}
+.hvz-burst { position: absolute; left: 50%; top: 50%; z-index: 3; pointer-events: none; }
+.hvz-spark {
+  position: absolute; top: 0; left: 0; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 9999px; opacity: 0;
+  background: radial-gradient(circle, #fff, rgba(255,232,150,0.9) 50%, transparent 76%); box-shadow: 0 0 9px rgba(255,228,150,0.9);
+}
+
+/* world + cards */
+.hvz-content { min-width: 0; }
+.hvz-zone-head { display: flex; align-items: center; gap: 0.6rem; }
+.hvz-zone-ic {
+  display: grid; place-items: center; height: 2.1rem; width: 2.1rem; flex: 0 0 auto; border-radius: 9999px; color: #fff;
+  background: linear-gradient(150deg, color-mix(in oklab, var(--za) 70%, #E2C271), var(--za)); border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 6px 14px -6px rgba(46,40,30,0.55);
+}
+.hvz-zone-title { font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.06; font-size: clamp(1.5rem, 3.2vw, 2.3rem); color: var(--za-deep); text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+.hvz-zone-story { margin-top: 0.5rem; max-width: 34rem; font-size: 0.95rem; line-height: 1.55; color: #4A3A30; text-shadow: 0 1px 2px rgba(255,250,238,0.7); }
+
+.hvz-cards { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.7rem 0.8rem; }
+.hvz-card { position: relative; width: 104px; height: 168px; z-index: 1; }
+.hvz-card:hover, .hvz-card:focus-within { z-index: 60; }
+
+.hvz-sway { position: absolute; inset: 0; transform-origin: 50% 85%; will-change: transform; animation: kf-hvz-sway var(--sway-d, 7s) ease-in-out infinite; animation-delay: var(--sway-delay, 2s); }
+.hvz-card:hover .hvz-sway, .hvz-card:focus-within .hvz-sway { animation-play-state: paused; }
+@keyframes kf-hvz-sway { 0%, 100% { transform: translateX(0) rotate(0deg); } 25% { transform: translateX(-3px) rotate(-1.1deg); } 75% { transform: translateX(3px) rotate(1.1deg); } }
+
+.hvz-cardx {
+  position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 104px; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; text-align: center; border-radius: 15px; padding: 0.45rem 0.45rem 0.6rem;
+  background: linear-gradient(170deg, rgba(255,253,247,0.98), rgba(250,243,229,0.97));
+  border: 1.5px solid color-mix(in oklab, var(--za) 45%, #E2C271); box-shadow: 0 12px 26px -16px rgba(46,40,30,0.55), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition: width 360ms var(--ease-out), box-shadow 360ms var(--ease-out), border-color 240ms var(--ease-out); will-change: width;
+}
+.hvz-card:hover .hvz-cardx, .hvz-card:focus-within .hvz-cardx {
+  width: 196px; border-color: var(--za);
+  box-shadow: 0 28px 52px -18px rgba(46,40,30,0.6), 0 0 28px -8px color-mix(in oklab, var(--za) 60%, transparent), inset 0 1px 0 rgba(255,255,255,0.92);
+}
+@media (min-width: 640px) { .hvz-card:hover .hvz-cardx, .hvz-card:focus-within .hvz-cardx { width: 212px; } }
+
+.hvz-card-portrait {
+  position: relative; width: 100%; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden; border-radius: 11px; color: rgba(255,255,255,0.92); border: 1px solid color-mix(in oklab, var(--za) 40%, transparent);
+  background: radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--za) 30%, #fff), transparent 68%), linear-gradient(165deg, color-mix(in oklab, var(--za) 58%, #fff), color-mix(in oklab, var(--za) 80%, #fff));
+}
+.hvz-card-portrait > svg { filter: drop-shadow(0 2px 5px rgba(40,28,20,0.35)); }
+.hvz-card-badge {
+  position: absolute; right: 0.3rem; bottom: 0.3rem; display: grid; place-items: center; height: 1.25rem; width: 1.25rem; border-radius: 9999px; color: var(--za-deep);
+  background: rgba(255,252,244,0.92); border: 1px solid color-mix(in oklab, var(--za) 45%, #E2C271); box-shadow: 0 2px 6px -2px rgba(46,40,30,0.5);
+}
+.hvz-card-name { margin-top: 0.4rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.78rem; line-height: 1.12; color: #20323A; }
+
+.hvz-cardx-extra { width: 100%; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 400ms var(--ease-out), opacity 320ms var(--ease-out); }
+.hvz-card:hover .hvz-cardx-extra, .hvz-card:focus-within .hvz-cardx-extra { max-height: 80px; opacity: 1; }
+.hvz-book {
+  margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; width: 100%; border-radius: 9999px; padding: 0.42rem 0.8rem;
+  font-family: var(--font-display, inherit); font-size: 0.78rem; font-weight: 700; color: #fff;
+  background: linear-gradient(120deg, var(--za), var(--za-deep)); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 18px -8px color-mix(in oklab, var(--za-deep) 65%, transparent);
+  transition: filter 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.hvz-book:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.hvz-book:focus-visible { outline: 2px solid var(--za); outline-offset: 2px; }
+.hvz-book svg { color: #FFE6A8; }
+@media (prefers-reduced-motion: reduce) { .hvz-cardx, .hvz-cardx-extra { transition: none; } }
+
+.hvz-zone-cta { margin-top: 1.4rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.hvz-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.7rem 1.4rem; font-family: var(--font-display, inherit); font-size: 0.88rem; font-weight: 700; color: #fff;
+  background: linear-gradient(120deg, var(--za), var(--za-deep)); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 14px 30px -14px color-mix(in oklab, var(--za-deep) 65%, transparent); transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.hvz-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 36px -14px color-mix(in oklab, var(--za-deep) 70%, transparent); }
+.hvz-cta:focus-visible { outline: 2px solid var(--za); outline-offset: 2px; }
+.hvz-cta svg:first-of-type { color: #FFE6A8; }
+.hvz-zone-count { font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--za-deep); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
