@@ -7741,8 +7741,14 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
   --h-ink: #3E2C2E;         /* warm espresso ink */
   background: #ECE6F0;      /* soft neutral behind the photo on first paint */
 }
-.hvl-img { object-position: 70% 46%; animation: kf-hvl-imgin 1100ms var(--ease-out) both; }
-@media (max-width: 640px) { .hvl-img { object-position: 66% 40%; } }
+/* the same village, three seasons — stacked + cross-faded */
+.hvl-slides { animation: kf-hvl-imgin 1100ms var(--ease-out) both; }
+.hvl-slide {
+  position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: 70% 46%;
+  opacity: 0; transition: opacity 1800ms var(--ease-out); will-change: opacity;
+}
+.hvl-slide.is-active { opacity: 1; }
+@media (max-width: 640px) { .hvl-slide { object-position: 66% 40%; } }
 @keyframes kf-hvl-imgin { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
 
 /* legibility washes */

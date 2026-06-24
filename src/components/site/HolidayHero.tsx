@@ -18,7 +18,9 @@ import { CTAButton } from "./CTAButton";
 import { Reveal } from "./Reveal";
 import { useCinema } from "@/lib/cinema";
 import { cn } from "@/lib/utils";
-import heroImg from "@/assets/holiday/holiday-village-hero.webp";
+import villageSpring from "@/assets/holiday/village-spring.webp";
+import villageHalloween from "@/assets/holiday/village-halloween.webp";
+import villageChristmas from "@/assets/holiday/village-christmas.webp";
 
 /**
  * HolidayHero — Section 1 of the Holiday Village page: the seasonal realm
@@ -26,18 +28,30 @@ import heroImg from "@/assets/holiday/holiday-village-hero.webp";
  * Same composition as the Mascot Meadows hero, but on a season-spanning palette —
  * mulled berry-plum + antique gold over candlelight cream, with a recurring
  * winter/spring/autumn accent trio (evergreen+snow-blue · lilac+blush · pumpkin).
- * The copy sits left over a soft cream wash — a "Vancouver / Holiday Village /
- * Events" wordmark lockup (snowflake · flower · leaf), a display line, a "Watch Us
- * In Action" reel, two CTAs and a Christmas·Easter·Halloween trust row. Ambient
- * snow + petals + leaves drift together (motion-gated), and a snowdrift flows the
- * hero into the trust band. The hero photo is a placeholder for a future
- * season-rotating village video. Brand-safe; reduced-motion safe. See "HOLIDAY
- * VILLAGE HERO" in styles.css.
+ * The background is the SAME village recreated for Spring, Halloween and Christmas,
+ * cross-fading on a stack so the village magically changes seasons (motion-gated;
+ * reduced motion holds the Christmas page). The copy sits left over a soft cream
+ * wash — a "Vancouver / Holiday Village / Events" wordmark lockup, a display line,
+ * a "Watch Us In Action" reel, two CTAs and a Christmas·Easter·Halloween trust row.
+ * Ambient snow + petals + leaves + bats drift together. Brand-safe; reduced-motion
+ * safe. See "HOLIDAY VILLAGE HERO" in styles.css.
  */
 type Vars = CSSProperties & Record<string, string | number>;
 
 /** Fullscreen "Watch Us In Action" reel source — drop the file in to enable. */
 const REEL_SRC = "/video/holiday-village.mp4";
+
+/** The same village, three seasons — cross-faded so it changes seasons. */
+const SLIDES = [
+  { src: villageSpring, alt: "" },
+  { src: villageHalloween, alt: "" },
+  {
+    src: villageChristmas,
+    alt: "A festive Holiday Village square — glowing market stalls, garlands, lanterns and a welcome arch — that changes through the seasons.",
+  },
+] as const;
+const SLIDE_START = 2; // Christmas — our busiest season — on first paint
+const SLIDE_MS = 6500;
 
 /* Trust row — the three signature seasons up front (Christmas · Easter ·
    Halloween), then the year-round formats. Icons carry the seasonal accent. */
@@ -91,10 +105,19 @@ export function HolidayHero() {
   const { isCinema, setCinema } = useCinema();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [motionOK, setMotionOK] = useState(false);
+  const [slide, setSlide] = useState(SLIDE_START);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setMotionOK(true);
   }, []);
+
+  // Cross-fade the village through its seasons (paused under reduced motion and
+  // while the fullscreen reel is open).
+  useEffect(() => {
+    if (!motionOK || isCinema) return;
+    const id = window.setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), SLIDE_MS);
+    return () => window.clearInterval(id);
+  }, [motionOK, isCinema]);
 
   // Drive playback off the cinema flag — try with sound, fall back to muted.
   useEffect(() => {
@@ -127,14 +150,21 @@ export function HolidayHero() {
       aria-label="Holiday Village — seasonal character celebrations"
       className="hvl relative isolate flex min-h-[88svh] items-center overflow-hidden"
     >
-      {/* selected Holiday Village photo — full-bleed background */}
-      <img
-        src={heroImg}
-        alt="A snowy festive Holiday Village square at golden hour — glowing market stalls, garlands and ornaments, lanterns, a carousel, falling snow, and a 'Welcome to Holiday Village' arch."
-        className="hvl-img absolute inset-0 -z-30 h-full w-full object-cover"
-        fetchPriority="high"
-        decoding="async"
-      />
+      {/* the same village, three seasons — cross-fading full-bleed background */}
+      <div aria-hidden className="hvl-slides absolute inset-0 -z-30">
+        {SLIDES.map((s, i) => (
+          <img
+            key={i}
+            src={s.src}
+            alt={s.alt}
+            aria-hidden={s.alt ? undefined : true}
+            className={cn("hvl-slide", i === slide && "is-active")}
+            fetchPriority={i === SLIDE_START ? "high" : "low"}
+            decoding="async"
+            loading={i === SLIDE_START ? "eager" : "lazy"}
+          />
+        ))}
+      </div>
 
       {/* soft cream washes keep the left copy readable over the art */}
       <div aria-hidden className="hvl-wash absolute inset-0 -z-20" />
@@ -355,7 +385,7 @@ export function HolidayHero() {
         <video
           ref={videoRef}
           src={REEL_SRC}
-          poster={heroImg}
+          poster={villageChristmas}
           playsInline
           preload="none"
           controls
