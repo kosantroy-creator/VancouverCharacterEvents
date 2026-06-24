@@ -3,6 +3,7 @@ import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { HolidayHero } from "@/components/site/HolidayHero";
 import { HolidayTrust } from "@/components/site/HolidayTrust";
 import { HolidaySeasons } from "@/components/site/HolidaySeasons";
+import { HolidayCalendar } from "@/components/site/HolidayCalendar";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("holiday-events")!;
@@ -33,6 +34,8 @@ function HolidayPage() {
         <HolidayTrust />
         {/* "Three Seasons. One Village." — the Spring / Spooky / Christmas band. */}
         <HolidaySeasons />
+        {/* "Open the Village Calendar" — the interactive seasonal character reveal. */}
+        <HolidayCalendar />
         <ServicePageTemplate chapter={chapter} hideHero />
       </div>
     </>

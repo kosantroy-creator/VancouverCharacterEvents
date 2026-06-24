@@ -7978,6 +7978,91 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .hvs.anim .hvs-card { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out); transition-delay: calc(240ms + var(--i) * 120ms); }
 .hvs.anim .hvs-card:hover { transition-delay: 0ms; }
 
+/* ===========================================================================
+   HOLIDAY VILLAGE CALENDAR — "Open the Village Calendar". An interactive seasonal
+   calendar: four pages (Spring · Spooky · Christmas [featured] · Custom), tab-
+   driven, that auto-flips Spring→Spooky→Christmas once on view (stamping "Season
+   Unlocked") then settles. The open page shows that season's roster as character
+   cards; the whole section's accent (--pa / --pad) shifts per season. VISIBLE BY
+   DEFAULT (hidden only under `.hvc.anim:not(.is-in)`), reduced-motion safe.
+   =========================================================================== */
+.hvc { color: #3E2C2E; background: linear-gradient(180deg, #FCF8F0 0%, #FBF5E8 60%, #FCF8F0 100%); --pa: #B0232A; --pad: #1E6E4A; }
+.hvc-glow {
+  position: absolute; left: 50%; top: -3rem; z-index: 0; transform: translateX(-50%); width: 44rem; height: 22rem; pointer-events: none; border-radius: 9999px; opacity: 0.6; filter: blur(12px);
+  background: radial-gradient(circle at 50% 30%, color-mix(in oklab, var(--pa) 26%, transparent), transparent 62%); transition: background 500ms var(--ease-out);
+}
+.hvc-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: #B0892E; }
+.hvc-eyebrow svg { color: var(--pa); transition: color 400ms var(--ease-out); }
+.hvc-title { margin-top: 0.55rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.08; font-size: clamp(1.9rem, 4vw, 3rem); color: #6E2A48; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+.hvc-sub { margin-top: 0.8rem; font-size: 1rem; line-height: 1.6; color: #4A3A30; }
+
+/* season tabs */
+.hvc-tabs { margin-top: 2.2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.hvc-tab {
+  position: relative; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.6rem 1.2rem; font-family: var(--font-display, inherit); font-size: 0.9rem; font-weight: 700; color: #5A4A3E;
+  background: rgba(255,253,246,0.9); border: 1.5px solid rgba(193,154,60,0.4); box-shadow: 0 6px 16px -10px rgba(74,42,20,0.4); transition: transform 200ms var(--ease-out), color 200ms, background 200ms, border-color 200ms, box-shadow 200ms;
+}
+.hvc-tab:hover { transform: translateY(-1px); border-color: var(--ta); color: var(--ta); }
+.hvc-tab.is-on { color: #fff; background: var(--ta); border-color: var(--ta); box-shadow: 0 10px 22px -10px color-mix(in oklab, var(--ta) 70%, transparent); }
+.hvc-tab:focus-visible { outline: 2px solid var(--ta); outline-offset: 2px; }
+.hvc-tab-dot { height: 0.4rem; width: 0.4rem; border-radius: 9999px; background: var(--ta); }
+.hvc-tab.is-on .hvc-tab-dot { background: #fff; }
+
+/* the open calendar page */
+.hvc-panel {
+  margin-top: 1.6rem; overflow: hidden; border-radius: 24px; background: linear-gradient(180deg, #FFFDF8, #FBF4E6); border: 1.5px solid color-mix(in oklab, var(--pa) 45%, #E6D6B0);
+  box-shadow: 0 30px 64px -34px rgba(58,40,30,0.5), 0 0 30px -14px color-mix(in oklab, var(--pa) 45%, transparent), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition: border-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+.hvc-panel-head { position: relative; display: flex; align-items: center; gap: 0.9rem; min-height: 4rem; padding: 0.8rem 1.4rem; transition: background 400ms var(--ease-out); }
+.hvc-panel-head::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.22), transparent 60%); }
+.hvc-page-ic { position: relative; z-index: 1; display: grid; place-items: center; height: 3rem; width: 3rem; flex: 0 0 auto; border-radius: 9999px; color: var(--pad); background: radial-gradient(circle at 38% 30%, #fff, #FFF7E9 70%); border: 2.5px solid #fff; box-shadow: 0 8px 18px -8px rgba(40,28,18,0.5); }
+.hvc-page-label { position: relative; z-index: 1; font-family: var(--font-engrave, inherit); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
+.hvc-stamp {
+  position: relative; z-index: 1; margin-left: auto; display: inline-flex; align-items: center; gap: 0.35rem; transform: rotate(-8deg); border-radius: 8px; padding: 0.32rem 0.7rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pad);
+  background: rgba(255,251,240,0.95); border: 1.5px solid rgba(255,255,255,0.85); box-shadow: 0 6px 14px -6px rgba(0,0,0,0.3); animation: kf-hvc-stamp 520ms var(--ease-out) both;
+}
+@keyframes kf-hvc-stamp { 0% { opacity: 0; transform: rotate(-20deg) scale(0.5); } 60% { opacity: 1; transform: rotate(-8deg) scale(1.08); } 100% { opacity: 1; transform: rotate(-8deg) scale(1); } }
+
+.hvc-panel-body { padding: 1.6rem 1.5rem 1.8rem; }
+@media (min-width: 768px) { .hvc-panel-body { padding: 2rem 2.2rem 2.2rem; } }
+.hvc-panel-grid { display: grid; grid-template-columns: 1fr; gap: 1.6rem; }
+@media (min-width: 880px) { .hvc-panel-grid { grid-template-columns: 1.1fr 1fr; gap: 2.2rem; align-items: start; } }
+.hvc-page-title { font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.08; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--pad); }
+.hvc-page-sub { margin-top: 0.4rem; font-size: 0.92rem; font-weight: 700; color: #5A4A3E; }
+.hvc-page-copy { margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6; color: #5A4A3E; }
+.hvc-tags { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; }
+.hvc-tag { border-radius: 9999px; padding: 0.32rem 0.8rem; font-size: 0.76rem; font-weight: 600; color: var(--pad); background: color-mix(in oklab, var(--pa) 12%, #fff); border: 1px solid color-mix(in oklab, var(--pa) 35%, transparent); }
+.hvc-cta { margin-top: 1.3rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.8rem 1.6rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.95rem; color: #fff; background: linear-gradient(120deg, var(--pa), var(--pad)); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 14px 30px -14px color-mix(in oklab, var(--pad) 70%, transparent); transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out); }
+.hvc-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 36px -14px color-mix(in oklab, var(--pad) 70%, transparent); }
+.hvc-cta:focus-visible { outline: 2px solid var(--pad); outline-offset: 2px; }
+
+/* roster */
+.hvc-cast-label { font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pad); }
+.hvc-cast { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.6rem; list-style: none; padding: 0; }
+.hvc-char { display: flex; align-items: center; gap: 0.55rem; border-radius: 14px; padding: 0.5rem 0.85rem 0.5rem 0.5rem; background: linear-gradient(168deg, #FFFDF7, #FBF2DD); border: 1.5px solid color-mix(in oklab, var(--pa) 30%, rgba(226,169,46,0.4)); box-shadow: 0 8px 18px -12px rgba(58,40,30,0.5); transition: transform 200ms var(--ease-out), border-color 200ms var(--ease-out); }
+.hvc-char:hover { transform: translateY(-2px); border-color: var(--pa); }
+.hvc-char-ic { display: grid; place-items: center; height: 2.1rem; width: 2.1rem; flex: 0 0 auto; border-radius: 9999px; color: var(--pad); background: radial-gradient(circle at 38% 30%, #fff, color-mix(in oklab, var(--pa) 16%, #fff) 70%); border: 1.5px solid color-mix(in oklab, var(--pa) 45%, #fff); }
+.hvc-char-name { font-family: var(--font-display, inherit); font-size: 0.82rem; font-weight: 700; color: #3E2C2E; }
+
+/* custom prompt */
+.hvc-custom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; border-radius: 18px; padding: 1.8rem 1.3rem; background: color-mix(in oklab, var(--pa) 8%, #fff); border: 1.5px dashed color-mix(in oklab, var(--pa) 42%, transparent); }
+.hvc-custom-ic { display: grid; place-items: center; height: 3.2rem; width: 3.2rem; border-radius: 9999px; color: var(--pad); background: radial-gradient(circle at 38% 30%, #fff, color-mix(in oklab, var(--pa) 16%, #fff) 70%); border: 2px solid color-mix(in oklab, var(--pa) 45%, #fff); }
+.hvc-custom-title { margin-top: 0.3rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1rem; color: var(--pad); }
+.hvc-custom-line { font-size: 0.85rem; line-height: 1.5; color: #5A4A3E; }
+
+/* ---- reveal ---- */
+.hvc-head > *, .hvc-tabs, .hvc-panel { opacity: 1; }
+.hvc.anim:not(.is-in) .hvc-head > * { opacity: 0; transform: translateY(14px); }
+.hvc.anim:not(.is-in) .hvc-tabs { opacity: 0; transform: translateY(12px); }
+.hvc.anim:not(.is-in) .hvc-panel { opacity: 0; transform: translateY(22px) scale(0.99); }
+.hvc.anim .hvc-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.hvc.anim .hvc-head > *:nth-child(2) { transition-delay: 80ms; }
+.hvc.anim .hvc-head > *:nth-child(3) { transition-delay: 150ms; }
+.hvc.anim .hvc-tabs { transition: opacity 600ms var(--ease-out) 220ms, transform 640ms var(--ease-out) 220ms; }
+.hvc.anim .hvc-panel { transition: opacity 700ms var(--ease-out) 320ms, transform 720ms var(--ease-out) 320ms, border-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

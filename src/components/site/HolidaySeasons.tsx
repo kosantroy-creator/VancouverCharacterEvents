@@ -129,7 +129,7 @@ export function HolidaySeasons() {
                   <h3 className="hvs-card-title">{s.title}</h3>
                   <p className="hvs-card-sub">{s.subtitle}</p>
                   <p className="hvs-card-line">{s.line}</p>
-                  <a href="/contact" className="hvs-card-cta group">
+                  <a href="#village-calendar" className="hvs-card-cta group">
                     {s.cta}
                     <ArrowRight
                       className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
