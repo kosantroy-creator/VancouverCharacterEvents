@@ -7715,6 +7715,269 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 }
 .mpl-hangsign-chain { position: absolute; top: -1.5rem; width: 2px; height: 1.5rem; background: linear-gradient(180deg, rgba(120,90,40,0.15), #8A6A3A); }
 
+/* ===========================================================================
+   HOLIDAY VILLAGE HERO — the seasonal realm entrance. Same composition as the
+   Mermaid / Princess / Hero / Jurassic heroes (full-bleed art, warm cream wash,
+   copy on the left), themed evergreen / cranberry / warm gold / cream. Slow
+   falling snow + soft garland twinkle add life; a snow-drift wash flows into the
+   trust strip. Loops pause under the global reduced-motion guard.
+   =========================================================================== */
+.hvl {
+  /* Living Holiday Calendar — one village, three seasons. Gold + mulled berry-plum
+     are the season-spanning brand; the trio (winter/spring/autumn) recurs around them. */
+  --h-cran: #6E2A48;        /* mulled berry-plum — bridges Xmas berry → autumn plum → spring berry */
+  --h-cran-deep: #4E1D34;
+  --h-gold: #C19A3C;        /* antique gold — the unifier across every season */
+  --h-gold-soft: #E0C271;
+  --h-green: #1E6E4A;       /* ❄ winter — evergreen */
+  --h-green-deep: #14532D;
+  --h-green-ink: #0F3D29;
+  --h-snowblue: #6F9FC4;    /* ❄ winter — soft snow blue */
+  --h-lilac: #9B7BB8;       /* 🌸 spring — lilac */
+  --h-blush: #DE789B;       /* 🌸 spring — blush */
+  --h-pumpkin: #E07B39;     /* 🎃 autumn — pumpkin */
+  --h-plum: #7A4FA3;        /* 🎃 autumn — plum */
+  --h-cream: #FAF3E5;       /* candlelight parchment */
+  --h-ink: #3E2C2E;         /* warm espresso ink */
+  background: #ECE6F0;      /* soft neutral behind the photo on first paint */
+}
+.hvl-img { object-position: 70% 46%; animation: kf-hvl-imgin 1100ms var(--ease-out) both; }
+@media (max-width: 640px) { .hvl-img { object-position: 66% 40%; } }
+@keyframes kf-hvl-imgin { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+
+/* legibility washes */
+.hvl-wash {
+  background: linear-gradient(100deg, rgba(250,243,229,0.97) 0%, rgba(250,243,229,0.9) 26%, rgba(250,243,229,0.6) 44%, rgba(250,243,229,0.18) 60%, transparent 76%);
+}
+.hvl-wash-top { background: linear-gradient(180deg, rgba(250,243,229,0.92), transparent); }
+.hvl-wash-mobile {
+  background: linear-gradient(180deg, rgba(250,243,229,0.72) 0%, rgba(250,243,229,0.5) 48%, rgba(250,243,229,0.66) 100%);
+}
+
+/* warm upper-left candlelight glow */
+.hvl-sun {
+  left: -10rem; top: -12rem; width: 40rem; height: 30rem; border-radius: 9999px; opacity: 0.85; filter: blur(8px);
+  background: radial-gradient(circle at 42% 42%, rgba(255,238,196,0.82), rgba(255,214,140,0.26) 44%, transparent 70%);
+}
+.hvl-sun.is-live { animation: kf-hvl-sun 7s ease-in-out infinite; }
+@keyframes kf-hvl-sun { 0%, 100% { opacity: 0.72; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+
+/* drifting seasons — snow (winter), petals (spring) + leaves (autumn) together */
+.hvl-snow, .hvl-petal, .hvl-leaf {
+  position: absolute; top: -4%; opacity: 0; will-change: transform, opacity; animation: kf-hvl-fall linear infinite;
+}
+.hvl-snow { border-radius: 9999px; filter: blur(0.4px); background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.6) 55%, transparent 80%); }
+.hvl-petal { background: var(--c); border-radius: 64% 36% 55% 45% / 55% 45% 55% 45%; box-shadow: 0 1px 3px rgba(80,40,60,0.12); }
+.hvl-leaf { background: var(--c); border-radius: 0 78% 14% 78%; box-shadow: 0 1px 3px rgba(90,50,20,0.14); }
+@keyframes kf-hvl-fall {
+  0% { opacity: 0; transform: translate(0, -12px) rotate(0deg); }
+  10% { opacity: var(--op, 0.85); }
+  90% { opacity: var(--op, 0.85); }
+  100% { opacity: 0; transform: translate(var(--dx), 94svh) rotate(var(--rot, 70deg)); }
+}
+
+/* garland twinkle near the arch */
+.hvl-spark {
+  position: absolute; opacity: 0; border-radius: 9999px;
+  background: radial-gradient(circle, #fff 0%, rgba(255,232,168,0.9) 40%, transparent 70%);
+  box-shadow: 0 0 8px rgba(255,224,150,0.85); animation: kf-hvl-twinkle 3.4s ease-in-out infinite;
+}
+@keyframes kf-hvl-twinkle { 0%, 100% { opacity: 0; transform: scale(0.6); } 50% { opacity: 0.95; transform: scale(1.12); } }
+
+/* wordmark script — the "Holiday Village" lockup line (on the art) */
+.hvl-script {
+  color: #6E2A48; line-height: 0.92;
+  text-shadow: 0 2px 16px rgba(255,255,255,0.92), 0 8px 26px rgba(78,29,52,0.22);
+}
+
+/* soft snowdrift → next section (no grass; gold star-glints drift gently) */
+.hvl-snowline { z-index: 1; line-height: 0; }
+.hvl-snowline svg { display: block; width: 100%; height: clamp(74px, 9.5vw, 128px); }
+.hvl-snowglints > * { transform-box: fill-box; transform-origin: center; animation: kf-hvl-glint 4.2s ease-in-out infinite; }
+.hvl-snowglints > *:nth-child(2) { animation-delay: 1.4s; }
+.hvl-snowglints > *:nth-child(3) { animation-delay: 2.6s; }
+@keyframes kf-hvl-glint { 0%, 100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 0.95; transform: scale(1.1); } }
+
+/* scroll cue */
+.hvl-chev {
+  position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%); z-index: 2; display: grid; place-items: center;
+  height: 2.2rem; width: 2.2rem; border-radius: 9999px; color: var(--h-green-deep);
+  background: rgba(250,243,229,0.7); border: 1px solid rgba(46,139,87,0.4); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  animation: kf-hvl-bob 2.4s ease-in-out infinite;
+}
+.hvl-chev:hover { color: var(--h-green); }
+.hvl-chev:focus-visible { outline: 2px solid var(--h-gold); outline-offset: 2px; }
+@keyframes kf-hvl-bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 5px); } }
+
+/* ===========================================================================
+   HOLIDAY VILLAGE TRUST — "Seasonal Magic. Smooth Visits. Photo-Ready Moments."
+   The holiday sibling of the Mascot Meadows trust strip: six festive "Holiday
+   Promise" tag-cards on a warm candlelight-parchment continuation, hung beneath a
+   stylised evergreen garland (red bow, gold lights, snow), with faint drifting
+   snow and a soft snowdrift seam below. Palette: deep pine, cranberry, antique
+   gold, candlelight cream. VISIBLE BY DEFAULT (hidden only under
+   `.hvt.anim:not(.is-in)`), reduced-motion safe.
+   =========================================================================== */
+.hvt {
+  --t-cran: #6E2A48; --t-gold: #C19A3C; --t-gold-soft: #E0C271;
+  --t-pine: #1E6E4A; --t-lilac: #9B7BB8; --t-blush: #DE789B; --t-pumpkin: #E07B39;
+  --t-ink: #4A3A30;
+  color: #4A3A30;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCF6EB 8%, #FBF3E0 36%, #FFFBF1 72%, #FBF6EA 100%);
+}
+.hvt-glow {
+  position: absolute; left: 50%; top: -2rem; z-index: 0; transform: translateX(-50%); width: 46rem; height: 22rem; pointer-events: none;
+  border-radius: 9999px; opacity: 0.7; filter: blur(10px);
+  background: radial-gradient(circle at 50% 30%, rgba(255,236,190,0.6), rgba(255,224,150,0.16) 46%, transparent 72%);
+}
+.hvt-garland-wrap { z-index: 2; }
+.hvt-garland { display: block; width: 100%; height: clamp(88px, 9vw, 124px); }
+.hvt-lights > circle { transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 0 4px rgba(244,217,138,0.85)); animation: kf-hvt-light 3.2s ease-in-out infinite; }
+.hvt-lights > circle:nth-child(2n) { animation-delay: 1.1s; }
+.hvt-lights > circle:nth-child(3n) { animation-delay: 2.2s; }
+@keyframes kf-hvt-light { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+.hvt-snow, .hvt-petal, .hvt-leaf {
+  position: absolute; top: -3%; opacity: 0; will-change: transform, opacity; animation: kf-hvt-fall linear infinite;
+}
+.hvt-snow { border-radius: 9999px; filter: blur(0.4px); background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.6) 55%, transparent 80%); }
+.hvt-petal { background: var(--c); border-radius: 64% 36% 55% 45% / 55% 45% 55% 45%; }
+.hvt-leaf { background: var(--c); border-radius: 0 78% 14% 78%; }
+@keyframes kf-hvt-fall {
+  0% { opacity: 0; transform: translate(0, -10px) rotate(0deg); }
+  12% { opacity: var(--op, 0.6); }
+  88% { opacity: var(--op, 0.6); }
+  100% { opacity: 0; transform: translate(var(--dx), 520px) rotate(var(--rot, 40deg)); }
+}
+.hvt-seam svg { display: block; width: 100%; height: clamp(40px, 5vw, 64px); }
+
+/* header */
+.hvt-eyebrow { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: #B0892E; }
+.hvt-eyebrow-flourish { position: relative; width: 2.4rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.85)); }
+.hvt-eyebrow-flourish::after { content: ""; position: absolute; right: -2px; top: -2.5px; width: 5px; height: 5px; border-radius: 1px; background: #C19A3C; transform: rotate(45deg); }
+.hvt-eyebrow-flourish--r { background: linear-gradient(90deg, rgba(193,154,60,0.85), transparent); }
+.hvt-eyebrow-flourish--r::after { right: auto; left: -2px; }
+.hvt-title { margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.1; font-size: clamp(1.9rem, 4vw, 3rem); color: var(--t-cran); text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+.hvt-sub { margin-top: 0.85rem; font-size: 1rem; line-height: 1.6; color: var(--t-ink); }
+.hvt-rule { position: relative; display: flex; align-items: center; justify-content: center; margin: 1.2rem auto 0; color: #C19A3C; }
+.hvt-rule::before, .hvt-rule::after { content: ""; width: 4.5rem; height: 1px; }
+.hvt-rule::before { background: linear-gradient(90deg, transparent, rgba(193,154,60,0.7)); margin-right: 0.55rem; }
+.hvt-rule::after { background: linear-gradient(90deg, rgba(193,154,60,0.7), transparent); margin-left: 0.55rem; }
+
+/* badge grid — festive tag cards (medallion overlaps the top) */
+.hvt-grid { margin-top: 3.4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.4rem 1rem; list-style: none; padding: 0; }
+@media (min-width: 680px) { .hvt-grid { grid-template-columns: repeat(3, 1fr); gap: 2.6rem 1.1rem; } }
+@media (min-width: 1080px) { .hvt-grid { grid-template-columns: repeat(6, 1fr); gap: 1.1rem; } }
+
+.hvt-card {
+  position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2.7rem 1rem 1.5rem; border-radius: 16px;
+  background: linear-gradient(180deg, #FFFDF8, #FBF2DD); border: 1.5px solid rgba(193,154,60,0.5);
+  box-shadow: 0 16px 34px -24px rgba(74,42,20,0.45), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition: transform 240ms var(--ease-out), border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), background 240ms var(--ease-out);
+}
+.hvt-card:hover {
+  transform: translateY(-5px); border-color: var(--ca, var(--t-pine));
+  background: linear-gradient(180deg, #FFFFFF, #FBF4E2);
+  box-shadow: 0 26px 48px -24px rgba(74,42,20,0.5), 0 0 22px -8px color-mix(in oklab, var(--ca, #C19A3C) 55%, transparent), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+/* distant drifting bats — a faint Halloween hint */
+.hvt-bat, .hvl-bat { position: absolute; height: auto; opacity: 0.5; will-change: transform; animation: kf-hx-bat 16s ease-in-out infinite; }
+@keyframes kf-hx-bat {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(34px, -10px); }
+  50% { transform: translate(64px, 4px); }
+  75% { transform: translate(30px, 12px); }
+  100% { transform: translate(0, 0); }
+}
+.hvt-medallion {
+  position: absolute; top: -1.6rem; left: 50%; transform: translateX(-50%); z-index: 2; display: grid; place-items: center; height: 3.4rem; width: 3.4rem; border-radius: 9999px; color: var(--t-pine);
+  background: radial-gradient(circle at 38% 32%, #FFFDF5, #FBEFD2 60%, #F3E2B6 100%); border: 2.5px solid #C19A3C;
+  box-shadow: 0 8px 18px -8px rgba(74,42,20,0.5), inset 0 1px 0 rgba(255,255,255,0.9); transition: box-shadow 240ms var(--ease-out), transform 240ms var(--ease-out);
+}
+.hvt-medallion svg { filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15)); }
+.hvt-card:hover .hvt-medallion { box-shadow: 0 8px 18px -8px rgba(74,42,20,0.5), 0 0 0 4px rgba(193,154,60,0.32); }
+.hvt-sprig { position: absolute; top: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 1; width: 2.7rem; height: auto; opacity: 0.95; }
+.hvt-card-title { margin-top: 0.4rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1rem; line-height: 1.18; color: var(--t-cran); }
+.hvt-card-desc { margin-top: 0.5rem; font-size: 0.82rem; line-height: 1.5; color: #5A4A3E; }
+.hvt-card-flake { margin-top: 0.95rem; display: flex; align-items: center; justify-content: center; color: #C19A3C; transition: transform 240ms var(--ease-out), color 240ms var(--ease-out); }
+.hvt-card-flake::before, .hvt-card-flake::after { content: ""; width: 1.5rem; height: 1px; background: rgba(193,154,60,0.55); margin: 0 0.45rem; }
+.hvt-card:hover .hvt-card-flake { color: var(--t-cran); transform: rotate(20deg); }
+
+/* ---- reveal ---- */
+.hvt-head > *, .hvt-card, .hvt-medallion, .hvt-garland-wrap { opacity: 1; }
+.hvt.anim:not(.is-in) .hvt-garland-wrap { opacity: 0; transform: translateY(-10px); }
+.hvt.anim:not(.is-in) .hvt-head > * { opacity: 0; transform: translateY(14px); }
+.hvt.anim:not(.is-in) .hvt-card { opacity: 0; transform: translateY(20px) scale(0.98); }
+.hvt.anim:not(.is-in) .hvt-medallion { opacity: 0; transform: translateX(-50%) scale(0.6); }
+.hvt.anim .hvt-garland-wrap { transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
+.hvt.anim .hvt-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.hvt.anim .hvt-head > *:nth-child(2) { transition-delay: 90ms; }
+.hvt.anim .hvt-head > *:nth-child(3) { transition-delay: 160ms; }
+.hvt.anim .hvt-head > *:nth-child(4) { transition-delay: 220ms; }
+.hvt.anim .hvt-card { transition: opacity 560ms var(--ease-out), transform 600ms var(--ease-out), border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), background 240ms var(--ease-out); transition-delay: calc(320ms + var(--i) * 90ms); }
+.hvt.anim .hvt-card:hover { transition-delay: 0ms; }
+.hvt.anim .hvt-medallion { transition: opacity 380ms var(--ease-out), transform 460ms var(--ease-out), box-shadow 240ms var(--ease-out); transition-delay: calc(480ms + var(--i) * 90ms); }
+
+/* ===========================================================================
+   HOLIDAY VILLAGE SEASONS — "Three Seasons. One Village." A compact three-card
+   band under the trust strip that makes the real structure unmistakable: Spring
+   Celebration (lilac/blush/mint), Spooky Season (pumpkin/plum) and Christmas
+   Square (evergreen/cranberry/gold, featured). Each card has a season-gradient
+   header, a white medallion, a roster label and an explore link. VISIBLE BY
+   DEFAULT (hidden only under `.hvs.anim:not(.is-in)`), reduced-motion safe.
+   =========================================================================== */
+.hvs { color: #3E2C2E; background: linear-gradient(180deg, #FFFFFF 0%, #FBF6EA 32%, #FCF8F0 100%); }
+.hvs-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; color: #B0892E; }
+.hvs-title { margin-top: 0.55rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.08; font-size: clamp(1.8rem, 3.8vw, 2.8rem); color: #6E2A48; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+.hvs-sub { margin-top: 0.8rem; font-size: 1rem; line-height: 1.6; color: #4A3A30; }
+
+.hvs-grid { margin-top: 3rem; display: grid; grid-template-columns: 1fr; gap: 1.6rem; list-style: none; padding: 0; }
+@media (min-width: 768px) { .hvs-grid { grid-template-columns: repeat(3, 1fr); gap: 1.3rem; align-items: start; } }
+
+.hvs-card {
+  position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 22px;
+  background: linear-gradient(180deg, #FFFDF8, #FBF4E6); border: 1.5px solid rgba(193,154,60,0.45);
+  box-shadow: 0 22px 46px -28px rgba(58,40,30,0.5), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition: transform 260ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+.hvs-card:hover { transform: translateY(-6px); border-color: var(--sa); box-shadow: 0 32px 58px -28px rgba(58,40,30,0.55), 0 0 26px -10px color-mix(in oklab, var(--sa) 60%, transparent), inset 0 1px 0 rgba(255,255,255,0.9); }
+.hvs-card--featured { border-color: rgba(193,154,60,0.85); border-width: 2px; box-shadow: 0 26px 52px -26px rgba(120,40,30,0.5), 0 0 40px -14px rgba(226,194,113,0.7), inset 0 1px 0 rgba(255,255,255,0.9); }
+@media (min-width: 768px) { .hvs-card--featured { margin-top: -0.9rem; } }
+
+.hvs-card-head { position: relative; height: 5.6rem; }
+.hvs-card-head::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.28), transparent 60%); }
+.hvs-tag {
+  position: absolute; right: 0.8rem; top: 0.8rem; z-index: 2; display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.26rem 0.7rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.54rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #6E2A48;
+  background: rgba(255,251,240,0.95); border: 1px solid rgba(193,154,60,0.6); box-shadow: 0 4px 10px -4px rgba(40,28,10,0.5);
+}
+.hvs-medal {
+  position: absolute; left: 50%; bottom: -1.8rem; transform: translateX(-50%); z-index: 2; display: grid; place-items: center; height: 3.6rem; width: 3.6rem; border-radius: 9999px; color: var(--sa);
+  background: radial-gradient(circle at 38% 30%, #FFFFFF, #FFF7E9 70%); border: 3px solid #FFFFFF;
+  box-shadow: 0 10px 22px -10px rgba(40,28,18,0.55);
+}
+
+.hvs-card-body { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2.7rem 1.4rem 1.6rem; }
+.hvs-card-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.3rem; line-height: 1.12; color: var(--sa); }
+.hvs-card-sub { margin-top: 0.4rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em; color: #5A4A3E; }
+.hvs-card-line { margin-top: 0.7rem; font-size: 0.9rem; line-height: 1.55; color: #5A4A3E; }
+.hvs-card-cta {
+  margin-top: 1.1rem; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 9999px; padding: 0.55rem 1.15rem; font-family: var(--font-display, inherit); font-size: 0.86rem; font-weight: 700; color: var(--sa);
+  background: color-mix(in oklab, var(--sa) 12%, #fff); border: 1.5px solid color-mix(in oklab, var(--sa) 40%, transparent); transition: background 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.hvs-card-cta:hover { transform: translateY(-1px); background: color-mix(in oklab, var(--sa) 20%, #fff); }
+.hvs-card-cta:focus-visible { outline: 2px solid var(--sa); outline-offset: 2px; }
+
+/* ---- reveal ---- */
+.hvs-head > *, .hvs-card { opacity: 1; }
+.hvs.anim:not(.is-in) .hvs-head > * { opacity: 0; transform: translateY(14px); }
+.hvs.anim:not(.is-in) .hvs-card { opacity: 0; transform: translateY(22px) scale(0.98); }
+.hvs.anim .hvs-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.hvs.anim .hvs-head > *:nth-child(2) { transition-delay: 80ms; }
+.hvs.anim .hvs-head > *:nth-child(3) { transition-delay: 150ms; }
+.hvs.anim .hvs-card { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out); transition-delay: calc(240ms + var(--i) * 120ms); }
+.hvs.anim .hvs-card:hover { transition-delay: 0ms; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
