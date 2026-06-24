@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ServicePageTemplate } from "@/components/site/ServicePageTemplate";
 import { HolidayHero } from "@/components/site/HolidayHero";
 import { HolidayTrust } from "@/components/site/HolidayTrust";
 import { HolidayZones } from "@/components/site/HolidayZones";
+import { HolidayDetails } from "@/components/site/HolidayDetails";
+import { HolidayPasses } from "@/components/site/HolidayPasses";
+import { HolidayNotes } from "@/components/site/HolidayNotes";
+import { HolidayFaq } from "@/components/site/HolidayFaq";
+import { HolidayBooking } from "@/components/site/HolidayBooking";
 import { chapterBySlug } from "@/lib/site-data";
 
 const chapter = chapterBySlug("holiday-events")!;
@@ -33,7 +37,16 @@ function HolidayPage() {
         <HolidayTrust />
         {/* "Step into every season" — Easter / Spooky / Christmas character zones. */}
         <HolidayZones />
-        <ServicePageTemplate chapter={chapter} hideHero />
+        {/* "More Than a Holiday Appearance" — the reassurance / positioning band. */}
+        <HolidayDetails />
+        {/* "Choose Your Holiday Visit" — seasonal invitation packages. */}
+        <HolidayPasses />
+        {/* "What Holiday Guests Remember" — seasonal thank-you note testimonials. */}
+        <HolidayNotes />
+        {/* "Holiday Village Details" — the final FAQ accordion. */}
+        <HolidayFaq />
+        {/* "Request Your Holiday Village Visit" — the final Holiday Request Card. */}
+        <HolidayBooking />
       </div>
     </>
   );
