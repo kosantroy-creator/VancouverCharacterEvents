@@ -15,6 +15,10 @@ import { CTAButton } from "@/components/site/CTAButton";
 import { WorldDecor } from "@/components/site/Scenery";
 import { EnchantedBazaarHero } from "@/components/site/EnchantedBazaarHero";
 import { BazaarTrust } from "@/components/site/BazaarTrust";
+import { BazaarPartners } from "@/components/site/BazaarPartners";
+import { BazaarValue } from "@/components/site/BazaarValue";
+import { BazaarFlow } from "@/components/site/BazaarFlow";
+import { BazaarBuilder } from "@/components/site/BazaarBuilder";
 
 const world = worldBySlug("character-extras")!;
 
@@ -79,6 +83,18 @@ function EnchantedBazaarPage() {
 
       {/* "More Colour. More Activity. More Moments." — the bazaar trust strip. */}
       <BazaarTrust />
+
+      {/* "Meet the Bazaar Partners" — interactive partner-portrait reveal. */}
+      <BazaarPartners />
+
+      {/* "More Than Event Extras" — why Bazaar add-ons shape the guest experience. */}
+      <BazaarValue />
+
+      {/* "How Bazaar Add-Ons Fit Your Event" — the lantern market-path flow. */}
+      <BazaarFlow />
+
+      {/* "Build Your Bazaar Mix" — interactive add-on selector + custom-quote slip. */}
+      <BazaarBuilder />
 
       {/* The add-on offerings */}
       <Section tone="parchment" id="bazaar-explore" className="scroll-mt-20">
