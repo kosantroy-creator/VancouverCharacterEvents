@@ -8693,6 +8693,165 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .hln.anim .hln-feature { transition: opacity 520ms var(--ease-out), transform 560ms var(--ease-out); transition-delay: calc(820ms + var(--i) * 80ms); }
 .hln.anim .hln-foot { transition: opacity 640ms var(--ease-out) 1080ms, transform 640ms var(--ease-out) 1080ms; }
 
+/* ===========================================================================
+   ENCHANTED BAZAAR HERO — "The Enchanted Night Market". The eighth realm hero:
+   the selected night-market art full-bleed, copy on the left over the image's
+   lighter blue space lifted by a deep-teal wash (eyebrow → gold title → italic
+   subtitle → body → jewel category chips → two CTAs). A warm lantern glow spills
+   from the right, gold dust drifts + sparkles twinkle near the stalls, and a
+   scalloped silk awning flows into the cream section below. Light-on-dark,
+   reduced-motion safe (drift/flicker via the global guard).
+   =========================================================================== */
+.ebz {
+  --ebz-teal: #0E5C6B; --ebz-teal-deep: #07303A; --ebz-indigo: #16224C;
+  --ebz-plum: #7C2D5A; --ebz-gold: #E7B24B; --ebz-gold-soft: #F0C674; --ebz-amber: #F4A93B;
+  --ebz-cream: #FBF4E2; --ebz-rose: #E08AB0; --ebz-turq: #4FC4D6;
+  color: var(--ebz-cream);
+}
+.ebz-img { object-position: 60% center; animation: kf-ebz-imgin 1.2s var(--ease-out) both; }
+@media (max-width: 640px) { .ebz-img { object-position: 72% center; } }
+@keyframes kf-ebz-imgin { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+
+.ebz-wash {
+  background:
+    linear-gradient(98deg, rgba(7,40,52,0.92) 0%, rgba(10,54,68,0.74) 28%, rgba(12,60,75,0.32) 50%, transparent 72%),
+    linear-gradient(180deg, transparent 58%, rgba(7,40,52,0.5) 100%);
+}
+.ebz-wash-top { background: linear-gradient(180deg, rgba(7,40,52,0.7), transparent); }
+.ebz-wash-mobile { background: linear-gradient(180deg, rgba(7,40,52,0.84) 0%, rgba(10,54,68,0.5) 46%, rgba(7,40,52,0.55) 100%); }
+
+.ebz-glow { right: -8%; top: 6%; width: 56%; height: 82%; border-radius: 9999px; filter: blur(52px); opacity: 0.5; background: radial-gradient(circle at 60% 40%, rgba(244,169,59,0.55), rgba(231,138,75,0.18) 45%, transparent 70%); }
+.ebz-glow.is-live { animation: kf-ebz-flicker 5s ease-in-out infinite; }
+@keyframes kf-ebz-flicker { 0%, 100% { opacity: 0.46; } 45% { opacity: 0.58; } 60% { opacity: 0.4; } 80% { opacity: 0.55; } }
+
+.ebz-dust { position: absolute; bottom: 8%; border-radius: 9999px; background: var(--c); box-shadow: 0 0 8px 1px color-mix(in oklab, var(--c) 80%, transparent); opacity: 0; will-change: transform, opacity; animation: kf-ebz-dust linear infinite; }
+@keyframes kf-ebz-dust {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 0.85; } 80% { opacity: 0.65; }
+  100% { opacity: 0; transform: translate(var(--dx), -340px); }
+}
+.ebz-spark { position: absolute; border-radius: 9999px; background: radial-gradient(circle, #FFF6DE 0%, rgba(244,200,120,0.6) 40%, transparent 72%); opacity: 0; animation: kf-ebz-spark 3.4s ease-in-out infinite; }
+@keyframes kf-ebz-spark { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.9; transform: scale(1); } }
+
+/* copy — "Vancouver / Enchanted Bazaar / Events" lockup (matches the other realms) */
+.ebz-script {
+  color: #F2D488;
+  text-shadow: 0 2px 22px rgba(244,169,59,0.5), 0 1px 3px rgba(7,40,52,0.55);
+}
+.ebz-body { text-shadow: 0 1px 10px rgba(7,40,52,0.7); }
+
+/* CTA overrides (on the dark hero) */
+.ebz-cta-primary { background: linear-gradient(120deg, #0E5C6B, #16224C) !important; color: #FBF4E2 !important; border: 1.5px solid rgba(231,178,75,0.7) !important; box-shadow: 0 16px 36px -16px rgba(7,40,52,0.8) !important; }
+.ebz-cta-primary:hover { transform: translateY(-2px); background: linear-gradient(120deg, #12707F, #1E2A5A) !important; box-shadow: 0 20px 44px -16px rgba(7,40,52,0.9), 0 0 24px -6px rgba(231,178,75,0.5) !important; }
+.ebz-cta-primary svg { color: #F0C674; }
+.ebz-cta-ghost { background: rgba(251,244,226,0.08) !important; color: #FBF4E2 !important; border: 1.5px solid rgba(231,178,75,0.6) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 10px 26px -14px rgba(7,40,52,0.7) !important; }
+.ebz-cta-ghost:hover { transform: translateY(-2px); border-color: #F0C674 !important; background: rgba(231,178,75,0.14) !important; }
+.ebz-cta-ghost svg { color: #F0C674; }
+
+/* scalloped silk awning → next section */
+.ebz-awning { z-index: 1; }
+.ebz-awning svg { display: block; width: 100%; height: clamp(56px, 5.5vw, 92px); }
+.ebz-awning-lights circle { filter: drop-shadow(0 0 5px rgba(244,200,120,0.7)); animation: kf-ebz-bulb 3.6s ease-in-out infinite; }
+.ebz-awning-lights circle:nth-child(2n) { animation-delay: 1.2s; }
+.ebz-awning-lights circle:nth-child(3n) { animation-delay: 2.2s; }
+@keyframes kf-ebz-bulb { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+
+.ebz-chev {
+  position: absolute; left: 50%; bottom: clamp(5.5rem, 8vw, 7rem); transform: translateX(-50%); z-index: 2; display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px;
+  color: #FBF4E2; background: rgba(12,60,75,0.42); border: 1px solid rgba(231,178,75,0.45); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  transition: color 200ms var(--ease-out); animation: kf-ebz-bob 2.4s ease-in-out infinite;
+}
+.ebz-chev:hover { color: #F0C674; }
+.ebz-chev:focus-visible { outline: 2px solid #E7B24B; outline-offset: 2px; }
+@keyframes kf-ebz-bob { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(5px); } }
+@media (max-width: 640px) { .ebz-chev { display: none; } }
+
+/* ===========================================================================
+   ENCHANTED BAZAAR TRUST — "More Colour. More Activity. More Moments." The bazaar
+   trust strip: six "market stall" badge cards under a draped silk awning + side
+   lanterns on a cream parchment base with jewel-tone accents (teal · magenta ·
+   turquoise · plum · gold · coral), amber lantern glow, gold dust + jewel sparkles.
+   Per-card accent via --ca / --cad. VISIBLE BY DEFAULT (hidden only under
+   `.bzt.anim:not(.is-in)`), reduced-motion safe.
+   =========================================================================== */
+.bzt { color: #4A3A30; background: linear-gradient(180deg, #FFFBF1 0%, #FCF6EB 30%, #FBF3E0 64%, #FFF9EE 100%); }
+.bzt-glow { position: absolute; left: 50%; top: 1rem; z-index: 0; transform: translateX(-50%); width: 48rem; height: 20rem; pointer-events: none; border-radius: 9999px; opacity: 0.55; filter: blur(12px); background: radial-gradient(circle at 50% 30%, rgba(244,169,59,0.45), rgba(231,138,75,0.14) 46%, transparent 72%); }
+
+.bzt-awning-wrap { z-index: 2; }
+.bzt-awning { display: block; width: 100%; height: clamp(52px, 5.6vw, 82px); }
+.bzt-awning-tassels circle { animation: kf-bzt-bulb 3.4s ease-in-out infinite; }
+.bzt-awning-tassels g:nth-child(2n) circle { animation-delay: 1.1s; }
+.bzt-awning-tassels g:nth-child(3n) circle { animation-delay: 2.2s; }
+@keyframes kf-bzt-bulb { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+
+.bzt-lantern { position: absolute; z-index: 2; top: 64px; width: 44px; height: auto; display: none; filter: drop-shadow(0 0 11px rgba(244,169,59,0.5)) drop-shadow(0 4px 8px rgba(74,42,20,0.3)); }
+.bzt-lantern-l { left: 1.5%; }
+.bzt-lantern-r { right: 1.5%; }
+@media (min-width: 1100px) { .bzt-lantern { display: block; } }
+
+.bzt-dust { position: absolute; bottom: 6%; border-radius: 9999px; background: var(--c); box-shadow: 0 0 7px 1px color-mix(in oklab, var(--c) 75%, transparent); opacity: 0; will-change: transform, opacity; animation: kf-bzt-dust linear infinite; }
+@keyframes kf-bzt-dust { 0% { opacity: 0; transform: translate(0, 0); } 14% { opacity: 0.8; } 82% { opacity: 0.6; } 100% { opacity: 0; transform: translate(var(--dx), -260px); } }
+.bzt-spark { position: absolute; border-radius: 9999px; background: radial-gradient(circle, #fff 0%, color-mix(in oklab, var(--c) 70%, transparent) 45%, transparent 72%); opacity: 0; animation: kf-bzt-spark 3.6s ease-in-out infinite; }
+@keyframes kf-bzt-spark { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.85; transform: scale(1); } }
+
+/* header */
+.bzt-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: #B0892E; }
+.bzt-eyebrow-fl { position: relative; width: 2.2rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.85)); }
+.bzt-eyebrow-fl::after { content: ""; position: absolute; right: -2px; top: -2.5px; width: 5px; height: 5px; border-radius: 1px; background: #C19A3C; transform: rotate(45deg); }
+.bzt-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.85), transparent); }
+.bzt-eyebrow-fl--r::after { right: auto; left: -2px; }
+.bzt-title { margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 700; line-height: 1.1; font-size: clamp(1.9rem, 4vw, 3rem); color: #4A2A48; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+.bzt-w-teal { color: #0F7E8C; }
+.bzt-w-magenta { color: #B83D7A; }
+.bzt-w-turq { color: #1E8A9E; }
+.bzt-sub { margin-top: 0.85rem; font-size: 1rem; line-height: 1.6; color: #4A3A30; }
+.bzt-rule { position: relative; display: flex; align-items: center; justify-content: center; margin: 1.2rem auto 0; color: #C19A3C; }
+.bzt-rule::before, .bzt-rule::after { content: ""; width: 4.5rem; height: 1px; }
+.bzt-rule::before { background: linear-gradient(90deg, transparent, rgba(193,154,60,0.7)); margin-right: 0.55rem; }
+.bzt-rule::after { background: linear-gradient(90deg, rgba(193,154,60,0.7), transparent); margin-left: 0.55rem; }
+
+/* market-stall badge cards */
+.bzt-grid { margin-top: 3.2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.4rem 1rem; list-style: none; padding: 0; }
+@media (min-width: 680px) { .bzt-grid { grid-template-columns: repeat(3, 1fr); gap: 2.6rem 1.1rem; } }
+@media (min-width: 1080px) { .bzt-grid { grid-template-columns: repeat(6, 1fr); gap: 1.1rem; } }
+.bzt-card {
+  position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2.7rem 0.9rem 1.5rem; border-radius: 16px;
+  background: linear-gradient(180deg, #FFFDF8, #FBF2DD); border: 1.5px solid rgba(193,154,60,0.5);
+  box-shadow: 0 16px 34px -24px rgba(74,42,20,0.45), inset 0 1px 0 rgba(255,255,255,0.85);
+  transition: transform 240ms var(--ease-out), border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), background 240ms var(--ease-out);
+}
+.bzt-card::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 4px; border-radius: 16px 16px 0 0; opacity: 0.9; background: linear-gradient(90deg, transparent, var(--ca) 25%, var(--cad) 50%, var(--ca) 75%, transparent); }
+.bzt-card:hover { transform: translateY(-5px); border-color: var(--ca); background: linear-gradient(180deg, #FFFFFF, #FBF4E2); box-shadow: 0 26px 48px -24px rgba(74,42,20,0.5), 0 0 22px -8px color-mix(in oklab, var(--ca) 55%, transparent), inset 0 1px 0 rgba(255,255,255,0.9); }
+.bzt-medallion {
+  position: absolute; top: -1.6rem; left: 50%; transform: translateX(-50%); z-index: 2; display: grid; place-items: center; height: 3.4rem; width: 3.4rem; border-radius: 9999px;
+  background: radial-gradient(circle at 38% 32%, #FFFDF5, #FBEFD2 60%, #F3E2B6 100%); border: 2.5px solid #C19A3C;
+  box-shadow: 0 8px 18px -8px rgba(74,42,20,0.5), inset 0 1px 0 rgba(255,255,255,0.9); transition: box-shadow 240ms var(--ease-out);
+}
+.bzt-medallion svg { filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15)); }
+.bzt-card:hover .bzt-medallion { box-shadow: 0 8px 18px -8px rgba(74,42,20,0.5), 0 0 0 4px color-mix(in oklab, var(--ca) 32%, transparent); }
+.bzt-card-title { margin-top: 0.4rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.98rem; line-height: 1.18; }
+.bzt-card-desc { margin-top: 0.5rem; font-size: 0.8rem; line-height: 1.5; color: #5A4A3E; }
+.bzt-card-spark { margin-top: 0.85rem; display: flex; align-items: center; justify-content: center; transition: transform 240ms var(--ease-out); }
+.bzt-card-spark::before, .bzt-card-spark::after { content: ""; width: 1.4rem; height: 1px; background: rgba(193,154,60,0.5); margin: 0 0.4rem; }
+.bzt-card:hover .bzt-card-spark { transform: rotate(18deg); }
+
+.bzt-seam { height: 60px; background: linear-gradient(180deg, transparent, rgba(252,246,235,0.7)); }
+
+/* ---- reveal ---- */
+.bzt-head > *, .bzt-card, .bzt-medallion, .bzt-awning-wrap { opacity: 1; }
+.bzt.anim:not(.is-in) .bzt-awning-wrap { opacity: 0; transform: translateY(-10px); }
+.bzt.anim:not(.is-in) .bzt-head > * { opacity: 0; transform: translateY(14px); }
+.bzt.anim:not(.is-in) .bzt-card { opacity: 0; transform: translateY(20px) scale(0.98); }
+.bzt.anim:not(.is-in) .bzt-medallion { opacity: 0; transform: translateX(-50%) scale(0.6); }
+.bzt.anim .bzt-awning-wrap { transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
+.bzt.anim .bzt-head > * { transition: opacity 600ms var(--ease-out), transform 640ms var(--ease-out); }
+.bzt.anim .bzt-head > *:nth-child(2) { transition-delay: 90ms; }
+.bzt.anim .bzt-head > *:nth-child(3) { transition-delay: 160ms; }
+.bzt.anim .bzt-head > *:nth-child(4) { transition-delay: 220ms; }
+.bzt.anim .bzt-card { transition: opacity 560ms var(--ease-out), transform 600ms var(--ease-out), border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), background 240ms var(--ease-out); transition-delay: calc(320ms + var(--i) * 90ms); }
+.bzt.anim .bzt-card:hover { transition-delay: 0ms; }
+.bzt.anim .bzt-medallion { transition: opacity 380ms var(--ease-out), transform 460ms var(--ease-out), box-shadow 240ms var(--ease-out); transition-delay: calc(480ms + var(--i) * 90ms); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

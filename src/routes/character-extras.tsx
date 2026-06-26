@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-  ArrowLeft,
   ArrowRight,
   Camera,
   Check,
@@ -13,8 +12,9 @@ import {
 import { worldBySlug } from "@/lib/site-data";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { CTAButton } from "@/components/site/CTAButton";
-import { WorldDecor, Sparkles } from "@/components/site/Scenery";
-import scene from "@/assets/worlds/enchanted-bazaar.webp";
+import { WorldDecor } from "@/components/site/Scenery";
+import { EnchantedBazaarHero } from "@/components/site/EnchantedBazaarHero";
+import { BazaarTrust } from "@/components/site/BazaarTrust";
 
 const world = worldBySlug("character-extras")!;
 
@@ -74,66 +74,14 @@ export const Route = createFileRoute("/character-extras")({
 function EnchantedBazaarPage() {
   return (
     <>
-      {/* Festival hero — the enchanted night-market gateway. */}
-      <section className="relative isolate overflow-hidden" style={{ background: BG }}>
-        <WorldDecor kind="bazaar" accent={FEST} secondary={GOLD} />
-        <Sparkles color={FEST} count={5} />
-        <div className="relative mx-auto w-full max-w-[1200px] px-5 pb-16 pt-28 sm:px-6 md:pt-32 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_0.7fr]">
-            <div>
-              <p
-                className="t-eyebrow inline-flex items-center gap-2"
-                style={{ color: FEST_DEEP }}
-              >
-                <SparkleIcon className="h-3.5 w-3.5" aria-hidden />
-                {world.navLabel}
-                <SparkleIcon className="h-3.5 w-3.5 -scale-x-100" aria-hidden />
-              </p>
-              <h1 className="mt-4 font-display text-4xl leading-tight text-fg md:text-6xl">
-                {world.name}
-              </h1>
-              <p className="mt-4 font-display text-2xl italic text-fg-2 md:text-3xl">
-                Where every event becomes a little more magical.
-              </p>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-fg-2">
-                The Enchanted Bazaar is our marketplace of magical add-ons — face painting, balloon
-                twisting, photography, games, and surprise characters that turn a great event into
-                an unforgettable one. Pair them with any character world, or build a bazaar all your
-                own.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <CTAButton to="/contact" size="lg">
-                  Request the Bazaar
-                </CTAButton>
-                <Link
-                  to="/"
-                  hash="choose-your-chapter"
-                  className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] border border-border-strong px-8 py-3.5 text-base font-semibold text-fg transition-colors hover:border-gold-500 hover:text-fg-gold"
-                >
-                  <ArrowLeft className="h-4 w-4" /> All chapters
-                </Link>
-              </div>
-            </div>
-            <div className="hidden justify-self-center lg:block">
-              <div
-                className="overflow-hidden rounded-full bg-surface p-2 shadow-[var(--shadow-lg)]"
-                style={{ outline: `2px solid ${FEST}`, outlineOffset: "6px" }}
-              >
-                <img
-                  src={scene}
-                  alt="The Enchanted Bazaar — a festive night market of magical add-ons"
-                  className="h-56 w-56 rounded-full object-cover"
-                  width={224}
-                  height={224}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Bespoke "Enchanted Night Market" realm hero — the page brings its own. */}
+      <EnchantedBazaarHero />
+
+      {/* "More Colour. More Activity. More Moments." — the bazaar trust strip. */}
+      <BazaarTrust />
 
       {/* The add-on offerings */}
-      <Section tone="parchment">
+      <Section tone="parchment" id="bazaar-explore" className="scroll-mt-20">
         <SectionHeading
           eyebrow="Magical Add-Ons"
           title="Everything that makes an event bigger"
