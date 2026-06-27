@@ -21,6 +21,7 @@ export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>) => ({
     guest: typeof search.guest === "string" ? search.guest : undefined,
     world: typeof search.world === "string" ? search.world : undefined,
+    inflatable: typeof search.inflatable === "string" ? search.inflatable : undefined,
   }),
   head: () => ({
     meta: [
@@ -61,7 +62,7 @@ const nextSteps = [
 ];
 
 function ContactPage() {
-  const { guest, world } = Route.useSearch();
+  const { guest, world, inflatable } = Route.useSearch();
   const interest = world ? WORLD_TO_INTEREST[world] : undefined;
 
   return (
@@ -82,9 +83,10 @@ function ContactPage() {
       <Section tone="page" className="!pt-12">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_0.85fr] lg:items-start">
           <BookingForm
-            key={`${guest ?? ""}|${interest ?? ""}`}
+            key={`${guest ?? ""}|${interest ?? ""}|${inflatable ?? ""}`}
             defaultInterest={interest}
             requestedGuest={guest}
+            requestedInflatable={inflatable}
           />
 
           <aside className="space-y-6">

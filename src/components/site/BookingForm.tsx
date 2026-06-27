@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2, Crown, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Crown, Loader2, Tent } from "lucide-react";
 import { eventTypes } from "@/lib/site-data";
 import { submitInquiry } from "@/lib/inquiry";
 import { CTAButton } from "./CTAButton";
@@ -32,11 +32,14 @@ const labelClass = "mb-1.5 block text-sm font-semibold text-fg";
 export function BookingForm({
   defaultInterest,
   requestedGuest,
+  requestedInflatable,
   source = "Booking form",
 }: {
   defaultInterest?: string;
   /** Set by "Request This Guest" links — carried through payload & email. */
   requestedGuest?: string;
+  /** Set by "Request This Inflatable" links — forwarded to our partner. */
+  requestedInflatable?: string;
   /** Identifies which page/form the inquiry came from (shown in the email). */
   source?: string;
 }) {
@@ -105,6 +108,19 @@ export function BookingForm({
             confirm availability for your date.
           </p>
           <input type="hidden" name="requestedGuest" value={requestedGuest} />
+        </div>
+      ) : null}
+
+      {requestedInflatable ? (
+        <div className="mb-6 flex items-start gap-3 rounded-[var(--radius-lg)] border border-gold-500/40 bg-gold-500/10 px-4 py-3">
+          <Tent className="mt-0.5 h-5 w-5 shrink-0 text-gold-600" aria-hidden />
+          <p className="text-sm text-fg">
+            Inflatable request: <strong className="font-semibold">{requestedInflatable}</strong> — we&apos;ll
+            forward this to our trusted partner, <strong className="font-semibold">HW House of Bounce</strong>,
+            who will confirm availability and quote the rental directly.
+          </p>
+          <input type="hidden" name="requestedInflatable" value={requestedInflatable} />
+          <input type="hidden" name="inflatablePartner" value="HW House of Bounce" />
         </div>
       ) : null}
 
