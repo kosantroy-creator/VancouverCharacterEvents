@@ -12,6 +12,7 @@ import { ArrowLeft, ArrowRight, Blocks, Camera, Castle, Check, Clock, ExternalLi
 import { cn } from "@/lib/utils";
 import laurenPhoto from "@/assets/bazaar/lauren.webp";
 import alejandraPhoto from "@/assets/bazaar/alejandra.webp";
+import behroozPhoto from "@/assets/bazaar/behrooz.webp";
 import stallFace from "@/assets/bazaar/stalls/stall-face-painting.webp";
 import stallBalloon from "@/assets/bazaar/stalls/stall-balloon.webp";
 import stallPhoto from "@/assets/bazaar/stalls/stall-photography.webp";
@@ -212,8 +213,36 @@ const ZONES: Zone[] = [
     accDeep: "#2C5E82",
     story:
       "A roaming photographer captures the candid magic — greetings, reactions, group shots, and the details you'd otherwise miss while hosting.",
-    note: "We're adding event photography partners. Tell us your event and we'll connect the right photographer for your celebration.",
-    cta: "Request Photography",
+    person: {
+      name: "Behrooz",
+      role: "Event Photographer · Lumen Photography",
+      photo: behroozPhoto,
+      objectPos: "center 18%",
+      packages: [
+        {
+          name: "1 Hour Coverage",
+          meta: "60 minutes",
+          price: "$250 + travel",
+          bestFor: "Birthdays & smaller parties",
+          includes: ["Candid + posed coverage of your event", "Greetings, reactions, group shots & details", "Professionally edited high-resolution photos", "Private online gallery to view & download", "Great for up to ~15–20 guests"],
+        },
+        {
+          name: "1½ Hours Coverage",
+          meta: "1 hour + 30 min",
+          price: "$375 + travel",
+          bestFor: "Bigger parties & longer events",
+          featured: true,
+          includes: ["Everything in the 1 Hour package", "An extra 30 minutes of coverage", "More of the event captured start to finish", "A fuller edited gallery", "Ideal for bigger parties & milestones"],
+        },
+        {
+          name: "Custom & Public Events",
+          meta: "2-hour minimum",
+          price: "Custom Quote",
+          bestFor: "Large or public events",
+          includes: ["Schools, festivals & community events", "Corporate & public appearances", "Extended multi-hour coverage", "Custom gallery & delivery options", "Built around your timing & guest flow"],
+        },
+      ],
+    },
   },
   {
     id: "inflatable",
@@ -232,7 +261,7 @@ const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function BazaarPartners() {
   return (
-    <section aria-labelledby="bzp-title" className="bzp relative isolate overflow-hidden">
+    <section id="bazaar-partners" aria-labelledby="bzp-title" className="bzp relative isolate scroll-mt-20 overflow-hidden">
       <div aria-hidden className="bzp-decor pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <span className="bzp-glow" />
       </div>

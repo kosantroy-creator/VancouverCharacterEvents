@@ -219,6 +219,20 @@ export function BazaarValue() {
                 </li>
               ))}
             </ul>
+            {/* lantern token — fills the column + nudges to the builder */}
+            <div className="bzv-right-cap">
+              <span aria-hidden className="bzv-cap-lantern">
+                <Sparkles className="h-5 w-5" />
+              </span>
+              <p className="bzv-cap-text">
+                Not sure which extras to mix? Tell us your event and the vibe you want — we&apos;ll
+                blend the right add-ons for you.
+              </p>
+              <a href="#bazaar-builder" className="bzv-cap-link group">
+                Build your mix
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+              </a>
+            </div>
           </div>
         </div>
 

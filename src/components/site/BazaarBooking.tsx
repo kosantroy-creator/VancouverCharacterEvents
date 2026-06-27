@@ -201,7 +201,7 @@ export function BazaarBooking() {
           </p>
         </div>
 
-        <ul className="mx-auto mt-9 max-w-3xl space-y-2.5">
+        <ul className="mx-auto mt-9 grid max-w-5xl gap-2.5 sm:grid-cols-2 sm:items-start">
           {FAQ.map((f, i) => {
             const isOpen = open === i;
             return (

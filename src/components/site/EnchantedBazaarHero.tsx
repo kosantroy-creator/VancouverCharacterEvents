@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, Brush, Camera, ChevronDown, PartyPopper, Sparkles, Tent, Wand2 } from "lucide-react";
 import { CTAButton } from "./CTAButton";
 import { Reveal } from "./Reveal";
@@ -53,13 +53,57 @@ const SPARKS = [
 
 export function EnchantedBazaarHero() {
   const [motionOK, setMotionOK] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setMotionOK(true);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setMotionOK(true);
+
+    // Subtle scroll parallax: the lantern glow, ambient dust and awning drift at
+    // different rates than the static night-market art for depth. rAF-throttled,
+    // only while the hero is on screen.
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY;
+        if (y < 1000) el.style.setProperty("--ebz-py", `${y}px`);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Desktop cursor spotlight: a warm lantern glow tracks the pointer over the art.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${((e.clientX - r.left) / r.width) * 100}%`);
+      el.style.setProperty("--my", `${((e.clientY - r.top) / r.height) * 100}%`);
+      el.classList.add("is-spot");
+    };
+    const onLeave = () => el.classList.remove("is-spot");
+    el.addEventListener("pointermove", onMove, { passive: true });
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
   }, []);
 
   return (
     <section
+      ref={ref}
       aria-label="Enchanted Bazaar — a glowing night market of magical event add-ons"
       className="ebz relative isolate flex min-h-[88svh] items-center overflow-hidden"
     >
@@ -80,9 +124,12 @@ export function EnchantedBazaarHero() {
       {/* warm lantern glow spilling from the right */}
       <span aria-hidden className={cn("ebz-glow absolute -z-10", motionOK && "is-live")} />
 
+      {/* desktop cursor spotlight (toggled on first pointer move) */}
+      <span aria-hidden className="ebz-spot" />
+
       {/* ambient gold dust + market sparkles (motion only) */}
       {motionOK ? (
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div aria-hidden className="ebz-amb pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           {DUST.map((d, i) => (
             <span
               key={`d${i}`}
@@ -166,7 +213,7 @@ export function EnchantedBazaarHero() {
 
           <Reveal delay={300} y={16}>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <CTAButton href="#bazaar-explore" size="lg" className="ebz-cta-primary group">
+              <CTAButton href="#bazaar-partners" size="lg" className="ebz-cta-primary group">
                 <Sparkles className="h-4 w-4" aria-hidden />
                 Explore the Bazaar
                 <ArrowRight
@@ -230,7 +277,7 @@ export function EnchantedBazaarHero() {
 
       {/* gentle scroll cue */}
       <a
-        href="#bazaar-explore"
+        href="#bazaar-partners"
         aria-label="Scroll to explore the Enchanted Bazaar"
         className="ebz-chev"
       >

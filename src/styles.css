@@ -9752,19 +9752,34 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .bzg { background: linear-gradient(180deg, #F3F5FC 0%, #E9EFF8 34%, #E0E8F5 68%, #F5F8FD 100%); }
 .bzk { background: linear-gradient(180deg, #F4FAFB 0%, #EAF4F3 36%, #E0EFEC 72%, #F5FBFB 100%); }
 
-/* --- recolour the section glows off amber on the retinted sections --- */
-.bzv-glow { background: radial-gradient(circle at 50% 32%, rgba(34,160,170,0.30), rgba(15,126,140,0.10) 48%, transparent 72%); opacity: 0.6; }
-.bzb-glow { background: radial-gradient(circle at 50% 30%, rgba(190,70,140,0.26), rgba(142,45,110,0.10) 48%, transparent 72%); opacity: 0.6; }
-.bzg-glow { background: radial-gradient(circle at 50% 30%, rgba(70,110,170,0.26), rgba(44,82,130,0.10) 48%, transparent 72%); opacity: 0.6; }
-.bzk-glow { background: radial-gradient(circle at 50% 44%, rgba(34,160,170,0.28), transparent 70%); }
+/* --- recolour the section glows off amber on the retinted sections ---
+   (filter:none — the radial-gradient is already soft, the live blur was just cost) --- */
+.bzv-glow { background: radial-gradient(circle at 50% 32%, rgba(34,160,170,0.30), rgba(15,126,140,0.10) 48%, transparent 72%); opacity: 0.6; filter: none; }
+.bzb-glow { background: radial-gradient(circle at 50% 30%, rgba(190,70,140,0.26), rgba(142,45,110,0.10) 48%, transparent 72%); opacity: 0.6; filter: none; }
+.bzg-glow { background: radial-gradient(circle at 50% 30%, rgba(70,110,170,0.26), rgba(44,82,130,0.10) 48%, transparent 72%); opacity: 0.6; filter: none; }
+.bzk-glow { background: radial-gradient(circle at 50% 44%, rgba(34,160,170,0.28), transparent 70%); filter: none; }
+.bzt-glow, .bzf-glow, .bzn-glow { filter: none; }
 
-/* --- floating jewel "lantern" orbs fill the dead space + add colour everywhere --- */
+/* --- PERF: off-screen sections skip layout/paint; stops the long-page rasterization
+   stall. `auto` intrinsic size keeps the scrollbar stable using last-rendered height. --- */
+.bzt { content-visibility: auto; contain-intrinsic-size: auto 740px; }
+.bzp { content-visibility: auto; contain-intrinsic-size: auto 3000px; }
+.bzv { content-visibility: auto; contain-intrinsic-size: auto 1120px; }
+.bzf { content-visibility: auto; contain-intrinsic-size: auto 980px; }
+.bzb { content-visibility: auto; contain-intrinsic-size: auto 1300px; }
+.bzg { content-visibility: auto; contain-intrinsic-size: auto 1110px; }
+.bzn { content-visibility: auto; contain-intrinsic-size: auto 1180px; }
+.bzk { content-visibility: auto; contain-intrinsic-size: auto 2220px; }
+
+/* --- floating jewel "lantern" orbs fill the dead space + add colour everywhere.
+   No filter:blur — the gradient feathers itself to transparent, so the bloom stays soft
+   at a fraction of the paint cost (14 live blur(64px) layers were stalling rasterization). --- */
 .bzt::before, .bzt::after, .bzv::before, .bzv::after, .bzf::before, .bzf::after,
 .bzb::before, .bzb::after, .bzg::before, .bzg::after, .bzn::before, .bzn::after,
 .bzk::before, .bzk::after {
   content: ""; position: absolute; z-index: 0; pointer-events: none; border-radius: 9999px;
-  width: 28rem; height: 28rem; filter: blur(64px); opacity: 0.5; will-change: transform, opacity;
-  background: radial-gradient(circle, var(--o, rgba(34,160,170,0.5)) 0%, transparent 70%);
+  width: 30rem; height: 30rem; opacity: 0.5; will-change: transform, opacity;
+  background: radial-gradient(circle, var(--o, rgba(34,160,170,0.5)) 0%, color-mix(in oklab, var(--o, rgba(34,160,170,0.5)) 40%, transparent) 38%, transparent 70%);
   animation: kf-bz-orb 11s ease-in-out infinite alternate;
 }
 .bzt::before, .bzv::before, .bzf::before, .bzb::before, .bzg::before, .bzn::before, .bzk::before { left: -9rem; bottom: -7rem; }
@@ -9783,3 +9798,145 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
   0%   { transform: translate3d(0,0,0) scale(1);     opacity: 0.42; }
   100% { transform: translate3d(0,-22px,0) scale(1.12); opacity: 0.62; }
 }
+
+/* ============================ ENCHANTED BAZAAR — SECTION DIVIDER ====================
+   Night-market lantern garland straddling each section seam (negative margins so it
+   adds no gap). Transparent — the two sections' washes show through. Sway + glow flicker
+   gated by the global prefers-reduced-motion guard. ============================== */
+.bzd { position: relative; z-index: 3; width: 100%; height: 72px; margin: -34px 0; pointer-events: none; line-height: 0; }
+.bzd-svg { display: block; width: 100%; height: 72px; overflow: visible; }
+.bzd-wire { stroke-dasharray: 0; }
+.bzd-lantern { animation: kf-bzd-sway 4.6s ease-in-out infinite; will-change: transform; }
+.bzd-glow { opacity: 0.55; animation: kf-bzd-glow 3.2s ease-in-out infinite; }
+@keyframes kf-bzd-sway { 0%, 100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.2deg); } }
+@keyframes kf-bzd-glow { 0%, 100% { opacity: 0.42; } 50% { opacity: 0.8; } }
+
+/* ============================ ENCHANTED BAZAAR — CARD MICROINTERACTIONS =============
+   Gold shimmer sweep (::after, the top-bar already owns ::before) + medallion "lantern
+   flicker" on hover, across the trust / value / flow / notes cards. Sweep & flicker run
+   once on hover-in and are gated by the global prefers-reduced-motion guard. ======= */
+.bzt-card::after, .bzv-card::after, .bzf-card::after, .bzn-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 4;
+  opacity: 0; mix-blend-mode: screen; will-change: opacity, background-position;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,240,200,0.5) 47%, rgba(255,255,255,0.7) 50%, rgba(255,240,200,0.5) 53%, transparent 68%);
+  background-size: 250% 100%; background-position: 150% 0;
+  transition: opacity 200ms var(--ease-out);
+}
+.bzt-card:hover::after, .bzv-card:hover::after, .bzf-step:hover .bzf-card::after, .bzn-card:hover::after {
+  opacity: 1; animation: kf-bz-shimmer 0.9s var(--ease-out);
+}
+@keyframes kf-bz-shimmer { from { background-position: 150% 0; } to { background-position: -80% 0; } }
+
+.bzt-card:hover .bzt-medallion, .bzv-card:hover .bzv-card-medal,
+.bzf-step:hover .bzf-medal, .bzn-card:hover .bzn-stampic {
+  animation: kf-bz-flicker 0.7s var(--ease-out);
+}
+@keyframes kf-bz-flicker { 0% { filter: brightness(1); } 25% { filter: brightness(1.28); } 40% { filter: brightness(0.96); } 60% { filter: brightness(1.2); } 100% { filter: brightness(1); } }
+
+/* ============================ ENCHANTED BAZAAR — HERO ELEVATION =====================
+   Scroll parallax: lantern glow / ambient dust / awning drift at different rates than
+   the static night-market art (--ebz-py set by JS, only when motion is allowed). Plus a
+   slow gold sheen sweeping through the script title. Both gated by reduced-motion. == */
+.ebz-glow { transform: translate3d(0, calc(var(--ebz-py, 0px) * 0.35), 0); }
+.ebz-amb { transform: translate3d(0, calc(var(--ebz-py, 0px) * 0.18), 0); }
+.ebz-awning { transform: translate3d(0, calc(var(--ebz-py, 0px) * 0.26), 0); }
+
+.ebz-script {
+  background: linear-gradient(100deg, #F2D488 0%, #F2D488 38%, #FFF7DA 50%, #F2D488 62%, #F2D488 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: kf-ebz-sheen 6.5s ease-in-out infinite;
+}
+@keyframes kf-ebz-sheen { 0% { background-position: 145% 0; } 55%, 100% { background-position: -45% 0; } }
+
+/* ============================ ENCHANTED BAZAAR — TRUST "LANTERNS LIGHT ON" ==========
+   On reveal, the six medallions illuminate in sequence (left→right via --i), like
+   market lanterns lighting up. Only runs in the motion path (.bzt.anim) so reduced-
+   motion users never see it; duration is also zeroed by the global guard. ======== */
+.bzt.anim.is-in .bzt-medallion {
+  animation: kf-bzt-lightup 900ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 120ms + 220ms);
+}
+@keyframes kf-bzt-lightup {
+  0%   { box-shadow: 0 0 0 0 transparent; filter: brightness(0.78) saturate(0.8); }
+  45%  { box-shadow: 0 0 20px 3px color-mix(in oklab, var(--ca) 60%, transparent); filter: brightness(1.32); }
+  100% { box-shadow: 0 6px 14px -8px rgba(74,42,20,0.4); filter: brightness(1); }
+}
+
+/* ============================ ENCHANTED BAZAAR — NOTES EDITORIAL SPLIT ==============
+   Break the repeated centered-header+grid rhythm: the testimonials become a side-by-side
+   editorial split — header column (left) beside the notes grid (right) on desktop,
+   stacked on mobile. Header is now left-aligned. ============================== */
+.bzn-split { display: grid; gap: 1.9rem; margin-top: 2.4rem; }
+.bzn-split .bzn-grid { margin-top: 0; }
+.bzn-head { text-align: left; }
+@media (min-width: 960px) {
+  .bzn-split { grid-template-columns: 0.82fr 1.5fr; gap: 2.6rem; align-items: start; }
+}
+
+/* ============================ ENCHANTED BAZAAR — VALUE COLUMN BALANCE ===============
+   The left planning board was ~220px taller than the right token cards, leaving an
+   empty cream gap bottom-right. Stretch the right column to the board height and let a
+   "blend your mix" lantern token fill the slack (it also nudges to the builder). ==== */
+@media (min-width: 1024px) { .bzv-grid { align-items: stretch; } }
+.bzv-right { display: flex; flex-direction: column; }
+.bzv-cards { flex: 0 0 auto; }
+.bzv-right-cap {
+  position: relative; margin-top: 1rem; flex: 1 1 auto; min-height: 7.5rem;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.7rem;
+  border-radius: 20px; padding: 1.4rem 1.5rem; overflow: hidden;
+  background: linear-gradient(150deg, color-mix(in oklab, #0F7E8C 12%, #FFFDF6), color-mix(in oklab, #8E2D6E 8%, #FFFDF6));
+  border: 1.5px solid rgba(193,154,60,0.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.bzv-right-cap::after { content: ""; position: absolute; right: -3rem; top: -3rem; width: 9rem; height: 9rem; border-radius: 9999px; pointer-events: none; background: radial-gradient(circle, rgba(244,169,59,0.28), transparent 70%); }
+.bzv-cap-lantern { display: grid; place-items: center; height: 2.4rem; width: 2.4rem; border-radius: 9999px; color: #fff; background: linear-gradient(150deg, #1E8A9E, #0A5A66); box-shadow: 0 8px 16px -8px rgba(10,60,68,0.6), 0 0 0 4px rgba(255,253,246,0.7); }
+.bzv-cap-text { position: relative; font-size: 0.92rem; line-height: 1.55; color: #4A3A30; }
+.bzv-cap-link { position: relative; display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.9rem; color: #0A5A66; }
+.bzv-cap-link:hover { color: #8E2D6E; }
+.bzv-cap-link:focus-visible { outline: 2px solid #0F7E8C; outline-offset: 2px; border-radius: 4px; }
+
+/* ============================ ENCHANTED BAZAAR — GALLERY MEMORY-WALL POLISH =========
+   Featured frame fills its tall cell (was fixed 320px in a ~479px row), the four small
+   frames get a pinned-photo tilt that straightens on hover, and the photo zoom is a
+   touch stronger. ============================================================ */
+.bzg-card { display: flex; flex-direction: column; }
+.bzg-photo-wrap { flex: 1 1 auto; }
+.bzg-card:hover .bzg-photo { transform: scale(1.07); }
+@media (min-width: 1024px) {
+  .bzg-gallery .bzg-card:not(.bzg-card--featured):nth-of-type(odd) { transform: rotate(-0.7deg); }
+  .bzg-gallery .bzg-card:not(.bzg-card--featured):nth-of-type(even) { transform: rotate(0.7deg); }
+  .bzg-gallery .bzg-card:not(.bzg-card--featured):hover { transform: translateY(-5px) rotate(0deg); }
+}
+
+/* ============================ ENCHANTED BAZAAR — FLOATING HELPERS ===================
+   Top scroll-progress bar (gold, scaleX-driven) + a slim "Request a Quote" pill that
+   fades in past the hero and links to the request form. Pill retires near the bottom. */
+.bzfl-progress {
+  position: fixed; top: 0; left: 0; z-index: 60; height: 3px; width: 100%; transform-origin: left center;
+  background: linear-gradient(90deg, #1E8A9E, #C19A3C 45%, #E7B24B 70%, #C8556E);
+  box-shadow: 0 1px 6px -1px rgba(231,178,75,0.6); pointer-events: none;
+}
+.bzfl-pill {
+  position: fixed; right: clamp(0.9rem, 3vw, 1.6rem); bottom: clamp(0.9rem, 3vw, 1.6rem); z-index: 55;
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px;
+  padding: 0.72rem 1.25rem; font-family: var(--font-display, inherit); font-size: 0.9rem; font-weight: 700;
+  color: #fff; background: linear-gradient(120deg, #0F7E8C, #0A5A66);
+  border: 1.5px solid rgba(231,201,119,0.7); box-shadow: 0 16px 34px -14px rgba(10,60,68,0.7), 0 0 0 0 rgba(231,178,75,0.4);
+  opacity: 0; transform: translateY(14px) scale(0.96); pointer-events: none;
+  transition: opacity 280ms var(--ease-out), transform 280ms var(--ease-out), box-shadow 220ms var(--ease-out);
+}
+.bzfl-pill svg { color: #F4D98A; }
+.bzfl-pill.is-on { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.bzfl-pill.is-on:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 20px 42px -14px rgba(10,60,68,0.8), 0 0 22px -6px rgba(231,178,75,0.55); }
+.bzfl-pill:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+@media (max-width: 640px) { .bzfl-pill { font-size: 0.84rem; padding: 0.64rem 1.05rem; } }
+
+/* hero cursor spotlight — warm glow tracking the pointer (desktop, motion only) */
+.ebz-spot {
+  position: absolute; inset: 0; z-index: -10; pointer-events: none; opacity: 0; mix-blend-mode: screen;
+  transition: opacity 320ms var(--ease-out);
+  background: radial-gradient(24rem 24rem at var(--mx, 50%) var(--my, 28%), rgba(246,205,128,0.2), rgba(246,205,128,0.06) 38%, transparent 62%);
+}
+.ebz.is-spot .ebz-spot { opacity: 1; }

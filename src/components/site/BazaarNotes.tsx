@@ -119,8 +119,10 @@ export function BazaarNotes() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1140px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
+        {/* editorial split — header column (left) beside the notes (right) */}
+        <div className="bzn-split">
         {/* header */}
-        <div className="bzn-head mx-auto max-w-2xl text-center">
+        <div className="bzn-head">
           <span className="bzn-eyebrow">
             <span aria-hidden className="bzn-eyebrow-fl" />
             Bazaar Thank-You Notes
@@ -158,6 +160,7 @@ export function BazaarNotes() {
             </li>
           ))}
         </ul>
+        </div>
 
         {/* reassurance row */}
         <ul className="bzn-reassure">
