@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
-import { ArrowRight, Crown, Flower2, Moon, Snowflake, Sparkles, Waves } from "lucide-react";
+import { ArrowRight, Crown, Flower2, Moon, Snowflake, Sparkles, Waves, X } from "lucide-react";
 import type { CourtDoor, WorldCourt } from "@/lib/royal-court";
 import { cn } from "@/lib/utils";
 
@@ -214,6 +214,9 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
   const cardsRef = useRef<HTMLUListElement>(null);
   const playedRef = useRef(false);
   const [open, setOpen] = useState(false);
+  // Touch only: which guest is expanded to a centred lightbox (null = none).
+  const [active, setActive] = useState<string | null>(null);
+  const coarseRef = useRef(false);
 
   /** Fan the cards out of the doorway into their slots. */
   const flyCards = () => {
@@ -279,11 +282,32 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
           io.disconnect();
         }
       },
-      { threshold: 0.35 },
+      // Fire well before the zone is centred so the doors have opened and the
+      // cards have flown in by the time a fast scroll arrives (no late pop-in).
+      { threshold: 0, rootMargin: "300px 0px 300px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // Coarse-pointer (touch) detection for the tap-to-expand lightbox.
+  useEffect(() => {
+    coarseRef.current = window.matchMedia("(hover: none)").matches;
+  }, []);
+
+  // Lock scroll + Escape-to-close while a guest lightbox is open.
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActive(null);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [active]);
 
   return (
     <section
@@ -376,13 +400,23 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
               boxShadow: `0 0 60px ${door.glow}, 0 24px 50px -20px rgba(0,0,0,0.55)`,
             }}
           >
+            {/* Poster still lives behind the video so a fast scroll never shows a
+                blank tile — the video fades over it once it loads & plays. */}
+            <img
+              src={realm.poster}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
             <video
               ref={videoRef}
               muted
               playsInline
               preload="none"
               poster={realm.poster}
-              className="aspect-square w-full object-cover"
+              className="relative aspect-square w-full object-cover"
             />
             {/* soft inner vignette melts the tile into the zone */}
             <span
@@ -435,7 +469,14 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
                       to="/princess-events"
                       search={{ guest: c.name }}
                       hash="book"
-                      aria-label={`Book ${c.name}`}
+                      aria-label={coarseRef.current ? `Meet ${c.name}` : `Book ${c.name}`}
+                      onClick={(e) => {
+                        // Touch: first tap lifts her to centre (don't jump to booking).
+                        if (coarseRef.current) {
+                          e.preventDefault();
+                          setActive(c.id);
+                        }
+                      }}
                       className="block overflow-hidden rounded-[8px] border border-[#C9A45C]/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
                     >
                       <img
@@ -500,6 +541,71 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
       <span className="sr-only" aria-live="polite">
         {open ? `${door.name} doors are open` : ""}
       </span>
+
+      {/* Touch lightbox — a tapped portrait lifts to the centre of the screen;
+          tap the portrait, the ✕, or the backdrop to close. Only the gold Book
+          Now button leaves for the booking form. Hidden on hover-capable screens. */}
+      {active
+        ? (() => {
+            const c = guests.find((g) => g.id === active);
+            if (!c) return null;
+            return (
+              <div
+                className="fixed inset-0 z-[110] flex items-center justify-center bg-ink-900/80 p-6 backdrop-blur-sm lg:hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label={c.name}
+                onClick={() => setActive(null)}
+              >
+                <div
+                  className="relative w-[78%] max-w-[300px] overflow-hidden rounded-[var(--radius-xl)] border-2 bg-gradient-to-b from-[#FBF3E2] to-[#F1E1C4] p-2.5 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.7)]"
+                  style={{ borderColor: "color-mix(in oklab, var(--gold-500) 70%, transparent)" }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    aria-label={`Close ${c.name}`}
+                    onClick={() => setActive(null)}
+                    className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-ink-900/55 text-white backdrop-blur focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  >
+                    <X className="h-4 w-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={`Collapse ${c.name}`}
+                    onClick={() => setActive(null)}
+                    className="block w-full overflow-hidden rounded-[10px] border border-[#C9A45C]/50"
+                  >
+                    <img
+                      src={c.photo ?? CARD_ART[c.id]}
+                      alt={`${c.name} — ${c.gown}`}
+                      className="aspect-[7/9] w-full object-cover object-top"
+                    />
+                  </button>
+                  <p className="mt-2 text-center font-display text-base font-semibold text-[#4A3413]">
+                    {c.name}
+                  </p>
+                  <p className="t-engrave mt-0.5 text-center text-[0.55rem] tracking-[0.18em] text-gold-700">
+                    {c.gown}
+                  </p>
+                  <p className="mt-1.5 px-1 text-center text-[0.82rem] italic leading-snug text-[#5C4A28]">
+                    &ldquo;{c.welcome}&rdquo;
+                  </p>
+                  <Link
+                    to="/princess-events"
+                    search={{ guest: c.name }}
+                    hash="book"
+                    onClick={() => setActive(null)}
+                    className="btn-magic relative mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-pill)] bg-gold-500 px-3 py-2.5 text-sm font-semibold text-ink-900 transition-colors hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"
+                  >
+                    <Crown className="h-4 w-4" aria-hidden />
+                    Book Now
+                  </Link>
+                </div>
+              </div>
+            );
+          })()
+        : null}
     </section>
   );
 }
