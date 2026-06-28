@@ -214,7 +214,7 @@ export function FairyGodmother({ court }: { court: WorldCourt }) {
             Choose up to two — the Fairy Godmother will do the rest.
           </p>
 
-          <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {courtTraits.map(({ id, label }) => {
               const Icon = TRAIT_ICONS[id] ?? Compass;
               const active = loves.includes(id);
@@ -225,7 +225,7 @@ export function FairyGodmother({ court }: { court: WorldCourt }) {
                   aria-pressed={active}
                   onClick={() => toggle(id)}
                   className={cn(
-                    "fg-chip relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[var(--radius-pill)] border px-4 py-2.5 text-sm font-semibold transition-all duration-200",
+                    "fg-chip relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[var(--radius-pill)] border px-4 py-3 text-sm font-semibold transition-all duration-200",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500",
                     active
                       ? "is-on border-gold-500 text-[var(--pp-magenta-deep)]"
@@ -278,7 +278,7 @@ export function FairyGodmother({ court }: { court: WorldCourt }) {
 
         {/* The matches */}
         {revealed && matches.length ? (
-          <div className="mt-8 border-t border-gold-500/25 pt-7">
+          <div className="mt-8 border-t border-gold-500/25 pt-7" role="status" aria-live="polite">
             <p className="flex items-center justify-center gap-2 text-center font-display text-xl text-[var(--pp-magenta-deep)]">
               <Sparkles className="h-5 w-5 text-gold-500" aria-hidden /> Royal Match Found!
             </p>
@@ -323,9 +323,10 @@ export function FairyGodmother({ court }: { court: WorldCourt }) {
                       &ldquo;{m.welcome}&rdquo;
                     </p>
                     <Link
-                      to="/contact"
-                      search={{ guest: m.name, world: court.worldSlug }}
-                      className="mt-4 inline-flex items-center justify-center rounded-[var(--radius-pill)] border border-gold-500/60 px-4 py-2 text-[0.8rem] font-semibold text-fg transition-colors hover:bg-gold-500/10 hover:text-fg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+                      to="/princess-events"
+                      search={{ guest: m.name }}
+                      hash="book"
+                      className="mt-4 inline-flex items-center justify-center rounded-[var(--radius-pill)] border border-gold-500/60 px-4 py-2.5 text-[0.8rem] font-semibold text-fg transition-colors hover:bg-gold-500/10 hover:text-fg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
                     >
                       Request {m.name.split(" ")[0]}
                     </Link>

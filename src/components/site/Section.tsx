@@ -142,7 +142,7 @@ export function SectionHeading({
       {eyebrow ? (
         <Eyebrow className={onInk ? "text-gold-400" : undefined}>{eyebrow}</Eyebrow>
       ) : null}
-      <h2 className="t-display text-3xl leading-tight md:text-5xl">{title}</h2>
+      <h2 className="t-display text-[2.05rem] leading-tight md:text-5xl">{title}</h2>
       {description ? (
         <p className={cn("mt-4 text-lg", onInk ? "text-fg-on-ink/80" : "text-fg-2")}>
           {description}

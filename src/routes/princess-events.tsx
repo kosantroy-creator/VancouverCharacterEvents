@@ -180,9 +180,9 @@ function PrincessReel() {
         </span>
         <span className="flex flex-col leading-tight">
           <span className="t-engrave text-[0.56rem] tracking-[0.2em] text-gold-600">
-            Featured Reel
+            Sneak Peek
           </span>
-          <span className="text-[0.98rem] font-bold text-fg">Watch the Magic in Action</span>
+          <span className="text-[0.98rem] font-bold text-fg">A Peek Inside the Kingdoms</span>
         </span>
       </button>
 
@@ -225,7 +225,7 @@ function PrincessHero() {
         src={castleBright}
         alt="Pink fairytale castle above a river with cherry blossoms and North Shore mountains"
         fetchPriority="high"
-        className="absolute inset-0 -z-30 h-full w-full object-cover object-[68%_38%]"
+        className="absolute inset-0 -z-30 h-full w-full object-cover object-[50%_32%] sm:object-[52%_42%]"
       />
 
       {/* Light washes for copy legibility — luminous, never dark */}
@@ -234,7 +234,7 @@ function PrincessHero() {
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(100deg, rgba(255,248,251,0.92) 0%, rgba(255,248,251,0.72) 30%, rgba(255,248,251,0.22) 52%, transparent 68%)",
+            "linear-gradient(100deg, rgba(255,248,251,0.94) 0%, rgba(255,248,251,0.8) 34%, rgba(255,248,251,0.42) 56%, transparent 80%)",
         }}
       />
       <div
@@ -283,7 +283,7 @@ function PrincessHero() {
               </h1>
               <span
                 aria-hidden
-                className="t-script mt-1 block text-[clamp(3.4rem,8.5vw,6rem)] leading-[0.85] text-[var(--pp-magenta)]"
+                className="t-script mt-1 block text-[clamp(2.9rem,8.5vw,6rem)] leading-[0.85] text-[var(--pp-magenta)]"
                 style={{ textShadow: "0 2px 24px rgba(255,255,255,0.85)" }}
               >
                 Princess
@@ -291,6 +291,7 @@ function PrincessHero() {
               <span
                 aria-hidden
                 className="t-engrave mt-2.5 inline-flex items-center gap-2.5 text-[clamp(0.8rem,1.6vw,1rem)] tracking-[0.42em] text-ink-700"
+                style={{ textShadow: "0 1px 14px rgba(255,255,255,0.85)" }}
               >
                 <span className="text-gold-600">✦</span> Events{" "}
                 <span className="text-gold-600">✦</span>
@@ -300,15 +301,21 @@ function PrincessHero() {
           </Reveal>
 
           <Reveal delay={140} y={18}>
-            <p className="t-display mt-6 text-[clamp(1.5rem,3vw,2.1rem)] leading-snug text-fg">
+            <p
+              className="t-display mt-6 text-[clamp(1.5rem,3vw,2.1rem)] leading-snug text-fg"
+              style={{ textShadow: "0 1px 14px rgba(255,255,255,0.85)" }}
+            >
               Where Fairytales <span className="text-[var(--pp-magenta)]">Step Off the Page</span>
             </p>
           </Reveal>
 
           <Reveal delay={220} y={16}>
-            <p className="mt-3 max-w-md text-lg leading-relaxed text-fg-2">
-              Magical princess experiences designed to create unforgettable memories for families
-              across the Lower Mainland.
+            <p
+              className="mt-3 max-w-md text-lg leading-relaxed text-fg-2"
+              style={{ textShadow: "0 1px 14px rgba(255,255,255,0.85)" }}
+            >
+              A real princess walks through your door, sings just for your child, and crowns them
+              royalty — anywhere in Metro Vancouver.
             </p>
           </Reveal>
 
@@ -323,10 +330,18 @@ function PrincessHero() {
               <CTAButton href="#royal-court" size="lg" className="cta-pulse">
                 Explore the Royal Court
               </CTAButton>
-              <CTAButton to="/pricing" variant="ghost" size="lg" className="bg-white/60">
+              <CTAButton to="/pricing" variant="ghost" size="lg" className="bg-white/80">
                 View Pricing
               </CTAButton>
             </div>
+            <a
+              href="#book"
+              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[var(--pp-magenta-deep)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+              style={{ textShadow: "0 1px 14px rgba(255,255,255,0.85)" }}
+            >
+              Ready now? Begin your story
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </a>
           </Reveal>
 
           <Reveal delay={420} y={14}>
@@ -335,6 +350,7 @@ function PrincessHero() {
                 <li
                   key={label}
                   className="inline-flex items-center gap-2 text-[0.82rem] font-semibold tracking-wide text-ink-700"
+                  style={{ textShadow: "0 1px 12px rgba(255,255,255,0.9)" }}
                 >
                   <Icon className="h-4 w-4 text-gold-600" aria-hidden />
                   {label}
@@ -503,7 +519,7 @@ function RoyalNoteCard({ review, index }: { review: (typeof REVIEWS)[number]; in
         >
           <Crown className="h-3.5 w-3.5" aria-hidden />
           <span className="text-center text-[0.44rem] font-bold uppercase leading-[1.15] tracking-wide">
-            Royal Favourite
+            Most Loved
           </span>
         </span>
       ) : null}
@@ -600,7 +616,7 @@ function PrincessPage() {
               top: "6%",
               width: "440px",
               height: "440px",
-              background: "radial-gradient(circle, rgba(229,154,192,0.5), transparent 70%)",
+              background: "radial-gradient(circle, rgba(229,154,192,0.26), transparent 70%)",
             }}
           />
           <span
@@ -610,7 +626,7 @@ function PrincessPage() {
               top: "32%",
               width: "520px",
               height: "520px",
-              background: "radial-gradient(circle, rgba(244,206,132,0.42), transparent 70%)",
+              background: "radial-gradient(circle, rgba(244,206,132,0.22), transparent 70%)",
             }}
           />
           <span
@@ -620,46 +636,17 @@ function PrincessPage() {
               bottom: "-6%",
               width: "400px",
               height: "400px",
-              background: "radial-gradient(circle, rgba(168,196,235,0.4), transparent 70%)",
+              background: "radial-gradient(circle, rgba(208,178,214,0.22), transparent 70%)",
             }}
           />
-          {PETALS.slice(0, 5).map((p, i) => (
-            <span
-              key={i}
-              className="pcl pcl-petal"
-              style={{
-                left: p.left,
-                top: "2%",
-                width: p.s,
-                height: p.s + 2,
-                background: "linear-gradient(140deg, #F4CE84 20%, #E59AC0 80%)",
-                animationDelay: p.delay,
-                animationDuration: p.duration,
-                ["--dx" as string]: p.dx,
-              }}
-            />
-          ))}
-          <span className="sparkle absolute left-[12%] top-[18%] text-xl text-gold-500/70">✦</span>
-          <span
-            className="sparkle absolute right-[14%] top-[12%] text-sm text-[var(--pp-magenta)]/60"
-            style={{ animationDelay: "1.6s" }}
-          >
-            ✦
-          </span>
-          <span
-            className="sparkle absolute bottom-[16%] left-[8%] text-sm text-gold-500/60"
-            style={{ animationDelay: "2.8s" }}
-          >
-            ✦
-          </span>
         </div>
 
         <SectionHeading
-          eyebrow="✦ The experience ✦"
+          eyebrow="The experience"
           title="What happens at a princess party?"
           description="A magical journey from beginning to end — parents book experiences, not appearances."
         />
-        <div className="mt-12 lg:mt-4">
+        <div className="mt-12 lg:mt-8">
           <ScrollTimeline steps={MOMENTS} />
         </div>
 
@@ -764,7 +751,7 @@ function PrincessPage() {
       {/* Fairy Godmother Matchmaker */}
       <Section tone="rose" sparkle id="matchmaker">
         <SectionHeading
-          eyebrow="✦ The Fairy Godmother ✦"
+          eyebrow="The Fairy Godmother"
           title="Not sure which princess? Ask the Fairy Godmother."
           description="Answer one little question and she'll match your child with their perfect royal guests."
         />
@@ -785,19 +772,19 @@ function PrincessPage() {
             alt=""
             width={1000}
             height={1333}
-            className="absolute bottom-0 left-0 h-[86%] w-auto -translate-x-[26%] select-none object-contain object-bottom drop-shadow-[0_20px_30px_rgba(162,27,97,0.16)] xl:h-[88%] xl:-translate-x-[13%]"
+            className="absolute bottom-0 left-0 h-[86%] w-auto -translate-x-[42%] select-none object-contain object-bottom drop-shadow-[0_20px_30px_rgba(162,27,97,0.16)] xl:h-[88%] xl:-translate-x-[13%]"
           />
           <img
             src={flankDuo}
             alt=""
             width={1000}
             height={1333}
-            className="absolute bottom-0 right-0 h-[89%] w-auto translate-x-[26%] select-none object-contain object-bottom drop-shadow-[0_20px_30px_rgba(162,27,97,0.16)] xl:h-[91%] xl:translate-x-[13%]"
+            className="absolute bottom-0 right-0 h-[89%] w-auto translate-x-[42%] select-none object-contain object-bottom drop-shadow-[0_20px_30px_rgba(162,27,97,0.16)] xl:h-[91%] xl:translate-x-[13%]"
           />
         </div>
 
         <SectionHeading
-          eyebrow="✦ Pricing preview ✦"
+          eyebrow="Pricing preview"
           title="Clear pricing, royal presentation"
           description="No surprises — travel within our standard Metro Vancouver service area is included."
         />
@@ -822,7 +809,7 @@ function PrincessPage() {
                       className="flex items-baseline justify-between gap-4 border-b border-gold-500/20 pb-3 last:border-0"
                     >
                       <span className="text-sm text-fg-2">{r.label}</span>
-                      <span className="font-display text-2xl text-[var(--pp-magenta-deep)]">
+                      <span className="font-display text-xl text-[var(--pp-magenta-deep)]">
                         {r.price}
                       </span>
                     </li>
@@ -835,8 +822,11 @@ function PrincessPage() {
         <p className="mx-auto mt-6 max-w-xl text-center text-sm text-fg-3">
           {pricingPromise.included[0]}
         </p>
-        <div className="mt-8 text-center">
-          <CTAButton to="/pricing" size="lg">
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <CTAButton href="#book" size="lg">
+            Begin Your Story
+          </CTAButton>
+          <CTAButton to="/pricing" variant="ghost" size="lg" className="bg-white/70">
             Explore Princess Packages
           </CTAButton>
         </div>
@@ -852,7 +842,10 @@ function PrincessPage() {
         <div className="mt-10">
           <PrincessHighlightReel featured={REEL_FEATURED} moments={REAL_MOMENTS} />
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <CTAButton href="#book" size="lg">
+            Begin Your Story
+          </CTAButton>
           <CTAButton
             to="/gallery"
             variant="ghost"
@@ -867,7 +860,7 @@ function PrincessPage() {
       {/* Reviews — "Royal Notes" trust section */}
       <Section tone="pearl" id="reviews">
         <SectionHeading
-          eyebrow="✦ Royal reviews ✦"
+          eyebrow="Royal reviews"
           title="What Families Say After the Magic"
           description="Elegant performers, magical moments, and unforgettable memories — in their words."
         />
@@ -919,13 +912,10 @@ function PrincessPage() {
             <h3 className="mt-5 t-display text-2xl text-fg sm:text-[1.7rem]">
               Ready to begin your fairytale?
             </h3>
-            <a
-              href="#book"
-              className="btn-magic mt-5 inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-gold-500 px-7 py-3.5 text-sm font-semibold text-ink-900 shadow-[0_16px_34px_-14px_rgba(207,168,98,0.7)] transition-colors hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"
-            >
-              Begin Your Story
+            <CTAButton href="#book" size="lg" className="mt-5">
+              Start Your Booking
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </a>
+            </CTAButton>
           </div>
         </Reveal>
       </Section>
@@ -933,7 +923,7 @@ function PrincessPage() {
       {/* FAQ — Royal Details briefing list */}
       <Section tone="blush" compact id="faq">
         <SectionHeading
-          eyebrow="✦ Royal details ✦"
+          eyebrow="Royal details"
           title="Good to Know Before the Magic Begins"
           description="A few gentle answers to the questions families ask us most."
         />

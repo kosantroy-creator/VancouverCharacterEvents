@@ -162,7 +162,7 @@ export function RoyalInvitation() {
           {/* CTA */}
           <div className="text-center lg:text-right">
             <CTAButton
-              to="/contact"
+              href="#book"
               size="lg"
               className="cta-pulse !bg-ink-800 !text-gold-300 hover:!bg-ink-700"
             >

@@ -70,7 +70,7 @@ export function WorldTrustStrip({
       <span aria-hidden className="wts-glow wts-glow-l" />
       <span aria-hidden className="wts-glow wts-glow-r" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 pb-10 pt-9 sm:px-6 md:pb-12 md:pt-10 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-5 pb-10 pt-9 sm:px-6 md:pb-12 md:pt-10 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 id={`${id}-title`} className="wts-title">
             <Flank className="wts-title-spark h-4 w-4" aria-hidden />

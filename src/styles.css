@@ -129,7 +129,7 @@
 
   --fg: var(--ink-800);
   --fg-2: #3C5068;
-  --fg-3: #6B7E94;
+  --fg-3: #586A80;
   --fg-gold: var(--gold-700);
   --fg-on-ink: #EAF0F7;
 
@@ -511,6 +511,13 @@
 .aurora-a { animation: kf-aurora-a 26s ease-in-out infinite; }
 .aurora-b { animation: kf-aurora-b 32s ease-in-out infinite; }
 .aurora-c { animation: kf-aurora-c 38s ease-in-out infinite; }
+/* Mobile cost: section background gradients already carry the colour, so the heavy
+   blurred auroras + most petals are pure atmosphere — drop them under 640px to keep
+   the long Princess scroll smooth on phones. */
+@media (max-width: 640px) {
+  .aurora { display: none; }
+  .pcl-petal:nth-of-type(n + 4) { display: none; }
+}
 
 /* Embers / fireflies — tiny motes drifting upward through the dark. */
 @keyframes kf-ember {
@@ -741,7 +748,11 @@
   0% { transform: scale(1); opacity: 0.55; }
   100% { transform: scale(1.75); opacity: 0; }
 }
-.watch-ring { animation: kf-watch-ring 1.8s ease-out infinite; }
+/* Ring fires only on hover/focus of the reel button so it stops out-shouting the
+   real hero CTA and droning forever (one perpetual pulse in the hero). */
+.watch-ring { animation: none; }
+.btn-magic:hover .watch-ring,
+.btn-magic:focus-visible .watch-ring { animation: kf-watch-ring 1.8s ease-out infinite; }
 
 /* HERO MISSION BRIEFING — "You've Been Called to Hero HQ". On scroll-in the
    panel slides up, the navy dossier lifts, the mission plan slides out, the
