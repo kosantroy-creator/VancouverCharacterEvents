@@ -1230,7 +1230,7 @@
 
 /* Expand-in-place — the hovered card itself grows into a detail view
    (bigger portrait + gown + welcome line + Book Now), overlapping its
-   neighbours rather than spawning a popover above. */
+   neighbours rather than spawning a popover above. (Shared with HeroDivisions.) */
 .group\/card { z-index: 1; }
 .group\/card:hover,
 .group\/card:focus-within { z-index: 60; }
@@ -1274,6 +1274,42 @@
   .cardx-extra {
     transition: none;
   }
+}
+
+/* Royal Court lightbox (pure CSS): scrim fades, the portrait spins into the
+   centre, the detail panel slides open to its right; reverse on close. */
+.kd-lb-dialog { animation: kd-lb-fade-in 0.22s ease-out both; }
+.kd-lb-dialog.is-closing { animation: kd-lb-fade-out 0.42s ease-in both; }
+@keyframes kd-lb-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes kd-lb-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+.kd-lb-card { animation: kd-lb-spin-in 0.7s var(--ease-out) both; transform-origin: 50% 55%; }
+.kd-lb-box.is-closing .kd-lb-card { animation: kd-lb-spin-out 0.46s ease-in both; }
+@keyframes kd-lb-spin-in {
+  from { transform: rotate(-360deg) scale(0.18); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes kd-lb-spin-out {
+  from { transform: none; opacity: 1; }
+  to { transform: rotate(-360deg) scale(0.18); opacity: 0; }
+}
+
+.kd-lb-panel { overflow: hidden; animation: kd-lb-panel-open 0.46s var(--ease-out) 0.12s both; }
+.kd-lb-box.is-closing .kd-lb-panel { animation: kd-lb-panel-close 0.4s ease-in both; }
+@keyframes kd-lb-panel-open { from { max-width: 0; opacity: 0; } to { max-width: 340px; opacity: 1; } }
+@keyframes kd-lb-panel-close { from { max-width: 340px; opacity: 1; } to { max-width: 0; opacity: 0; } }
+
+/* Princess Royal Court only: cards open a centred lightbox on click/tap, so the
+   shared in-place grow is pinned off here (it read as a "cut-out" expand). */
+.kingdom-doors .cardx { cursor: pointer; }
+.kingdom-doors .group\/card:hover .cardx,
+.kingdom-doors .group\/card:focus-within .cardx {
+  width: 116px;
+  box-shadow: 0 18px 34px -16px rgba(28, 16, 30, 0.55);
+}
+@media (min-width: 640px) {
+  .kingdom-doors .group\/card:hover .cardx,
+  .kingdom-doors .group\/card:focus-within .cardx { width: 124px; }
 }
 
 /* The royal-court eyebrow sits on the LIGHT (cream→lavender) top of the navy

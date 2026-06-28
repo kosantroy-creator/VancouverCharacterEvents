@@ -65,7 +65,7 @@ const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : use
  */
 export function KingdomDoors({ court }: { court: WorldCourt }) {
   return (
-    <div>
+    <div className="kingdom-doors">
       {court.doors.map((door, i) => (
         <KingdomZone key={door.id} door={door} index={i} />
       ))}
@@ -214,9 +214,9 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
   const cardsRef = useRef<HTMLUListElement>(null);
   const playedRef = useRef(false);
   const [open, setOpen] = useState(false);
-  // Touch only: which guest is expanded to a centred lightbox (null = none).
+  // Which guest is expanded to a centred lightbox (null = none).
   const [active, setActive] = useState<string | null>(null);
-  const coarseRef = useRef(false);
+  const [closing, setClosing] = useState(false); // reverse-animation flag
 
   /** Fan the cards out of the doorway into their slots. */
   const flyCards = () => {
@@ -290,16 +290,36 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
     return () => io.disconnect();
   }, []);
 
-  // Coarse-pointer (touch) detection for the tap-to-expand lightbox.
-  useEffect(() => {
-    coarseRef.current = window.matchMedia("(hover: none)").matches;
-  }, []);
+  const reducedMotion = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Lock scroll + Escape-to-close while a guest lightbox is open.
+  // Open: mount the lightbox (the portrait spin-in + panel open are CSS mount
+  // animations — no timing dependency).
+  const openCard = (id: string) => {
+    setClosing(false);
+    setActive(id);
+  };
+
+  // Close: play the reverse animations (CSS), then unmount.
+  const closeCard = () => {
+    if (reducedMotion()) {
+      setClosing(false);
+      setActive(null);
+      return;
+    }
+    setClosing(true);
+    window.setTimeout(() => {
+      setActive(null);
+      setClosing(false);
+    }, 470);
+  };
+
+  // Lock scroll + Escape (spins back) while a guest lightbox is open.
   useEffect(() => {
     if (!active) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
+      if (e.key === "Escape") closeCard();
     };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
@@ -307,6 +327,7 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   return (
@@ -460,7 +481,8 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
                     } as CSSProperties
                   }
                 >
-                  {/* The card itself expands in place into a fuller portrait */}
+                  {/* Click/tap lifts this portrait to a centred view (KingdomLightbox);
+                      tap again to return. Only the Book button there navigates. */}
                   <div
                     className="cardx absolute left-1/2 top-0 w-[116px] -translate-x-1/2 overflow-hidden rounded-[12px] border bg-gradient-to-b from-[#FBF3E2] to-[#F1E1C4] p-1.5 shadow-[0_8px_18px_-8px_rgba(0,0,0,0.55)] sm:w-[124px]"
                     style={{ borderColor: "color-mix(in oklab, var(--gold-500) 65%, transparent)" }}
@@ -469,13 +491,11 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
                       to="/princess-events"
                       search={{ guest: c.name }}
                       hash="book"
-                      aria-label={coarseRef.current ? `Meet ${c.name}` : `Book ${c.name}`}
+                      aria-label={`Meet ${c.name}`}
+                      aria-expanded={active === c.id}
                       onClick={(e) => {
-                        // Touch: first tap lifts her to centre (don't jump to booking).
-                        if (coarseRef.current) {
-                          e.preventDefault();
-                          setActive(c.id);
-                        }
+                        e.preventDefault();
+                        openCard(c.id);
                       }}
                       className="block overflow-hidden rounded-[8px] border border-[#C9A45C]/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
                     >
@@ -491,25 +511,6 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
                     <p className="mt-1.5 px-0.5 text-center font-display text-[0.74rem] font-semibold leading-tight text-[#4A3413]">
                       {c.name}
                     </p>
-
-                    {/* Detail — revealed as this very card grows */}
-                    <div className="cardx-extra px-1 text-center">
-                      <p className="t-engrave mt-1 text-[0.5rem] tracking-[0.18em] text-gold-700">
-                        {c.gown}
-                      </p>
-                      <p className="mt-1.5 text-[0.74rem] italic leading-snug text-[#5C4A28]">
-                        &ldquo;{c.welcome}&rdquo;
-                      </p>
-                      <Link
-                        to="/princess-events"
-                        search={{ guest: c.name }}
-                        hash="book"
-                        className="btn-magic relative mb-0.5 mt-2.5 inline-flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-pill)] bg-gold-500 px-3 py-2 text-[0.74rem] font-semibold text-ink-900 transition-colors hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"
-                      >
-                        <Crown className="h-3 w-3" aria-hidden />
-                        Book Now
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </li>
@@ -542,39 +543,54 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
         {open ? `${door.name} doors are open` : ""}
       </span>
 
-      {/* Touch lightbox — a tapped portrait lifts to the centre of the screen;
-          tap the portrait, the ✕, or the backdrop to close. Only the gold Book
-          Now button leaves for the booking form. Hidden on hover-capable screens. */}
+      {/* Lightbox — the tapped portrait spins into the centre, then the detail
+          panel opens to its right (card left, text + Book on right). Tap the
+          portrait, the ✕, the backdrop, or Esc to spin back. Scrim is a soft
+          neutral dim (no blue) so the kingdom behind keeps its look. Only the
+          gold Book Now button leaves for the booking form. */}
       {active
         ? (() => {
             const c = guests.find((g) => g.id === active);
             if (!c) return null;
             return (
               <div
-                className="fixed inset-0 z-[110] flex items-center justify-center bg-ink-900/80 p-6 backdrop-blur-sm lg:hidden"
+                className={cn(
+                  "kd-lb-dialog fixed inset-0 z-[110] flex items-center justify-center p-5",
+                  closing && "is-closing",
+                )}
+                style={{
+                  background: "rgba(6,6,12,0.42)",
+                  WebkitBackdropFilter: "blur(2px)",
+                  backdropFilter: "blur(2px)",
+                }}
                 role="dialog"
                 aria-modal="true"
                 aria-label={c.name}
-                onClick={() => setActive(null)}
+                onClick={closeCard}
               >
                 <div
-                  className="relative w-[78%] max-w-[300px] overflow-hidden rounded-[var(--radius-xl)] border-2 bg-gradient-to-b from-[#FBF3E2] to-[#F1E1C4] p-2.5 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.7)]"
+                  className={cn(
+                    "kd-lb-box relative flex items-start rounded-[var(--radius-xl)] border-2 bg-gradient-to-b from-[#FBF3E2] to-[#F1E1C4] p-2.5 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.7)]",
+                    closing && "is-closing",
+                  )}
                   style={{ borderColor: "color-mix(in oklab, var(--gold-500) 70%, transparent)" }}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button
                     type="button"
                     aria-label={`Close ${c.name}`}
-                    onClick={() => setActive(null)}
-                    className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-ink-900/55 text-white backdrop-blur focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    onClick={closeCard}
+                    className="absolute -right-3 -top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-ink-900/70 text-white shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   >
                     <X className="h-4 w-4" aria-hidden />
                   </button>
+
+                  {/* PORTRAIT — left, spins in/out; tap to close */}
                   <button
                     type="button"
                     aria-label={`Collapse ${c.name}`}
-                    onClick={() => setActive(null)}
-                    className="block w-full overflow-hidden rounded-[10px] border border-[#C9A45C]/50"
+                    onClick={closeCard}
+                    className="kd-lb-card block w-[132px] shrink-0 overflow-hidden rounded-[10px] border border-[#C9A45C]/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 sm:w-[152px]"
                   >
                     <img
                       src={c.photo ?? CARD_ART[c.id]}
@@ -582,25 +598,31 @@ function KingdomZone({ door, index }: { door: CourtDoor; index: number }) {
                       className="aspect-[7/9] w-full object-cover object-top"
                     />
                   </button>
-                  <p className="mt-2 text-center font-display text-base font-semibold text-[#4A3413]">
-                    {c.name}
-                  </p>
-                  <p className="t-engrave mt-0.5 text-center text-[0.55rem] tracking-[0.18em] text-gold-700">
-                    {c.gown}
-                  </p>
-                  <p className="mt-1.5 px-1 text-center text-[0.82rem] italic leading-snug text-[#5C4A28]">
-                    &ldquo;{c.welcome}&rdquo;
-                  </p>
-                  <Link
-                    to="/princess-events"
-                    search={{ guest: c.name }}
-                    hash="book"
-                    onClick={() => setActive(null)}
-                    className="btn-magic relative mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-pill)] bg-gold-500 px-3 py-2.5 text-sm font-semibold text-ink-900 transition-colors hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"
-                  >
-                    <Crown className="h-4 w-4" aria-hidden />
-                    Book Now
-                  </Link>
+
+                  {/* DETAIL PANEL — right, expands open via CSS max-width */}
+                  <div className="kd-lb-panel">
+                    <div className="flex w-[188px] flex-col px-3 py-1 text-left sm:w-[224px]">
+                      <p className="font-display text-lg font-semibold leading-tight text-[#4A3413] sm:text-xl">
+                        {c.name}
+                      </p>
+                      <p className="t-engrave mt-1 text-[0.58rem] tracking-[0.18em] text-gold-700">
+                        {c.gown}
+                      </p>
+                      <p className="mt-2 text-[0.84rem] italic leading-snug text-[#5C4A28]">
+                        &ldquo;{c.welcome}&rdquo;
+                      </p>
+                      <Link
+                        to="/princess-events"
+                        search={{ guest: c.name }}
+                        hash="book"
+                        onClick={() => setActive(null)}
+                        className="btn-magic relative mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-pill)] bg-gold-500 px-3 py-2.5 text-sm font-semibold text-ink-900 transition-colors hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"
+                      >
+                        <Crown className="h-4 w-4" aria-hidden />
+                        Book Now
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
