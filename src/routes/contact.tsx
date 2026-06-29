@@ -6,7 +6,6 @@ import { BookingPaths, type BookingPathId } from "@/components/site/BookingPaths
 import { BookingWorlds } from "@/components/site/BookingWorlds";
 import { EventDetailsForm } from "@/components/site/EventDetailsForm";
 import { BookingFaq } from "@/components/site/BookingFaq";
-import { WhatHappensNext } from "@/components/site/WhatHappensNext";
 import { BookingClose } from "@/components/site/BookingClose";
 
 const PATH_LABEL: Record<BookingPathId, string> = {
@@ -131,8 +130,6 @@ function ContactPage() {
           />
 
           <BookingFaq />
-
-          <WhatHappensNext />
 
           <BookingClose />
         </>

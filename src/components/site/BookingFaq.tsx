@@ -1,16 +1,5 @@
-import { useState, type ComponentType } from "react";
-import {
-  ArrowRight,
-  CalendarCheck,
-  Compass,
-  Mail,
-  Minus,
-  Phone,
-  Plus,
-  ShieldCheck,
-  Sparkles,
-  Wand2,
-} from "lucide-react";
+import { useState } from "react";
+import { Compass, Minus, Plus } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
@@ -66,13 +55,6 @@ const FAQ: { q: string; a: string }[] = [
   },
 ];
 
-const TRUST: { icon: ComponentType<{ className?: string }>; t: string }[] = [
-  { icon: CalendarCheck, t: "Availability checked manually" },
-  { icon: Wand2, t: "Recommendations included" },
-  { icon: Sparkles, t: "Custom options available" },
-  { icon: ShieldCheck, t: "No booking confirmed until finalized" },
-];
-
 export function BookingFaq() {
   const [open, setOpen] = useState<number | null>(0);
 
@@ -106,41 +88,8 @@ export function BookingFaq() {
           </Reveal>
         </div>
 
-        {/* layout: reassurance panel + accordion */}
+        {/* accordion */}
         <div className="bkf-layout">
-          {/* reassurance */}
-          <Reveal delay={140} y={18} className="block">
-            <aside className="bkf-reassure">
-              <span aria-hidden className="bkf-scroll"><Compass className="h-8 w-8" /></span>
-              <h3 className="bkf-reassure-title">You do not need to have everything figured out.</h3>
-              <p className="bkf-reassure-copy">
-                Tell us what you know — your date, city, guest count, event type, and the kind of
-                experience you&apos;re imagining. We&apos;ll help recommend the best world, character,
-                package, or add-ons.
-              </p>
-              <span className="bkf-goodhands">
-                <span aria-hidden className="bkf-goodhands-fl" /> You&apos;re in good hands
-                <span aria-hidden className="bkf-goodhands-fl bkf-goodhands-fl--r" />
-              </span>
-              <ul className="bkf-trust">
-                {TRUST.map(({ icon: Icon, t }) => (
-                  <li key={t} className="bkf-trust-item">
-                    <span aria-hidden className="bkf-trust-ic"><Icon className="h-4 w-4" /></span>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <div className="bkf-contact">
-                <span className="bkf-contact-l">Still have a question?</span>
-                <div className="bkf-contact-links">
-                  <a href="tel:+17788006940"><Phone className="h-4 w-4" aria-hidden /> (778) 800-6940</a>
-                  <a href="mailto:info@vancouvercharacterevents.com"><Mail className="h-4 w-4" aria-hidden /> Email us</a>
-                </div>
-              </div>
-            </aside>
-          </Reveal>
-
-          {/* accordion */}
           <Reveal delay={120} y={18} className="block">
             <ul className="bkf-acc">
               {FAQ.map((item, i) => {
@@ -172,29 +121,6 @@ export function BookingFaq() {
             </ul>
           </Reveal>
         </div>
-
-        {/* CTA bar */}
-        <Reveal delay={120} y={18} className="block">
-          <div className="bkf-cta">
-            <div className="bkf-cta-copy">
-              <span aria-hidden className="bkf-seal">VCE</span>
-              <div>
-                <h3 className="bkf-cta-title">Ready to send your event request?</h3>
-                <p className="bkf-cta-text">
-                  Choose your path, select your world, and share your event details — we&apos;ll review
-                  everything and follow up with availability and recommendations.
-                </p>
-              </div>
-            </div>
-            <div className="bkf-cta-actions">
-              <a href="#book" className="bkf-cta-primary group">
-                <Sparkles className="h-4 w-4" aria-hidden />
-                Return to Event Form
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-              </a>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

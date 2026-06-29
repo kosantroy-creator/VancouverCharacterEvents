@@ -11545,3 +11545,141 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
   50% { box-shadow: 0 20px 42px -16px rgba(20,30,70,0.85), 0 0 28px -3px rgba(231,178,75,0.65); }
 }
 @keyframes kf-cw-cont-sheen { 0% { background-position: 160% 0; } 55%, 100% { background-position: -60% 0; } }
+
+/* ============================ TAIL RESTRUCTURE — reassurance at the form + slim FAQ =
+   "What happens next" + the trust points now sit under the form (the decision point),
+   the standalone process section is gone, and the FAQ is a single centred accordion. */
+.ef3-reassure {
+  margin-top: 1.2rem; display: grid; gap: 0.9rem 1.6rem; align-items: center; border-radius: 18px; padding: 1.1rem 1.4rem;
+  background: rgba(255,253,247,0.94); border: 1.5px solid color-mix(in oklab, var(--theme) 38%, rgba(201,164,92,0.55));
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 24px 48px -28px rgba(6,8,28,0.5);
+}
+@media (min-width: 720px) { .ef3-reassure { grid-template-columns: 1.15fr 1fr; } }
+.ef3-next-l { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-engrave, inherit); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #9A6E2B; }
+.ef3-next-l svg { color: color-mix(in oklab, var(--theme) 60%, #C19A3C); }
+.ef3-next-steps { margin-top: 0.55rem; display: grid; gap: 0.4rem; list-style: none; padding: 0; }
+.ef3-next-steps li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; color: #3C476E; }
+.ef3-next-n { display: grid; place-items: center; height: 1.35rem; width: 1.35rem; flex: 0 0 auto; border-radius: 9999px; font-size: 0.66rem; font-weight: 800; color: #fff; background: color-mix(in oklab, var(--theme) 62%, #16224C); }
+.ef3-trust { display: grid; gap: 0.45rem; list-style: none; padding: 0; }
+@media (min-width: 460px) { .ef3-trust { grid-template-columns: 1fr 1fr; } }
+.ef3-trust li { display: flex; align-items: center; gap: 0.4rem; font-size: 0.77rem; font-weight: 600; color: #3C476E; }
+.ef3-trust svg { color: color-mix(in oklab, var(--theme) 60%, #C19A3C); flex: 0 0 auto; }
+
+.bkf-layout { grid-template-columns: 1fr !important; max-width: 820px; margin-inline: auto; }
+
+/* ============================ STEP 3 — BAZAAR ADD-ONS COLUMN (themed to the world) ==
+   Every event form offers the Bazaar add-on services in a right-hand column, themed
+   with the form's --theme so it matches the chosen world. ====================== */
+.ef3-layout { display: grid; gap: 1.4rem; }
+@media (min-width: 760px) { .ef3-layout { grid-template-columns: 1.65fr 1fr; align-items: start; } }
+.ef3-fields { min-width: 0; }
+
+.ef3-addons {
+  position: relative; overflow: hidden; border-radius: 16px; padding: 1.1rem 1.1rem 1.2rem;
+  background: linear-gradient(168deg, color-mix(in oklab, var(--theme) 12%, #FFFDF7), color-mix(in oklab, var(--theme) 20%, #FBF1DC));
+  border: 1.5px solid color-mix(in oklab, var(--theme) 44%, rgba(201,164,92,0.5));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 16px 36px -28px rgba(6,8,28,0.4);
+}
+.ef3-addons-head { display: flex; align-items: flex-start; gap: 0.6rem; }
+.ef3-addons-ic { display: grid; place-items: center; height: 2.2rem; width: 2.2rem; flex: 0 0 auto; border-radius: 9999px; color: #fff; background: color-mix(in oklab, var(--theme) 72%, #16224C); box-shadow: 0 6px 14px -6px color-mix(in oklab, var(--theme) 60%, transparent); }
+.ef3-addons-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.02rem; line-height: 1.1; color: #1B2A52; }
+.ef3-addons-sub { margin-top: 0.15rem; font-size: 0.76rem; line-height: 1.4; color: #57608A; }
+.ef3-addons-list { margin-top: 0.9rem; display: grid; gap: 0.5rem; }
+.ef3-addon {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; cursor: pointer;
+  border-radius: 11px; padding: 0.55rem 0.65rem; background: rgba(255,255,255,0.72); border: 1.5px solid rgba(201,164,92,0.4);
+  transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.ef3-addon:hover { transform: translateY(-1px); border-color: color-mix(in oklab, var(--theme) 55%, rgba(201,164,92,0.5)); }
+.ef3-addon:focus-visible { outline: 2px solid var(--theme); outline-offset: 2px; }
+.ef3-addon-ic { display: grid; place-items: center; height: 1.85rem; width: 1.85rem; flex: 0 0 auto; border-radius: 9999px; color: color-mix(in oklab, var(--theme) 70%, #2A2433); background: color-mix(in oklab, var(--theme) 14%, #fff); border: 1px solid color-mix(in oklab, var(--theme) 30%, transparent); transition: color 160ms, background 160ms, border-color 160ms; }
+.ef3-addon-label { flex: 1; min-width: 0; font-size: 0.86rem; font-weight: 600; color: #3C476E; }
+.ef3-addon-check { display: grid; place-items: center; height: 1.35rem; width: 1.35rem; flex: 0 0 auto; border-radius: 9999px; color: transparent; background: rgba(36,52,99,0.07); border: 1px solid rgba(36,52,99,0.16); transition: color 160ms, background 160ms, border-color 160ms; }
+.ef3-addon.is-on { background: color-mix(in oklab, var(--theme) 16%, #fff); border-color: color-mix(in oklab, var(--theme) 62%, transparent); }
+.ef3-addon.is-on .ef3-addon-ic { color: #fff; background: var(--theme); border-color: var(--theme); }
+.ef3-addon.is-on .ef3-addon-check { color: #fff; background: var(--theme); border-color: var(--theme); }
+.ef3-addon.is-on .ef3-addon-label { color: color-mix(in oklab, var(--theme) 78%, #2A2433); }
+.ef3-addons-note { margin-top: 0.85rem; font-size: 0.68rem; line-height: 1.4; color: #6B7596; }
+
+/* ============================ STEP 3 — BAZAAR DRILL-DOWN + ESTIMATE (themed) ========
+   Category -> people -> packages browser inside the add-ons column, plus a live
+   estimate box. All themed with --theme. ===================================== */
+.ef3-bz-cats, .ef3-bz-vendors, .ef3-bz-pkgs { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
+.ef3-bz-cats { margin-top: 0.9rem; }
+.ef3-bz-vendors { margin-top: 0.6rem; }
+.ef3-bz-pkgs { margin-top: 0.7rem; max-height: 24rem; overflow-y: auto; padding-right: 2px; }
+
+.ef3-bz-cat, .ef3-bz-vendor-btn, .ef3-bz-pkg {
+  width: 100%; text-align: left; cursor: pointer; border-radius: 12px; background: rgba(255,255,255,0.72);
+  border: 1.5px solid rgba(201,164,92,0.4); transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.ef3-bz-cat:hover, .ef3-bz-vendor-btn:hover, .ef3-bz-pkg:hover { transform: translateY(-1px); border-color: color-mix(in oklab, var(--theme) 55%, rgba(201,164,92,0.5)); }
+.ef3-bz-cat:focus-visible, .ef3-bz-vendor-btn:focus-visible, .ef3-bz-pkg:focus-visible { outline: 2px solid var(--theme); outline-offset: 2px; }
+
+.ef3-bz-cat { display: flex; align-items: center; gap: 0.55rem; padding: 0.6rem 0.7rem; }
+.ef3-bz-cat-ic { display: grid; place-items: center; height: 1.85rem; width: 1.85rem; flex: 0 0 auto; border-radius: 9999px; color: color-mix(in oklab, var(--theme) 70%, #2A2433); background: color-mix(in oklab, var(--theme) 14%, #fff); border: 1px solid color-mix(in oklab, var(--theme) 30%, transparent); }
+.ef3-bz-cat-name { flex: 1; min-width: 0; font-size: 0.88rem; font-weight: 700; color: #2A3357; }
+.ef3-bz-cat-badge { display: grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 0.35rem; border-radius: 9999px; font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--theme); }
+.ef3-bz-cat svg:last-child { color: color-mix(in oklab, var(--theme) 55%, #9AA0B5); }
+
+.ef3-bz-back { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.85rem; font-size: 0.74rem; font-weight: 700; color: color-mix(in oklab, var(--theme) 65%, #3C476E); }
+.ef3-bz-back:hover { color: var(--theme); }
+.ef3-bz-step { margin-top: 0.5rem; font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #9A6E2B; }
+
+.ef3-bz-vendor-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.6rem; }
+.ef3-bz-vendor-img { height: 2.6rem; width: 2.6rem; flex: 0 0 auto; border-radius: 9999px; object-fit: cover; border: 2px solid color-mix(in oklab, var(--theme) 45%, rgba(201,164,92,0.6)); }
+.ef3-bz-vendor-logo { display: grid; place-items: center; color: #fff; background: color-mix(in oklab, var(--theme) 70%, #16224C); }
+.ef3-bz-vendor-meta, .ef3-bz-vendor > div { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ef3-bz-vendor-name { font-size: 0.88rem; font-weight: 700; line-height: 1.1; color: #1B2A52; }
+.ef3-bz-vendor-role { font-size: 0.72rem; line-height: 1.25; color: #57608A; }
+.ef3-bz-vendor-btn svg:last-child { color: color-mix(in oklab, var(--theme) 55%, #9AA0B5); }
+.ef3-bz-vendor { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; padding-bottom: 0.7rem; border-bottom: 1px solid rgba(201,164,92,0.3); }
+
+.ef3-bz-pkg { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.6rem 0.7rem; }
+.ef3-bz-pkg-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.ef3-bz-pkg-name { font-size: 0.86rem; font-weight: 700; color: #1B2A52; }
+.ef3-bz-pkg-price { font-size: 0.82rem; font-weight: 800; white-space: nowrap; color: color-mix(in oklab, var(--theme) 72%, #2A2433); }
+.ef3-bz-pkg-meta { font-size: 0.72rem; color: #57608A; }
+.ef3-bz-pkg-add { margin-top: 0.25rem; display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; color: color-mix(in oklab, var(--theme) 62%, #6B7596); }
+.ef3-bz-pkg.is-on { background: color-mix(in oklab, var(--theme) 16%, #fff); border-color: color-mix(in oklab, var(--theme) 62%, transparent); }
+.ef3-bz-pkg.is-on .ef3-bz-pkg-add { color: color-mix(in oklab, var(--theme) 80%, #2A2433); }
+
+/* estimate box */
+.ef3-quote { margin-top: 1.3rem; border-radius: 16px; overflow: hidden; border: 1.5px solid color-mix(in oklab, var(--theme) 46%, rgba(201,164,92,0.55)); background: rgba(255,253,247,0.97); box-shadow: 0 24px 48px -28px rgba(6,8,28,0.45); }
+.ef3-quote-head { display: flex; align-items: center; gap: 0.45rem; padding: 0.75rem 1rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1rem; color: #fff; background: linear-gradient(120deg, color-mix(in oklab, var(--theme) 78%, #16224C), color-mix(in oklab, var(--theme) 42%, #0b1330)); }
+.ef3-quote-lines { list-style: none; margin: 0; padding: 0.4rem 0.6rem; display: grid; gap: 0; }
+.ef3-quote-lines li { display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.4rem; border-bottom: 1px solid rgba(201,164,92,0.22); }
+.ef3-quote-lines li:last-child { border-bottom: 0; }
+.ef3-quote-li { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ef3-quote-li-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #9A6E2B; }
+.ef3-quote-li-name { font-size: 0.86rem; font-weight: 600; color: #2A3357; }
+.ef3-quote-li-price { font-size: 0.84rem; font-weight: 800; white-space: nowrap; color: color-mix(in oklab, var(--theme) 72%, #2A2433); }
+.ef3-quote-rm { display: grid; place-items: center; height: 1.5rem; width: 1.5rem; flex: 0 0 auto; border-radius: 9999px; color: #9AA0B5; background: rgba(36,52,99,0.06); transition: color 160ms, background 160ms; }
+.ef3-quote-rm:hover { color: #C8364A; background: rgba(216,58,74,0.1); }
+.ef3-quote-total { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 1rem; border-top: 1.5px solid color-mix(in oklab, var(--theme) 30%, rgba(201,164,92,0.4)); font-size: 0.9rem; color: #44507A; }
+.ef3-quote-total strong { font-family: var(--font-display, inherit); font-size: 1.18rem; color: color-mix(in oklab, var(--theme) 72%, #16224C); }
+.ef3-quote-note { padding: 0 1rem 0.9rem; font-size: 0.68rem; line-height: 1.45; color: #6B7596; }
+
+/* ============================ STEP 3 — INFLATABLES: sub-categories + item images ====
+   Inflatables go one level deeper: HW House of Bounce -> sub-categories (with thumbs)
+   -> rental items (image + price). ============================================= */
+.ef3-bz-vendor-logoimg { object-fit: contain; background: #fff; padding: 3px; }
+
+.ef3-bz-subcats { margin-top: 0.6rem; list-style: none; padding: 0; display: grid; gap: 0.45rem; }
+.ef3-bz-subcat {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; cursor: pointer;
+  border-radius: 12px; padding: 0.45rem 0.55rem; background: rgba(255,255,255,0.72); border: 1.5px solid rgba(201,164,92,0.4);
+  transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.ef3-bz-subcat:hover { transform: translateY(-1px); border-color: color-mix(in oklab, var(--theme) 55%, rgba(201,164,92,0.5)); }
+.ef3-bz-subcat:focus-visible { outline: 2px solid var(--theme); outline-offset: 2px; }
+.ef3-bz-subcat-thumb { height: 2.8rem; width: 3.4rem; flex: 0 0 auto; border-radius: 8px; object-fit: cover; border: 1px solid rgba(201,164,92,0.4); }
+.ef3-bz-subcat-meta { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ef3-bz-subcat-name { font-size: 0.88rem; font-weight: 700; color: #1B2A52; }
+.ef3-bz-subcat-count { font-size: 0.72rem; color: #57608A; }
+.ef3-bz-subcat svg:last-child { color: color-mix(in oklab, var(--theme) 55%, #9AA0B5); }
+
+/* package toggle becomes a row when it has an image (inflatable items) */
+.ef3-bz-pkg { flex-direction: row; gap: 0.6rem; align-items: stretch; }
+.ef3-bz-pkg-img { height: 3.4rem; width: 3.4rem; flex: 0 0 auto; border-radius: 8px; object-fit: cover; border: 1px solid rgba(201,164,92,0.45); }
+.ef3-bz-pkg-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
