@@ -19,9 +19,10 @@ export type BookingPathId = "single" | "multi" | "larger";
 
 type Path = { id: BookingPathId; title: string; img: string };
 
+// Order: Multi-World (left), Single World (middle — the most common), Larger (right).
 const PATHS: Path[] = [
-  { id: "single", title: "Single World Experience — best for birthdays, private parties, and simple character visits. Start single world booking.", img: imgSingle },
   { id: "multi", title: "Multi-World Event — best when combining characters, worlds, experiences, or add-ons. Build multi-world event.", img: imgMulti },
+  { id: "single", title: "Single World Experience — best for birthdays, private parties, and simple character visits. Start single world booking.", img: imgSingle },
   { id: "larger", title: "Schools, Corporate & Festivals — best for larger events and public appearances. Plan larger event.", img: imgLarger },
 ];
 

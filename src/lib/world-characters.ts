@@ -28,6 +28,8 @@ export type BookingWorld = {
   /** extra zoom for the card crop (>1 pulls the subject forward, <1 zooms out) */
   cardScale?: number;
   acc: string;
+  /** ambient motif used to theme the Step-3 form (bubbles, leaves, snow…) */
+  motif: "petal" | "spark" | "leaf" | "bubble" | "confetti" | "snow" | "star" | "lantern";
   tagline: string;
   /** label used for the roster list ("Characters" vs "Add-ons") */
   rosterLabel: string;
@@ -46,6 +48,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     cardPos: "47% 50%",
     cardScale: 1.25,
     acc: "#C9337E",
+    motif: "petal",
     tagline: "Storybook royalty — songs, games, and magical greetings.",
     rosterLabel: "Characters",
     characters: chars([
@@ -63,6 +66,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Shield,
     cardPos: "76% 50%",
     acc: "#3E6EA8",
+    motif: "spark",
     tagline: "High-energy hero missions, training games, and heroic entrances.",
     rosterLabel: "Characters",
     characters: chars([
@@ -77,6 +81,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Footprints,
     cardPos: "78% 50%",
     acc: "#4E8E5B",
+    motif: "leaf",
     tagline: "Trainer-led dinosaur encounters and expedition excitement.",
     rosterLabel: "Experiences",
     characters: chars(["Harvey the Dinosaur", "Dino Trainer Show", "Baby Dino Meet"]),
@@ -88,6 +93,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Shell,
     cardPos: "88% 50%",
     acc: "#1E8A9E",
+    motif: "bubble",
     tagline: "Ocean magic, poolside appearances, and whimsical photos.",
     rosterLabel: "Characters",
     characters: chars(["Marina Pearlwave", "Coralina SunSplash", "Nerissa Moonreef"]),
@@ -99,6 +105,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: PawPrint,
     cardPos: "50% 50%",
     acc: "#6DA63C",
+    motif: "confetti",
     tagline: "Huggable mascots, dancing, games, and cheerful energy.",
     rosterLabel: "Characters",
     characters: chars([
@@ -116,6 +123,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Snowflake,
     cardPos: "42% 50%",
     acc: "#B3433F",
+    motif: "snow",
     tagline: "Seasonal visits for Easter, Halloween, and Christmas.",
     rosterLabel: "Characters",
     characters: chars([
@@ -130,6 +138,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Moon,
     cardPos: "75% 50%",
     acc: "#8E5BC8",
+    motif: "star",
     tagline: "Rare, specialty, and fantasy-style storybook characters.",
     rosterLabel: "Characters",
     characters: chars([
@@ -145,6 +154,7 @@ export const BOOKING_WORLDS: BookingWorld[] = [
     icon: Store,
     cardPos: "80% 50%",
     acc: "#2C8A93",
+    motif: "lantern",
     tagline: "Add-ons and event extras to layer onto any booking.",
     rosterLabel: "Add-ons",
     characters: chars([

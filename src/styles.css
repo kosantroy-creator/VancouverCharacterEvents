@@ -11427,3 +11427,121 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .ef3-success-title { margin-top: 1rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.12; color: #1B2A52; }
 .ef3-success-copy { margin-top: 0.8rem; font-size: 0.98rem; line-height: 1.6; color: #44507A; }
 .ef3-success-again { margin-top: 1.3rem; font-size: 0.85rem; font-weight: 600; color: #9A6E2B; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ============================ STEP 3 — THEMED EVENT SCROLL ==========================
+   The form is styled as a majestic event scroll themed to the chosen world: its art
+   backs the section, its accent (--theme) runs through the card, banner, submit + glow,
+   and the requested characters appear as portrait cards on the scroll. Multi-world uses
+   gold (--theme) with every chosen character (each tinted its own world). =========== */
+.ef3 { background: color-mix(in oklab, var(--theme, #C19A3C) 28%, #161f3e); }
+.ef3-scrim {
+  background:
+    radial-gradient(120% 92% at 50% 38%, color-mix(in oklab, var(--theme) 16%, rgba(8,12,30,0.3)), transparent 72%),
+    linear-gradient(180deg, color-mix(in oklab, var(--theme) 42%, rgba(8,12,30,0.66)) 0%, rgba(8,12,30,0.4) 38%, color-mix(in oklab, var(--theme) 36%, rgba(6,10,26,0.74)) 100%);
+}
+
+.ef3-card {
+  padding: 0; overflow: hidden; -webkit-backdrop-filter: none; backdrop-filter: none;
+  background: linear-gradient(168deg, #FFFDF7, #FBF1DC);
+  border: 2px solid color-mix(in oklab, var(--theme) 48%, rgba(201,164,92,0.7));
+  box-shadow: 0 42px 84px -32px rgba(8,12,34,0.72), 0 0 32px -10px color-mix(in oklab, var(--theme) 55%, transparent), inset 0 0 0 4px rgba(255,253,246,0.7);
+}
+
+/* themed banner */
+.ef3-banner {
+  position: relative; overflow: hidden; padding: 1.4rem 1.6rem 1.3rem;
+  background: linear-gradient(125deg, color-mix(in oklab, var(--theme) 82%, #101a3c), color-mix(in oklab, var(--theme) 40%, #0b1330));
+  border-bottom: 2px solid color-mix(in oklab, var(--theme) 55%, #E7B24B);
+}
+.ef3-banner-shine { position: absolute; inset: 0; pointer-events: none; opacity: 0.55; background: radial-gradient(85% 130% at 82% -16%, rgba(255,255,255,0.22), transparent 58%); }
+.ef3-banner-head { position: relative; }
+.ef3-banner-eyebrow { font-family: var(--font-engrave, inherit); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in oklab, #fff 82%, var(--theme)); }
+.ef3-banner-title { margin-top: 0.2rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(1.5rem, 3.6vw, 2.2rem); line-height: 1.05; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,0.45); }
+
+/* requested character portraits on the scroll */
+.ef3-chars { position: relative; margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.6rem; list-style: none; padding: 0; }
+.ef3-char { width: 66px; }
+.ef3-char-frame { position: relative; display: block; aspect-ratio: 7 / 9; border-radius: 10px; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.6); box-shadow: 0 8px 18px -8px rgba(0,0,0,0.6); }
+.ef3-char-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+.ef3-char-deco { display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 50% 32%, color-mix(in oklab, var(--acc) 60%, #fff) 0%, var(--acc) 55%, color-mix(in oklab, var(--acc) 62%, #000) 100%); }
+.ef3-char-name { display: block; margin-top: 0.3rem; font-size: 0.6rem; font-weight: 700; line-height: 1.15; color: rgba(255,255,255,0.92); text-align: center; }
+
+.ef3-body { padding: 1.5rem 1.5rem 1.6rem; }
+
+/* themed submit + seal */
+.ef3-submit {
+  background: linear-gradient(120deg, color-mix(in oklab, var(--theme) 68%, #16224C), color-mix(in oklab, var(--theme) 34%, #0E1A3C));
+  border-color: color-mix(in oklab, var(--theme) 50%, #E7B24B);
+}
+.ef3-seal { background: radial-gradient(circle at 38% 32%, color-mix(in oklab, var(--theme) 55%, #2E4076), #16224C); border-color: color-mix(in oklab, var(--theme) 50%, #E7B24B); }
+
+/* ============================ STEP 3 — FORM THEMED TO THE PLACE (neutral bg) ========
+   Background reverted to the neutral dream-vista; the FORM itself resembles the chosen
+   world: its banner shows that world's scene under an accent veil, with its ambient
+   motif (bubbles / leaves / snow / petals / sparks / confetti / stars / lanterns)
+   drifting across, plus the requested character portraits. ===================== */
+.ef3 { background: #2a3566; }
+.ef3-scrim {
+  background:
+    radial-gradient(120% 95% at 50% 44%, rgba(255,253,247,0.18), rgba(255,250,242,0.46) 72%),
+    linear-gradient(180deg, rgba(255,252,245,0.22) 0%, transparent 22%);
+}
+
+/* themed banner = the world scene */
+.ef3-banner {
+  position: relative; overflow: hidden; min-height: 12rem; padding: 1.5rem 1.6rem 1.4rem;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: linear-gradient(125deg, color-mix(in oklab, var(--theme) 78%, #101a3c), color-mix(in oklab, var(--theme) 40%, #0b1330));
+  border-bottom: 2px solid color-mix(in oklab, var(--theme) 55%, #E7B24B);
+}
+.ef3-banner-bg { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+.ef3-banner-veil {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--theme) 26%, rgba(8,12,30,0.18)) 0%, color-mix(in oklab, var(--theme) 36%, rgba(8,12,30,0.46)) 52%, color-mix(in oklab, var(--theme) 46%, rgba(6,10,26,0.84)) 100%);
+}
+.ef3-banner-head, .ef3-chars { position: relative; z-index: 2; }
+
+/* ambient motif particles */
+.ef3-motif { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+.ef3-pcl { position: absolute; bottom: -12px; border-radius: 9999px; opacity: 0; will-change: transform, opacity; }
+@keyframes kf-ef3-rise { 0% { transform: translateY(0); opacity: 0; } 14% { opacity: 0.95; } 84% { opacity: 0.7; } 100% { transform: translateY(-150px); opacity: 0; } }
+@keyframes kf-ef3-fall { 0% { transform: translateY(-160px); opacity: 0; } 14% { opacity: 0.95; } 84% { opacity: 0.75; } 100% { transform: translateY(20px); opacity: 0; } }
+@keyframes kf-ef3-fall-spin { 0% { transform: translateY(-160px) rotate(0deg); opacity: 0; } 14% { opacity: 0.95; } 84% { opacity: 0.75; } 100% { transform: translateY(20px) rotate(240deg); opacity: 0; } }
+
+.ef3-pcl--bubble { background: transparent; border: 1.5px solid rgba(178,238,255,0.9); box-shadow: 0 0 7px rgba(150,225,255,0.6); animation: kf-ef3-rise linear infinite; }
+.ef3-pcl--spark { background: radial-gradient(circle, #fff, #F4D98A 70%); box-shadow: 0 0 8px rgba(255,216,106,0.9); animation: kf-ef3-rise ease-in-out infinite; }
+.ef3-pcl--lantern { background: radial-gradient(circle at 40% 35%, #FFE7A8, #E7B24B); box-shadow: 0 0 11px rgba(231,178,75,0.85); animation: kf-ef3-rise ease-in-out infinite; }
+.ef3-pcl--star { background: #F4D98A; box-shadow: 0 0 8px rgba(244,217,138,0.9); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); border-radius: 0; animation: kf-ef3-rise ease-in-out infinite; }
+.ef3-pcl--snow { background: #fff; box-shadow: 0 0 5px rgba(255,255,255,0.9); animation: kf-ef3-fall linear infinite; }
+.ef3-pcl--petal { background: rgba(244,178,198,0.92); border-radius: 60% 40% 58% 42%; box-shadow: 0 0 5px rgba(244,178,198,0.5); animation: kf-ef3-fall-spin ease-in-out infinite; }
+.ef3-pcl--leaf { background: rgba(126,184,108,0.92); border-radius: 0 64% 0 64%; box-shadow: 0 0 5px rgba(110,170,90,0.5); animation: kf-ef3-fall-spin ease-in-out infinite; }
+.ef3-pcl--confetti { background: color-mix(in oklab, var(--theme) 70%, #F4D98A); border-radius: 1px; animation: kf-ef3-fall-spin linear infinite; }
+
+/* ============================ STEP 2 — CONTINUE: 2 parts, centred, animated ========
+   The wide continue band is split: a compact centred selection pill on top, and the
+   Continue button centred below with a pulsing glow + sheen sweep. ============== */
+.cw-continue {
+  margin: 2.2rem auto 0; max-width: 32rem; display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+  background: none; border: 0; box-shadow: none; padding: 0; -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.cw-continue-note {
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.15rem; border-radius: 9999px; text-align: center;
+  font-size: 0.9rem; color: #3C476E; background: rgba(255,253,247,0.94); border: 1px solid rgba(201,164,92,0.5);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 14px 30px -22px rgba(6,8,28,0.55);
+}
+.cw-continue-btn {
+  position: relative; overflow: hidden; padding: 0.98rem 2.1rem; font-size: 1.04rem;
+  animation: kf-cw-cont-pulse 2.6s ease-in-out infinite;
+}
+.cw-continue-btn::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: 0.7;
+  background: linear-gradient(115deg, transparent 40%, rgba(255,247,220,0.55) 48%, transparent 56%);
+  background-size: 250% 100%; background-position: 160% 0; animation: kf-cw-cont-sheen 3.4s ease-in-out infinite;
+}
+.cw-continue-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); }
+.cw-continue-btn:disabled { animation: none; }
+@keyframes kf-cw-cont-pulse {
+  0%, 100% { box-shadow: 0 16px 34px -16px rgba(20,30,70,0.7), 0 0 0 0 rgba(231,178,75,0); }
+  50% { box-shadow: 0 20px 42px -16px rgba(20,30,70,0.85), 0 0 28px -3px rgba(231,178,75,0.65); }
+}
+@keyframes kf-cw-cont-sheen { 0% { background-position: 160% 0; } 55%, 100% { background-position: -60% 0; } }

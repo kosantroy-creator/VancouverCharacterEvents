@@ -1,17 +1,21 @@
-import { useState, type FormEvent } from "react";
-import { AlertCircle, ArrowRight, Compass, Crown, Loader2, Sparkles, Tent, Wand2 } from "lucide-react";
+import { useState, type ComponentType, type CSSProperties, type FormEvent } from "react";
+import { AlertCircle, ArrowRight, Crown, Loader2, Sparkles, Tent, Wand2 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { submitInquiry } from "@/lib/inquiry";
-import formBg from "@/assets/booking/step3-form-bg.webp";
+import { WORLD_BY_ID } from "@/lib/world-characters";
+import { PRINCESS_ART } from "@/lib/princess-portraits";
+import dreamVista from "@/assets/booking/step3-form-bg.webp";
 
 /**
- * EventDetailsForm — "Step Three: Event Details". A single, short request form on the
- * dream-vista background: only the details the team actually needs. Carries the path /
- * worlds / characters chosen in Steps 1–2 forward (hidden fields + a recap), and uses
- * the same submitInquiry → Resend pipeline (field handlers untouched). The heading
- * lives in the BookingIntro blend section just above. See ".edf" / ".ef3" in styles.css.
+ * EventDetailsForm — "Step Three: Event Details". A short request form styled as a
+ * majestic event scroll, themed to the world the visitor chose in Step 2: the chosen
+ * world's art backs the section, its accent runs through the card + banner, and the
+ * requested characters appear as portrait cards on the scroll. A multi-world selection
+ * gets one gold "all worlds" scroll with every chosen character. Same submitInquiry →
+ * Resend pipeline (field names/validation untouched). See ".ef3" in styles.css.
  */
 type Status = "idle" | "submitting" | "success" | "error";
+type CharCard = { key: string; name: string; art?: string; Icon: ComponentType<{ className?: string }>; acc: string };
 
 const BOOKING_EMAIL = "info@vancouvercharacterevents.com";
 const fld =
@@ -30,20 +34,65 @@ const EVENT_TYPES = [
 ];
 const PACKAGE = ["60 Minutes", "90 Minutes", "Custom / Not sure yet"];
 
+/* Deterministic ambient motif particles drifting across the themed banner. */
+const PARTICLES = [
+  { left: "7%", delay: "0s", dur: "9s", s: 7 },
+  { left: "21%", delay: "2.4s", dur: "11s", s: 5 },
+  { left: "38%", delay: "1.2s", dur: "10s", s: 8 },
+  { left: "55%", delay: "3.6s", dur: "12s", s: 6 },
+  { left: "70%", delay: "0.8s", dur: "9.5s", s: 7 },
+  { left: "86%", delay: "2s", dur: "11.5s", s: 5 },
+  { left: "95%", delay: "4.1s", dur: "10.5s", s: 6 },
+] as const;
+
 export function EventDetailsForm({
   bookingPath,
-  selectedWorlds,
-  selectedCharacters,
+  worldChars,
   requestedGuest,
   requestedInflatable,
 }: {
   bookingPath?: string;
-  selectedWorlds?: string;
-  selectedCharacters?: string;
+  worldChars: Record<string, string[]>;
   requestedGuest?: string;
   requestedInflatable?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
+
+  // Derive the theme + the requested characters from the Step-2 selection.
+  const worldIds = Object.keys(worldChars).filter((id) => worldChars[id]?.length && WORLD_BY_ID[id]);
+  const single = worldIds.length === 1;
+  const themeWorld = single ? WORLD_BY_ID[worldIds[0]] : undefined;
+  const themeAcc = themeWorld?.acc ?? "#C19A3C";
+  // The section background stays the neutral dream-vista; the FORM is themed instead.
+  const bannerArt = themeWorld?.hero;
+  const bannerPos = themeWorld?.cardPos ?? "50% 45%";
+  const motif = themeWorld?.motif ?? "star";
+  const headline = single ? themeWorld!.name : worldIds.length > 1 ? "Multi-World Event" : "Your Event";
+
+  const chars: CharCard[] = worldIds.flatMap((wid) => {
+    const w = WORLD_BY_ID[wid];
+    return (worldChars[wid] ?? []).map((cid) => {
+      const ch = w.characters.find((c) => c.id === cid);
+      return {
+        key: `${wid}-${cid}`,
+        name: ch?.name ?? cid,
+        art: wid === "princess" ? PRINCESS_ART[cid] : undefined,
+        Icon: w.icon,
+        acc: w.acc,
+      };
+    });
+  });
+
+  const selectedWorlds = worldIds.length ? worldIds.map((id) => WORLD_BY_ID[id].name).join(", ") : undefined;
+  const selectedCharacters = worldIds.length
+    ? worldIds
+        .map((id) => {
+          const w = WORLD_BY_ID[id];
+          const names = worldChars[id].map((cid) => w.characters.find((c) => c.id === cid)?.name ?? cid);
+          return `${w.name} (${names.join(", ")})`;
+        })
+        .join(" · ")
+    : undefined;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,9 +112,27 @@ export function EventDetailsForm({
     }
   };
 
+  const renderChar = (c: CharCard) => (
+    <li key={c.key} className="ef3-char">
+      <span className="ef3-char-frame" style={{ "--acc": c.acc } as CSSProperties}>
+        {c.art ? (
+          <img src={c.art} alt="" aria-hidden className="ef3-char-art" />
+        ) : (
+          <span aria-hidden className="ef3-char-art ef3-char-deco"><c.Icon className="h-5 w-5" /></span>
+        )}
+      </span>
+      <span className="ef3-char-name">{c.name}</span>
+    </li>
+  );
+
   return (
-    <section id="book" aria-labelledby="edf-title" className="edf ef3 relative isolate scroll-mt-20 overflow-hidden">
-      <img src={formBg} alt="" aria-hidden decoding="async" loading="lazy" className="ef3-bg absolute inset-0 -z-20 h-full w-full object-cover" />
+    <section
+      id="book"
+      aria-labelledby="edf-title"
+      className={`edf ef3 relative isolate scroll-mt-20 overflow-hidden${single ? "" : " ef3--multi"}`}
+      style={{ "--theme": themeAcc } as CSSProperties}
+    >
+      <img src={dreamVista} alt="" aria-hidden decoding="async" loading="lazy" className="ef3-bg absolute inset-0 -z-20 h-full w-full object-cover" style={{ objectPosition: "50% 48%" }} />
       <span aria-hidden className="ef3-scrim absolute inset-0 -z-10" />
 
       <div className="relative z-10 mx-auto w-full max-w-[760px] px-5 py-16 sm:px-6 md:py-20 lg:px-8">
@@ -93,7 +160,7 @@ export function EventDetailsForm({
                 <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
               </div>
 
-              {/* carried-forward selections (hidden + recap) */}
+              {/* carried-forward selections (hidden) */}
               {bookingPath ? <input type="hidden" name="bookingPath" value={bookingPath} /> : null}
               {selectedWorlds ? <input type="hidden" name="selectedWorlds" value={selectedWorlds} /> : null}
               {selectedCharacters ? <input type="hidden" name="selectedCharacters" value={selectedCharacters} /> : null}
@@ -105,113 +172,129 @@ export function EventDetailsForm({
                 </>
               ) : null}
 
-              <h3 id="edf-title" className="ef3-title">Just a few event details</h3>
-              <p className="ef3-sub">Tell us what you know — we&apos;ll follow up with availability and next steps.</p>
-
-              {(bookingPath || selectedCharacters || selectedWorlds) ? (
-                <div className="ef3-recap" aria-label="Your selections">
-                  {bookingPath ? <span className="ef3-recap-chip"><Compass className="h-3.5 w-3.5" aria-hidden /> {bookingPath}</span> : null}
-                  {selectedCharacters ? (
-                    <span className="ef3-recap-chip"><Sparkles className="h-3.5 w-3.5" aria-hidden /> {selectedCharacters}</span>
-                  ) : selectedWorlds ? (
-                    <span className="ef3-recap-chip"><Sparkles className="h-3.5 w-3.5" aria-hidden /> {selectedWorlds}</span>
-                  ) : null}
+              {/* themed scroll banner — the world scene + its motif + requested characters */}
+              <div className={`ef3-banner ef3-banner--${motif}`}>
+                {bannerArt ? (
+                  <img src={bannerArt} alt="" aria-hidden className="ef3-banner-bg" style={{ objectPosition: bannerPos }} />
+                ) : null}
+                <span aria-hidden className="ef3-banner-veil" />
+                <div aria-hidden className="ef3-motif">
+                  {PARTICLES.map((p, i) => (
+                    <span
+                      key={i}
+                      className={`ef3-pcl ef3-pcl--${motif}`}
+                      style={{ left: p.left, width: p.s, height: p.s, animationDelay: p.delay, animationDuration: p.dur }}
+                    />
+                  ))}
                 </div>
-              ) : null}
-
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className={lbl} htmlFor="date">Event date</label>
-                  <input id="date" name="date" type="date" className={fld} />
+                <div className="ef3-banner-head">
+                  <span className="ef3-banner-eyebrow">Your Event Request</span>
+                  <h3 id="edf-title" className="ef3-banner-title">{headline}</h3>
                 </div>
-                <div>
-                  <label className={lbl} htmlFor="time">Event time</label>
-                  <input id="time" name="time" type="time" className={fld} />
-                </div>
-                <div className="sm:col-span-2">
-                  <label className={lbl} htmlFor="address">Event address</label>
-                  <input id="address" name="address" type="text" className={fld} placeholder="Street address or venue name" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="city">Event city</label>
-                  <input id="city" name="city" type="text" className={fld} placeholder="Coquitlam, Vancouver, Surrey…" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="eventType">Event type</label>
-                  <select id="eventType" name="eventType" className={fld} defaultValue="">
-                    <option value="" disabled>Select event type</option>
-                    {EVENT_TYPES.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-
-                <div>
-                  <label className={lbl} htmlFor="name">Your name <span className="text-[#C9337E]">*</span></label>
-                  <input id="name" name="name" type="text" required autoComplete="name" className={fld} placeholder="Your full name" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="guestName">
-                    Child&apos;s name <span className="font-normal text-[#7a8099]">(optional — helps us prep our actors)</span>
-                  </label>
-                  <input id="guestName" name="guestName" type="text" className={fld} placeholder="Guest of honour" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="email">Email <span className="text-[#C9337E]">*</span></label>
-                  <input id="email" name="email" type="email" required autoComplete="email" className={fld} placeholder="you@example.com" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="phone">Phone</label>
-                  <input id="phone" name="phone" type="tel" autoComplete="tel" className={fld} placeholder="(778) 000-0000" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="guests">Guest count</label>
-                  <input id="guests" name="guests" type="number" min={1} className={fld} placeholder="Approx. number of guests" />
-                </div>
-                <div>
-                  <label className={lbl} htmlFor="packageStyle">Package</label>
-                  <select id="packageStyle" name="packageStyle" className={fld} defaultValue="">
-                    <option value="" disabled>Select</option>
-                    {PACKAGE.map((o) => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div className="sm:col-span-2">
-                  <label className={lbl} htmlFor="message">Notes</label>
-                  <textarea id="message" name="message" rows={4} className={fld} placeholder="Theme, favourite characters, schedule, special moments, parking/access, or anything else we should know." />
-                </div>
+                {chars.length ? (
+                  <ul className="ef3-chars" aria-label="Your requested characters">
+                    {chars.map(renderChar)}
+                  </ul>
+                ) : null}
               </div>
 
-              <p className="ef3-note">
-                <Tent className="h-3.5 w-3.5" aria-hidden /> Inflatable partner add-ons may be available through
-                trusted vendors depending on date, location, setup needs, and event type.
-              </p>
+              <div className="ef3-body">
+                <p className="ef3-sub">Tell us what you know — we&apos;ll follow up with availability and next steps.</p>
 
-              <label className="ef3-ack">
-                <input type="checkbox" name="acknowledge" value="Yes" className="ef3-ack-box" />
-                <span>I understand this is a request for availability &amp; pricing, not a confirmed booking yet.</span>
-              </label>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className={lbl} htmlFor="date">Event date</label>
+                    <input id="date" name="date" type="date" className={fld} />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="time">Event time</label>
+                    <input id="time" name="time" type="time" className={fld} />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className={lbl} htmlFor="address">Event address</label>
+                    <input id="address" name="address" type="text" className={fld} placeholder="Street address or venue name" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="city">Event city</label>
+                    <input id="city" name="city" type="text" className={fld} placeholder="Coquitlam, Vancouver, Surrey…" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="eventType">Event type</label>
+                    <select id="eventType" name="eventType" className={fld} defaultValue="">
+                      <option value="" disabled>Select event type</option>
+                      {EVENT_TYPES.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </div>
 
-              {status === "error" ? (
-                <div role="alert" className="ef3-error">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                  <span>
-                    Something went wrong sending your request. Please try again, or email us at{" "}
-                    <a href={`mailto:${BOOKING_EMAIL}`} className="font-semibold underline underline-offset-2">{BOOKING_EMAIL}</a>.
-                  </span>
+                  <div>
+                    <label className={lbl} htmlFor="name">Your name <span className="text-[#C9337E]">*</span></label>
+                    <input id="name" name="name" type="text" required autoComplete="name" className={fld} placeholder="Your full name" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="guestName">
+                      Child&apos;s name <span className="font-normal text-[#7a8099]">(optional — helps us prep our actors)</span>
+                    </label>
+                    <input id="guestName" name="guestName" type="text" className={fld} placeholder="Guest of honour" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="email">Email <span className="text-[#C9337E]">*</span></label>
+                    <input id="email" name="email" type="email" required autoComplete="email" className={fld} placeholder="you@example.com" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="phone">Phone</label>
+                    <input id="phone" name="phone" type="tel" autoComplete="tel" className={fld} placeholder="(778) 000-0000" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="guests">Guest count</label>
+                    <input id="guests" name="guests" type="number" min={1} className={fld} placeholder="Approx. number of guests" />
+                  </div>
+                  <div>
+                    <label className={lbl} htmlFor="packageStyle">Package</label>
+                    <select id="packageStyle" name="packageStyle" className={fld} defaultValue="">
+                      <option value="" disabled>Select</option>
+                      {PACKAGE.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className={lbl} htmlFor="message">Notes</label>
+                    <textarea id="message" name="message" rows={4} className={fld} placeholder="Theme, favourite characters, schedule, special moments, parking/access, or anything else we should know." />
+                  </div>
                 </div>
-              ) : null}
 
-              <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-                <button type="submit" disabled={status === "submitting"} className="ef3-submit group">
-                  {status === "submitting" ? (
-                    <><Loader2 className="h-4 w-4 animate-spin" /> Sending Request…</>
-                  ) : (
-                    <>
-                      <Wand2 className="h-4 w-4" aria-hidden />
-                      Send My Event Request
-                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-                    </>
-                  )}
-                </button>
-                <p className="text-xs text-[#6B7596]">We typically reply within one business day.</p>
+                <p className="ef3-note">
+                  <Tent className="h-3.5 w-3.5" aria-hidden /> Inflatable partner add-ons may be available through
+                  trusted vendors depending on date, location, setup needs, and event type.
+                </p>
+
+                <label className="ef3-ack">
+                  <input type="checkbox" name="acknowledge" value="Yes" className="ef3-ack-box" />
+                  <span>I understand this is a request for availability &amp; pricing, not a confirmed booking yet.</span>
+                </label>
+
+                {status === "error" ? (
+                  <div role="alert" className="ef3-error">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>
+                      Something went wrong sending your request. Please try again, or email us at{" "}
+                      <a href={`mailto:${BOOKING_EMAIL}`} className="font-semibold underline underline-offset-2">{BOOKING_EMAIL}</a>.
+                    </span>
+                  </div>
+                ) : null}
+
+                <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                  <button type="submit" disabled={status === "submitting"} className="ef3-submit group">
+                    {status === "submitting" ? (
+                      <><Loader2 className="h-4 w-4 animate-spin" /> Sending Request…</>
+                    ) : (
+                      <>
+                        <Wand2 className="h-4 w-4" aria-hidden />
+                        Send My Event Request
+                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs text-[#6B7596]">We typically reply within one business day.</p>
+                </div>
               </div>
             </form>
           </Reveal>

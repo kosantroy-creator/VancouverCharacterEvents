@@ -4,7 +4,6 @@ import { BookingHallHero } from "@/components/site/BookingHallHero";
 import { BookingIntro } from "@/components/site/BookingIntro";
 import { BookingPaths, type BookingPathId } from "@/components/site/BookingPaths";
 import { BookingWorlds } from "@/components/site/BookingWorlds";
-import { WORLD_NAMES, WORLD_BY_ID } from "@/lib/world-characters";
 import { EventDetailsForm } from "@/components/site/EventDetailsForm";
 import { BookingFaq } from "@/components/site/BookingFaq";
 import { WhatHappensNext } from "@/components/site/WhatHappensNext";
@@ -72,19 +71,6 @@ function ContactPage() {
     scrollTo("event-details-intro");
   };
 
-  const chosenWorldIds = Object.keys(worldChars).filter((id) => worldChars[id]?.length);
-  const selectedWorlds = chosenWorldIds.length
-    ? chosenWorldIds.map((id) => WORLD_NAMES[id]).join(", ")
-    : undefined;
-  const selectedCharacters = chosenWorldIds.length
-    ? chosenWorldIds
-        .map((id) => {
-          const names = Object.fromEntries(WORLD_BY_ID[id].characters.map((c) => [c.id, c.name]));
-          return `${WORLD_NAMES[id]} (${worldChars[id].map((cid) => names[cid] ?? cid).join(", ")})`;
-        })
-        .join(" · ")
-    : undefined;
-
   // Progress spine across the 3 stages (path → world → details).
   const filled = (path ? 1 : 0) + (step2Done ? 1 : 0);
   const progressScale = 0.1 + filled * 0.28;
@@ -139,8 +125,7 @@ function ContactPage() {
 
           <EventDetailsForm
             bookingPath={PATH_LABEL[path]}
-            selectedWorlds={selectedWorlds}
-            selectedCharacters={selectedCharacters}
+            worldChars={worldChars}
             requestedGuest={guest}
             requestedInflatable={inflatable}
           />
