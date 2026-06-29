@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2, Crown, Loader2, Tent } from "lucide-react";
+import { AlertCircle, CheckCircle2, Compass, Crown, Loader2, Sparkles, Tent } from "lucide-react";
 import { eventTypes } from "@/lib/site-data";
 import { submitInquiry } from "@/lib/inquiry";
 import { CTAButton } from "./CTAButton";
@@ -33,6 +33,8 @@ export function BookingForm({
   defaultInterest,
   requestedGuest,
   requestedInflatable,
+  bookingPath,
+  selectedWorlds,
   source = "Booking form",
 }: {
   defaultInterest?: string;
@@ -40,6 +42,10 @@ export function BookingForm({
   requestedGuest?: string;
   /** Set by "Request This Inflatable" links — forwarded to our partner. */
   requestedInflatable?: string;
+  /** Set by the "Choose Your Booking Path" cards — shown + carried in the email. */
+  bookingPath?: string;
+  /** Set by the "Choose Your World" cards — comma-joined world names. */
+  selectedWorlds?: string;
   /** Identifies which page/form the inquiry came from (shown in the email). */
   source?: string;
 }) {
@@ -99,6 +105,28 @@ export function BookingForm({
         <label htmlFor="company">Company (leave blank)</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+
+      {bookingPath ? (
+        <div className="mb-6 flex items-center gap-3 rounded-[var(--radius-lg)] border border-ink-800/25 bg-ink-800/[0.06] px-4 py-3">
+          <Compass className="h-5 w-5 shrink-0 text-ink-800" aria-hidden />
+          <p className="text-sm text-fg">
+            Booking path: <strong className="font-semibold">{bookingPath}</strong> — we&apos;ll tailor
+            the next steps to match.
+          </p>
+          <input type="hidden" name="bookingPath" value={bookingPath} />
+        </div>
+      ) : null}
+
+      {selectedWorlds ? (
+        <div className="mb-6 flex items-start gap-3 rounded-[var(--radius-lg)] border border-gold-500/40 bg-gold-500/10 px-4 py-3">
+          <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-gold-600" aria-hidden />
+          <p className="text-sm text-fg">
+            Worlds you&apos;re interested in: <strong className="font-semibold">{selectedWorlds}</strong>
+            {" "}— we&apos;ll build your quote around these.
+          </p>
+          <input type="hidden" name="selectedWorlds" value={selectedWorlds} />
+        </div>
+      ) : null}
 
       {requestedGuest ? (
         <div className="mb-6 flex items-center gap-3 rounded-[var(--radius-lg)] border border-gold-500/40 bg-gold-500/10 px-4 py-3">
