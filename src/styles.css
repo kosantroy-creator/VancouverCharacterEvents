@@ -10964,3 +10964,466 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .bkw-plan-chip { animation: kf-chip-in 260ms var(--ease-out) both; }
 .bkp-summary.is-set { animation: kf-bkp-pop 300ms var(--ease-out); }
 @keyframes kf-bkp-pop { 0% { transform: scale(0.992); } 60% { transform: scale(1.006); } 100% { transform: scale(1); } }
+
+/* ============================ BOOKING PATHS — PANORAMA STEP-1 REDESIGN =============
+   Step One on the all-eight-worlds panorama: three ornate gold-plaque cards floating
+   on the darkened realm vista. Picking one reveals Steps 2 & 3 (route-gated). Overrides
+   the earlier cream .bkp styling. Reduced-motion safe via the global guard. ====== */
+.bkp { background: #121838; }
+.bkp-bg { object-position: 50% 42%; }
+.bkp-scrim {
+  background:
+    radial-gradient(125% 95% at 50% 28%, rgba(18,22,52,0.28), rgba(12,16,42,0.6) 72%),
+    linear-gradient(180deg, rgba(12,16,42,0.8) 0%, rgba(20,26,60,0.36) 28%, rgba(16,20,48,0.5) 72%, rgba(10,14,38,0.88) 100%);
+}
+
+/* header — light over the panorama */
+.bkp-eyebrow {
+  color: #F4D98A; background: rgba(18,24,56,0.55); border-color: rgba(231,178,75,0.55);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); box-shadow: 0 8px 22px -12px rgba(6,8,26,0.7);
+}
+.bkp-title { color: #FFFFFF; text-shadow: 0 2px 26px rgba(8,12,38,0.75); }
+.bkp-sub { color: rgba(244,241,255,0.92); text-shadow: 0 1px 16px rgba(8,12,38,0.7); }
+
+/* grid */
+.bkp-grid { margin-top: 2.6rem; display: grid; gap: 1.4rem; }
+@media (min-width: 980px) { .bkp-grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+.bkp-cell { height: 100%; }
+
+/* ornate plaque card */
+.bkp-card {
+  position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 30px 30px 20px 20px; padding: 1.7rem 1.45rem 1.45rem;
+  background: linear-gradient(172deg, #FFFDF7, #FBEFD6);
+  border: 1.5px solid rgba(201,164,92,0.85);
+  box-shadow: 0 34px 64px -28px rgba(6,8,28,0.85), 0 0 0 1px rgba(231,178,75,0.5),
+    inset 0 0 0 4px rgba(255,253,246,0.72), inset 0 0 0 5px rgba(201,164,92,0.35);
+  transition: transform 260ms var(--ease-out), border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+.bkp-card::before {
+  content: ""; position: absolute; inset: 8px; z-index: 1; pointer-events: none;
+  border-radius: 24px 24px 14px 14px; border: 1px solid rgba(201,164,92,0.5);
+}
+.bkp-card:hover {
+  transform: translateY(-6px); border-color: rgba(231,178,75,1);
+  box-shadow: 0 44px 76px -28px rgba(6,8,28,0.9), 0 0 0 1px rgba(231,178,75,0.7), 0 0 36px -8px rgba(231,178,75,0.5),
+    inset 0 0 0 4px rgba(255,253,246,0.8), inset 0 0 0 5px rgba(201,164,92,0.45);
+}
+.bkp-card.is-selected {
+  border-color: #E7B24B; transform: translateY(-4px);
+  box-shadow: 0 40px 72px -26px rgba(6,8,28,0.9), 0 0 0 2px rgba(231,178,75,0.9), 0 0 40px -6px rgba(231,178,75,0.6),
+    inset 0 0 0 4px rgba(255,253,246,0.8), inset 0 0 0 5px rgba(201,164,92,0.5);
+}
+
+/* periodic gold sheen sweep (under the card content) */
+.bkp-shimmer {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 38%, rgba(255,247,220,0.55) 48%, transparent 58%);
+  background-size: 250% 100%; background-position: 160% 0;
+  animation: kf-bkp-shimmer 7s ease-in-out infinite;
+}
+@keyframes kf-bkp-shimmer { 0% { background-position: 160% 0; } 60%, 100% { background-position: -60% 0; } }
+
+/* select control — centred layout */
+.bkp-select {
+  position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  text-align: center; cursor: pointer; background: none; border: 0; padding: 0; color: inherit; width: 100%; border-radius: 16px;
+}
+.bkp-select:focus-visible { outline: 2px solid #C19A3C; outline-offset: 4px; }
+.bkp-stamp {
+  position: absolute; right: 0.1rem; top: 0.1rem; z-index: 3; display: grid; place-items: center; height: 1.8rem; width: 1.8rem; border-radius: 9999px;
+  color: #16224C; background: linear-gradient(120deg, #F0C674, #E7B24B); box-shadow: 0 6px 14px -6px rgba(231,178,75,0.8);
+  opacity: 0; transform: scale(0.4) rotate(-12deg); transition: opacity 220ms var(--ease-out), transform 260ms var(--ease-out);
+}
+.bkp-card.is-selected .bkp-stamp { opacity: 1; transform: scale(1) rotate(0); }
+
+/* navy starfield roundel emblem */
+.bkp-emblem {
+  position: relative; display: grid; place-items: center; height: 4.4rem; width: 4.4rem; margin: 0 auto 0.2rem; border-radius: 9999px; color: #F0C674;
+  background: radial-gradient(circle at 42% 36%, #2A3C72, #101A3C 72%); border: 2.5px solid rgba(231,178,75,0.78);
+  box-shadow: 0 14px 28px -12px rgba(8,10,30,0.7), 0 0 0 5px rgba(231,178,75,0.12), inset 0 1px 0 rgba(255,255,255,0.18);
+  animation: kf-bkp-bob 4.6s ease-in-out infinite;
+}
+.bkp-cell:nth-child(2) .bkp-emblem { animation-delay: 0.7s; }
+.bkp-cell:nth-child(3) .bkp-emblem { animation-delay: 1.4s; }
+@keyframes kf-bkp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.bkp-emblem-stars {
+  position: absolute; inset: 0; border-radius: 9999px; opacity: 0.9; pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 30% 25%, #F4D98A, transparent), radial-gradient(1px 1px at 68% 30%, #F0C674, transparent),
+    radial-gradient(1.5px 1.5px at 50% 54%, #FFF0C0, transparent), radial-gradient(1px 1px at 38% 70%, #E7B24B, transparent),
+    radial-gradient(1px 1px at 72% 67%, #F4D98A, transparent), radial-gradient(1px 1px at 22% 50%, #F0C674, transparent),
+    radial-gradient(1px 1px at 82% 47%, #F4D98A, transparent), radial-gradient(1px 1px at 56% 80%, #E7B24B, transparent);
+}
+
+.bkp-card-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.4rem; line-height: 1.12; color: #1B2A52; }
+.bkp-card-copy { font-size: 0.86rem; line-height: 1.5; color: #51597C; max-width: 18rem; }
+
+/* examples — gold-rule label + 2-col dotted list */
+.bkp-ex-label {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.4rem; width: 100%;
+  font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #9A6E2B;
+}
+.bkp-ex-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.7), transparent); }
+.bkp-examples { margin-top: 0.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 0.8rem; width: 100%; text-align: left; }
+.bkp-ex { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 600; color: #45507A; }
+.bkp-ex-dot { height: 5px; width: 5px; border-radius: 9999px; flex: 0 0 auto; background: #D9B25A; box-shadow: 0 0 5px rgba(217,178,90,0.6); }
+
+/* CTA — gold plaque pill */
+.bkp-cta {
+  position: relative; z-index: 2; margin-top: 1.3rem; display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 0.5rem;
+  border-radius: 9999px; padding: 0.85rem 1.3rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.95rem;
+  color: #16224C; background: linear-gradient(120deg, #F0C674, #E7B24B); border: 1.5px solid rgba(255,255,255,0.45);
+  box-shadow: 0 14px 30px -14px rgba(231,178,75,0.8), inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: transform 200ms var(--ease-out), filter 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.bkp-cta:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 38px -14px rgba(231,178,75,0.9); }
+.bkp-cta:focus-visible { outline: 2px solid #16224C; outline-offset: 2px; }
+
+/* trust strip — dark glass band over the panorama */
+.bkp-trust { margin-top: 2.4rem; display: grid; gap: 0.8rem; grid-template-columns: 1fr 1fr; }
+@media (min-width: 880px) { .bkp-trust { grid-template-columns: repeat(4, 1fr); } }
+.bkp-trust-item {
+  display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.8rem 0.95rem; border-radius: 14px;
+  background: rgba(14,18,44,0.58); border: 1px solid rgba(231,178,75,0.42);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 14px 30px -22px rgba(6,8,28,0.8);
+}
+.bkp-trust-item svg { color: #F0C674; }
+.bkp-trust-title { display: block; font-weight: 700; font-size: 0.84rem; color: #FBF4E6; }
+.bkp-trust-note { display: block; font-size: 0.74rem; line-height: 1.35; color: rgba(231,235,250,0.72); }
+
+/* the panorama replaces the cream field — neutralise the earlier seam divider here */
+.bkp::after { display: none; }
+
+/* ============================ BOOKING INTRO — HERO→PANORAMA BLEND ==================
+   Slim heading section bridging the hero's cream seam into the panorama's sky, so the
+   two images meet softly. ============================================== */
+.bki { background: linear-gradient(180deg, #FBF4E6 0%, #F6F1E6 30%, #ECEFF4 66%, #E4EAF4 100%); }
+.bki-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0.95rem; border-radius: 9999px;
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #9A6E2B; background: rgba(255,253,247,0.8); border: 1px solid rgba(201,164,92,0.5);
+}
+.bki-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.85)); }
+.bki-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.85), transparent); }
+.bki-title { margin-top: 0.9rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.05; color: #1B2A52; }
+.bki-sub { margin-top: 0.9rem; font-size: 1.05rem; line-height: 1.6; color: #44507A; }
+
+/* ============================ BOOKING PATHS — IMAGE-BUTTON PLAQUES =================
+   Supplied card art used directly as the three clickable path buttons, on the
+   full-brightness panorama (no darkening). Overrides the earlier CSS-built cards. == */
+.bkp { background: #1b2546; }
+.bkp-bg { object-position: 50% 46%; }
+/* feather the panorama top out of the intro blend — no hard seam */
+.bkp::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 170px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, #E4EAF4 0%, rgba(228,234,244,0.55) 38%, transparent 100%);
+}
+.bkp::after { display: none; }
+
+.bkp-grid { margin-top: 0; display: grid; gap: 1.3rem; }
+@media (min-width: 880px) { .bkp-grid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+.bkp-cell { height: 100%; display: flex; }
+
+.bkp-btn {
+  position: relative; display: block; width: 100%; cursor: pointer; background: none; border: 0; padding: 0; border-radius: 24px;
+  filter: drop-shadow(0 24px 30px rgba(6,8,28,0.45));
+  transition: transform 240ms var(--ease-out), filter 240ms var(--ease-out);
+}
+.bkp-btn-img { display: block; width: 100%; height: auto; animation: kf-bkp-bob 5s ease-in-out infinite; }
+.bkp-cell:nth-child(2) .bkp-btn-img { animation-delay: 0.8s; }
+.bkp-cell:nth-child(3) .bkp-btn-img { animation-delay: 1.6s; }
+.bkp-btn:hover { transform: translateY(-8px) scale(1.015); filter: drop-shadow(0 34px 42px rgba(6,8,28,0.55)); }
+.bkp-btn:focus-visible { outline: 3px solid #F0C674; outline-offset: 6px; border-radius: 24px; }
+.bkp-btn.is-selected {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 18px 26px rgba(6,8,28,0.5)) drop-shadow(0 0 18px rgba(231,178,75,0.95));
+}
+
+/* periodic gold sheen sweeping each plaque */
+.bkp-btn-sheen {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 24px; overflow: hidden; opacity: 0.55; mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 40%, rgba(255,247,220,0.5) 48%, transparent 56%);
+  background-size: 250% 100%; background-position: 160% 0; animation: kf-bkp-shimmer 7s ease-in-out infinite;
+}
+.bkp-cell:nth-child(2) .bkp-btn-sheen { animation-delay: 1.2s; }
+.bkp-cell:nth-child(3) .bkp-btn-sheen { animation-delay: 2.4s; }
+
+/* ============================ CHOOSE YOUR WORLD — STEP 2 (cards + lightbox) ========
+   Eight themed hero-art cards on the all-worlds vista; tapping one expands it to the
+   centre of the screen to pick characters, confirm, and continue. Pure-CSS expand /
+   close. Reduced-motion handled by the global guard. Replaces the old .bkw panel. == */
+.bkw::after { display: none; }
+.cw { background: #20305c; }
+.cw-bg { object-position: 50% 42%; }
+.cw-bg-veil {
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,252,245,0.55) 0%, rgba(255,252,245,0.12) 16%, transparent 34%),
+    linear-gradient(0deg, rgba(20,28,60,0.34) 0%, transparent 26%);
+}
+
+/* header */
+.cw-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0.95rem; border-radius: 9999px;
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #9A6E2B; background: rgba(255,253,247,0.82); border: 1px solid rgba(201,164,92,0.55);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+}
+.cw-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.85)); }
+.cw-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.85), transparent); }
+.cw-title { margin-top: 0.9rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.05; color: #18234C; text-shadow: 0 2px 18px rgba(255,255,255,0.7); }
+.cw-sub { margin-top: 0.9rem; font-size: 1.02rem; line-height: 1.6; color: #2E3A63; text-shadow: 0 1px 12px rgba(255,255,255,0.7); }
+
+/* world cards */
+.cw-grid { margin-top: 2.2rem; display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 680px) { .cw-grid { grid-template-columns: repeat(4, 1fr); } }
+.cw-cell { height: 100%; }
+.cw-card {
+  position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; cursor: pointer;
+  border-radius: 18px; padding: 0; border: 2px solid rgba(255,255,255,0.55); background: #0a0e22;
+  box-shadow: 0 20px 42px -22px rgba(6,8,28,0.75);
+  transition: transform 240ms var(--ease-out), border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+}
+.cw-card:hover { transform: translateY(-5px); border-color: color-mix(in oklab, var(--acc) 70%, #fff); box-shadow: 0 30px 56px -22px rgba(6,8,28,0.85); }
+.cw-card:focus-visible { outline: 3px solid #F0C674; outline-offset: 3px; }
+.cw-card.is-chosen { border-color: var(--acc); box-shadow: 0 0 0 3px color-mix(in oklab, var(--acc) 65%, transparent), 0 22px 46px -20px rgba(6,8,28,0.85); }
+.cw-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 420ms var(--ease-out); }
+.cw-card:hover .cw-card-img { transform: scale(1.06); }
+.cw-card-veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 38%, rgba(8,10,30,0.4) 62%, rgba(8,10,30,0.88) 100%); }
+.cw-card-body { position: absolute; inset: auto 0 0 0; z-index: 2; padding: 0.85rem 0.9rem 0.9rem; text-align: left; }
+.cw-card-name { display: block; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.04rem; line-height: 1.12; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+.cw-card-cta { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.25rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.02em; color: #F4D98A; }
+.cw-card-badge { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 3; display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.55rem; border-radius: 9999px; font-size: 0.74rem; font-weight: 800; color: #fff; background: var(--acc); box-shadow: 0 5px 14px -5px rgba(0,0,0,0.6); }
+
+/* continue bar */
+.cw-continue {
+  margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.9rem 1.4rem;
+  border-radius: 18px; padding: 1.1rem 1.4rem; background: rgba(255,253,247,0.92); border: 1.5px solid rgba(201,164,92,0.6);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 22px 46px -26px rgba(6,8,28,0.6);
+}
+.cw-continue-note { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.92rem; color: #3C476E; }
+.cw-continue-note strong { color: #16224C; }
+.cw-continue-note svg { color: #C19A3C; }
+.cw-continue-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.85rem 1.6rem;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.98rem; color: #FBF4E6;
+  background: linear-gradient(120deg, #243463, #16234A); border: 1.5px solid rgba(231,178,75,0.7);
+  box-shadow: 0 16px 34px -16px rgba(20,30,70,0.7); transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+.cw-continue-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(20,30,70,0.8), 0 0 22px -6px rgba(231,178,75,0.5); }
+.cw-continue-btn:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.3); }
+.cw-continue-btn:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+
+/* ===== expand-to-centre lightbox ===== */
+.cw-lb {
+  position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: clamp(0.7rem, 3vw, 2rem);
+  background: rgba(10,14,34,0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  animation: kf-cw-fade 0.24s var(--ease-out) both;
+}
+.cw-lb.is-closing { animation: kf-cw-fade 0.34s var(--ease-out) reverse forwards; }
+@keyframes kf-cw-fade { from { opacity: 0; } to { opacity: 1; } }
+.cw-lb-box {
+  position: relative; width: min(880px, 100%); max-height: 92vh; display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 24px; background: #FFFDF7; border: 1.5px solid color-mix(in oklab, var(--acc) 42%, rgba(201,164,92,0.7));
+  box-shadow: 0 44px 96px -30px rgba(6,8,28,0.88); animation: kf-cw-in 0.4s var(--ease-out) both;
+}
+.cw-lb.is-closing .cw-lb-box { animation: kf-cw-out 0.34s var(--ease-out) both; }
+@keyframes kf-cw-in { from { opacity: 0; transform: translateY(18px) scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes kf-cw-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(0.94); } }
+.cw-lb-x {
+  position: absolute; top: 0.7rem; right: 0.7rem; z-index: 4; display: grid; place-items: center; height: 2.3rem; width: 2.3rem; border-radius: 9999px;
+  color: #fff; background: rgba(8,10,30,0.5); border: 1px solid rgba(255,255,255,0.3); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  transition: background 200ms var(--ease-out);
+}
+.cw-lb-x:hover { background: rgba(8,10,30,0.75); }
+.cw-lb-x:focus-visible { outline: 2px solid #F0C674; outline-offset: 2px; }
+
+.cw-lb-hero { position: relative; height: clamp(8rem, 22vh, 12rem); overflow: hidden; flex: 0 0 auto; }
+.cw-lb-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cw-lb-hero-veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,30,0.15) 0%, rgba(8,10,30,0.35) 55%, rgba(8,10,30,0.85) 100%); }
+.cw-lb-hero-copy { position: absolute; inset: auto 0 0 0; padding: 1rem 1.3rem; }
+.cw-lb-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(1.5rem, 3.4vw, 2.1rem); line-height: 1.05; color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,0.6); }
+.cw-lb-tag { margin-top: 0.25rem; font-size: 0.86rem; line-height: 1.4; color: rgba(245,242,255,0.92); text-shadow: 0 1px 10px rgba(0,0,0,0.5); max-width: 38rem; }
+
+.cw-lb-body { display: flex; flex-direction: column; min-height: 0; padding: 1.1rem 1.3rem 1.3rem; }
+.cw-lb-label { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #9A6E2B; }
+.cw-lb-all { font-family: var(--font-display, inherit); font-size: 0.78rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: color-mix(in oklab, var(--acc) 70%, #2A2433); text-decoration: underline; text-underline-offset: 3px; }
+.cw-lb-all:hover { color: var(--acc); }
+.cw-lb-all:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 4px; }
+.cw-lb-chips { margin-top: 0.8rem; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 0.5rem; padding-bottom: 0.3rem; }
+.cw-chip {
+  display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 9999px; padding: 0.5rem 0.85rem 0.5rem 0.6rem;
+  font-size: 0.85rem; font-weight: 600; color: #3C476E; background: #FBF1DC; border: 1.5px solid rgba(201,164,92,0.45);
+  cursor: pointer; transition: background 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.cw-chip:hover { transform: translateY(-1px); border-color: color-mix(in oklab, var(--acc) 60%, rgba(201,164,92,0.6)); }
+.cw-chip:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+.cw-chip-tick { display: grid; place-items: center; height: 1.25rem; width: 1.25rem; flex: 0 0 auto; border-radius: 9999px; color: transparent; background: rgba(36,52,99,0.08); border: 1px solid rgba(36,52,99,0.18); transition: background 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out); }
+.cw-chip.is-on { color: #fff; background: var(--acc); border-color: var(--acc); }
+.cw-chip.is-on .cw-chip-tick { color: var(--acc); background: #fff; border-color: #fff; }
+
+.cw-lb-actions { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid rgba(201,164,92,0.35); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex: 0 0 auto; }
+.cw-lb-count { font-size: 0.85rem; font-weight: 700; color: #16224C; }
+.cw-lb-confirm {
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.8rem 1.5rem;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.95rem; color: #16224C;
+  background: linear-gradient(120deg, #F0C674, #E7B24B); border: 1.5px solid rgba(255,255,255,0.45);
+  box-shadow: 0 14px 30px -14px rgba(231,178,75,0.8); transition: transform 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+.cw-lb-confirm:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
+.cw-lb-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+.cw-lb-confirm:focus-visible { outline: 2px solid #16224C; outline-offset: 2px; }
+
+/* ============================ STEP 2 v2 — row of 8, accordion portrait lightbox =====
+   Smaller cards (all 8 on one desktop row), the world image expands to centre and
+   accordion-opens to a grid of character portrait cards, and Step 1↔Step 2 blend via
+   feathers (mirroring Step 1's intro). Overrides the earlier .cw block. ========= */
+
+/* feathers: panorama bottom -> cream intro, intro -> vista top */
+.bkp::after {
+  content: ""; display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 150px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, transparent, #FBF4E6 92%);
+}
+.cw::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 170px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, #E4EAF4 0%, rgba(228,234,244,0.55) 38%, transparent 100%);
+}
+.cw-bg-veil { background: linear-gradient(0deg, rgba(20,28,60,0.34) 0%, transparent 26%); }
+
+/* cards: all 8 in one row on desktop, smaller */
+@media (min-width: 1100px) { .cw-grid { grid-template-columns: repeat(8, 1fr); gap: 0.7rem; } }
+.cw-card-body { padding: 0.6rem 0.65rem 0.65rem; }
+.cw-card-name { font-size: 0.82rem; line-height: 1.1; }
+.cw-card-cta { margin-top: 0.15rem; font-size: 0.64rem; }
+.cw-card-badge { top: 0.45rem; right: 0.45rem; padding: 0.18rem 0.45rem; font-size: 0.68rem; }
+
+/* lightbox: world image banner, then accordion-expanding character roster */
+.cw-lb-acc { max-height: 0; overflow: hidden; animation: kf-cw-acc 520ms var(--ease-out) 300ms forwards; }
+@keyframes kf-cw-acc { from { max-height: 0; } to { max-height: 62vh; } }
+.cw-lb-acc-in { overflow-y: auto; max-height: 62vh; padding: 1.1rem 1.3rem 0.5rem; }
+@media (prefers-reduced-motion: reduce) { .cw-lb-acc { max-height: 62vh; animation: none; } }
+.cw-lb-actions { margin-top: 0; padding: 0.9rem 1.3rem; border-top: 1px solid rgba(201,164,92,0.35); }
+
+/* character portrait cards (princess = real photos, others = themed) */
+.cw-pc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(102px, 1fr)); gap: 0.75rem; }
+.cw-pc { display: flex; flex-direction: column; gap: 0.4rem; padding: 0; background: none; border: 0; cursor: pointer; }
+.cw-pc-frame {
+  position: relative; aspect-ratio: 7 / 9; border-radius: 12px; overflow: hidden; border: 2px solid rgba(201,164,92,0.5);
+  box-shadow: 0 8px 18px -8px rgba(8,10,30,0.5); transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+.cw-pc:hover .cw-pc-frame { transform: translateY(-3px); border-color: color-mix(in oklab, var(--acc) 70%, rgba(201,164,92,0.6)); box-shadow: 0 14px 26px -10px rgba(8,10,30,0.6); }
+.cw-pc:focus-visible { outline: none; }
+.cw-pc:focus-visible .cw-pc-frame { outline: 2px solid var(--acc); outline-offset: 2px; }
+.cw-pc-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+.cw-pc-deco { display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 50% 32%, color-mix(in oklab, var(--acc) 62%, #fff) 0%, var(--acc) 52%, color-mix(in oklab, var(--acc) 64%, #000) 100%); }
+.cw-pc-deco svg { opacity: 0.94; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35)); }
+.cw-pc-check {
+  position: absolute; top: 0.35rem; right: 0.35rem; display: grid; place-items: center; height: 1.5rem; width: 1.5rem; border-radius: 9999px;
+  color: #fff; background: var(--acc); opacity: 0; transform: scale(0.5); box-shadow: 0 4px 10px -3px rgba(0,0,0,0.55); border: 1.5px solid rgba(255,255,255,0.7);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.cw-pc.is-on .cw-pc-check { opacity: 1; transform: scale(1); }
+.cw-pc.is-on .cw-pc-frame { border-color: var(--acc); box-shadow: 0 0 0 3px color-mix(in oklab, var(--acc) 65%, transparent), 0 12px 22px -8px rgba(8,10,30,0.6); }
+.cw-pc-name { font-size: 0.74rem; font-weight: 700; line-height: 1.15; color: #2A3357; text-align: center; }
+.cw-pc.is-on .cw-pc-name { color: color-mix(in oklab, var(--acc) 78%, #2A2433); }
+
+/* ============================ STEP 2 — LIGHTBOX FLIP + FEATHER FIXES ================
+   The lightbox now flies from the clicked card into the centre via a JS FLIP, so the
+   CSS scale keyframes are dropped; the accordion opens after the flip lands. Feathers
+   between Step 1 and Step 2 reach solid colour so the seam is even across the width
+   (not just where the image is dark). ============================================ */
+.cw-lb-box { animation: none; }
+.cw-lb.is-closing .cw-lb-box { animation: none; }
+.cw-lb-acc { animation: kf-cw-acc 520ms var(--ease-out) 470ms forwards; }
+
+.bkp::after {
+  height: 200px;
+  background: linear-gradient(180deg, transparent 0%, rgba(251,244,230,0.7) 45%, #FBF4E6 72%, #FBF4E6 100%);
+}
+.cw::before {
+  height: 150px;
+  background: linear-gradient(180deg, #E4EAF4 0%, #E4EAF4 16%, rgba(228,234,244,0.55) 56%, transparent 100%);
+}
+
+/* Step 1 panorama no longer bleeds cream up into itself — the uneven left-side blend
+   the bottom feather caused over the dark part of the image is removed. */
+.bkp::after { display: none !important; }
+
+/* ============================ STEP 2 — per-card zoom + blur-fill + lighter base =====
+   Each card can zoom (princess pulled forward; jurassic/mascot zoomed out). A blurred
+   copy of the hero fills behind the (possibly scaled-down) image so zoomed-out cards
+   have no dark gaps. The vista's bottom wash is lighter so more background shows. == */
+.cw-card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(16px) brightness(0.82) saturate(1.08); transform: scale(1.12); }
+.cw-card-img { transform: scale(var(--cz, 1)); }
+.cw-card:hover .cw-card-img { transform: scale(calc(var(--cz, 1) + 0.06)); }
+.cw-bg-veil { background: linear-gradient(0deg, rgba(20,28,60,0.16) 0%, transparent 14%); }
+
+/* ============================ STEP 3 — EVENT DETAILS FORM (on dream-vista bg) =======
+   Short request form on the soft dream-vista background, with the heading moved to a
+   BookingIntro blend above it. Mirrors the Step 1/2 image→intro→image blend. ===== */
+.ef3 { background: #2a3566; }
+.ef3-bg { object-position: 50% 48%; }
+.ef3-scrim {
+  pointer-events: none;
+  background:
+    radial-gradient(120% 95% at 50% 44%, rgba(255,253,247,0.18), rgba(255,250,242,0.46) 72%),
+    linear-gradient(180deg, rgba(255,252,245,0.22) 0%, transparent 22%);
+}
+/* feather the form bg out of the cream intro just above (no hard seam) */
+.ef3::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 160px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, #E4EAF4 0%, rgba(228,234,244,0.5) 42%, transparent 100%);
+}
+/* feather the Step 2 vista bottom into the cream intro */
+.cw::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 80px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, transparent, #FBF4E6 96%);
+}
+
+/* form card */
+.ef3-card {
+  position: relative; border-radius: 22px; padding: 1.8rem 1.6rem 1.7rem;
+  background: linear-gradient(168deg, rgba(255,253,247,0.97), rgba(251,241,220,0.96));
+  border: 1.5px solid rgba(201,164,92,0.6);
+  box-shadow: 0 36px 74px -30px rgba(20,30,70,0.55), 0 0 0 1px rgba(231,178,75,0.25), inset 0 1px 0 rgba(255,255,255,0.85);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.ef3-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(1.5rem, 3.4vw, 2.1rem); line-height: 1.1; color: #1B2A52; }
+.ef3-sub { margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.55; color: #44507A; }
+
+.ef3-recap { margin-top: 0.95rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ef3-recap-chip {
+  display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; border-radius: 9999px;
+  font-size: 0.78rem; font-weight: 600; color: #3C476E; background: rgba(36,52,99,0.06); border: 1px solid rgba(201,164,92,0.4);
+}
+.ef3-recap-chip svg { color: #C19A3C; flex: 0 0 auto; }
+
+.ef3-note { margin-top: 1rem; display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.76rem; line-height: 1.45; color: #6B7596; }
+.ef3-note svg { margin-top: 0.1rem; color: #C19A3C; flex: 0 0 auto; }
+
+.ef3-ack { margin-top: 1rem; display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.82rem; line-height: 1.4; color: #44507A; cursor: pointer; }
+.ef3-ack-box { margin-top: 0.15rem; height: 1.05rem; width: 1.05rem; flex: 0 0 auto; accent-color: #C19A3C; }
+
+.ef3-error { margin-top: 1.1rem; display: flex; align-items: flex-start; gap: 0.6rem; border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #8A1F2E; background: rgba(216,58,74,0.08); border: 1px solid rgba(216,58,74,0.35); }
+.ef3-error svg { color: #C8364A; }
+.ef3-error a { color: #8A1F2E; }
+
+.ef3-submit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 9999px; padding: 0.9rem 1.7rem;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 1rem; color: #FBF4E6;
+  background: linear-gradient(120deg, #243463, #18234A); border: 1.5px solid rgba(231,178,75,0.7);
+  box-shadow: 0 16px 36px -16px rgba(20,30,70,0.7); transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.ef3-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 20px 44px -16px rgba(20,30,70,0.8), 0 0 24px -6px rgba(231,178,75,0.5); }
+.ef3-submit:disabled { opacity: 0.7; }
+.ef3-submit:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+.ef3-submit svg { color: #F0C674; }
+
+/* success */
+.ef3-success { padding: 2.6rem 2rem; }
+.ef3-seal { display: grid; place-items: center; height: 3.6rem; width: 3.6rem; margin: 0 auto; border-radius: 9999px; color: #FBF4E6; background: radial-gradient(circle at 38% 32%, #2E4076, #16224C); border: 2px solid rgba(231,178,75,0.7); box-shadow: 0 12px 26px -12px rgba(16,24,56,0.6); }
+.ef3-seal svg { color: #F0C674; }
+.ef3-success-title { margin-top: 1rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.12; color: #1B2A52; }
+.ef3-success-copy { margin-top: 0.8rem; font-size: 0.98rem; line-height: 1.6; color: #44507A; }
+.ef3-success-again { margin-top: 1.3rem; font-size: 0.85rem; font-weight: 600; color: #9A6E2B; text-decoration: underline; text-underline-offset: 4px; }

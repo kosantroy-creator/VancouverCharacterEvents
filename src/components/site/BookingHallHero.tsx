@@ -201,17 +201,13 @@ export function BookingHallHero() {
             </ul>
           </Reveal>
 
-          {/* CTAs — one primary forward action into the guided flow; a quiet skip-ahead */}
+          {/* CTA — one forward action; the booking path is the single first step */}
           <Reveal delay={430} y={16}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <CTAButton href="#booking-paths" size="lg" className="bkh-cta-primary group">
                 <Map className="h-4 w-4" aria-hidden />
                 Choose Your Booking Path
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-              </CTAButton>
-              <CTAButton href="#book" size="lg" className="bkh-cta-ghost">
-                <Sparkles className="h-4 w-4" aria-hidden />
-                Skip Ahead to the Form
               </CTAButton>
             </div>
           </Reveal>

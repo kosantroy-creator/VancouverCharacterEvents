@@ -1,30 +1,15 @@
 import { useState, type FormEvent } from "react";
-import {
-  AlertCircle,
-  ArrowRight,
-  BadgeCheck,
-  CalendarCheck,
-  Compass,
-  Crown,
-  Loader2,
-  Mail,
-  Phone,
-  ShieldCheck,
-  Sparkles,
-  Tent,
-  Wand2,
-} from "lucide-react";
+import { AlertCircle, ArrowRight, Compass, Crown, Loader2, Sparkles, Tent, Wand2 } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { submitInquiry } from "@/lib/inquiry";
+import formBg from "@/assets/booking/step3-form-bg.webp";
 
 /**
- * EventDetailsForm — "Tell Us About Your Event": step three of the booking page,
- * the Event Request Scroll. The same inquiry pipeline as the rest of the site
- * (submitInquiry → Resend) — field names/handlers untouched — re-organized into
- * grouped Grand Booking Hall planning panels with a live "Your Event Plan" summary
- * that carries the booking path + selected worlds forward from the previous
- * sections (hidden fields keep them in the request). Cream/gold planning-desk
- * palette, navy headings, reduced-motion safe. See ".edf" in styles.css.
+ * EventDetailsForm — "Step Three: Event Details". A single, short request form on the
+ * dream-vista background: only the details the team actually needs. Carries the path /
+ * worlds / characters chosen in Steps 1–2 forward (hidden fields + a recap), and uses
+ * the same submitInquiry → Resend pipeline (field handlers untouched). The heading
+ * lives in the BookingIntro blend section just above. See ".edf" / ".ef3" in styles.css.
  */
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -33,7 +18,6 @@ const fld =
   "w-full rounded-[12px] border border-[rgba(201,164,92,0.5)] bg-[#FFFDF7] px-3.5 py-2.5 text-[0.95rem] text-[#243463] placeholder:text-[#9aa0b5] transition-colors focus:border-[#C19A3C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E7B24B]/45";
 const lbl = "mb-1.5 block text-sm font-semibold text-[#1B2A52]";
 
-const SETTING = ["Indoor", "Outdoor", "Both", "Not sure yet"];
 const EVENT_TYPES = [
   "Birthday Party",
   "School / Daycare Event",
@@ -44,54 +28,20 @@ const EVENT_TYPES = [
   "Holiday Event",
   "Other / Custom Event",
 ];
-const AGE = ["1–3", "4–6", "7–10", "11–13", "Teens", "Adults", "Mixed Ages", "Not sure yet"];
-const PACKAGE = [
-  "Short Character Visit",
-  "Full Party Experience",
-  "School / Daycare Visit",
-  "Mall / Festival Appearance",
-  "Corporate / Community Event",
-  "Add-On Services",
-  "Not Sure Yet",
-];
-const ADDONS = [
-  "Face Painting",
-  "Balloon Twisting",
-  "Photography",
-  "Inflatable Partners",
-  "Multiple Add-Ons",
-  "Not Sure Yet",
-  "No Add-Ons Needed",
-];
-const REFERRAL = ["Google", "Instagram", "Facebook", "Referral", "Past Client", "Event / Festival", "GigSalad", "Other"];
-const CONTACT_METHOD = ["Email", "Text", "Phone Call", "No preference"];
-
-function Panel({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
-  return (
-    <Reveal y={18} className="block">
-      <fieldset className="edf-panel">
-        <legend className="edf-legend">
-          <span aria-hidden className="edf-legend-n">{n}</span>
-          {title}
-        </legend>
-        {children}
-      </fieldset>
-    </Reveal>
-  );
-}
+const PACKAGE = ["60 Minutes", "90 Minutes", "Custom / Not sure yet"];
 
 export function EventDetailsForm({
   bookingPath,
   selectedWorlds,
+  selectedCharacters,
   requestedGuest,
   requestedInflatable,
-  defaultInterest,
 }: {
   bookingPath?: string;
   selectedWorlds?: string;
+  selectedCharacters?: string;
   requestedGuest?: string;
   requestedInflatable?: string;
-  defaultInterest?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
 
@@ -114,66 +64,39 @@ export function EventDetailsForm({
   };
 
   return (
-    <section id="book" aria-labelledby="edf-title" className="edf relative isolate scroll-mt-20">
-      <div aria-hidden className="edf-decor pointer-events-none absolute inset-0 overflow-hidden">
-        <span className="edf-glow edf-glow-l" />
-        <span className="edf-glow edf-glow-r" />
-        <span className="edf-map" />
-      </div>
+    <section id="book" aria-labelledby="edf-title" className="edf ef3 relative isolate scroll-mt-20 overflow-hidden">
+      <img src={formBg} alt="" aria-hidden decoding="async" loading="lazy" className="ef3-bg absolute inset-0 -z-20 h-full w-full object-cover" />
+      <span aria-hidden className="ef3-scrim absolute inset-0 -z-10" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
-        {/* header */}
-        <div className="edf-head mx-auto max-w-2xl text-center">
-          <Reveal y={16}>
-            <span className="edf-eyebrow">
-              <span aria-hidden className="edf-eyebrow-fl" />
-              Step Three · Event Details
-              <span aria-hidden className="edf-eyebrow-fl edf-eyebrow-fl--r" />
-            </span>
-          </Reveal>
-          <Reveal delay={90} y={16}>
-            <h2 id="edf-title" className="edf-title">Tell us about your celebration.</h2>
-          </Reveal>
-          <Reveal delay={160} y={14}>
-            <p className="edf-sub">
-              Share the date, location, guest count, and event style so we can check availability and
-              recommend the best characters, experiences, and add-ons.
-            </p>
-          </Reveal>
-          <Reveal delay={220} y={12}>
-            <p className="edf-help">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden /> You don&apos;t need to know every detail
-              yet — tell us what you know and we&apos;ll help guide the rest.
-            </p>
-          </Reveal>
-        </div>
-
+      <div className="relative z-10 mx-auto w-full max-w-[760px] px-5 py-16 sm:px-6 md:py-20 lg:px-8">
         {status === "success" ? (
-          <div className="edf-success mx-auto mt-10 max-w-xl text-center">
-            <span aria-hidden className="edf-seal"><Crown className="h-7 w-7" /></span>
-            <h3 className="edf-success-title">Your Event Request Has Entered the Booking Hall</h3>
-            <p className="edf-success-copy">
-              Thank you! We&apos;ve received your event details and will follow up with availability,
-              recommendations, and next steps — usually within one business day. (If you don&apos;t see
-              our confirmation, check your spam folder.)
-            </p>
-            <button type="button" onClick={() => setStatus("idle")} className="edf-success-again">
-              Send another request
-            </button>
-          </div>
+          <Reveal y={18} className="block">
+            <div className="ef3-card ef3-success text-center">
+              <span aria-hidden className="ef3-seal"><Crown className="h-7 w-7" /></span>
+              <h3 id="edf-title" className="ef3-success-title">Your Event Request Has Entered the Booking Hall</h3>
+              <p className="ef3-success-copy">
+                Thank you! We&apos;ve received your event details and will follow up with availability,
+                recommendations, and next steps — usually within one business day. (If you don&apos;t see
+                our confirmation, check your spam folder.)
+              </p>
+              <button type="button" onClick={() => setStatus("idle")} className="ef3-success-again">
+                Send another request
+              </button>
+            </div>
+          </Reveal>
         ) : (
-          <div className="edf-layout">
-            {/* ===== form ===== */}
-            <form onSubmit={handleSubmit} className="edf-form" noValidate>
+          <Reveal y={18} className="block">
+            <form onSubmit={handleSubmit} className="ef3-card" noValidate>
               {/* honeypot */}
               <div aria-hidden className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0">
                 <label htmlFor="company">Company (leave blank)</label>
                 <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
               </div>
 
-              {/* carried-forward selections */}
+              {/* carried-forward selections (hidden + recap) */}
               {bookingPath ? <input type="hidden" name="bookingPath" value={bookingPath} /> : null}
               {selectedWorlds ? <input type="hidden" name="selectedWorlds" value={selectedWorlds} /> : null}
+              {selectedCharacters ? <input type="hidden" name="selectedCharacters" value={selectedCharacters} /> : null}
               {requestedGuest ? <input type="hidden" name="requestedGuest" value={requestedGuest} /> : null}
               {requestedInflatable ? (
                 <>
@@ -182,161 +105,92 @@ export function EventDetailsForm({
                 </>
               ) : null}
 
-              {/* Group 1 — Event Basics */}
-              <Panel n="1" title="Event Basics">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className={lbl} htmlFor="date">Event date</label>
-                    <input id="date" name="date" type="date" className={fld} />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="city">City / area</label>
-                    <input id="city" name="city" type="text" className={fld} placeholder="Coquitlam, Vancouver, Surrey, Langley…" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="time">Approx. start time</label>
-                    <input id="time" name="time" type="time" className={fld} />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="endTime">Approx. end / duration</label>
-                    <input id="endTime" name="endTime" type="text" className={fld} placeholder="e.g. 2 hours, or 4:00 PM" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="venue">Venue / setting</label>
-                    <input id="venue" name="venue" type="text" className={fld} placeholder="Home, school, daycare, mall, park, venue…" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="setting">Indoor or outdoor?</label>
-                    <select id="setting" name="setting" className={fld} defaultValue="">
-                      <option value="" disabled>Select</option>
-                      {SETTING.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                </div>
-              </Panel>
+              <h3 id="edf-title" className="ef3-title">Just a few event details</h3>
+              <p className="ef3-sub">Tell us what you know — we&apos;ll follow up with availability and next steps.</p>
 
-              {/* Group 2 — Event Type & Guests */}
-              <Panel n="2" title="Event Type & Guests">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className={lbl} htmlFor="eventType">Event type</label>
-                    <select id="eventType" name="eventType" className={fld} defaultValue="">
-                      <option value="" disabled>Select event type</option>
-                      {EVENT_TYPES.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="guests">Estimated guest count</label>
-                    <input id="guests" name="guests" type="number" min={1} className={fld} placeholder="Approx. number of children / guests" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="ageRange">Age range of guests</label>
-                    <select id="ageRange" name="ageRange" className={fld} defaultValue="">
-                      <option value="" disabled>Select age range</option>
-                      {AGE.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="guestName">Guest of honour <span className="font-normal text-[#7a8099]">(optional)</span></label>
-                    <input id="guestName" name="guestName" type="text" className={fld} placeholder="Child's name, class, company, group…" />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className={lbl} htmlFor="guestAge">Guest of honour age <span className="font-normal text-[#7a8099]">(optional)</span></label>
-                    <input id="guestAge" name="guestAge" type="text" className={fld} placeholder="Turning 5, grade 2, mixed group…" />
-                  </div>
+              {(bookingPath || selectedCharacters || selectedWorlds) ? (
+                <div className="ef3-recap" aria-label="Your selections">
+                  {bookingPath ? <span className="ef3-recap-chip"><Compass className="h-3.5 w-3.5" aria-hidden /> {bookingPath}</span> : null}
+                  {selectedCharacters ? (
+                    <span className="ef3-recap-chip"><Sparkles className="h-3.5 w-3.5" aria-hidden /> {selectedCharacters}</span>
+                  ) : selectedWorlds ? (
+                    <span className="ef3-recap-chip"><Sparkles className="h-3.5 w-3.5" aria-hidden /> {selectedWorlds}</span>
+                  ) : null}
                 </div>
-              </Panel>
+              ) : null}
 
-              {/* Group 3 — Experience Details */}
-              <Panel n="3" title="Experience Details">
-                {(bookingPath || selectedWorlds) ? (
-                  <div className="edf-carried">
-                    {bookingPath ? (
-                      <p><Compass className="h-4 w-4" aria-hidden /> Booking path: <strong>{bookingPath}</strong></p>
-                    ) : null}
-                    {selectedWorlds ? (
-                      <p><Sparkles className="h-4 w-4" aria-hidden /> Worlds: <strong>{selectedWorlds}</strong></p>
-                    ) : null}
-                  </div>
-                ) : null}
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <div className="sm:col-span-2">
-                    <label className={lbl} htmlFor="interest">Character / service interest</label>
-                    <input id="interest" name="interest" type="text" className={fld} defaultValue={defaultInterest ?? ""} placeholder="Princess visit, dinosaur experience, mascot, face painting, Santa visit, multiple performers, not sure yet…" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="packageStyle">Package / visit style</label>
-                    <select id="packageStyle" name="packageStyle" className={fld} defaultValue="">
-                      <option value="" disabled>Select</option>
-                      {PACKAGE.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="addOns">Interested in add-ons?</label>
-                    <select id="addOns" name="addOns" className={fld} defaultValue="">
-                      <option value="" disabled>Select</option>
-                      {ADDONS.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className={lbl} htmlFor="date">Event date</label>
+                  <input id="date" name="date" type="date" className={fld} />
                 </div>
-                <p className="edf-note">
-                  <Tent className="h-3.5 w-3.5" aria-hidden /> Inflatable partner add-ons may be available
-                  through trusted vendors depending on date, location, setup needs, and event type.
-                </p>
-              </Panel>
+                <div>
+                  <label className={lbl} htmlFor="time">Event time</label>
+                  <input id="time" name="time" type="time" className={fld} />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={lbl} htmlFor="address">Event address</label>
+                  <input id="address" name="address" type="text" className={fld} placeholder="Street address or venue name" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="city">Event city</label>
+                  <input id="city" name="city" type="text" className={fld} placeholder="Coquitlam, Vancouver, Surrey…" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="eventType">Event type</label>
+                  <select id="eventType" name="eventType" className={fld} defaultValue="">
+                    <option value="" disabled>Select event type</option>
+                    {EVENT_TYPES.map((o) => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
 
-              {/* Group 4 — Planning Notes */}
-              <Panel n="4" title="Planning Notes">
-                <div className="grid gap-4">
-                  <div>
-                    <label className={lbl} htmlFor="message">Tell us about your event</label>
-                    <textarea id="message" name="message" rows={4} className={fld} placeholder="Theme, schedule, favourite characters, special moments, or the feeling you want the event to have." />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="spaceNotes">Anything we should know about the space? <span className="font-normal text-[#7a8099]">(optional)</span></label>
-                    <textarea id="spaceNotes" name="spaceNotes" rows={3} className={fld} placeholder="Parking, stairs, elevator, outdoor surface, school gym, party room, weather plan, accessibility…" />
-                  </div>
-                  <div className="sm:max-w-xs">
-                    <label className={lbl} htmlFor="referral">How did you hear about us?</label>
-                    <select id="referral" name="referral" className={fld} defaultValue="">
-                      <option value="" disabled>Select</option>
-                      {REFERRAL.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
+                <div>
+                  <label className={lbl} htmlFor="name">Your name <span className="text-[#C9337E]">*</span></label>
+                  <input id="name" name="name" type="text" required autoComplete="name" className={fld} placeholder="Your full name" />
                 </div>
-              </Panel>
+                <div>
+                  <label className={lbl} htmlFor="guestName">
+                    Child&apos;s name <span className="font-normal text-[#7a8099]">(optional — helps us prep our actors)</span>
+                  </label>
+                  <input id="guestName" name="guestName" type="text" className={fld} placeholder="Guest of honour" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="email">Email <span className="text-[#C9337E]">*</span></label>
+                  <input id="email" name="email" type="email" required autoComplete="email" className={fld} placeholder="you@example.com" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" autoComplete="tel" className={fld} placeholder="(778) 000-0000" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="guests">Guest count</label>
+                  <input id="guests" name="guests" type="number" min={1} className={fld} placeholder="Approx. number of guests" />
+                </div>
+                <div>
+                  <label className={lbl} htmlFor="packageStyle">Package</label>
+                  <select id="packageStyle" name="packageStyle" className={fld} defaultValue="">
+                    <option value="" disabled>Select</option>
+                    {PACKAGE.map((o) => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={lbl} htmlFor="message">Notes</label>
+                  <textarea id="message" name="message" rows={4} className={fld} placeholder="Theme, favourite characters, schedule, special moments, parking/access, or anything else we should know." />
+                </div>
+              </div>
 
-              {/* Group 5 — Contact Details */}
-              <Panel n="5" title="Contact Details">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className={lbl} htmlFor="name">Your name <span className="text-[#C9337E]">*</span></label>
-                    <input id="name" name="name" type="text" required autoComplete="name" className={fld} placeholder="Your full name" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="email">Email address <span className="text-[#C9337E]">*</span></label>
-                    <input id="email" name="email" type="email" required autoComplete="email" className={fld} placeholder="you@example.com" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="phone">Phone number</label>
-                    <input id="phone" name="phone" type="tel" autoComplete="tel" className={fld} placeholder="(778) 000-0000" />
-                  </div>
-                  <div>
-                    <label className={lbl} htmlFor="contactMethod">Best way to contact you</label>
-                    <select id="contactMethod" name="contactMethod" className={fld} defaultValue="">
-                      <option value="" disabled>Select</option>
-                      {CONTACT_METHOD.map((o) => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <label className="edf-ack">
-                  <input type="checkbox" name="acknowledge" value="Yes" className="edf-ack-box" />
-                  <span>I understand this is a request for availability &amp; pricing, not a confirmed booking yet.</span>
-                </label>
-              </Panel>
+              <p className="ef3-note">
+                <Tent className="h-3.5 w-3.5" aria-hidden /> Inflatable partner add-ons may be available through
+                trusted vendors depending on date, location, setup needs, and event type.
+              </p>
+
+              <label className="ef3-ack">
+                <input type="checkbox" name="acknowledge" value="Yes" className="ef3-ack-box" />
+                <span>I understand this is a request for availability &amp; pricing, not a confirmed booking yet.</span>
+              </label>
 
               {status === "error" ? (
-                <div role="alert" className="edf-error">
+                <div role="alert" className="ef3-error">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                   <span>
                     Something went wrong sending your request. Please try again, or email us at{" "}
@@ -345,8 +199,8 @@ export function EventDetailsForm({
                 </div>
               ) : null}
 
-              <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-                <button type="submit" disabled={status === "submitting"} className="edf-submit group">
+              <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                <button type="submit" disabled={status === "submitting"} className="ef3-submit group">
                   {status === "submitting" ? (
                     <><Loader2 className="h-4 w-4 animate-spin" /> Sending Request…</>
                   ) : (
@@ -360,41 +214,7 @@ export function EventDetailsForm({
                 <p className="text-xs text-[#6B7596]">We typically reply within one business day.</p>
               </div>
             </form>
-
-            {/* ===== Your Event Plan summary ===== */}
-            <Reveal delay={120} y={18} as="aside" className="edf-aside">
-              <div className="edf-summary">
-                <h3 className="edf-summary-title"><Sparkles className="h-4 w-4" aria-hidden /> Your Event Plan</h3>
-
-                <div className="edf-summary-row">
-                  <span className="edf-summary-label">Booking path</span>
-                  <p className="edf-summary-value">{bookingPath ?? <span className="edf-summary-muted">No selections yet</span>}</p>
-                </div>
-                <div className="edf-summary-row">
-                  <span className="edf-summary-label">Selected worlds</span>
-                  <p className="edf-summary-value">{selectedWorlds ?? <span className="edf-summary-muted">Choose in the form above</span>}</p>
-                </div>
-
-                <ul className="edf-assure">
-                  {[
-                    { icon: CalendarCheck, t: "Availability checked manually" },
-                    { icon: Wand2, t: "Recommendations included" },
-                    { icon: Sparkles, t: "Custom options available" },
-                    { icon: ShieldCheck, t: "No booking confirmed until finalized" },
-                  ].map(({ icon: Icon, t }) => (
-                    <li key={t}><Icon className="h-4 w-4" aria-hidden /> {t}</li>
-                  ))}
-                </ul>
-
-                <div className="edf-summary-contact">
-                  <span className="edf-summary-label">Prefer to talk?</span>
-                  <a href="tel:+17788006940"><Phone className="h-4 w-4" aria-hidden /> (778) 800-6940</a>
-                  <a href={`mailto:${BOOKING_EMAIL}`}><Mail className="h-4 w-4" aria-hidden /> Email us</a>
-                </div>
-                <p className="edf-trust-line"><BadgeCheck className="h-3.5 w-3.5" aria-hidden /> Trained, in-house performers · Metro Vancouver</p>
-              </div>
-            </Reveal>
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

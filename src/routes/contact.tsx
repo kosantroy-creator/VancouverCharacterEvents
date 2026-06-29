@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BookingHallHero } from "@/components/site/BookingHallHero";
+import { BookingIntro } from "@/components/site/BookingIntro";
 import { BookingPaths, type BookingPathId } from "@/components/site/BookingPaths";
-import { BookingWorlds, WORLD_NAMES } from "@/components/site/BookingWorlds";
+import { BookingWorlds } from "@/components/site/BookingWorlds";
+import { WORLD_NAMES, WORLD_BY_ID } from "@/lib/world-characters";
 import { EventDetailsForm } from "@/components/site/EventDetailsForm";
 import { BookingFaq } from "@/components/site/BookingFaq";
 import { WhatHappensNext } from "@/components/site/WhatHappensNext";
@@ -12,18 +14,6 @@ const PATH_LABEL: Record<BookingPathId, string> = {
   single: "Single World Experience",
   multi: "Multi-World Event",
   larger: "Schools, Corporate & Festivals",
-};
-
-/** Optional prefill params — used by "Request This Guest" CTAs on world pages. */
-const WORLD_TO_INTEREST: Record<string, string> = {
-  "princess-events": "Princesses",
-  "hero-events": "Heroes",
-  "dinosaur-events": "Dinosaurs",
-  "mermaid-events": "Mermaids",
-  "mascot-events": "Mascots",
-  "holiday-events": "Holiday Characters",
-  "specialty-events": "Specialty Characters",
-  "corporate-events": "Corporate / City Entertainment",
 };
 
 export const Route = createFileRoute("/contact")({
@@ -53,24 +43,50 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const { guest, world, inflatable } = Route.useSearch();
-  const interest = world ? WORLD_TO_INTEREST[world] : undefined;
+  const { guest, inflatable } = Route.useSearch();
   const [path, setPath] = useState<BookingPathId | null>(null);
-  const [worlds, setWorlds] = useState<string[]>([]);
+  // Step 2: per-world character picks. Step 3 stays locked until step2Done.
+  const [worldChars, setWorldChars] = useState<Record<string, string[]>>({});
+  const [step2Done, setStep2Done] = useState(false);
+
+  const scrollTo = (id: string) =>
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      ),
+    );
 
   const choosePath = (p: BookingPathId) => {
+    const firstChoice = path === null;
+    if (p !== path) {
+      // Changing the path resets the world/character step.
+      setWorldChars({});
+      setStep2Done(false);
+    }
     setPath(p);
-    // Single World is one main world — keep at most one selection when switching to it.
-    if (p === "single") setWorlds((w) => w.slice(0, 1));
+    if (firstChoice) scrollTo("choose-world-intro");
   };
 
-  const selectedWorlds = worlds.length
-    ? worlds.map((id) => WORLD_NAMES[id]).join(", ")
+  const finishStep2 = () => {
+    setStep2Done(true);
+    scrollTo("event-details-intro");
+  };
+
+  const chosenWorldIds = Object.keys(worldChars).filter((id) => worldChars[id]?.length);
+  const selectedWorlds = chosenWorldIds.length
+    ? chosenWorldIds.map((id) => WORLD_NAMES[id]).join(", ")
+    : undefined;
+  const selectedCharacters = chosenWorldIds.length
+    ? chosenWorldIds
+        .map((id) => {
+          const names = Object.fromEntries(WORLD_BY_ID[id].characters.map((c) => [c.id, c.name]));
+          return `${WORLD_NAMES[id]} (${worldChars[id].map((cid) => names[cid] ?? cid).join(", ")})`;
+        })
+        .join(" · ")
     : undefined;
 
-  // Selection-driven progress spine: a felt sense of place across the 3 stages
-  // (path → world → details). Never 0 width, so reduced-motion users see it too.
-  const filled = (path ? 1 : 0) + (worlds.length ? 1 : 0);
+  // Progress spine across the 3 stages (path → world → details).
+  const filled = (path ? 1 : 0) + (step2Done ? 1 : 0);
   const progressScale = 0.1 + filled * 0.28;
 
   return (
@@ -79,23 +95,63 @@ function ContactPage() {
 
       <BookingHallHero />
 
-      <BookingPaths selected={path} onSelect={choosePath} />
-
-      <BookingWorlds path={path} selected={worlds} onChange={setWorlds} />
-
-      <EventDetailsForm
-        bookingPath={path ? PATH_LABEL[path] : undefined}
-        selectedWorlds={selectedWorlds}
-        requestedGuest={guest}
-        requestedInflatable={inflatable}
-        defaultInterest={interest}
+      <BookingIntro
+        id="booking-intro"
+        eyebrow="Step One · Choose Your Path"
+        title="How would you like to begin?"
+        sub="Pick the booking path that best matches your event — that's all we need to begin. If you're not sure, choose the closest option and we'll guide the rest."
       />
 
-      <BookingFaq />
+      <BookingPaths selected={path} onSelect={choosePath} />
 
-      <WhatHappensNext />
+      {/* Step 2 stays hidden until a path is chosen — one decision at a time. */}
+      {path && (
+        <>
+          <BookingIntro
+            id="choose-world-intro"
+            eyebrow="Step Two · Choose Your World"
+            title="Pick your world, then your characters."
+            sub={
+              path === "single"
+                ? "Open your main world and choose the characters you'd like for your event."
+                : "Open any world to choose its characters. You can combine more than one world for a multi-world event."
+            }
+          />
 
-      <BookingClose />
+          <BookingWorlds
+            path={path}
+            value={worldChars}
+            onChange={setWorldChars}
+            onContinue={finishStep2}
+          />
+        </>
+      )}
+
+      {/* Step 3 (and the rest) stay locked until Step 2 is confirmed. */}
+      {path && step2Done && (
+        <>
+          <BookingIntro
+            id="event-details-intro"
+            eyebrow="Step Three · Event Details"
+            title="Tell us about your event."
+            sub="Just the details we need to check availability and follow up with the right options for your celebration."
+          />
+
+          <EventDetailsForm
+            bookingPath={PATH_LABEL[path]}
+            selectedWorlds={selectedWorlds}
+            selectedCharacters={selectedCharacters}
+            requestedGuest={guest}
+            requestedInflatable={inflatable}
+          />
+
+          <BookingFaq />
+
+          <WhatHappensNext />
+
+          <BookingClose />
+        </>
+      )}
     </>
   );
 }
