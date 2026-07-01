@@ -5,12 +5,13 @@ import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
 /**
- * TeamClose — final section of the Our Team page: "Ready to meet the team at your
- * event?". A warm customer-facing sendoff that turns the focus back to booking — a
- * centred cream Cast-Hall card on a dark theatre panel, with a compass-star seal, two
- * CTAs (start a booking / explore worlds), a help link, and a reassurance row. CSS-only
- * (velvet-curtain edges + spotlight + gold dust via gradients), motion under .tcl.anim,
- * reduced-motion safe. See ".tcl" in styles.css.
+ * TeamClose — the final act of the Our Team page: "Ready to meet the team at your
+ * event?". A stage finale rather than a boxed card: the compass seal, invitation type,
+ * and CTAs sit directly on the dark spotlit stage (velvet edges + vignette from the
+ * act styling), with the one gold-filled button on the page as the closing action.
+ * Below, the four reassurances run as a slim programme strip with hairline dividers —
+ * echoing the Trust act's printed-programme archetype. CSS-only, motion under
+ * .tcl.anim, reduced-motion safe. See ".tcl" in styles.css.
  */
 type Vars = CSSProperties & Record<string, string | number>;
 
@@ -59,64 +60,72 @@ export function TeamClose() {
         </div>
       ) : null}
 
-      <div className="relative z-10 mx-auto w-full max-w-[880px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
-        <Reveal y={18} className="block">
-          <div className="tcl-card">
-            <span aria-hidden className="tcl-seal"><Compass className="h-7 w-7" /></span>
+      <div className="relative z-10 mx-auto w-full max-w-[880px] px-5 py-24 text-center sm:px-6 md:py-28 lg:px-8">
+        <Reveal y={14}>
+          <span aria-hidden className="tcl-seal"><Compass className="h-7 w-7" /></span>
+        </Reveal>
 
-            <span className="tcl-eyebrow">
-              <span aria-hidden className="tcl-eyebrow-fl" />
-              Bring the Cast to Your Celebration
-              <span aria-hidden className="tcl-eyebrow-fl tcl-eyebrow-fl--r" />
-            </span>
+        <Reveal delay={90} y={14}>
+          <span className="tcl-eyebrow">
+            <span aria-hidden className="tcl-eyebrow-fl" />
+            Bring the Cast to Your Celebration
+            <span aria-hidden className="tcl-eyebrow-fl tcl-eyebrow-fl--r" />
+          </span>
+        </Reveal>
 
-            <h2 id="tcl-title" className="tcl-title">
-              Ready to meet the team <em className="tcl-title-em">at your event?</em>
-            </h2>
+        <Reveal delay={160} y={16}>
+          <h2 id="tcl-title" className="tcl-title">
+            Ready to meet the team <em className="tcl-title-em">at your event?</em>
+          </h2>
+        </Reveal>
 
-            <p className="tcl-sub">
-              From character greetings and party hosting to photos, games, dancing, storytelling,
-              holiday visits, dinosaur experiences, mascot moments, and event add-ons, our cast helps
-              bring the Vancouver Character Events worlds to life.
-            </p>
-            <p className="tcl-support">
-              Tell us what you are planning, and we&apos;ll help match the right performers, worlds,
-              characters, and experiences to your event.
-            </p>
+        <Reveal delay={230} y={14}>
+          <p className="tcl-sub">
+            From character greetings and party hosting to photos, games, dancing, storytelling,
+            holiday visits, dinosaur experiences, mascot moments, and event add-ons, our cast helps
+            bring the Vancouver Character Events worlds to life.
+          </p>
+        </Reveal>
+        <Reveal delay={290} y={12}>
+          <p className="tcl-support">
+            Tell us what you are planning, and we&apos;ll help match the right performers, worlds,
+            characters, and experiences to your event.
+          </p>
+        </Reveal>
 
-            <div className="tcl-ctas">
-              <CTAButton to="/contact" size="lg" variant="ghost-ink" className="tcl-cta-primary group">
-                <Sparkles className="h-4 w-4" aria-hidden />
-                Start Booking Request
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-              </CTAButton>
-              <CTAButton to="/character-adventures" size="lg" variant="ghost-ink" className="tcl-cta-ghost">
-                Explore Our Worlds
-              </CTAButton>
-            </div>
-
-            <Reveal delay={120} y={10}>
-              <a href="/contact" className="tcl-help">
-                <Sparkles className="h-3.5 w-3.5" aria-hidden />
-                Not sure where to start? We can help you choose.
-                <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-              </a>
-            </Reveal>
-
-            <ul className="tcl-reassure">
-              {REASSURE.map(({ icon: Icon, label, sub }) => (
-                <li key={label} className="tcl-reassure-item">
-                  <span aria-hidden className="tcl-reassure-ic"><Icon className="h-4 w-4" /></span>
-                  <span className="tcl-reassure-txt">
-                    <strong>{label}</strong>
-                    <span>{sub}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+        <Reveal delay={360} y={14}>
+          <div className="tcl-ctas">
+            <CTAButton to="/contact" size="lg" variant="ghost-ink" className="tcl-cta-primary group">
+              <Sparkles className="h-4 w-4" aria-hidden />
+              Start Booking Request
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+            </CTAButton>
+            <CTAButton to="/character-adventures" size="lg" variant="ghost-ink" className="tcl-cta-ghost">
+              Explore Our Worlds
+            </CTAButton>
           </div>
         </Reveal>
+
+        <Reveal delay={430} y={10}>
+          <a href="/contact" className="tcl-help">
+            Not sure where to start? We can help you choose.
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+          </a>
+        </Reveal>
       </div>
+
+      {/* reassurance programme strip — hairline dividers on the dark stage */}
+      <Reveal delay={200} y={14} className="relative z-10 block">
+        <ul className="tcl-strip mx-auto w-full max-w-[1100px] px-5 pb-16 sm:px-6 lg:px-8">
+          {REASSURE.map(({ icon: Icon, label, sub }) => (
+            <li key={label} className="tcl-strip-item">
+              <span aria-hidden className="tcl-strip-ic"><Icon className="h-4 w-4" /></span>
+              <strong>{label}</strong>
+              <span>{sub}</span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
     </section>
   );
 }
