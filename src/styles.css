@@ -12790,13 +12790,6 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 }
 .cg-count strong { font-weight: 700; color: #9A6E2B; font-variant-numeric: tabular-nums; }
 
-/* -- featured first performer: spans two columns, photo and name step up */
-@media (min-width: 680px) {
-  .cg-cell--featured { grid-column: span 2; }
-  .cg-cell--featured .cg-photo { flex-basis: 46%; max-width: 48%; }
-  .cg-cell--featured .cg-name { font-size: 1.8rem; }
-  .cg-cell--featured .cg-bio { font-size: 0.9rem; }
-}
 
 /* -- magnetic tilt + cursor sheen (fine pointers, motion allowed) */
 @media (hover: hover) and (pointer: fine) {
@@ -12863,8 +12856,12 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .bts.anim .bts-step:nth-child(5) .bts-step-num, .bts.anim .bts-step:nth-child(5) .bts-dot { transition-delay: 1.32s; }
 /* hero wordmark needs a taller line box for the gilt clip (Kaushan swashes) */
 .cth-script { line-height: 1.12; padding: 0.08em 0.2em 0.26em 0.08em; margin: -0.08em -0.2em -0.26em -0.08em; }
-/* featured photo width capped so the featured row's height matches its neighbour */
-@media (min-width: 680px) {
-  .cg-cell--featured .cg-photo { flex-basis: 33%; max-width: 34%; align-self: center; }
-  .cg-cell--featured .cg-name { font-size: 1.65rem; }
+
+/* Gilt script clip box, final: glyph INK (Kaushan tails + swashes) paints beyond the
+   content box without registering as overflow, so the earlier padding was still tight.
+   Generous box, layout cancelled by matching negative margins. */
+.act-em, .jtc-title-em, .tcl-title-em {
+  line-height: 1.45;
+  padding: 0.16em 0.28em 0.38em 0.14em;
+  margin: -0.16em -0.28em -0.38em -0.14em;
 }

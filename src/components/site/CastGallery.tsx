@@ -13,6 +13,7 @@ import castRandy from "@/assets/team/cast-randy.webp";
 import castShantei from "@/assets/team/cast-shantei.webp";
 import castZeph from "@/assets/team/cast-zeph.webp";
 import castTroy from "@/assets/team/cast-troy.webp";
+import castAndres from "@/assets/team/cast-andres.webp";
 
 /**
  * CastGallery — Section 3 of the Our Team page: "The Cast Hall". A theatre portrait
@@ -87,6 +88,7 @@ export const CAST: CastMember[] = [
   { id: "shantei", name: "Shantei", photo: castShantei, role: "Performer · Party Host", bio: BIO, skills: ["Hosting", "Storytelling", "Games", "Photos"], realms: ["Princess Realm", "Enchanted Bazaar"], magicStyle: MAGIC },
   { id: "zeph", name: "Zeph", photo: castZeph, role: "Performer · Host & Assistant", bio: BIO, skills: ["Hosting", "Event Support", "Movement", "Photos"], realms: ["Hero Headquarters", "Wonderverse"], magicStyle: MAGIC },
   { id: "troy", name: "Troy", photo: castTroy, role: "Performer · Character Actor", bio: BIO, skills: ["Character Detail", "Movement", "Mascot", "Hosting"], realms: ["Jurassic Expedition", "Holiday Village"], magicStyle: MAGIC },
+  { id: "andres", name: "Andres", photo: castAndres, role: "Performer · Character Actor", bio: BIO, skills: ["Character Detail", "Games", "Photos", "Hosting"], realms: ["Jurassic Expedition", "Mascot Meadows"], magicStyle: MAGIC },
 ];
 
 /* Faint gold dust drifting over the parchment (motion only). */
@@ -197,7 +199,7 @@ export function CastGallery() {
           </Reveal>
           <Reveal delay={300} y={10}>
             <p className="cg-count">
-              <strong>{motionOK ? <CountUp to={11} go={curtainOpen} /> : 11}</strong> performers.{" "}
+              <strong>{motionOK ? <CountUp to={12} go={curtainOpen} /> : 12}</strong> performers.{" "}
               <strong>{motionOK ? <CountUp to={8} go={curtainOpen} /> : 8}</strong> worlds. One standard
               of care.
             </p>
@@ -207,7 +209,7 @@ export function CastGallery() {
         {/* cast cards */}
         <ul className="cg-grid">
           {CAST.map((m, i) => (
-            <Reveal key={m.id} as="li" delay={280 + i * 70} y={18} className={cn("cg-cell", i === 0 && "cg-cell--featured")}>
+            <Reveal key={m.id} as="li" delay={280 + i * 70} y={18} className="cg-cell">
               {/* the performer's first realm tints the frame — colour-of-light per world */}
               <article
                 className="cg-card"
