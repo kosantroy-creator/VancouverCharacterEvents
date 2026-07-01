@@ -110,7 +110,7 @@ export function CastGallery() {
         </div>
       ) : null}
 
-      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-5 py-20 sm:px-6 md:py-24 lg:px-8">
         {/* header */}
         <div className="mx-auto max-w-3xl text-center">
           <Reveal y={16}>

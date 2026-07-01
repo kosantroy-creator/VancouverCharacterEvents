@@ -12521,3 +12521,18 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 
 /* soft feathered seam so each cream act still separates cleanly from its neighbour */
 .cht, .cg, .bts, .jtc { position: relative; }
+
+/* ---- Design polish pass (P3/P4 + motion) ---------------------------------------------
+   Dark "acts" get a soft top/bottom stage vignette so they read as framed theatre
+   moments; the gold script accents get a slow shimmer sweep (reduced-motion gated). */
+.ppr, .tcl { box-shadow: inset 0 70px 90px -64px rgba(6,4,20,0.7), inset 0 -70px 90px -64px rgba(6,4,20,0.7); }
+
+.jtc-title-em, .tcl-title-em {
+  background: linear-gradient(100deg, #C79A3C 0%, #F3CE7C 48%, #E7B24B 56%, #C79A3C 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 220% 100%; background-position: 0% 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jtc-title-em, .tcl-title-em { animation: kf-gold-shimmer 5.5s ease-in-out infinite; }
+}
+@keyframes kf-gold-shimmer { 0%, 100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
