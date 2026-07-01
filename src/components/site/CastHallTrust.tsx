@@ -67,10 +67,26 @@ const DUST = [
 export function CastHallTrust() {
   const ref = useRef<HTMLElement>(null);
   const [motionOK, setMotionOK] = useState(false);
+  const [lit, setLit] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setMotionOK(true);
+
+    // Footlights warm on left-to-right once the programme row is on stage.
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setLit(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -78,7 +94,7 @@ export function CastHallTrust() {
       ref={ref}
       id="cast-trust"
       aria-labelledby="cht-title"
-      className={cn("cht relative isolate overflow-hidden", motionOK && "anim")}
+      className={cn("cht relative isolate overflow-hidden", motionOK && "anim", lit && "is-lit")}
     >
       {/* soft warm spotlight glow at the top (the hero fades cleanly into the cream) */}
       <span aria-hidden className="cht-spot absolute -z-10" />

@@ -29,6 +29,25 @@ import castTroy from "@/assets/team/cast-troy.webp";
  */
 type Vars = CSSProperties & Record<string, string | number>;
 
+/** One-shot count-up for the framing line — runs once the curtains open. */
+function CountUp({ to, go }: { to: number; go: boolean }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!go) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const dur = 1100;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / dur);
+      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [go, to]);
+  return <>{n}</>;
+}
+
 type CastMember = {
   id: string;
   name: string;
@@ -104,6 +123,25 @@ export function CastGallery() {
     return () => io.disconnect();
   }, []);
 
+  // Magnetic tilt + sheen: write CSS vars straight onto the card (no React state,
+  // fine-pointer devices only — coarse pointers never fire pointermove hovers).
+  const tiltMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    el.style.setProperty("--rx", `${((py - 0.5) * -4).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${((px - 0.5) * 4).toFixed(2)}deg`);
+    el.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+    el.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+  };
+  const tiltLeave = (e: React.PointerEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+  };
+
   return (
     <section
       ref={ref}
@@ -157,14 +195,27 @@ export function CastGallery() {
           <Reveal delay={240} y={12}>
             <p className="cg-quote">Costumes create the first impression. Performers create the memory.</p>
           </Reveal>
+          <Reveal delay={300} y={10}>
+            <p className="cg-count">
+              <strong>{motionOK ? <CountUp to={11} go={curtainOpen} /> : 11}</strong> performers.{" "}
+              <strong>{motionOK ? <CountUp to={8} go={curtainOpen} /> : 8}</strong> worlds. One standard
+              of care.
+            </p>
+          </Reveal>
         </div>
 
         {/* cast cards */}
         <ul className="cg-grid">
           {CAST.map((m, i) => (
-            <Reveal key={m.id} as="li" delay={280 + i * 70} y={18} className="cg-cell">
+            <Reveal key={m.id} as="li" delay={280 + i * 70} y={18} className={cn("cg-cell", i === 0 && "cg-cell--featured")}>
               {/* the performer's first realm tints the frame — colour-of-light per world */}
-              <article className="cg-card" style={{ "--acc": REALM_ACC[m.realms[0]] ?? "#C19A3C" } as Vars}>
+              <article
+                className="cg-card"
+                style={{ "--acc": REALM_ACC[m.realms[0]] ?? "#C19A3C" } as Vars}
+                onPointerMove={motionOK ? tiltMove : undefined}
+                onPointerLeave={motionOK ? tiltLeave : undefined}
+              >
+                <span aria-hidden className="cg-sheen" />
                 <div className="cg-photo">
                   {m.photo ? (
                     <img src={m.photo} alt={`Portrait of ${m.name}, Vancouver Character Events performer.`} loading="lazy" decoding="async" className="cg-photo-img" />

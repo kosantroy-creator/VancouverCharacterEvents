@@ -12767,3 +12767,104 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 
 /* the old cream-card reassurance rules no longer apply (strip replaces them) */
 .tcl-reassure { display: none; }
+
+/* ============================ CAST HALL — TIER A/B ELEVATION =========================
+   Gold contrast fix, featured cast entry + count line, magnetic tilt + sheen, paper/
+   velvet texture, hero gilt sweep, spotlit seal rims, trust footlights, spine-synced
+   numerals. All motion reduced-motion gated. */
+
+/* -- gold contrast: deep gilt on cream acts (the pale ramp washed out); bright gilt
+      stays on the dark acts */
+.act-em, .jtc-title-em {
+  background-image: linear-gradient(100deg, #8F6420 0%, #C69336 40%, #A2782A 58%, #8F6420 100%);
+  font-size: 1.16em;
+}
+.ppr .act-em, .tcl-title-em {
+  background-image: linear-gradient(100deg, #C79A3C 0%, #F0C674 48%, #E7B24B 62%, #C79A3C 100%);
+}
+
+/* -- framing count line above the cast grid */
+.cg-count {
+  margin-top: 1.1rem; font-family: var(--font-display, inherit); font-weight: 500;
+  font-size: clamp(1.05rem, 2vw, 1.4rem); color: #46527C;
+}
+.cg-count strong { font-weight: 700; color: #9A6E2B; font-variant-numeric: tabular-nums; }
+
+/* -- featured first performer: spans two columns, photo and name step up */
+@media (min-width: 680px) {
+  .cg-cell--featured { grid-column: span 2; }
+  .cg-cell--featured .cg-photo { flex-basis: 46%; max-width: 48%; }
+  .cg-cell--featured .cg-name { font-size: 1.8rem; }
+  .cg-cell--featured .cg-bio { font-size: 0.9rem; }
+}
+
+/* -- magnetic tilt + cursor sheen (fine pointers, motion allowed) */
+@media (hover: hover) and (pointer: fine) {
+  .cg.anim .cg-card {
+    transform: perspective(950px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 200ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms, background 220ms;
+  }
+  .cg.anim .cg-card:hover {
+    transform: perspective(950px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+  }
+}
+.cg-sheen {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 30%), rgba(246,215,132,0.2), transparent 65%);
+  transition: opacity 250ms ease;
+}
+.cg-card:hover .cg-sheen { opacity: 1; }
+
+/* -- texture: fine paper grain on the cream acts, velvet nap + grain on the dark acts */
+.cht::after, .cg::after, .bts::after, .jtc::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-size: 140px 140px; mix-blend-mode: soft-light; opacity: 0.4;
+}
+.ppr::after, .tcl::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.022) 0 2px, transparent 2px 28px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-size: auto, 140px 140px; mix-blend-mode: soft-light; opacity: 0.35;
+}
+
+/* -- hero wordmark: gilt gradient + slow foil sweep (was flat gold) */
+.cth-script {
+  display: inline-block; padding: 0.05em 0.18em 0.22em 0.06em; margin: -0.05em -0.18em -0.22em -0.06em;
+  background: linear-gradient(100deg, #C79A3C 0%, #F6D289 45%, #E7B24B 60%, #C79A3C 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: none; filter: drop-shadow(0 2px 14px rgba(6,10,30,0.55));
+}
+.cth.anim .cth-script { animation: kf-gold-shimmer 7s ease-in-out infinite; }
+
+/* -- spotlit metal rims on the seals */
+.cg-seal { box-shadow: 0 6px 14px -8px rgba(12,18,44,0.7), inset 0 2px 3px -1px rgba(255,255,255,0.45), inset 0 -2px 3px -1px rgba(0,0,0,0.4); }
+.tcl-seal { box-shadow: 0 14px 30px -14px rgba(0,0,0,0.8), inset 0 2px 3px rgba(255,255,255,0.32), inset 0 -3px 5px rgba(0,0,0,0.45), 0 0 34px -6px rgba(231,178,75,0.55); }
+
+/* -- trust footlights: credentials warm on left-to-right once on stage */
+.cht.anim .cht-medallion { opacity: 0.3; filter: saturate(0.4) brightness(0.85); transition: opacity 600ms ease, filter 600ms ease; }
+.cht.anim.is-lit .cht-medallion { opacity: 1; filter: none; }
+.cht.anim .cht-cell:nth-child(1) .cht-medallion { transition-delay: 0.05s; }
+.cht.anim .cht-cell:nth-child(2) .cht-medallion { transition-delay: 0.16s; }
+.cht.anim .cht-cell:nth-child(3) .cht-medallion { transition-delay: 0.27s; }
+.cht.anim .cht-cell:nth-child(4) .cht-medallion { transition-delay: 0.38s; }
+.cht.anim .cht-cell:nth-child(5) .cht-medallion { transition-delay: 0.49s; }
+.cht.anim .cht-cell:nth-child(6) .cht-medallion { transition-delay: 0.6s; }
+
+/* -- behind-the-scenes: numerals + dots arrive as the spine reaches them */
+.bts.anim .bts-step-num, .bts.anim .bts-dot { opacity: 0; transform: scale(0.88); transition: opacity 420ms var(--ease-out, ease-out), transform 420ms var(--ease-out, ease-out); }
+.bts.anim.is-drawn .bts-step-num, .bts.anim.is-drawn .bts-dot { opacity: 1; transform: none; }
+.bts.anim .bts-step:nth-child(1) .bts-step-num, .bts.anim .bts-step:nth-child(1) .bts-dot { transition-delay: 0.2s; }
+.bts.anim .bts-step:nth-child(2) .bts-step-num, .bts.anim .bts-step:nth-child(2) .bts-dot { transition-delay: 0.48s; }
+.bts.anim .bts-step:nth-child(3) .bts-step-num, .bts.anim .bts-step:nth-child(3) .bts-dot { transition-delay: 0.76s; }
+.bts.anim .bts-step:nth-child(4) .bts-step-num, .bts.anim .bts-step:nth-child(4) .bts-dot { transition-delay: 1.04s; }
+.bts.anim .bts-step:nth-child(5) .bts-step-num, .bts.anim .bts-step:nth-child(5) .bts-dot { transition-delay: 1.32s; }
+/* hero wordmark needs a taller line box for the gilt clip (Kaushan swashes) */
+.cth-script { line-height: 1.12; padding: 0.08em 0.2em 0.26em 0.08em; margin: -0.08em -0.2em -0.26em -0.08em; }
+/* featured photo width capped so the featured row's height matches its neighbour */
+@media (min-width: 680px) {
+  .cg-cell--featured .cg-photo { flex-basis: 33%; max-width: 34%; align-self: center; }
+  .cg-cell--featured .cg-name { font-size: 1.65rem; }
+}
