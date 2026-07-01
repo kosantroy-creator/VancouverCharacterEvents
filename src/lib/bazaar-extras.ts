@@ -6,7 +6,7 @@
  * "Custom Quote" items have no fixed number (priceNum = null) and the team quotes them.
  */
 import { type ComponentType } from "react";
-import { Camera, Palette, PartyPopper, Tent } from "lucide-react";
+import { Blocks, Camera, Castle, Palette, PartyPopper, Tent, Waves } from "lucide-react";
 import laurenPhoto from "@/assets/bazaar/lauren.webp";
 import alejandraPhoto from "@/assets/bazaar/alejandra.webp";
 import behroozPhoto from "@/assets/bazaar/behrooz.webp";
@@ -70,7 +70,7 @@ export const PHOTOGRAPHER: Person = {
 /* ---- HW House of Bounce inflatable catalog (rates are per-day; partner quotes final) ---- */
 export const INFLATABLE_CATS: InflatableCat[] = [
   {
-    id: "castles", name: "Bouncy Castles", icon: Tent, acc: "#8E2D6E", accDeep: "#6E2356",
+    id: "castles", name: "Bouncy Castles", icon: Castle, acc: "#8E2D6E", accDeep: "#6E2356",
     blurb: "Classic jump-and-play castles and slide combos.", thumb: imgUltraWhite,
     items: [
       { name: "Ultra White Bouncy Castle", img: imgUltraWhite, desc: "Great for creative wedding photos and customizable party fun.", dims: "13.5'L x 16.5'W x 20'H", specs: "Max 1100 lbs · 10 kids / 6 adults · Ages 6+", rate: "$375" },
@@ -84,7 +84,7 @@ export const INFLATABLE_CATS: InflatableCat[] = [
     ],
   },
   {
-    id: "softplay", name: "Soft Play Sets", icon: Tent, acc: "#C8556E", accDeep: "#A23A54",
+    id: "softplay", name: "Soft Play Sets", icon: Blocks, acc: "#C8556E", accDeep: "#A23A54",
     blurb: "Sensory-friendly soft play for younger children.", thumb: imgSoftSuper,
     items: [
       { name: "Sensory “Super” Soft Play Set with Bounce House", img: imgSoftSuper, desc: "Our largest sensory soft-play set with a bounce house.", dims: "30'D x 16'W x 7.5'H (adjustable)", specs: "Max 500 lbs in bouncy · Ages 1+", rate: "$300" },
@@ -94,7 +94,7 @@ export const INFLATABLE_CATS: InflatableCat[] = [
     ],
   },
   {
-    id: "water", name: "Water Parks", icon: Tent, acc: "#1FA2B8", accDeep: "#13768A",
+    id: "water", name: "Water Parks", icon: Waves, acc: "#1FA2B8", accDeep: "#13768A",
     blurb: "Splashy inflatable water slides and play parks for warm days.", thumb: imgBlueShark,
     items: [
       { name: "Jelly Bean Bounce House with Slide", img: imgJellyBean, desc: "A playful bounce house with a built-in slide for warm days.", dims: "26.5'L x 14'W x 14.5'H", specs: "Max 700 lbs · Ages 3+", rate: "$300" },

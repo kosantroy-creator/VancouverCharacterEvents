@@ -175,7 +175,7 @@ export function BookingWorlds({
                 </>
               )}
             </p>
-            <button type="button" disabled={!canContinue} onClick={onContinue} className="cw-continue-btn group">
+            <button type="button" disabled={!canContinue} onClick={onContinue} className={`cw-continue-btn group${canContinue ? " is-ready" : ""}`}>
               Continue to Step 3
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
             </button>

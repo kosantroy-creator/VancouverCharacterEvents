@@ -11683,3 +11683,841 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
 .ef3-bz-pkg { flex-direction: row; gap: 0.6rem; align-items: stretch; }
 .ef3-bz-pkg-img { height: 3.4rem; width: 3.4rem; flex: 0 0 auto; border-radius: 8px; object-fit: cover; border: 1px solid rgba(201,164,92,0.45); }
 .ef3-bz-pkg-body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
+
+/* ============================ STEP 2 — CONTINUE BUTTON: gold + blue, amped on ready ==
+   Once a character is selected (canContinue -> .is-ready) the Continue-to-Step-3 button
+   gains an animated gold gradient border, a pulsing gold glow ring, a faster sheen, and
+   a bobbing arrow so it visibly draws the eye. Disabled state stays the quiet navy. */
+.cw-continue-btn.is-ready {
+  color: #FFF7E3;
+  border: 2.5px solid transparent;
+  background:
+    linear-gradient(120deg, #26396B, #16234A) padding-box,
+    linear-gradient(120deg, #F6D784, #E7B24B 22%, #C19A3C 50%, #E7B24B 78%, #FCE39A) border-box;
+  background-size: 100% 100%, 220% 100%;
+  animation: kf-cw-ready-pulse 1.7s ease-in-out infinite, kf-cw-ready-border 3s linear infinite;
+}
+.cw-continue-btn.is-ready::before { animation-duration: 2.2s; opacity: 0.92; }
+.cw-continue-btn.is-ready svg { animation: kf-cw-ready-arrow 1.25s ease-in-out infinite; }
+.cw-continue-btn.is-ready:hover:not(:disabled) { transform: translateY(-3px) scale(1.05); }
+
+@keyframes kf-cw-ready-pulse {
+  0%   { box-shadow: 0 16px 34px -16px rgba(20,30,70,0.75), 0 0 16px -4px rgba(231,178,75,0.55), 0 0 0 0 rgba(231,178,75,0.55); }
+  60%  { box-shadow: 0 22px 46px -14px rgba(20,30,70,0.92), 0 0 38px 1px rgba(246,215,132,0.85), 0 0 0 13px rgba(231,178,75,0); }
+  100% { box-shadow: 0 16px 34px -16px rgba(20,30,70,0.75), 0 0 16px -4px rgba(231,178,75,0.55), 0 0 0 0 rgba(231,178,75,0); }
+}
+/* slide the gold border gradient so the metal looks alive */
+@keyframes kf-cw-ready-border { 0% { background-position: 0 0, 0% 0; } 100% { background-position: 0 0, 220% 0; } }
+@keyframes kf-cw-ready-arrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+
+/* ============================ OUR TEAM — THE CAST HALL HERO (/our-team) =============
+   Section 1: a backstage theatre hall plays full-bleed; cream + gold copy sits on the
+   dark LEFT under a navy wash. Inverse of the .bkh hero (light-on-dark instead of
+   dark-on-light). Central VCE palette (royal navy + warm gold + champagne), warm
+   spotlight bloom, drifting gold dust + frame glints (motion-gated), reduced-motion
+   safe (motion lives under .cth.anim). See CastHallHero.tsx. */
+.cth-img { animation: none; }
+.cth.anim .cth-img { animation: kf-cth-imgin 1100ms var(--ease-out, ease-out) both; }
+@keyframes kf-cth-imgin { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
+
+.cth-wash {
+  background: linear-gradient(100deg, rgba(9,13,38,0.92) 0%, rgba(10,15,42,0.8) 26%, rgba(10,15,42,0.44) 46%, rgba(10,15,42,0.12) 64%, transparent 76%);
+}
+.cth-wash-mobile {
+  background: radial-gradient(130% 78% at 26% 40%, rgba(9,13,38,0.9), rgba(10,15,42,0.62) 48%, transparent 82%),
+    linear-gradient(180deg, rgba(9,13,38,0.72), transparent 42%);
+}
+.cth-seam { background: linear-gradient(180deg, rgba(248,239,219,0) 0%, rgba(248,239,219,0.5) 52%, #F8EFDB 100%); }
+
+.cth-glow {
+  right: -4%; top: 6%; width: 58%; height: 88%; border-radius: 9999px; pointer-events: none;
+  opacity: 0.55; filter: blur(50px);
+  background: radial-gradient(circle at 60% 44%, rgba(247,214,138,0.55), rgba(231,178,75,0.18) 46%, transparent 72%);
+}
+.cth.anim .cth-glow { transform: translateY(calc(var(--cth-py, 0px) * 0.06)); animation: kf-cth-glow 7s ease-in-out infinite; }
+@keyframes kf-cth-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.66; } }
+
+.cth-dust {
+  position: absolute; bottom: 20%; border-radius: 9999px; background: #F4D98A;
+  box-shadow: 0 0 8px 1px rgba(231,201,119,0.7); opacity: 0; will-change: transform, opacity;
+  animation: kf-cth-dust linear infinite;
+}
+@keyframes kf-cth-dust {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  14% { opacity: 0.9; }
+  86% { opacity: 0.6; }
+  100% { transform: translateY(-190px) translateX(var(--dx, 8px)); opacity: 0; }
+}
+.cth-glint {
+  position: absolute; width: 11px; height: 11px; border-radius: 9999px; opacity: 0;
+  background: radial-gradient(circle, #fff 0%, rgba(244,217,138,0.78) 44%, transparent 72%);
+  animation: kf-cth-glint 4.2s ease-in-out infinite;
+}
+@keyframes kf-cth-glint { 0%, 100% { opacity: 0; transform: scale(0.6); } 50% { opacity: 0.85; transform: scale(1); } }
+
+.cth-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0.95rem; border-radius: 9999px;
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #E7C877;
+  background: rgba(11,16,44,0.55); border: 1px solid rgba(231,178,75,0.4);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.cth-eyebrow-fl { width: 1.4rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(231,178,75,0.9)); }
+.cth-eyebrow-fl--r { background: linear-gradient(90deg, rgba(231,178,75,0.9), transparent); }
+
+.cth-title { line-height: 1; }
+.cth-title-a {
+  display: block; font-family: var(--font-display, inherit); font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.4rem); line-height: 1.02; color: #FBF3E2;
+  text-shadow: 0 2px 22px rgba(6,10,30,0.7);
+}
+.cth-title-b {
+  display: block; margin-top: 0.1rem; font-family: var(--font-script, var(--font-display, inherit));
+  font-size: clamp(2.8rem, 7.2vw, 5.2rem); line-height: 0.92; padding-bottom: 0.12em;
+  background: linear-gradient(98deg, #C79A3C 0%, #E7B24B 46%, #F3CE7C 70%, #C79A3C 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 16px rgba(120,80,10,0.35));
+}
+.cth-sub {
+  font-family: var(--font-display, inherit); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  line-height: 1.4; color: #F2D9A6; text-shadow: 0 1px 14px rgba(6,10,30,0.7);
+}
+.cth-body {
+  font-size: 1.05rem; line-height: 1.6; color: #DCE0EE; text-shadow: 0 1px 12px rgba(6,10,30,0.7);
+}
+
+.cth-chips { display: flex; flex-wrap: wrap; gap: 0.55rem; list-style: none; padding: 0; margin: 0; }
+.cth-chip {
+  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.44rem 0.9rem; border-radius: 9999px;
+  font-size: 0.8rem; font-weight: 700; color: #22315F;
+  background: rgba(255,253,247,0.9); border: 1px solid rgba(201,164,92,0.6);
+  box-shadow: 0 10px 22px -14px rgba(6,10,30,0.6);
+  transition: transform 180ms var(--ease-out, ease-out), border-color 180ms, box-shadow 180ms;
+}
+.cth-chip svg { color: #C19A3C; }
+.cth-chip:hover { transform: translateY(-2px); border-color: rgba(201,164,92,0.95); box-shadow: 0 14px 26px -12px rgba(6,10,30,0.7); }
+
+.cth-cta-primary {
+  background-image: linear-gradient(120deg, #243463, #16234A) !important; color: #FBF4E6 !important;
+  border: 1.5px solid rgba(231,178,75,0.75) !important; box-shadow: 0 16px 38px -16px rgba(6,10,30,0.8) !important;
+}
+.cth-cta-primary:hover { transform: translateY(-2px); background-image: linear-gradient(120deg, #2C3F76, #1E2C5A) !important; box-shadow: 0 22px 46px -16px rgba(6,10,30,0.9), 0 0 26px -6px rgba(231,178,75,0.55) !important; }
+.cth-cta-primary svg { color: #F0C674; }
+.cth-cta-ghost {
+  background-image: linear-gradient(120deg, rgba(255,253,247,0.14), rgba(255,253,247,0.06)) !important; color: #FBF3E2 !important;
+  border: 1.5px solid rgba(231,178,75,0.55) !important; box-shadow: 0 12px 28px -16px rgba(6,10,30,0.7) !important;
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+}
+.cth-cta-ghost:hover { transform: translateY(-2px); border-color: rgba(240,198,116,0.85) !important; background-image: linear-gradient(120deg, rgba(255,253,247,0.22), rgba(255,253,247,0.1)) !important; }
+
+.cth-realms { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: 1.9rem 0 0; }
+.cth-realm {
+  display: grid; place-items: center; height: 2.1rem; width: 2.1rem; border-radius: 9999px;
+  color: color-mix(in oklab, var(--acc, #C19A3C) 62%, #F2E4C2);
+  background: rgba(11,16,44,0.5); border: 1px solid color-mix(in oklab, var(--acc, #C19A3C) 40%, rgba(231,178,75,0.35));
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  transition: transform 200ms var(--ease-out, ease-out), border-color 200ms;
+}
+.cth-realm:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--acc, #C19A3C) 75%, transparent); }
+.cth-realms-cap {
+  margin-top: 0.6rem; font-family: var(--font-engrave, inherit); font-size: 0.56rem; font-weight: 800;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(226,206,158,0.85);
+}
+
+.cth-chev {
+  position: absolute; left: 50%; bottom: clamp(4.5rem, 7vw, 6.5rem); transform: translateX(-50%); z-index: 2;
+  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px;
+  color: #F2D9A6; background: rgba(11,16,44,0.55); border: 1px solid rgba(231,178,75,0.5);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: color 180ms;
+}
+.cth.anim .cth-chev { animation: kf-cth-bob 2.4s ease-in-out infinite; }
+.cth-chev:hover { color: #F0C674; }
+.cth-chev:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+@keyframes kf-cth-bob { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(5px); } }
+@media (max-width: 640px) { .cth-chev { display: none; } }
+
+/* Hall hero wordmarks — the .t-script-hero (Kaushan) title tinted like the world
+   heroes: a solid theme colour with a soft glow, not a gold gradient. Booking Hall
+   sits on the bright cream-lit left (deep navy script); the Cast Hall sits on a dark
+   navy stage (warm gold script). */
+.bkh-script { color: #1B2A52; line-height: 0.9; text-shadow: 0 2px 16px rgba(255,255,255,0.92), 0 8px 26px rgba(20,30,70,0.18); }
+.cth-script { color: #F0C674; line-height: 0.9; text-shadow: 0 2px 18px rgba(6,10,30,0.55), 0 0 34px rgba(231,178,75,0.28); }
+
+/* ============================ OUR TEAM — TRUST STRIP / TEAM PROMISE (/our-team) =====
+   Section 2: a calm cream/parchment continuation of the dark Cast Hall hero. Velvet
+   curtain edge + spotlight glow at the top, engrave eyebrow + serif display heading,
+   a gold theatre-light string, then six credential cards (navy medallion + gold icon).
+   Central VCE palette. Motion (dust, glows) lives under .cht.anim; reduced-motion safe.
+   See CastHallTrust.tsx. */
+.cht { background: linear-gradient(180deg, #F8EFDB 0%, #FDF7EC 42%, #FBF3E1 100%); }
+.cht::before { /* faint marble sheen */
+  content: ""; position: absolute; inset: 0; z-index: -10; pointer-events: none; opacity: 0.5;
+  background: radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,0.55), transparent 60%),
+    radial-gradient(80% 50% at 82% 88%, rgba(142,91,200,0.06), transparent 70%),
+    radial-gradient(80% 50% at 14% 90%, rgba(36,52,99,0.05), transparent 70%);
+}
+
+/* velvet curtain edge bridging down from the hero */
+.cht-curtain {
+  height: 130px;
+  background: linear-gradient(180deg, rgba(18,16,40,0.32) 0%, rgba(24,20,52,0.14) 42%, transparent 100%);
+}
+.cht-curtain::after { /* warm gold hairline under the curtain */
+  content: ""; position: absolute; left: 0; right: 0; top: 118px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,164,92,0.55) 30%, rgba(231,178,75,0.75) 50%, rgba(201,164,92,0.55) 70%, transparent);
+}
+/* soft warm spotlight from the top-centre */
+.cht-spot {
+  left: 50%; top: -8%; width: 60%; height: 46%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.5; filter: blur(46px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.cht.anim .cht-spot { animation: kf-cht-spot 7s ease-in-out infinite; }
+@keyframes kf-cht-spot { 0%, 100% { opacity: 0.42; } 50% { opacity: 0.6; } }
+
+/* gold dust rising over the parchment */
+.cht-dust {
+  position: absolute; bottom: 22%; border-radius: 9999px; background: #EAC873;
+  box-shadow: 0 0 7px 1px rgba(231,201,119,0.6); opacity: 0; will-change: transform, opacity;
+  animation: kf-cht-dust linear infinite;
+}
+@keyframes kf-cht-dust {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  16% { opacity: 0.8; }
+  84% { opacity: 0.5; }
+  100% { transform: translateY(-160px) translateX(var(--dx, 8px)); opacity: 0; }
+}
+
+/* eyebrow */
+.cht-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.cht-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.cht-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+
+/* heading + supporting line */
+.cht-title {
+  margin-top: 0.5rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.08; color: #1B2A52;
+}
+.cht-sub {
+  margin: 0.55rem auto 0; max-width: 42rem; font-size: 0.92rem; line-height: 1.5; color: #46527C;
+}
+/* theatre-light string */
+.cht-string {
+  display: block; margin: 0.9rem auto 0; height: 2px; width: min(440px, 74%); border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(201,164,92,0.85) 18%, #E7B24B 50%, rgba(201,164,92,0.85) 82%, transparent);
+  box-shadow: 0 0 14px rgba(231,178,75,0.5);
+}
+.cht.anim .cht-string { animation: kf-cht-string 4.2s ease-in-out infinite; }
+@keyframes kf-cht-string { 0%, 100% { opacity: 0.72; } 50% { opacity: 1; } }
+
+/* credential cards */
+.cht-grid {
+  margin: 1.3rem 0 0; list-style: none; padding: 0; display: grid; gap: 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 700px) { .cht-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { .cht-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.85rem; } }
+
+.cht-cell { list-style: none; display: flex; }
+.cht-card {
+  position: relative; flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;
+  border-radius: 14px; padding: 0.95rem 0.8rem 0.9rem; overflow: hidden;
+  background: linear-gradient(180deg, #FFFDF7, #FBF2DE);
+  border: 1.5px solid rgba(201,164,92,0.55);
+  box-shadow: 0 18px 38px -24px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 220ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms, background 220ms;
+}
+.cht-card::before { /* inner gold keyline, like a framed credential */
+  content: ""; position: absolute; inset: 6px; border-radius: 11px; pointer-events: none;
+  border: 1px solid rgba(201,164,92,0.28);
+}
+.cht-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(231,178,75,0.9);
+  background: linear-gradient(180deg, #FFFEFA, #FBEFD6);
+  box-shadow: 0 26px 48px -22px rgba(20,20,50,0.55), 0 0 24px -8px rgba(231,178,75,0.5), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.cht-medallion {
+  display: grid; place-items: center; height: 2.5rem; width: 2.5rem; border-radius: 9999px; color: #F3D488;
+  background: radial-gradient(circle at 50% 34%, #2A3B6E, #16224A 72%);
+  border: 2px solid rgba(231,178,75,0.75);
+  box-shadow: 0 10px 20px -10px rgba(12,18,44,0.7), inset 0 1px 2px rgba(255,255,255,0.18), 0 0 0 4px rgba(255,253,247,0.6);
+  transition: box-shadow 220ms, transform 220ms;
+}
+.cht-card:hover .cht-medallion {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -10px rgba(12,18,44,0.75), inset 0 1px 2px rgba(255,255,255,0.2), 0 0 0 4px rgba(255,253,247,0.7), 0 0 22px -2px rgba(231,178,75,0.7);
+}
+.cht-card-title {
+  margin-top: 0.55rem; font-family: var(--font-engrave, inherit); font-weight: 800;
+  font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; line-height: 1.22; color: #1B2A52;
+}
+.cht-card-body { margin-top: 0.35rem; font-size: 0.76rem; line-height: 1.42; color: #4A5578; }
+
+/* ============================ OUR TEAM — THE CAST HALL GALLERY (/our-team) ==========
+   Section 3: a theatre portrait gallery of performer cards on a parchment + velvet-
+   curtain backdrop (continuation of the hero & trust strip). Landscape cards: portrait
+   photo left, details right (name, role, bio, skill chips, realm badges, magic line,
+   navy seal). Central VCE palette. Motion (dust, spotlight) under .cg.anim. See
+   CastGallery.tsx. */
+/* CSS-only cream/parchment section (no image): a warm gradient base + faint marble
+   sheen and soft purple/gold corner tints for a subtle theatre mood, with the warm
+   spotlight glow + gold dust below. The cards carry the premium framing. */
+.cg { background: linear-gradient(180deg, #FBF3E1 0%, #FDF7EC 46%, #FAF1DD 100%); }
+.cg::before {
+  content: ""; position: absolute; inset: 0; z-index: -20; pointer-events: none; opacity: 0.55;
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(72% 46% at 88% 92%, rgba(142,91,200,0.06), transparent 72%),
+    radial-gradient(72% 46% at 12% 94%, rgba(201,164,92,0.08), transparent 72%);
+}
+.cg-spot {
+  left: 50%; top: -6%; width: 62%; height: 44%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.45; filter: blur(48px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.cg.anim .cg-spot { animation: kf-cg-spot 8s ease-in-out infinite; }
+@keyframes kf-cg-spot { 0%, 100% { opacity: 0.38; } 50% { opacity: 0.54; } }
+.cg-dust {
+  position: absolute; bottom: 18%; border-radius: 9999px; background: #EAC873;
+  box-shadow: 0 0 7px 1px rgba(231,201,119,0.55); opacity: 0; will-change: transform, opacity;
+  animation: kf-cg-dust linear infinite;
+}
+@keyframes kf-cg-dust {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  16% { opacity: 0.75; } 84% { opacity: 0.45; }
+  100% { transform: translateY(-170px) translateX(var(--dx, 8px)); opacity: 0; }
+}
+
+/* header */
+.cg-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.cg-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.cg-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+.cg-title {
+  margin-top: 0.7rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.06; color: #1B2A52;
+}
+.cg-sub { margin: 0.9rem auto 0; max-width: 46rem; font-size: 1.02rem; line-height: 1.6; color: #46527C; }
+.cg-quote {
+  margin-top: 0.85rem; font-family: var(--font-display, inherit); font-style: italic;
+  font-size: clamp(1.05rem, 2vw, 1.3rem); color: #8A5A2B;
+}
+
+/* card grid — 1 / 2 / 3 across */
+.cg-grid { margin: 2.8rem 0 0; list-style: none; padding: 0; display: grid; gap: 1.15rem; grid-template-columns: 1fr; }
+@media (min-width: 680px) { .cg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { .cg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cg-cell { list-style: none; display: flex; }
+
+.cg-card {
+  position: relative; flex: 1; width: 100%; display: flex; gap: 0.9rem; overflow: hidden;
+  border-radius: 16px; padding: 0.85rem; background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid rgba(201,164,92,0.6);
+  box-shadow: 0 20px 42px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 220ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms;
+}
+.cg-card::before { content: ""; position: absolute; inset: 5px; border-radius: 12px; pointer-events: none; border: 1px solid rgba(201,164,92,0.25); }
+.cg-card:hover { transform: translateY(-4px); border-color: rgba(231,178,75,0.9); box-shadow: 0 30px 54px -24px rgba(20,20,50,0.55), 0 0 26px -8px rgba(231,178,75,0.45), inset 0 1px 0 rgba(255,255,255,0.9); }
+
+/* full portrait photo (native 2:3) fit into a matching frame on the card's left — no crop */
+.cg-photo {
+  position: relative; flex: 0 0 42%; max-width: 44%; align-self: flex-start; aspect-ratio: 2 / 3;
+  border-radius: 12px; overflow: hidden; background: #16224A;
+  border: 1.5px solid rgba(231,178,75,0.6); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+.cg-photo-img { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: center center; transition: transform 400ms var(--ease-out, ease-out), filter 300ms; }
+.cg-card:hover .cg-photo-img { transform: scale(1.045); filter: brightness(1.05); }
+.cg-photo-veil { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 52%, rgba(12,18,44,0.35) 100%); }
+.cg-photo-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; background: radial-gradient(circle at 50% 34%, #2A3B6E, #14203F 74%); }
+.cg-photo-ini { font-family: var(--font-display, inherit); font-weight: 700; font-size: 2.4rem; color: #E7C877; line-height: 1; }
+.cg-photo-cap { font-family: var(--font-engrave, inherit); font-size: 0.52rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(231,200,119,0.7); }
+.cg-corner { position: absolute; height: 12px; width: 12px; border: 2px solid rgba(240,198,116,0.85); z-index: 2; }
+.cg-corner--tl { top: 6px; left: 6px; border-right: 0; border-bottom: 0; border-radius: 3px 0 0 0; }
+.cg-corner--br { bottom: 6px; right: 6px; border-left: 0; border-top: 0; border-radius: 0 0 3px 0; }
+
+/* info column */
+.cg-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.cg-name { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.4rem; line-height: 1.05; color: #1B2A52; }
+.cg-role { margin-top: 0.15rem; font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #7A55A8; }
+.cg-bio { margin-top: 0.5rem; font-size: 0.82rem; line-height: 1.5; color: #46527C; }
+.cg-skills { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; list-style: none; padding: 0; }
+.cg-skill {
+  font-size: 0.64rem; font-weight: 700; color: #2A3357; padding: 0.16rem 0.5rem; border-radius: 9999px;
+  background: rgba(255,253,247,0.9); border: 1px solid rgba(201,164,92,0.5);
+}
+.cg-realms { margin-top: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.3rem; list-style: none; padding: 0; }
+.cg-realm {
+  display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.62rem; font-weight: 700; color: #3A4468;
+  padding: 0.14rem 0.5rem 0.14rem 0.4rem; border-radius: 9999px;
+  background: color-mix(in oklab, var(--acc) 10%, #fff); border: 1px solid color-mix(in oklab, var(--acc) 40%, transparent);
+}
+.cg-realm-dot { height: 6px; width: 6px; border-radius: 9999px; background: var(--acc); box-shadow: 0 0 5px color-mix(in oklab, var(--acc) 70%, transparent); }
+.cg-magic {
+  margin-top: auto; padding-top: 0.6rem; display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--font-display, inherit); font-style: italic; font-size: 0.82rem; color: #8A5A2B;
+}
+.cg-magic svg { color: #C19A3C; flex: 0 0 auto; }
+.cg-seal {
+  position: absolute; top: 0.7rem; right: 0.7rem; display: grid; place-items: center; height: 1.7rem; width: 1.7rem;
+  border-radius: 9999px; color: #F3D488; background: radial-gradient(circle at 50% 34%, #2A3B6E, #16224A 72%);
+  border: 1.5px solid rgba(231,178,75,0.7); box-shadow: 0 6px 14px -8px rgba(12,18,44,0.7);
+}
+/* narrow screens: stack the full photo on top so the bio + chips aren't cramped */
+@media (max-width: 679px) {
+  .cg-card { flex-direction: column; }
+  .cg-photo { flex-basis: auto; max-width: 100%; align-self: stretch; }
+}
+
+
+/* ============================ OUR TEAM — OUR PERFORMER PROMISE (PerformerPromise) ====
+   Section 4: the company standard behind the cast. CSS-only cream/parchment backstage
+   wall with faint theatre-purple/gold edges, a gold-trimmed theatre-note quote, and
+   four promise plaques (navy medallion + title + copy). Motion (spotlight, dust) under
+   .ppr.anim; reduced-motion safe. Reuses cht keyframes. See PerformerPromise.tsx. */
+.ppr { background: linear-gradient(180deg, #FBF3E1 0%, #FDF7EC 44%, #FAF1DD 100%); }
+.ppr::before {
+  content: ""; position: absolute; inset: 0; z-index: -20; pointer-events: none; opacity: 0.6;
+  background:
+    radial-gradient(120% 52% at 50% 0%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(46% 100% at 0% 50%, rgba(58,42,94,0.1), transparent 60%),
+    radial-gradient(46% 100% at 100% 50%, rgba(58,42,94,0.1), transparent 60%);
+}
+.ppr-spot {
+  left: 50%; top: -6%; width: 60%; height: 44%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.42; filter: blur(48px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.ppr.anim .ppr-spot { animation: kf-cht-spot 8s ease-in-out infinite; }
+.ppr-dust {
+  position: absolute; bottom: 24%; border-radius: 9999px; background: #EAC873;
+  box-shadow: 0 0 7px 1px rgba(231,201,119,0.55); opacity: 0; will-change: transform, opacity;
+  animation: kf-cht-dust linear infinite;
+}
+
+/* header */
+.ppr-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.ppr-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.ppr-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+.ppr-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.08; color: #1B2A52;
+}
+.ppr-sub { margin: 0.85rem auto 0; max-width: 44rem; font-size: 1.02rem; line-height: 1.6; color: #46527C; }
+
+/* theatre-note quote plaque */
+.ppr-quote {
+  position: relative; margin: 1.8rem auto 0; max-width: 40rem; text-align: center;
+  padding: 1.1rem 1.6rem; border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,253,247,0.92), rgba(250,241,219,0.92));
+  border: 1.5px solid rgba(201,164,92,0.6);
+  box-shadow: 0 18px 40px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.ppr-quote::before { content: ""; position: absolute; inset: 5px; border-radius: 10px; pointer-events: none; border: 1px solid rgba(201,164,92,0.28); }
+.ppr-quote-text {
+  font-family: var(--font-display, inherit); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.32rem);
+  line-height: 1.4; color: #2C3A66;
+}
+.ppr-quote-fl {
+  display: block; margin: 0 auto; width: 74px; height: 10px;
+  background:
+    radial-gradient(circle at 50% 50%, #C19A3C 0 2px, transparent 3px) center/10px 10px,
+    linear-gradient(90deg, transparent, rgba(201,164,92,0.7) 40%, #E7B24B 50%, rgba(201,164,92,0.7) 60%, transparent);
+  background-repeat: no-repeat; background-position: center; margin-bottom: 0.7rem;
+}
+.ppr-quote-fl--b { margin-top: 0.7rem; margin-bottom: 0; }
+
+/* promise plaques — 2 x 2 */
+.ppr-grid {
+  margin: 2.2rem 0 0; list-style: none; padding: 0; display: grid; gap: 1.1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) { .ppr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ppr-cell { list-style: none; display: flex; }
+
+.ppr-card {
+  position: relative; flex: 1; width: 100%; display: flex; gap: 1rem; align-items: flex-start;
+  border-radius: 16px; padding: 1.25rem 1.3rem; overflow: hidden;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid rgba(201,164,92,0.58);
+  box-shadow: 0 20px 44px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 220ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms, background 220ms;
+}
+.ppr-card::before { content: ""; position: absolute; inset: 6px; border-radius: 11px; pointer-events: none; border: 1px solid rgba(201,164,92,0.26); }
+.ppr-card:hover {
+  transform: translateY(-4px); border-color: rgba(231,178,75,0.9);
+  background: linear-gradient(180deg, #FFFEFA, #FBEFD6);
+  box-shadow: 0 30px 56px -24px rgba(20,20,50,0.55), 0 0 26px -8px rgba(231,178,75,0.5), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* navy medallion crest with a gold ring + ribbon */
+.ppr-medallion {
+  position: relative; flex: 0 0 auto; display: grid; place-items: center; height: 3.1rem; width: 3.1rem;
+  border-radius: 14px; color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid rgba(231,178,75,0.75);
+  box-shadow: 0 10px 20px -10px rgba(12,18,44,0.7), inset 0 1px 2px rgba(255,255,255,0.18);
+  transition: box-shadow 220ms, transform 220ms;
+}
+.ppr-medallion-ribbon {
+  position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent;
+  border-top: 8px solid #6A4A9C; filter: drop-shadow(0 2px 2px rgba(12,18,44,0.4));
+}
+.ppr-card:hover .ppr-medallion { transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(12,18,44,0.75), inset 0 1px 2px rgba(255,255,255,0.2), 0 0 22px -2px rgba(231,178,75,0.7); }
+
+.ppr-card-body { min-width: 0; }
+.ppr-card-title {
+  font-family: var(--font-engrave, inherit); font-weight: 800; font-size: 0.92rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #1B2A52;
+}
+.ppr-card-copy { margin-top: 0.4rem; font-size: 0.85rem; line-height: 1.55; color: #46527C; }
+.ppr-seal {
+  position: absolute; top: 0.7rem; right: 0.7rem; display: grid; place-items: center; height: 1.5rem; width: 1.5rem;
+  border-radius: 9999px; color: #F3D488; background: radial-gradient(circle at 50% 34%, #2A3B6E, #16224A 72%);
+  border: 1.5px solid rgba(231,178,75,0.7); box-shadow: 0 6px 14px -8px rgba(12,18,44,0.7);
+}
+
+.ppr-foot {
+  margin: 1.7rem auto 0; max-width: 42rem; text-align: center; display: block;
+  font-family: var(--font-display, inherit); font-style: italic; font-size: 1rem; line-height: 1.5; color: #8A5A2B;
+}
+.ppr-foot svg { display: inline-block; vertical-align: -0.15em; margin-right: 0.4rem; color: #C19A3C; }
+
+/* ============================ OUR TEAM — BEHIND THE SCENES (BehindScenes) ============
+   Section 5: "How we prepare for the magic" — five numbered Cast-Hall preparation
+   plaques (centered flex grid: 3 + 2 centered). CSS-only cream/parchment backstage
+   wall with faint theatre-purple edges, warm spotlight + gold dust under .bts.anim;
+   reduced-motion safe. Reuses cht keyframes. See BehindScenes.tsx. */
+.bts { background: linear-gradient(180deg, #FBF3E1 0%, #FDF7EC 44%, #FAF1DD 100%); }
+.bts::before {
+  content: ""; position: absolute; inset: 0; z-index: -20; pointer-events: none; opacity: 0.6;
+  background:
+    radial-gradient(120% 52% at 50% 0%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(44% 100% at 0% 50%, rgba(58,42,94,0.1), transparent 60%),
+    radial-gradient(44% 100% at 100% 50%, rgba(58,42,94,0.1), transparent 60%);
+}
+.bts-spot {
+  left: 50%; top: -6%; width: 60%; height: 44%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.42; filter: blur(48px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.bts.anim .bts-spot { animation: kf-cht-spot 8s ease-in-out infinite; }
+.bts-dust {
+  position: absolute; bottom: 24%; border-radius: 9999px; background: #EAC873;
+  box-shadow: 0 0 7px 1px rgba(231,201,119,0.55); opacity: 0; will-change: transform, opacity;
+  animation: kf-cht-dust linear infinite;
+}
+
+/* header */
+.bts-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.bts-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.bts-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+.bts-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.08; color: #1B2A52;
+}
+.bts-sub { margin: 0.85rem auto 0; max-width: 44rem; font-size: 1.02rem; line-height: 1.6; color: #46527C; }
+.bts-note {
+  margin: 0.7rem auto 0; max-width: 40rem; font-family: var(--font-display, inherit); font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.18rem); color: #8A5A2B;
+}
+
+/* numbered preparation plaques — 3 + 2 centered */
+.bts-grid { margin: 2.4rem 0 0; list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.1rem; }
+.bts-cell { list-style: none; display: flex; flex: 0 1 calc(33.333% - 0.74rem); min-width: 258px; }
+
+.bts-card {
+  position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
+  border-radius: 16px; padding: 2rem 1.2rem 1.3rem; overflow: hidden;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid rgba(201,164,92,0.58);
+  box-shadow: 0 20px 44px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 220ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms, background 220ms;
+}
+.bts-card::before { content: ""; position: absolute; inset: 6px; border-radius: 11px; pointer-events: none; border: 1px solid rgba(201,164,92,0.26); }
+.bts-card:hover {
+  transform: translateY(-4px); border-color: rgba(231,178,75,0.9);
+  background: linear-gradient(180deg, #FFFEFA, #FBEFD6);
+  box-shadow: 0 30px 56px -24px rgba(20,20,50,0.55), 0 0 26px -8px rgba(231,178,75,0.5), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.bts-medallion {
+  position: relative; display: grid; place-items: center; height: 3.2rem; width: 3.2rem; border-radius: 9999px; color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid rgba(231,178,75,0.75);
+  box-shadow: 0 10px 20px -10px rgba(12,18,44,0.7), inset 0 1px 2px rgba(255,255,255,0.18), 0 0 0 4px rgba(255,253,247,0.6);
+  transition: box-shadow 220ms, transform 220ms;
+}
+.bts-card:hover .bts-medallion { transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(12,18,44,0.75), inset 0 1px 2px rgba(255,255,255,0.2), 0 0 0 4px rgba(255,253,247,0.7), 0 0 22px -2px rgba(231,178,75,0.7); }
+.bts-num {
+  position: absolute; top: -6px; right: -6px; display: grid; place-items: center; height: 1.25rem; width: 1.25rem; border-radius: 9999px;
+  font-family: var(--font-display, inherit); font-weight: 800; font-size: 0.72rem; color: #22315F;
+  background: linear-gradient(180deg, #F6D784, #E7B24B); border: 1.5px solid #FFFDF7;
+  box-shadow: 0 4px 8px -3px rgba(12,18,44,0.5);
+}
+.bts-card-title {
+  margin-top: 0.75rem; font-family: var(--font-engrave, inherit); font-weight: 800; font-size: 0.82rem;
+  letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.25; color: #1B2A52;
+}
+.bts-card-copy { margin-top: 0.45rem; font-size: 0.82rem; line-height: 1.5; color: #46527C; }
+
+.bts-foot {
+  margin: 1.7rem auto 0; max-width: 42rem; text-align: center; display: block;
+  font-family: var(--font-display, inherit); font-style: italic; font-size: 1rem; line-height: 1.5; color: #8A5A2B;
+}
+.bts-foot svg { display: inline-block; vertical-align: -0.15em; margin-right: 0.4rem; color: #C19A3C; }
+
+/* ============================ OUR TEAM — WANT TO JOIN THE CAST? (JoinCast) ===========
+   Section 6: a warm backstage invitation — invitation copy + CTA (left), six role
+   opportunity cards (right), a navy values ribbon below. CSS-only cream/parchment +
+   gold + faint theatre-purple edges; motion under .jtc.anim, reduced-motion safe.
+   Reuses cht keyframes. See JoinCast.tsx. */
+.jtc { background: linear-gradient(180deg, #FBF3E1 0%, #FDF7EC 46%, #FAF1DD 100%); }
+.jtc::before {
+  content: ""; position: absolute; inset: 0; z-index: -20; pointer-events: none; opacity: 0.6;
+  background:
+    radial-gradient(120% 50% at 50% 0%, rgba(255,255,255,0.55), transparent 60%),
+    radial-gradient(42% 100% at 0% 50%, rgba(58,42,94,0.1), transparent 60%),
+    radial-gradient(42% 100% at 100% 50%, rgba(58,42,94,0.1), transparent 60%);
+}
+.jtc-spot {
+  left: 22%; top: -6%; width: 46%; height: 44%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.42; filter: blur(48px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.jtc.anim .jtc-spot { animation: kf-cht-spot 8s ease-in-out infinite; }
+.jtc-dust {
+  position: absolute; bottom: 26%; border-radius: 9999px; background: #EAC873;
+  box-shadow: 0 0 7px 1px rgba(231,201,119,0.55); opacity: 0; will-change: transform, opacity;
+  animation: kf-cht-dust linear infinite;
+}
+
+/* two-column layout */
+.jtc-layout { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 920px) { .jtc-layout { grid-template-columns: 0.82fr 1.18fr; gap: 2.4rem; } }
+
+/* invitation copy */
+.jtc-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.jtc-eyebrow-fl { width: 1.6rem; height: 1px; background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+.jtc-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.05; color: #1B2A52;
+}
+.jtc-title-em {
+  font-style: italic; font-family: var(--font-script, var(--font-display, inherit));
+  background: linear-gradient(98deg, #C79A3C, #E7B24B 50%, #C79A3C); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.jtc-sub { margin-top: 0.9rem; font-size: 1.02rem; line-height: 1.6; color: #46527C; }
+.jtc-copy { margin-top: 0.7rem; font-size: 0.92rem; line-height: 1.6; color: #56618A; }
+
+.jtc-cta-row { margin-top: 1.3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.3rem; }
+.jtc-cta {
+  background-image: linear-gradient(120deg, #243463, #16234A) !important; color: #FBF4E6 !important;
+  border: 1.5px solid rgba(231,178,75,0.75) !important; box-shadow: 0 16px 38px -16px rgba(6,10,30,0.7) !important;
+}
+.jtc-cta:hover { transform: translateY(-2px); background-image: linear-gradient(120deg, #2C3F76, #1E2C5A) !important; box-shadow: 0 22px 46px -16px rgba(6,10,30,0.85), 0 0 26px -6px rgba(231,178,75,0.55) !important; }
+.jtc-cta svg { color: #F0C674; }
+.jtc-link {
+  display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--font-engrave, inherit);
+  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #9A6E2B;
+  transition: color 180ms, gap 180ms;
+}
+.jtc-link:hover { color: #C19A3C; gap: 0.55rem; }
+.jtc-link:focus-visible { outline: 2px solid #C19A3C; outline-offset: 3px; border-radius: 4px; }
+.jtc-note {
+  margin-top: 1.2rem; padding: 0.85rem 1.05rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.5; color: #46527C;
+  background: rgba(255,253,247,0.8); border: 1px solid rgba(201,164,92,0.5);
+  box-shadow: 0 12px 26px -20px rgba(20,20,50,0.5);
+}
+
+/* role opportunity cards */
+.jtc-roles { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; grid-template-columns: 1fr; }
+@media (min-width: 540px) { .jtc-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.jtc-cell { list-style: none; display: flex; }
+.jtc-card {
+  position: relative; flex: 1; display: flex; gap: 0.8rem; align-items: flex-start; overflow: hidden;
+  border-radius: 14px; padding: 1.05rem 1.1rem;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid rgba(201,164,92,0.55);
+  box-shadow: 0 18px 40px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: transform 220ms var(--ease-out, ease-out), border-color 220ms, box-shadow 220ms, background 220ms;
+}
+.jtc-card:hover {
+  transform: translateY(-4px); border-color: rgba(231,178,75,0.9);
+  background: linear-gradient(180deg, #FFFEFA, #FBEFD6);
+  box-shadow: 0 28px 52px -24px rgba(20,20,50,0.55), 0 0 24px -8px rgba(231,178,75,0.5), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.jtc-medallion {
+  flex: 0 0 auto; display: grid; place-items: center; height: 2.6rem; width: 2.6rem; border-radius: 12px; color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid rgba(231,178,75,0.75);
+  box-shadow: 0 8px 16px -8px rgba(12,18,44,0.7), inset 0 1px 2px rgba(255,255,255,0.18);
+  transition: box-shadow 220ms;
+}
+.jtc-card:hover .jtc-medallion { box-shadow: 0 10px 20px -8px rgba(12,18,44,0.75), inset 0 1px 2px rgba(255,255,255,0.2), 0 0 20px -3px rgba(231,178,75,0.7); }
+.jtc-card-body { min-width: 0; }
+.jtc-card-title { font-family: var(--font-engrave, inherit); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.2; color: #1B2A52; }
+.jtc-card-copy { margin-top: 0.35rem; font-size: 0.8rem; line-height: 1.48; color: #46527C; }
+
+/* values ribbon */
+.jtc-banner {
+  margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.7rem 1.4rem;
+  border-radius: 16px; padding: 1rem 1.4rem; text-align: center;
+  background: linear-gradient(120deg, #1B2A52, #16224A); border: 1.5px solid rgba(231,178,75,0.55);
+  box-shadow: 0 24px 50px -30px rgba(6,10,30,0.7);
+}
+.jtc-banner-lead {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-display, inherit); font-style: italic;
+  font-size: 1rem; color: #F4E7C7;
+}
+.jtc-banner-lead svg { color: #E7B24B; }
+.jtc-banner-values { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.9rem; list-style: none; padding: 0; margin: 0; }
+.jtc-banner-value {
+  position: relative; font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #E7C877;
+}
+.jtc-banner-value + .jtc-banner-value::before { content: "·"; position: absolute; left: -0.55rem; color: rgba(231,200,119,0.55); }
+
+/* ============================ OUR TEAM — FINAL CTA / TEAM CLOSE (TeamClose) ===========
+   Closing customer sendoff: a centred cream Cast-Hall card on a dark theatre panel with
+   velvet-curtain edges, a compass-star seal, two CTAs, a help link, and a reassurance
+   row. CSS-only (gradient curtains + spotlight + gold dust), motion under .tcl.anim;
+   reduced-motion safe. Reuses cht keyframes. See TeamClose.tsx. */
+.tcl { background: linear-gradient(180deg, #15112F 0%, #221A46 48%, #15112F 100%); }
+.tcl-curtain { position: absolute; top: 0; bottom: 0; width: clamp(40px, 12vw, 150px); z-index: -10; pointer-events: none; }
+.tcl-curtain--l { left: 0; background: linear-gradient(90deg, rgba(46,32,78,0.9), rgba(46,32,78,0.3) 55%, transparent); }
+.tcl-curtain--r { right: 0; background: linear-gradient(270deg, rgba(46,32,78,0.9), rgba(46,32,78,0.3) 55%, transparent); }
+.tcl-spot {
+  left: 50%; top: -8%; width: 64%; height: 52%; transform: translateX(-50%); border-radius: 9999px;
+  pointer-events: none; opacity: 0.5; filter: blur(52px);
+  background: radial-gradient(circle at 50% 40%, rgba(247,214,138,0.5), rgba(231,178,75,0.14) 46%, transparent 72%);
+}
+.tcl.anim .tcl-spot { animation: kf-cht-spot 8s ease-in-out infinite; }
+.tcl-dust {
+  position: absolute; bottom: 20%; border-radius: 9999px; background: #F4D98A;
+  box-shadow: 0 0 8px 1px rgba(231,201,119,0.7); opacity: 0; will-change: transform, opacity;
+  animation: kf-cht-dust linear infinite;
+}
+
+/* the cream Cast-Hall card */
+.tcl-card {
+  position: relative; margin-top: 2rem; text-align: center; border-radius: 22px; padding: 3rem 1.6rem 1.9rem;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid rgba(231,178,75,0.7);
+  box-shadow: 0 40px 90px -40px rgba(6,8,26,0.85), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.tcl-card::before { content: ""; position: absolute; inset: 7px; border-radius: 16px; pointer-events: none; border: 1px solid rgba(201,164,92,0.3); }
+.tcl-seal {
+  position: absolute; top: -2rem; left: 50%; transform: translateX(-50%); display: grid; place-items: center;
+  height: 4rem; width: 4rem; border-radius: 9999px; color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2.5px solid rgba(231,178,75,0.8);
+  box-shadow: 0 14px 28px -12px rgba(6,8,26,0.8), inset 0 1px 3px rgba(255,255,255,0.2), 0 0 0 5px rgba(255,253,247,0.85);
+}
+.tcl.anim .tcl-seal { animation: kf-cht-spot 6s ease-in-out infinite; }
+
+.tcl-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #9A6E2B;
+}
+.tcl-eyebrow-fl { width: 1.5rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.tcl-eyebrow-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+.tcl-title {
+  margin-top: 0.6rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.05; color: #1B2A52;
+}
+.tcl-title-em {
+  font-style: italic; font-family: var(--font-script, var(--font-display, inherit));
+  background: linear-gradient(98deg, #C79A3C, #E7B24B 50%, #C79A3C); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.tcl-sub { margin: 0.9rem auto 0; max-width: 40rem; font-size: 1rem; line-height: 1.6; color: #46527C; }
+.tcl-support { margin: 0.7rem auto 0; max-width: 38rem; font-family: var(--font-display, inherit); font-style: italic; font-size: 1.02rem; line-height: 1.5; color: #8A5A2B; }
+
+.tcl-ctas { margin-top: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; }
+.tcl-cta-primary {
+  background-image: linear-gradient(120deg, #243463, #16234A) !important; color: #FBF4E6 !important;
+  border: 1.5px solid rgba(231,178,75,0.75) !important; box-shadow: 0 16px 38px -16px rgba(6,10,30,0.7) !important;
+}
+.tcl-cta-primary:hover { transform: translateY(-2px); background-image: linear-gradient(120deg, #2C3F76, #1E2C5A) !important; box-shadow: 0 22px 46px -16px rgba(6,10,30,0.85), 0 0 26px -6px rgba(231,178,75,0.55) !important; }
+.tcl-cta-primary svg { color: #F0C674; }
+.tcl-cta-ghost {
+  background-image: linear-gradient(180deg, rgba(255,253,247,0.95), rgba(250,241,219,0.95)) !important; color: #22315F !important;
+  border: 1.5px solid rgba(201,164,92,0.6) !important; box-shadow: 0 12px 26px -16px rgba(20,20,50,0.5) !important;
+}
+.tcl-cta-ghost:hover { transform: translateY(-2px); border-color: rgba(231,178,75,0.9) !important; box-shadow: 0 18px 34px -16px rgba(20,20,50,0.55), 0 0 20px -8px rgba(231,178,75,0.5) !important; }
+
+.tcl-help {
+  margin: 1rem auto 0; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.86rem; color: #7A55A8;
+  transition: color 180ms, gap 180ms;
+}
+.tcl-help strong, .tcl-help :is(span) { color: inherit; }
+.tcl-help svg { color: #C19A3C; flex: 0 0 auto; }
+.tcl-help:hover { color: #57397e; gap: 0.55rem; }
+.tcl-help:focus-visible { outline: 2px solid #C19A3C; outline-offset: 3px; border-radius: 4px; }
+
+.tcl-reassure {
+  margin: 1.7rem auto 0; padding-top: 1.3rem; border-top: 1px solid rgba(201,164,92,0.35);
+  list-style: none; display: grid; gap: 0.9rem 1.2rem; grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 720px) { .tcl-reassure { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tcl-reassure-item { display: flex; align-items: center; gap: 0.6rem; text-align: left; }
+.tcl-reassure-ic {
+  flex: 0 0 auto; display: grid; place-items: center; height: 2.2rem; width: 2.2rem; border-radius: 9999px; color: #F3D488;
+  background: radial-gradient(circle at 50% 34%, #2A3B6E, #16224A 72%); border: 1.5px solid rgba(231,178,75,0.7);
+  box-shadow: 0 6px 14px -8px rgba(12,18,44,0.7);
+}
+.tcl-reassure-txt { display: flex; flex-direction: column; min-width: 0; }
+.tcl-reassure-txt strong { font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #1B2A52; }
+.tcl-reassure-txt span { margin-top: 0.1rem; font-size: 0.72rem; line-height: 1.35; color: #56618A; }
+
+/* ============================ OUR TEAM — SECTION RHYTHM PASS ==========================
+   The five cream sections read as one flat beige block. Give the page theatrical "act"
+   rhythm: alternate warm/light parchment on adjacent cream sections, and turn the
+   Performer Promise into a dark backstage act so light/dark alternates down the page:
+   hero(dark) → trust(warm) → gallery(light) → PROMISE(dark) → behind(warm) → join(light)
+   → close(dark). */
+.cht { background: linear-gradient(180deg, #F6EACF 0%, #F3E4C4 100%) !important; }
+.cg  { background: linear-gradient(180deg, #FDF8EC 0%, #FBF3E1 100%) !important; }
+.bts { background: linear-gradient(180deg, #F6EACF 0%, #F2E2C0 100%) !important; }
+.jtc { background: linear-gradient(180deg, #FDF8EC 0%, #FBF3E1 100%) !important; }
+
+/* Performer Promise → dark backstage act. Cream quote plaque + cards pop against the
+   deep navy/purple stage; header text + closing line go light. */
+.ppr { background: linear-gradient(180deg, #171334 0%, #241B49 50%, #171334 100%) !important; }
+.ppr::before {
+  opacity: 1 !important;
+  background:
+    linear-gradient(90deg, rgba(46,32,78,0.6), transparent 20%),
+    linear-gradient(270deg, rgba(46,32,78,0.6), transparent 20%),
+    radial-gradient(120% 46% at 50% 0%, rgba(247,214,138,0.06), transparent 60%) !important;
+}
+.ppr-eyebrow { color: #E7C877; }
+.ppr-title { color: #FBF3E2; }
+.ppr-sub { color: #C9D2EA; }
+.ppr-foot { color: #F2D9A6; }
+.ppr-spot { opacity: 0.55; }
+/* lift the cream plaques off the dark stage with a soft warm halo */
+.ppr-quote, .ppr-card { box-shadow: 0 24px 54px -26px rgba(4,6,20,0.85), 0 0 30px -14px rgba(231,178,75,0.25), inset 0 1px 0 rgba(255,255,255,0.8); }
+
+/* soft feathered seam so each cream act still separates cleanly from its neighbour */
+.cht, .cg, .bts, .jtc { position: relative; }

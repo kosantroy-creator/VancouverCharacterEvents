@@ -158,24 +158,37 @@ export function BookingHallHero() {
       {/* ===================== COPY (left) ===================== */}
       <div className="relative z-10 mx-auto w-full max-w-[1240px] px-5 pb-28 pt-24 sm:px-6 lg:px-8 lg:pb-32 lg:pt-28">
         <div className="max-w-xl">
-          {/* eyebrow lockup */}
+          {/* wordmark lockup — same thematic pattern as the eight world heroes */}
           <Reveal y={16}>
-            <span className="bkh-eyebrow">
-              <span aria-hidden className="bkh-eyebrow-fl" />
-              Vancouver Character Events · Booking Hall
-              <span aria-hidden className="bkh-eyebrow-fl bkh-eyebrow-fl--r" />
-            </span>
-          </Reveal>
-
-          <Reveal delay={130} y={18}>
-            <h1 className="bkh-title mt-4">
-              <span className="bkh-title-a">Plan Your VCE</span>
-              <span className="bkh-title-b">Experience</span>
-            </h1>
+            <div className="flex flex-col items-start">
+              <h1 className="sr-only">Vancouver Character Events — The Booking Hall</h1>
+              <span aria-hidden className="inline-flex items-center gap-2">
+                <Sparkles className="h-5 w-5 shrink-0 text-[#C19A3C]" aria-hidden />
+                <span className="t-engrave text-[clamp(1.05rem,2.3vw,1.6rem)] tracking-[0.2em] text-[#243463]">
+                  Vancouver Character Events
+                </span>
+              </span>
+              <span aria-hidden className="bkh-script t-script-hero mt-1 block text-[clamp(2.6rem,7.2vw,4.8rem)]">
+                The Booking Hall
+              </span>
+              <span
+                aria-hidden
+                className="t-engrave mt-2 inline-flex items-center gap-2.5 text-[clamp(0.78rem,1.5vw,1rem)] tracking-[0.4em] text-[#2C3A66]"
+              >
+                <Sparkles className="h-3 w-3 text-[#C19A3C]" aria-hidden />
+                Begin Your Story
+                <Sparkles className="h-3 w-3 -scale-x-100 text-[#C19A3C]" aria-hidden />
+              </span>
+              <span
+                aria-hidden
+                className="mt-4 block h-px w-56"
+                style={{ background: "linear-gradient(90deg, #243463, #C19A3C 55%, transparent)" }}
+              />
+            </div>
           </Reveal>
 
           <Reveal delay={210} y={16}>
-            <p className="bkh-sub mt-3">
+            <p className="bkh-sub mt-4">
               Choose your world, share your event details, and we&apos;ll help guide the magic.
             </p>
           </Reveal>

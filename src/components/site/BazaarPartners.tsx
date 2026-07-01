@@ -8,28 +8,22 @@ import {
 } from "react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
-import { ArrowLeft, ArrowRight, Blocks, Camera, Castle, Check, Clock, ExternalLink, Palette, PartyPopper, Ruler, RotateCcw, Sparkles, Tag, Tent, Users, Waves } from "lucide-react";
+import { ArrowLeft, ArrowRight, Camera, Check, Clock, ExternalLink, Palette, PartyPopper, Ruler, RotateCcw, Sparkles, Tag, Tent, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
-import laurenPhoto from "@/assets/bazaar/lauren.webp";
-import alejandraPhoto from "@/assets/bazaar/alejandra.webp";
-import behroozPhoto from "@/assets/bazaar/behrooz.webp";
+import {
+  FACE_ARTIST,
+  BALLOON_ARTIST,
+  PHOTOGRAPHER,
+  INFLATABLE_CATS,
+  HOB_LOGO,
+  type Person,
+  type Rental,
+  type InflatableCat,
+} from "@/lib/bazaar-extras";
 import stallFace from "@/assets/bazaar/stalls/stall-face-painting.webp";
 import stallBalloon from "@/assets/bazaar/stalls/stall-balloon.webp";
 import stallPhoto from "@/assets/bazaar/stalls/stall-photography.webp";
 import stallInflatable from "@/assets/bazaar/stalls/stall-inflatable.webp";
-import hobLogo from "@/assets/bazaar/inflatables/hob-logo.png";
-import imgUltraWhite from "@/assets/bazaar/inflatables/ultra-white.webp";
-import imgEnchanted from "@/assets/bazaar/inflatables/enchanted-forest.webp";
-import imgJellyBean from "@/assets/bazaar/inflatables/jelly-bean.webp";
-import imgDoubleSlide from "@/assets/bazaar/inflatables/double-slide.webp";
-import imgJoySlide from "@/assets/bazaar/inflatables/joy-slide.webp";
-import imgRedYellowBlue from "@/assets/bazaar/inflatables/red-yellow-blue.webp";
-import imgAaSmall from "@/assets/bazaar/inflatables/aa-small.webp";
-import imgSoftSuper from "@/assets/bazaar/inflatables/soft-super.webp";
-import imgSoftModerate from "@/assets/bazaar/inflatables/soft-moderate.webp";
-import imgSoftSmall from "@/assets/bazaar/inflatables/soft-small.webp";
-import imgSoftMini from "@/assets/bazaar/inflatables/soft-mini.webp";
-import imgBlueShark from "@/assets/bazaar/inflatables/blue-shark-park.webp";
 
 /**
  * BazaarPartners — "Meet the Bazaar Partners". The bazaar sibling of the Princess
@@ -47,10 +41,6 @@ import imgBlueShark from "@/assets/bazaar/inflatables/blue-shark-park.webp";
 type Vars = CSSProperties & Record<string, string | number>;
 type IconType = ComponentType<{ className?: string }>;
 
-type Pkg = { name: string; meta: string; price: string; includes: string[]; bestFor: string; featured?: boolean };
-type Person = { name: string; role: string; photo: string; objectPos?: string; packages: Pkg[] };
-type Rental = { name: string; desc: string; img: string; dims?: string; specs?: string; rate?: string };
-type InflatableCat = { id: string; name: string; icon: IconType; acc: string; accDeep: string; blurb: string; thumb: string; items: Rental[] };
 type Inflatable = { partner: string; tag: string; categories: InflatableCat[] };
 type Zone = {
   id: string;
@@ -66,63 +56,6 @@ type Zone = {
   cta?: string;
 };
 
-/* HW House of Bounce catalog (scrubbed from hwhouseofbounce.ca) — no prices: the
-   partner confirms availability and quotes the rental directly. */
-const INFLATABLE_CATS: InflatableCat[] = [
-  {
-    id: "castles",
-    name: "Bouncy Castles",
-    icon: Castle,
-    acc: "#8E2D6E",
-    accDeep: "#6E2356",
-    blurb: "Classic jump-and-play castles and slide combos.",
-    thumb: imgUltraWhite,
-    items: [
-      { name: "Ultra White Bouncy Castle", img: imgUltraWhite, desc: "Great for creative wedding photos and customizable party fun.", dims: "13.5'L x 16.5'W x 20'H", specs: "Max 1100 lbs · 10 kids / 6 adults · Ages 6+", rate: "$375" },
-      { name: "Enchanted Forest Inflatable", img: imgEnchanted, desc: "A whimsical forest-themed bounce house with a pool slide.", dims: "26.5'L (with pool) x 14'W x 14.5'H", specs: "Max 800 lbs · Ages 3+", rate: "$300" },
-      { name: "Jelly Bean Bounce House with Slide", img: imgJellyBean, desc: "A playful bounce house with a built-in slide.", dims: "26.5'L x 14'W x 14.5'H", specs: "Max 700 lbs · Ages 3+", rate: "$300" },
-      { name: "Double Slide Triple Play", img: imgDoubleSlide, desc: "A larger bounce house with double slides and play features.", dims: "13.7'W x 16.7'D x 7.1'H", specs: "Max 500 lbs · Ages 3-10", rate: "$200" },
-      { name: "Joy Moderate Slide Bounce House", img: imgJoySlide, desc: "A mid-size bounce house with a slide.", dims: "10.5'L x 9.2'W x 7.6'H", specs: "Max 300 lbs · Ages 3-10", rate: "$170" },
-      { name: "Red Yellow Blue Bouncy Castle", img: imgRedYellowBlue, desc: "A bright, colourful classic bouncy castle.", dims: "13.1'D x 12.5'W x 8.2'H", specs: "Max 800 lbs · Ages 3-10", rate: "$220" },
-      { name: "AA Small Bounce House", img: imgAaSmall, desc: "A compact bounce house for smaller spaces and younger guests.", dims: "9'W x 12'D x 6.1'H", specs: "Max 250 lbs · Ages 3-10", rate: "$170" },
-      { name: "Sensory “Super” Soft Play Set with Bounce House", img: imgSoftSuper, desc: "Our largest sensory soft-play set with a bounce house.", dims: "30'D x 16'W x 7.5'H (adjustable)", specs: "Max 500 lbs in bouncy · Ages 1+", rate: "$300" },
-      { name: "Sensory “Moderate” Soft Play Set with Bounce House", img: imgSoftModerate, desc: "Mini ball pit, bouncy castle, mats & two soft-play units (units may vary).", dims: "18'D x 14'W x 7.5'H (adjustable)", specs: "Max 300 lbs in bouncy · Ages 1+", rate: "$250" },
-      { name: "Sensory “Small” Soft Play Set with Bounce House", img: imgSoftSmall, desc: "A smaller sensory soft-play set for tighter spaces.", dims: "18'D x 14'W x 6.1'H (adjustable)", specs: "250 lbs in bouncy · Ages 1+", rate: "$240" },
-      { name: "Sensory “Mini” Soft Play Foam Set", img: imgSoftMini, desc: "A compact sensory foam play set for the littlest guests.", dims: "14'D x 14'W (adjustable)", specs: "Ages 6 months+", rate: "$200" },
-      { name: "Blue Shark Park", img: imgBlueShark, desc: "A shark-themed inflatable park with slide and splash play.", dims: "19'L x 11'W x 8.25'H", specs: "Max 300 lbs in bounce area · Ages 3+", rate: "$220" },
-    ],
-  },
-  {
-    id: "softplay",
-    name: "Soft Play Sets",
-    icon: Blocks,
-    acc: "#C8556E",
-    accDeep: "#A23A54",
-    blurb: "Sensory-friendly soft play for younger children.",
-    thumb: imgSoftSuper,
-    items: [
-      { name: "Sensory “Super” Soft Play Set with Bounce House", img: imgSoftSuper, desc: "Our largest sensory soft-play set with a bounce house.", dims: "30'D x 16'W x 7.5'H (adjustable)", specs: "Max 500 lbs in bouncy · Ages 1+", rate: "$300" },
-      { name: "Sensory “Moderate” Soft Play Set with Bounce House", img: imgSoftModerate, desc: "Mini ball pit, bouncy castle, mats & two soft-play units (units may vary).", dims: "18'D x 14'W x 7.5'H (adjustable)", specs: "Max 300 lbs in bouncy · Ages 1+", rate: "$250" },
-      { name: "Sensory “Small” Soft Play Set with Bounce House", img: imgSoftSmall, desc: "A smaller sensory soft-play set for tighter spaces.", dims: "18'D x 14'W x 6.1'H (adjustable)", specs: "250 lbs in bouncy · Ages 1+", rate: "$240" },
-      { name: "Sensory “Mini” Soft Play Foam Set", img: imgSoftMini, desc: "A compact sensory foam play set for the littlest guests.", dims: "14'D x 14'W (adjustable)", specs: "Ages 6 months+", rate: "$200" },
-    ],
-  },
-  {
-    id: "water",
-    name: "Water Parks",
-    icon: Waves,
-    acc: "#1FA2B8",
-    accDeep: "#13768A",
-    blurb: "Splashy inflatable water slides and play parks for warm days.",
-    thumb: imgBlueShark,
-    items: [
-      { name: "Jelly Bean Bounce House with Slide", img: imgJellyBean, desc: "A playful bounce house with a built-in slide for warm days.", dims: "26.5'L x 14'W x 14.5'H", specs: "Max 700 lbs · Ages 3+", rate: "$300" },
-      { name: "Enchanted Forest Inflatable", img: imgEnchanted, desc: "A whimsical forest-themed water-play inflatable with a pool.", dims: "26.5'L (with pool) x 14'W x 14.5'H", specs: "Max 800 lbs · Ages 3+", rate: "$300" },
-      { name: "Blue Shark Park", img: imgBlueShark, desc: "A shark-themed inflatable water park with slide and splash play.", dims: "19'L x 11'W x 8.25'H", specs: "Max 300 lbs in bounce area · Ages 3+", rate: "$220" },
-    ],
-  },
-];
-
 const ZONES: Zone[] = [
   {
     id: "face",
@@ -133,36 +66,7 @@ const ZONES: Zone[] = [
     accDeep: "#156B7A",
     story:
       "Colourful, photo-friendly designs and a touch of glitter that bring extra personality to every guest — from quick cheek art to full fantasy looks.",
-    person: {
-      name: "Alejandra",
-      role: "Face & Body Artist",
-      photo: alejandraPhoto,
-      objectPos: "center 22%",
-      packages: [
-        {
-          name: "1 Hour Painting",
-          meta: "60 minutes",
-          price: "$200 + travel",
-          bestFor: "Birthdays & smaller parties",
-          includes: ["Skin-safe, hypoallergenic paints", "Design menu — animals, superheroes, flowers & more", "Cheek art and full-face designs", "Cosmetic-grade glitter accents", "Great for up to 12–15 guests"],
-        },
-        {
-          name: "1½ Hours Painting",
-          meta: "1 hour + 30 min",
-          price: "$300 + travel",
-          bestFor: "Bigger parties & longer events",
-          featured: true,
-          includes: ["Everything in the 1 Hour package", "An extra 30 minutes of painting", "More guests painted, shorter wait in line", "Mix of quick and detailed designs"],
-        },
-        {
-          name: "Custom & Public Events",
-          meta: "2-hour minimum",
-          price: "Custom Quote",
-          bestFor: "Large or public events",
-          includes: ["Schools, festivals & community events", "Multiple artists for large crowds", "Themed design sets to match your event", "Glitter & gem stations", "Built around your timing & guest flow"],
-        },
-      ],
-    },
+    person: FACE_ARTIST,
   },
   {
     id: "balloon",
@@ -173,36 +77,7 @@ const ZONES: Zone[] = [
     accDeep: "#5E3A86",
     story:
       "Swords, crowns, flowers, animals, and wearable balloon creations twisted fresh for every guest in line — guests pick their favourites from the balloon menu.",
-    person: {
-      name: "Lauren",
-      role: "Twistress Purple · Balloon Artist",
-      photo: laurenPhoto,
-      objectPos: "center 24%",
-      packages: [
-        {
-          name: "1 Hour Twisting",
-          meta: "60 minutes",
-          price: "$200 + travel",
-          bestFor: "Birthdays & smaller parties",
-          includes: ["Festive attire (no clown makeup)", "Balloon menu — animals, swords, flowers & wearables", "~15 balloons (up to 20–30 simple)", "Great for up to 15 guests", "Twists alongside your other activities"],
-        },
-        {
-          name: "1½ Hours Twisting",
-          meta: "1 hour + 30 min",
-          price: "Custom Quote",
-          bestFor: "Bigger parties & longer events",
-          featured: true,
-          includes: ["Everything in the 1 Hour package", "An extra 30 minutes of twisting", "More balloons & a shorter wait in line", "Optional mini twisting lesson"],
-        },
-        {
-          name: "Custom & Public Events",
-          meta: "2-hour minimum",
-          price: "Custom Quote",
-          bestFor: "Large or public events",
-          includes: ["Schools, festivals & corporate picnics", "Multiple artists for large crowds", "Party favours / balloon candy cups", "Mini twisting lessons (15–30 min)", "Built around your timing & guest flow"],
-        },
-      ],
-    },
+    person: BALLOON_ARTIST,
   },
   {
     id: "photo",
@@ -213,36 +88,7 @@ const ZONES: Zone[] = [
     accDeep: "#2C5E82",
     story:
       "A roaming photographer captures the candid magic — greetings, reactions, group shots, and the details you'd otherwise miss while hosting.",
-    person: {
-      name: "Behrooz",
-      role: "Event Photographer · Lumen Photography",
-      photo: behroozPhoto,
-      objectPos: "center 18%",
-      packages: [
-        {
-          name: "1 Hour Coverage",
-          meta: "60 minutes",
-          price: "$250 + travel",
-          bestFor: "Birthdays & smaller parties",
-          includes: ["Candid + posed coverage of your event", "Greetings, reactions, group shots & details", "Professionally edited high-resolution photos", "Private online gallery to view & download", "Great for up to ~15–20 guests"],
-        },
-        {
-          name: "1½ Hours Coverage",
-          meta: "1 hour + 30 min",
-          price: "$375 + travel",
-          bestFor: "Bigger parties & longer events",
-          featured: true,
-          includes: ["Everything in the 1 Hour package", "An extra 30 minutes of coverage", "More of the event captured start to finish", "A fuller edited gallery", "Ideal for bigger parties & milestones"],
-        },
-        {
-          name: "Custom & Public Events",
-          meta: "2-hour minimum",
-          price: "Custom Quote",
-          bestFor: "Large or public events",
-          includes: ["Schools, festivals & community events", "Corporate & public appearances", "Extended multi-hour coverage", "Custom gallery & delivery options", "Built around your timing & guest flow"],
-        },
-      ],
-    },
+    person: PHOTOGRAPHER,
   },
   {
     id: "inflatable",
@@ -580,7 +426,7 @@ function InflatableZone({ zone, index: _index }: { zone: Zone; index: number }) 
           aria-controls={`bz-inflate-${zone.id}`}
           onClick={toggle}
         >
-          <img className="bz-portrait-img" src={hobLogo} alt="" loading="lazy" decoding="async" />
+          <img className="bz-portrait-img" src={HOB_LOGO} alt="" loading="lazy" decoding="async" />
           <span aria-hidden className="bz-portrait-shade" />
           <span aria-hidden className="bz-portrait-ring" />
           <span aria-hidden className="bz-portrait-cue">
