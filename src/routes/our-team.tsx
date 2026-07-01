@@ -33,9 +33,11 @@ function OurTeamPage() {
     <>
       <CastHallHero />
       <CastHallTrust />
+      <div aria-hidden className="hall-seam" />
       <CastGallery />
       <PerformerPromise />
       <BehindScenes />
+      <div aria-hidden className="hall-seam" />
       <JoinCast />
       <TeamClose />
     </>

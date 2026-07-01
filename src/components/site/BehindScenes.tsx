@@ -1,41 +1,37 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ClipboardList, Compass, Drama, Route, Shirt, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
 /**
  * BehindScenes — Section 5 of the Our Team page: "How we prepare for the magic". A
- * gentle backstage look at the preparation behind every visit, as five numbered
- * Cast-Hall preparation plaques (review details → prepare the moment → presentation →
- * flow → adapt). CSS-only cream/parchment backstage wall + gold + faint theatre-purple
- * edges, warm spotlight + gold dust (motion-gated under .bts.anim), reduced-motion
+ * gentle backstage look at the preparation behind every visit, drawn as a CALL-SHEET
+ * PATH: a gold spine down the centre (drawn in on first view), five numbered steps
+ * alternating left/right (review details → prepare the moment → presentation → flow →
+ * adapt), each led by a large gilt Cormorant numeral. CSS-only cream/parchment
+ * backstage wall; motion under .bts.anim (+ .is-drawn for the spine), reduced-motion
  * safe. Central VCE palette. See ".bts" in styles.css.
  */
 type Vars = CSSProperties & Record<string, string | number>;
 
 const STEPS = [
   {
-    icon: ClipboardList,
     title: "We Review the Event Details",
     copy: "We look at the event type, age range, guest count, location, timing, selected world, and any notes from the host so the performer understands the room before arriving.",
   },
   {
-    icon: Drama,
     title: "We Prepare the Character Moment",
     copy: "Performers consider greetings, photos, activities, games, songs, stories, or interactions that fit the event style and guest energy.",
   },
   {
-    icon: Shirt,
     title: "We Care for Presentation",
     copy: "Costumes, wigs, accessories, makeup, props, and overall presentation are part of helping the character feel polished and photo-ready.",
   },
   {
-    icon: Route,
     title: "We Think About Flow",
     copy: "Good events need more than a dramatic entrance. We think about timing, shy children, group photos, transitions, host needs, and keeping the room engaged.",
   },
   {
-    icon: Compass,
     title: "We Arrive Ready to Adapt",
     copy: "Every event is different, so performers stay aware of the space, weather, venue rules, guest energy, and what the host needs in the moment.",
   },
@@ -51,10 +47,26 @@ const DUST = [
 export function BehindScenes() {
   const ref = useRef<HTMLElement>(null);
   const [motionOK, setMotionOK] = useState(false);
+  const [drawn, setDrawn] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setMotionOK(true);
+
+    // Draw the call-sheet spine once the section takes the stage.
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setDrawn(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -62,7 +74,7 @@ export function BehindScenes() {
       ref={ref}
       id="behind-the-scenes"
       aria-labelledby="bts-title"
-      className={cn("bts relative isolate overflow-hidden", motionOK && "anim")}
+      className={cn("bts relative isolate overflow-hidden", motionOK && "anim", drawn && "is-drawn")}
     >
       <span aria-hidden className="bts-spot absolute -z-10" />
       {motionOK ? (
@@ -88,7 +100,7 @@ export function BehindScenes() {
             </span>
           </Reveal>
           <Reveal delay={110} y={16}>
-            <h2 id="bts-title" className="bts-title">How we prepare for the magic.</h2>
+            <h2 id="bts-title" className="bts-title">How we prepare for <em className="act-em">the magic</em>.</h2>
           </Reveal>
           <Reveal delay={180} y={14}>
             <p className="bts-sub">
@@ -97,29 +109,24 @@ export function BehindScenes() {
               memorable.
             </p>
           </Reveal>
-          <Reveal delay={240} y={12}>
-            <p className="bts-note">
-              A magical event is not only about the entrance. It is about everything that happens
-              before, during, and after that first hello.
-            </p>
-          </Reveal>
         </div>
 
-        {/* numbered preparation path */}
-        <ul className="bts-grid">
-          {STEPS.map(({ icon: Icon, title, copy }, i) => (
-            <Reveal key={title} as="li" delay={300 + i * 90} y={18} className="bts-cell">
-              <article className="bts-card">
-                <span aria-hidden className="bts-medallion">
-                  <Icon className="h-6 w-6" aria-hidden />
-                  <span className="bts-num">{i + 1}</span>
-                </span>
-                <h3 className="bts-card-title">{title}</h3>
-                <p className="bts-card-copy">{copy}</p>
-              </article>
-            </Reveal>
-          ))}
-        </ul>
+        {/* the call-sheet path — five steps around a drawn gold spine */}
+        <div className="bts-path">
+          <span aria-hidden className="bts-spine" />
+          <ol className="bts-steps">
+            {STEPS.map(({ title, copy }, i) => (
+              <Reveal key={title} as="li" delay={260 + i * 110} y={18} className="bts-step">
+                <span aria-hidden className="bts-dot" />
+                <div className="bts-step-body">
+                  <span aria-hidden className="bts-step-num">{i + 1}</span>
+                  <h3 className="bts-step-title">{title}</h3>
+                  <p className="bts-step-copy">{copy}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
 
         {/* closing line */}
         <Reveal delay={520} y={12}>

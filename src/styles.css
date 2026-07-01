@@ -12536,3 +12536,164 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
   .jtc-title-em, .tcl-title-em { animation: kf-gold-shimmer 5.5s ease-in-out infinite; }
 }
 @keyframes kf-gold-shimmer { 0%, 100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
+
+/* ============================ CAST HALL — TYPE LADDER (design elevation) =============
+   Three explicit display tiers so arrivals peak instead of every act speaking at the
+   same size: hero tier (Gallery, Close), mid tier (Promise), sub tier (Trust, Behind,
+   Join). Card titles across the acts drop Cinzel-caps for sentence-case Cormorant —
+   Cinzel retreats to true engraved labels (eyebrows, roles, seals, numerals). One
+   gold-script word per act (.act-em) echoes the hero's Kaushan warmth. */
+:root {
+  --tt-hero: clamp(2.6rem, 5vw, 3.9rem);
+  --tt-mid: clamp(2.05rem, 4vw, 2.9rem);
+  --tt-sub: clamp(1.55rem, 3vw, 2.3rem);
+}
+.cg-title, .tcl-title { font-size: var(--tt-hero); letter-spacing: -0.005em; }
+.ppr-title { font-size: var(--tt-mid); }
+.bts-title, .jtc-title, .cht-title { font-size: var(--tt-sub); }
+
+/* the one gold-script word per act — Kaushan gilt, with descender clearance */
+.act-em {
+  display: inline-block; font-family: var(--font-script-hero, var(--font-display, inherit));
+  font-style: normal; font-weight: 400; font-size: 1.12em; line-height: 1.1;
+  padding: 0 0.06em 0.12em;
+  background: linear-gradient(100deg, #C79A3C 0%, #F0C674 48%, #E7B24B 62%, #C79A3C 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .act-em { animation: kf-gold-shimmer 6s ease-in-out infinite; }
+}
+
+/* ============================ CAST HALL — WORLD HUES AS COLOUR-OF-LIGHT ==============
+   The eight world accents finally join the composition: each performer's frame is
+   tinted by their first realm (capped low so cream + gold still lead), a soft corner
+   bloom casts the world's light onto the card, and a 1px eight-hue seam stitches the
+   acts together — "eight worlds, one cast" made literal. */
+.cg-photo {
+  border-color: color-mix(in oklab, var(--acc, #C19A3C) 45%, rgba(231,178,75,0.85));
+}
+.cg-corner { border-color: color-mix(in oklab, var(--acc, #C19A3C) 55%, rgba(240,198,116,0.9)); }
+.cg-card::after {
+  content: ""; position: absolute; top: -18%; left: -12%; height: 55%; width: 55%; pointer-events: none;
+  background: radial-gradient(circle at 30% 30%, color-mix(in oklab, var(--acc, #C19A3C) 14%, transparent), transparent 70%);
+}
+.cg-card:hover { border-color: color-mix(in oklab, var(--acc, #C19A3C) 45%, rgba(231,178,75,0.95)); }
+.cg-card:hover .cg-photo {
+  border-color: color-mix(in oklab, var(--acc, #C19A3C) 70%, #E7B24B);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 22px -6px color-mix(in oklab, var(--acc, #C19A3C) 55%, transparent);
+}
+
+/* eight-hue seam between acts */
+.hall-seam {
+  position: relative; height: 2px; width: 100%;
+  background: linear-gradient(90deg, rgba(201,164,92,0.4), rgba(231,178,75,0.55), rgba(201,164,92,0.4));
+}
+.hall-seam::after {
+  content: ""; position: absolute; inset: 0; opacity: 0.55;
+  background: linear-gradient(90deg, #C9337E, #3E6EA8, #4E8E5B, #1E8A9E, #6DA63C, #B3433F, #8E5BC8, #2C8A93);
+}
+
+/* hero world tokens: commit to their hue — a row of coloured stage lights */
+.cth-realm {
+  color: var(--acc, #C19A3C);
+  border-color: color-mix(in oklab, var(--acc, #C19A3C) 65%, rgba(231,178,75,0.4));
+  box-shadow: 0 0 12px -3px color-mix(in oklab, var(--acc, #C19A3C) 55%, transparent);
+}
+
+/* ============================ CAST HALL — PER-ACT ARCHETYPES =========================
+   The shared cream-plaque + navy-medallion card retires. Each act gets its own piece
+   of backstage stationery: Trust = printed programme row, Promise = focal quote +
+   numbered manifesto, Behind = call-sheet spine, Join = ruled casting list. Same
+   content, four silhouettes. */
+
+/* -- Trust: borderless theatre-programme row (hairline column dividers, bare glyphs) */
+.cht-card { background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0.5rem 1.1rem; }
+.cht-card::before { display: none; }
+.cht-card:hover { transform: none; background: none; border: 0; box-shadow: none; }
+.cht-medallion { height: auto; width: auto; background: none; border: 0; box-shadow: none; color: #C19A3C; }
+.cht-card:hover .cht-medallion { transform: none; box-shadow: none; }
+.cht-card-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.04rem; letter-spacing: 0; text-transform: none; color: #1B2A52; }
+@media (min-width: 1080px) { .cht-cell:not(:nth-child(6n + 1)) .cht-card { border-left: 1px solid rgba(201,164,92,0.32); } }
+@media (min-width: 700px) and (max-width: 1079.98px) { .cht-cell:not(:nth-child(3n + 1)) .cht-card { border-left: 1px solid rgba(201,164,92,0.32); } }
+@media (max-width: 699.98px) { .cht-cell:nth-child(2n) .cht-card { border-left: 1px solid rgba(201,164,92,0.32); } }
+
+/* -- Promise: the quote is the focal object; promises become a numbered manifesto */
+.ppr-quote { max-width: 46rem; padding: 1.5rem 2rem; }
+.ppr-quote-text { font-size: clamp(1.4rem, 2.8vw, 2rem); }
+.ppr-list { margin: 2.4rem 0 0; list-style: none; padding: 0; display: grid; gap: 1.6rem 3rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .ppr-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ppr-item { display: flex; gap: 1.1rem; align-items: flex-start; padding-top: 1.2rem; border-top: 1px solid rgba(231,178,75,0.28); }
+.ppr-num {
+  flex: 0 0 auto; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(2.4rem, 4.6vw, 3.4rem); line-height: 0.9;
+  background: linear-gradient(170deg, #F0C674, #C79A3C); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.ppr-item-title { font-family: var(--font-display, inherit); font-weight: 600; font-size: 1.28rem; line-height: 1.15; color: #FBF3E2; }
+.ppr-item-copy { margin-top: 0.4rem; font-size: 0.88rem; line-height: 1.55; color: #C9D2EA; max-width: 38rem; }
+
+/* -- Behind: call-sheet spine — steps alternate around a drawn gold rule */
+.bts-path { position: relative; max-width: 56rem; margin: 2.6rem auto 0; }
+.bts-spine {
+  position: absolute; top: 0.4rem; bottom: 0.4rem; left: 1.05rem; width: 2px; margin-left: -1px;
+  background: linear-gradient(180deg, rgba(231,178,75,0.85), rgba(201,164,92,0.3));
+  transform-origin: top center;
+}
+@media (min-width: 760px) { .bts-spine { left: 50%; } }
+.bts-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2rem; }
+.bts-step { position: relative; padding-left: 2.6rem; }
+.bts-dot {
+  position: absolute; left: 1.05rem; top: 0.55rem; height: 11px; width: 11px; margin-left: -5.5px; border-radius: 9999px;
+  background: #E7B24B; box-shadow: 0 0 0 3px rgba(251,243,225,1), 0 0 10px rgba(231,178,75,0.8);
+}
+.bts-step-num {
+  float: none; font-family: var(--font-display, inherit); font-weight: 600; line-height: 0.85;
+  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  background: linear-gradient(170deg, #F0C674, #C79A3C); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.bts-step-title { margin-top: 0.35rem; font-family: var(--font-display, inherit); font-weight: 600; font-size: 1.3rem; line-height: 1.15; color: #1B2A52; }
+.bts-step-copy { margin-top: 0.4rem; font-size: 0.88rem; line-height: 1.55; color: #46527C; max-width: 30rem; }
+@media (min-width: 760px) {
+  .bts-step { padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3.4rem; }
+  .bts-dot { left: 50%; }
+  .bts-step:nth-child(odd) .bts-step-body { grid-column: 1; text-align: right; justify-self: end; }
+  .bts-step:nth-child(odd) .bts-step-copy { margin-left: auto; }
+  .bts-step:nth-child(even) .bts-step-body { grid-column: 2; text-align: left; }
+}
+/* the drawn-path beat: spine grows once the section is on stage */
+.bts.anim .bts-spine { transform: scaleY(0); transition: transform 1.4s var(--ease-out, ease-out) 0.15s; }
+.bts.anim.is-drawn .bts-spine { transform: scaleY(1); }
+
+/* -- Join: ruled casting list (bottom hairlines, bare gold glyphs) */
+.jtc-card { background: none; border: 0; border-radius: 0; box-shadow: none; padding: 1rem 0.2rem; border-bottom: 1px solid rgba(201,164,92,0.35); }
+.jtc-card:hover { transform: none; background: rgba(255,253,247,0.55); border-bottom-color: rgba(231,178,75,0.85); box-shadow: none; }
+.jtc-medallion { height: auto; width: auto; border-radius: 0; background: none; border: 0; box-shadow: none; color: #C19A3C; padding-top: 0.15rem; }
+.jtc-card:hover .jtc-medallion { box-shadow: none; }
+.jtc-card-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.08rem; letter-spacing: 0; text-transform: none; color: #1B2A52; }
+
+/* ============================ CAST HALL — CURTAIN RISE (the show starts) =============
+   Two velvet panels cover the Cast Gallery and part on first view — the one bespoke
+   entrance on the page. Motion-gated (panels only render when motion is allowed;
+   reduced-motion never sees them). Transform-only, once. */
+.cg-curtains { position: absolute; inset: 0; z-index: 30; overflow: hidden; pointer-events: none; }
+.cg-curtain {
+  position: absolute; top: 0; bottom: 0; width: 52%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 3px, transparent 3px 34px),
+    repeating-linear-gradient(90deg, rgba(6,4,20,0.35) 0 14px, transparent 14px 34px),
+    linear-gradient(180deg, #241B49 0%, #1B1440 55%, #171334 100%);
+  box-shadow: inset 0 -18px 40px -18px rgba(6,4,20,0.8);
+  transition: transform 1.15s cubic-bezier(0.77, 0, 0.18, 1), opacity 0.4s ease 0.9s;
+  will-change: transform;
+}
+.cg-curtain::after { /* gold fringe on the leading edge */
+  content: ""; position: absolute; top: 0; bottom: 0; width: 6px;
+  background: linear-gradient(180deg, #E7B24B, #C19A3C 55%, #E7B24B);
+  box-shadow: 0 0 16px rgba(231,178,75,0.55);
+}
+.cg-curtain--l { left: -1%; }
+.cg-curtain--l::after { right: 0; }
+.cg-curtain--r { right: -1%; }
+.cg-curtain--r::after { left: 0; }
+.cg-curtains.is-open .cg-curtain--l { transform: translateX(-104%); opacity: 0; }
+.cg-curtains.is-open .cg-curtain--r { transform: translateX(104%); opacity: 0; }

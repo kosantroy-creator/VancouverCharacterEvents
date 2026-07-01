@@ -82,10 +82,26 @@ const DUST = [
 export function CastGallery() {
   const ref = useRef<HTMLElement>(null);
   const [motionOK, setMotionOK] = useState(false);
+  const [curtainOpen, setCurtainOpen] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setMotionOK(true);
+
+    // The show starts: part the velvet curtains once the gallery takes the stage.
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setCurtainOpen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -97,6 +113,14 @@ export function CastGallery() {
     >
       {/* soft warm spotlight glow at the top (CSS-only cream/parchment section) */}
       <span aria-hidden className="cg-spot absolute -z-10" />
+
+      {/* the show starts: velvet curtains part on first view (motion only) */}
+      {motionOK ? (
+        <div aria-hidden className={cn("cg-curtains", curtainOpen && "is-open")}>
+          <span className="cg-curtain cg-curtain--l" />
+          <span className="cg-curtain cg-curtain--r" />
+        </div>
+      ) : null}
 
       {motionOK ? (
         <div aria-hidden className="cg-amb pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -121,7 +145,7 @@ export function CastGallery() {
             </span>
           </Reveal>
           <Reveal delay={110} y={16}>
-            <h2 id="cg-title" className="cg-title">The people behind the magic.</h2>
+            <h2 id="cg-title" className="cg-title">The people behind the <em className="act-em">magic</em>.</h2>
           </Reveal>
           <Reveal delay={180} y={14}>
             <p className="cg-sub">
@@ -139,7 +163,8 @@ export function CastGallery() {
         <ul className="cg-grid">
           {CAST.map((m, i) => (
             <Reveal key={m.id} as="li" delay={280 + i * 70} y={18} className="cg-cell">
-              <article className="cg-card">
+              {/* the performer's first realm tints the frame — colour-of-light per world */}
+              <article className="cg-card" style={{ "--acc": REALM_ACC[m.realms[0]] ?? "#C19A3C" } as Vars}>
                 <div className="cg-photo">
                   {m.photo ? (
                     <img src={m.photo} alt={`Portrait of ${m.name}, Vancouver Character Events performer.`} loading="lazy" decoding="async" className="cg-photo-img" />
