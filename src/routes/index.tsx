@@ -16,6 +16,7 @@ import realMermaidMoment from "@/assets/princess/real-mermaid-portrait.jpg";
 import actStorykeeperBg from "@/assets/home/act-storykeeper.webp";
 import actGuestbookBg from "@/assets/home/act-guestbook.webp";
 import actMomentsBg from "@/assets/home/act-moments.webp";
+import actBeginsBg from "@/assets/home/act-begins.webp";
 
 /** A whisper-bright painted backdrop behind an act — high-key art that adds light,
  *  masked at both edges so it dissolves into the day-arc canvas. */
@@ -160,22 +161,26 @@ function Home() {
           </Section>
         </div>
 
-        {/* Act V · How Every Story Begins — the path cards rise straight into the finale */}
-        <Section tone="transparent" compact className="act-halo">
-          <SectionHeading
-            folio
-            eyebrow="Act V · Simple from the start"
-            title={
-              <>
-                How every story <em className="act-em">begins</em>
-              </>
-            }
-            description="Booking premium character entertainment should feel as easy as it is exciting."
-          />
-          <div className="mt-8">
-            <HowStoryBegins />
-          </div>
-        </Section>
+        {/* Act V · How Every Story Begins — a winding golden path behind the beats,
+            rising straight into the finale */}
+        <div className="relative">
+          <ActBackdrop src={actBeginsBg} />
+          <Section tone="transparent" compact className="act-halo">
+            <SectionHeading
+              folio
+              eyebrow="Act V · Simple from the start"
+              title={
+                <>
+                  How every story <em className="act-em">begins</em>
+                </>
+              }
+              description="Booking premium character entertainment should feel as easy as it is exciting."
+            />
+            <div className="mt-8">
+              <HowStoryBegins />
+            </div>
+          </Section>
+        </div>
       </div>
 
       {/* 8 · The Grand Invitation at Dusk — service area + final CTA, one crescendo */}
