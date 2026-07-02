@@ -12865,3 +12865,552 @@ select.wvb-field option { background: #211044; color: #F4ECFF; }
   padding: 0.16em 0.28em 0.38em 0.14em;
   margin: -0.16em -0.28em -0.38em -0.14em;
 }
+
+/* ============================ HOMEPAGE — FLOAT (progress + contextual booking pill) ==
+   Port of the Bazaar float in mothership navy/gold. While a world panel holds the
+   viewport the pill tints to that world's accent (--acc) and deep-links the funnel.
+   See HomeFloat.tsx. */
+.hfl-progress {
+  position: fixed; top: 0; left: 0; z-index: 60; height: 3px; width: 100%; transform-origin: left center;
+  background: linear-gradient(90deg, #C9337E, #3E6EA8, #4E8E5B, #1E8A9E, #6DA63C, #B3433F, #8E5BC8, #2C8A93);
+  opacity: 0.85; box-shadow: 0 1px 6px -1px rgba(231,178,75,0.5); pointer-events: none;
+}
+.hfl-pill {
+  position: fixed; right: clamp(0.9rem, 3vw, 1.6rem); bottom: clamp(0.9rem, 3vw, 1.6rem); z-index: 55;
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px;
+  padding: 0.72rem 1.25rem; font-family: var(--font-display, inherit); font-size: 0.9rem; font-weight: 700;
+  color: #FBF4E6;
+  background: linear-gradient(120deg, color-mix(in oklab, var(--acc, #243463) 32%, #243463), color-mix(in oklab, var(--acc, #16234A) 24%, #16234A));
+  border: 1.5px solid rgba(231,178,75,0.7);
+  box-shadow: 0 16px 34px -14px rgba(10,16,44,0.75), 0 0 0 0 rgba(231,178,75,0.4);
+  opacity: 0; transform: translateY(14px) scale(0.96); pointer-events: none;
+  transition: opacity 280ms var(--ease-out, ease-out), transform 280ms var(--ease-out, ease-out), box-shadow 220ms, background 300ms;
+}
+.hfl-pill svg { color: #F4D98A; }
+.hfl-pill.is-on { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.hfl-pill.is-on:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 20px 42px -14px rgba(10,16,44,0.85), 0 0 22px -6px rgba(231,178,75,0.55); }
+.hfl-pill:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+@media (max-width: 640px) { .hfl-pill { font-size: 0.84rem; padding: 0.64rem 1.05rem; } }
+
+/* ============================ HOMEPAGE — STORYKEEPER (guided matcher) ================
+   Two questions route every visitor: parents match worlds by what the child loves;
+   schools/malls/corporate skip into the larger-events funnel lane. Replaces
+   FindYourEvent. See Storykeeper.tsx. */
+.sk-book {
+  position: relative; display: grid; place-items: center; height: 4.2rem; width: 4.2rem; border-radius: 9999px;
+  color: #F3D488; background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid rgba(231,178,75,0.8);
+  box-shadow: 0 14px 28px -12px rgba(12,18,44,0.6), inset 0 1px 3px rgba(255,255,255,0.2), 0 0 0 5px rgba(255,253,247,0.9), 0 0 30px -8px rgba(231,178,75,0.5);
+}
+.sk-book-spark {
+  position: absolute; top: -4px; right: -6px; display: grid; place-items: center; height: 1.5rem; width: 1.5rem;
+  border-radius: 9999px; color: #22315F; background: linear-gradient(180deg, #F6D784, #E7B24B);
+  border: 1.5px solid #FFFDF7; box-shadow: 0 4px 10px -4px rgba(12,18,44,0.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sk-book-spark { animation: kf-cht-spot 4.5s ease-in-out infinite; }
+}
+.sk-q {
+  margin-top: 1.4rem; text-align: center; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem); color: #1B2A52;
+}
+.sk-q--2 { margin-top: 2.2rem; }
+.sk-chips { margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.sk-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.6rem 1.15rem;
+  font-size: 0.9rem; font-weight: 700; color: #2A3357; cursor: pointer;
+  background: rgba(255,253,247,0.9); border: 1.5px solid rgba(201,164,92,0.45);
+  box-shadow: 0 10px 22px -16px rgba(20,20,50,0.5);
+  transition: transform 180ms var(--ease-out, ease-out), border-color 180ms, background 180ms, box-shadow 180ms;
+}
+.sk-chip svg { color: #C19A3C; }
+.sk-chip:hover { transform: translateY(-2px); border-color: rgba(231,178,75,0.85); }
+.sk-chip:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+.sk-chip.is-on {
+  color: #FBF4E6; background: linear-gradient(120deg, #243463, #16234A); border-color: rgba(231,178,75,0.85);
+  box-shadow: 0 14px 28px -14px rgba(12,18,44,0.7), 0 0 18px -6px rgba(231,178,75,0.5);
+}
+.sk-chip.is-on svg { color: #F0C674; }
+.sk-lane { margin-top: 0.4rem; }
+.sk-hint { margin-top: 1.6rem; text-align: center; font-family: var(--font-display, inherit); font-style: italic; font-size: 1rem; color: #8A5A2B; }
+.sk-result-line {
+  margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.45rem; text-align: center;
+  font-family: var(--font-display, inherit); font-style: italic; font-size: 1.15rem; color: #8A5A2B;
+}
+.sk-result-line svg { color: #C19A3C; }
+.sk-matches { margin: 1.2rem 0 0; padding: 0; list-style: none; display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .sk-matches { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sk-match {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.45rem;
+  border-radius: 16px; padding: 1.3rem 1rem 1.1rem;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB);
+  border: 1.5px solid color-mix(in oklab, var(--acc, #C19A3C) 45%, rgba(201,164,92,0.6));
+  box-shadow: 0 18px 40px -24px rgba(20,20,50,0.5), 0 0 24px -12px color-mix(in oklab, var(--acc, #C19A3C) 40%, transparent);
+  transition: transform 200ms var(--ease-out, ease-out), box-shadow 200ms;
+}
+.sk-match:hover { transform: translateY(-3px); box-shadow: 0 24px 48px -22px rgba(20,20,50,0.55), 0 0 30px -10px color-mix(in oklab, var(--acc, #C19A3C) 55%, transparent); }
+.sk-match-medallion {
+  display: grid; place-items: center; height: 3.4rem; width: 3.4rem; border-radius: 9999px; overflow: hidden;
+  background: #16224A; border: 2px solid color-mix(in oklab, var(--acc, #C19A3C) 60%, var(--gold-500, #C19A3C));
+  box-shadow: 0 8px 18px -8px rgba(12,18,44,0.6);
+}
+.sk-match-medallion img { height: 100%; width: 100%; object-fit: cover; }
+.sk-match-name { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.15rem; color: #1B2A52; }
+.sk-match-blurb { font-size: 0.78rem; line-height: 1.45; color: #4A5578; }
+.sk-match-ctas { margin-top: 0.4rem; display: flex; align-items: center; gap: 0.8rem; }
+.sk-match-link {
+  display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; font-weight: 700;
+  color: color-mix(in oklab, var(--acc, #C19A3C) 70%, #16224A); transition: gap 180ms;
+}
+.sk-match-link:hover { gap: 0.5rem; }
+.sk-match-book {
+  display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.35rem 0.95rem;
+  font-size: 0.8rem; font-weight: 700; color: #FBF4E6;
+  background: linear-gradient(120deg, #243463, #16234A); border: 1px solid rgba(231,178,75,0.7);
+  transition: transform 180ms var(--ease-out, ease-out), box-shadow 180ms;
+}
+.sk-match-book:hover { transform: translateY(-1px); box-shadow: 0 10px 20px -10px rgba(12,18,44,0.7), 0 0 14px -5px rgba(231,178,75,0.6); }
+.sk-planner {
+  margin: 2rem auto 0; max-width: 34rem; text-align: center; border-radius: 18px; padding: 1.8rem 1.6rem;
+  background: linear-gradient(180deg, #FFFDF7, #FBF1DB); border: 1.5px solid rgba(201,164,92,0.6);
+  box-shadow: 0 22px 46px -26px rgba(20,20,50,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.sk-planner-title { font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.4rem; color: #1B2A52; }
+.sk-planner-points { margin: 0.9rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; text-align: left; }
+.sk-planner-points li { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.9rem; line-height: 1.5; color: #46527C; }
+.sk-planner-points svg { margin-top: 0.2rem; flex: 0 0 auto; color: #C19A3C; }
+.sk-planner-cta {
+  margin-top: 1.2rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.8rem 1.6rem;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 1rem; color: #FBF4E6;
+  background: linear-gradient(120deg, #243463, #16234A); border: 1.5px solid rgba(231,178,75,0.75);
+  box-shadow: 0 16px 34px -16px rgba(12,18,44,0.7);
+  transition: transform 200ms var(--ease-out, ease-out), box-shadow 200ms;
+}
+.sk-planner-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 42px -16px rgba(12,18,44,0.8), 0 0 22px -6px rgba(231,178,75,0.5); }
+.sk-planner-cta:focus-visible { outline: 2px solid #C19A3C; outline-offset: 2px; }
+.sk-planner-note { margin-top: 0.7rem; font-size: 0.78rem; color: #6B7494; }
+
+/* ============================ HOMEPAGE — GUEST BOOK (trust heart) ====================
+   Credentials strip + testimonials as notes in each world's dialect + cast strip
+   linking the Cast Hall. Placeholder quotes stay until real stories arrive. */
+.gb-creds { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.8rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) { .gb-creds { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.gb-cred-cell { list-style: none; display: flex; }
+.gb-cred {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.55rem; text-align: center;
+  border-radius: 12px; padding: 0.85rem 1rem;
+  background: rgba(255,253,247,0.85); border: 1px solid rgba(201,164,92,0.45);
+  box-shadow: 0 12px 26px -20px rgba(20,20,50,0.5);
+}
+.gb-cred svg { color: #C19A3C; flex: 0 0 auto; }
+.gb-cred strong { font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.95rem; line-height: 1.2; color: #1B2A52; }
+
+.gb-note {
+  position: relative; display: flex; height: 100%; flex-direction: column; border-radius: 16px; padding: 1.3rem 1.3rem 1.1rem;
+  background: linear-gradient(180deg, #FFFDF7, color-mix(in oklab, var(--acc, #C19A3C) 9%, #FBF2DE));
+  border: 1.5px solid color-mix(in oklab, var(--acc, #C19A3C) 35%, rgba(201,164,92,0.5));
+  box-shadow: 0 18px 40px -26px rgba(20,20,50,0.5), 0 -1px 0 0 color-mix(in oklab, var(--acc, #C19A3C) 55%, transparent) inset;
+  transition: transform 200ms var(--ease-out, ease-out), box-shadow 200ms, rotate 250ms var(--ease-out, ease-out);
+}
+.gb-note:hover { transform: translateY(-3px); rotate: 0deg; box-shadow: 0 24px 48px -24px rgba(20,20,50,0.55), 0 0 24px -10px color-mix(in oklab, var(--acc, #C19A3C) 45%, transparent); }
+.gb-note-label {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+  color: color-mix(in oklab, var(--acc, #C19A3C) 72%, #16224A);
+}
+.gb-note-label svg { color: var(--acc, #C19A3C); }
+.gb-note-quote { margin-top: 0.7rem; flex: 1; font-size: 0.95rem; line-height: 1.6; color: #2A3357; }
+.gb-note-foot {
+  margin-top: 1rem; padding-top: 0.8rem; display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem;
+  border-top: 1px solid color-mix(in oklab, var(--acc, #C19A3C) 25%, rgba(201,164,92,0.35));
+}
+.gb-note-name { font-family: var(--font-script-hero, var(--font-display, inherit)); font-weight: 400; font-size: 1.25rem; line-height: 1.1; color: #9A6E2B; }
+.gb-note-meta { font-size: 0.72rem; color: #6B7494; text-align: right; }
+
+.gb-cast {
+  margin: 2.6rem auto 0; max-width: 34rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; text-align: center;
+}
+.gb-cast-row { display: flex; padding: 0; margin: 0; list-style: none; }
+.gb-cast-face {
+  height: 3.4rem; width: 3.4rem; border-radius: 9999px; overflow: hidden; border: 2px solid rgba(231,178,75,0.8);
+  box-shadow: 0 8px 18px -8px rgba(12,18,44,0.5), 0 0 0 3px rgba(255,253,247,0.9);
+  transition: transform 220ms var(--ease-out, ease-out);
+}
+.gb-cast-face:hover { transform: translateY(-5px) scale(1.1); position: relative; z-index: 1; }
+.gb-cast-face + .gb-cast-face { margin-left: -0.7rem; }
+.gb-cast-face img { height: 100%; width: 100%; object-fit: cover; }
+.gb-cast-line { font-family: var(--font-display, inherit); font-style: italic; font-size: 1.02rem; color: #8A5A2B; }
+.gb-cast-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; padding: 0.65rem 1.4rem;
+  font-family: var(--font-display, inherit); font-weight: 700; font-size: 0.95rem; color: #22315F;
+  background: rgba(255,253,247,0.9); border: 1.5px solid rgba(201,164,92,0.6);
+  transition: transform 180ms var(--ease-out, ease-out), border-color 180ms, box-shadow 180ms;
+}
+.gb-cast-cta:hover { transform: translateY(-2px); border-color: rgba(231,178,75,0.9); box-shadow: 0 12px 26px -14px rgba(20,20,50,0.5); }
+
+/* ============================ HOMEPAGE — HOW EVERY STORY BEGINS ======================
+   Four beats on a self-drawing gold thread, then the funnel's real Step 1 as three
+   path cards deep-linking /contact?path=. See HowStoryBegins.tsx. */
+.hsb-beats { position: relative; }
+.hsb-thread {
+  position: absolute; top: 1.55rem; left: 6%; right: 6%; height: 2px; transform: scaleX(0); transform-origin: left center;
+  background: linear-gradient(90deg, rgba(201,164,92,0.3), #E7B24B 30%, #C19A3C 70%, rgba(201,164,92,0.3));
+  box-shadow: 0 0 10px rgba(231,178,75,0.45); display: none;
+}
+@media (min-width: 900px) { .hsb-thread { display: block; } }
+@media (prefers-reduced-motion: no-preference) { .hsb-thread { transition: transform 1.3s var(--ease-out, ease-out) 0.1s; } }
+.hsb.is-drawn .hsb-thread { transform: scaleX(1); }
+.hsb-list { position: relative; margin: 0; padding: 0; list-style: none; display: grid; gap: 1.6rem; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .hsb-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .hsb-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.hsb-beat { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hsb-beat-node {
+  display: grid; place-items: center; height: 3.1rem; width: 3.1rem; border-radius: 9999px; color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid rgba(231,178,75,0.75);
+  box-shadow: 0 10px 20px -10px rgba(12,18,44,0.7), inset 0 1px 2px rgba(255,255,255,0.18), 0 0 0 4px rgba(255,253,247,0.9);
+}
+.hsb-beat-title { margin-top: 0.8rem; font-family: var(--font-display, inherit); font-weight: 600; font-size: 1.18rem; color: #1B2A52; }
+.hsb-beat-copy { margin-top: 0.35rem; max-width: 15rem; font-size: 0.85rem; line-height: 1.5; color: #46527C; }
+
+.hsb-step-line {
+  margin: 2.6rem auto 0; display: flex; justify-content: center; align-items: center; gap: 0.45rem; text-align: center;
+  font-family: var(--font-display, inherit); font-style: italic; font-size: 1.1rem; color: #8A5A2B;
+}
+.hsb-step-line svg { color: #C19A3C; }
+.hsb-paths { margin: 1.2rem 0 0; padding: 0; list-style: none; display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .hsb-paths { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.hsb-path-cell { list-style: none; display: flex; }
+.hsb-path {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; text-align: center;
+  border-radius: 16px; padding: 1.4rem 1.2rem;
+  background: linear-gradient(120deg, #243463, #16234A); border: 1.5px solid rgba(231,178,75,0.6);
+  box-shadow: 0 20px 42px -24px rgba(12,18,44,0.7);
+  transition: transform 200ms var(--ease-out, ease-out), box-shadow 200ms, border-color 200ms;
+}
+.hsb-path:hover { transform: translateY(-4px); border-color: rgba(240,198,116,0.9); box-shadow: 0 28px 52px -22px rgba(12,18,44,0.8), 0 0 26px -8px rgba(231,178,75,0.55); }
+.hsb-path:focus-visible { outline: 2px solid #C19A3C; outline-offset: 3px; }
+.hsb-path-ic { display: grid; place-items: center; height: 2.6rem; width: 2.6rem; border-radius: 9999px; color: #F3D488; background: rgba(255,253,247,0.08); border: 1.5px solid rgba(231,178,75,0.6); }
+.hsb-path-title { margin-top: 0.3rem; font-family: var(--font-display, inherit); font-weight: 700; font-size: 1.15rem; color: #FBF3E2; }
+.hsb-path-copy { font-size: 0.8rem; line-height: 1.45; color: #C9D2EA; }
+.hsb-path-go {
+  margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #E7C877;
+}
+
+/* ============================ HOMEPAGE — GRAND INVITATION AT DUSK ====================
+   The finale: dusk sky over the North Shore, eight world-hue lights on the ridge, the
+   service areas in the glow, and a navy envelope that opens itself (reuses the proven
+   .invite choreography). Merges the old service-area + final-CTA sections. */
+.ginv {
+  background:
+    radial-gradient(120% 70% at 50% 100%, rgba(231,178,75,0.14), transparent 55%),
+    linear-gradient(180deg, #F8EEE0 0%, #E8D9C4 14%, #B99BA8 38%, #5D5384 62%, #2A2A5E 82%, #171A40 100%);
+}
+.ginv-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #7A5B22;
+}
+.ginv-eyebrow svg { color: #C19A3C; }
+.ginv-title {
+  margin-top: 0.7rem; font-family: var(--font-display, inherit); font-weight: 600;
+  font-size: var(--tt-hero, clamp(2.6rem, 5vw, 3.9rem)); line-height: 1.05; color: #1B2A52;
+}
+.ginv-title-em {
+  display: inline-block; font-family: var(--font-script-hero, inherit); font-weight: 400; font-style: normal;
+  font-size: 1.08em; line-height: 1.3; padding: 0.1em 0.22em 0.32em 0.1em; margin: -0.1em -0.22em -0.32em -0.1em;
+  background: linear-gradient(100deg, #8F6420 0%, #C69336 45%, #A2782A 60%, #8F6420 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) { .ginv-title-em { animation: kf-gold-shimmer 6.5s ease-in-out infinite; } }
+.ginv-sub { margin: 1rem auto 0; max-width: 36rem; font-size: 1.05rem; line-height: 1.6; color: #3A3A5E; }
+
+.ginv-cta {
+  background-image: linear-gradient(120deg, #F0C674, #E7B24B 55%, #D9A63F) !important;
+  color: #1B2A52 !important; font-weight: 700;
+  border: 1.5px solid rgba(255,247,224,0.6) !important;
+  box-shadow: 0 18px 42px -16px rgba(10,12,40,0.6), 0 0 30px -8px rgba(231,178,75,0.55) !important;
+}
+.ginv-cta:hover { transform: translateY(-2px); background-image: linear-gradient(120deg, #F6D289, #F0C674 55%, #E7B24B) !important; }
+.ginv-cta svg { color: #22315F; }
+.ginv-cta-ghost {
+  background: rgba(255,253,247,0.14) !important; color: #FBF3E2 !important;
+  border: 1.5px solid rgba(231,178,75,0.55) !important;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.ginv-cta-ghost:hover { transform: translateY(-2px); border-color: rgba(240,198,116,0.85) !important; }
+
+.ginv-areas-lead {
+  margin-top: 2.4rem; font-family: var(--font-display, inherit); font-style: italic; font-size: 1.02rem; color: #E8DCC4;
+}
+.ginv-areas { margin: 0.8rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.5rem; }
+.ginv-area {
+  border-radius: 9999px; padding: 0.3rem 0.8rem; font-size: 0.74rem; font-weight: 600; color: #F0E6CE;
+  background: rgba(20,24,58,0.4); border: 1px solid rgba(231,178,75,0.35);
+}
+
+.ginv-ridge-lights { position: absolute; inset-inline: 0; top: -0.4rem; height: 2rem; z-index: 2; }
+.ginv-light {
+  position: absolute; top: 0; height: 12px; width: 12px; border-radius: 9999px;
+  background: var(--acc, #E7B24B);
+  box-shadow: 0 0 10px 2px color-mix(in oklab, var(--acc, #E7B24B) 75%, transparent), 0 0 22px 6px color-mix(in oklab, var(--acc, #E7B24B) 35%, transparent);
+  transition: transform 200ms var(--ease-out, ease-out);
+}
+.ginv-light:hover { transform: scale(1.5); }
+.ginv-light:focus-visible { outline: 2px solid #F0C674; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ginv-light { animation: kf-ginv-twinkle 5s ease-in-out infinite; animation-delay: var(--tw, 0s); }
+}
+@keyframes kf-ginv-twinkle {
+  0%, 100% { opacity: 0.75; }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px 3px color-mix(in oklab, var(--acc, #E7B24B) 80%, transparent), 0 0 28px 9px color-mix(in oklab, var(--acc, #E7B24B) 42%, transparent);
+  }
+}
+
+/* ============================ HOMEPAGE — RESIDENT CARD (worlds) ======================
+   A collectible character card on each world panel, slowly rotating through the
+   world's REAL residents (princess cards, hero cutouts, mermaids, Harvey, the
+   Wonderverse cast, the Bazaar artisans…). Replaces the old medallion + name chips. */
+.resident-card {
+  position: absolute; bottom: -1.6rem; left: -0.6rem; z-index: 5; width: clamp(7.5rem, 12vw, 10rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  transform: rotate(-4deg);
+  filter: drop-shadow(0 18px 26px rgba(12,18,44,0.35));
+}
+@media (min-width: 640px) { .resident-card { left: -1.4rem; bottom: -2rem; } }
+.resident-card-frame {
+  position: relative; width: 100%; aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--acc, #C19A3C) 30%, #1B2A52), #14203F 80%);
+  border: 2px solid color-mix(in oklab, var(--acc, #C19A3C) 55%, var(--gold-500, #C19A3C));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), inset 0 -20px 30px -18px rgba(6,8,26,0.7);
+}
+.resident-card-img {
+  position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover;
+  transition: opacity 900ms ease;
+}
+.resident-card-shine {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgba(255,247,220,0.28) 50%, transparent 58%);
+  background-size: 250% 100%; background-position: 160% 0; mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .resident-card-shine { animation: kf-cw-cont-sheen 5.5s ease-in-out infinite; }
+}
+.resident-card-name {
+  display: inline-block; max-width: 100%; text-align: center; border-radius: 9999px; padding: 0.28rem 0.7rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.54rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; line-height: 1.2; color: #FBF3E2;
+  background: linear-gradient(120deg, color-mix(in oklab, var(--acc, #243463) 45%, #1B2A52), #16234A);
+  border: 1px solid color-mix(in oklab, var(--acc, #C19A3C) 50%, rgba(231,178,75,0.6));
+  box-shadow: 0 8px 18px -10px rgba(12,18,44,0.6);
+}
+
+/* ============================ HOMEPAGE — ACT GRAMMAR + DAY-ARC CANVAS ================
+   One type/act grammar for the interlude sections (folio eyebrows + shared act tier)
+   and one continuous dawn→afternoon→dusk canvas behind sections 4-7 so the tone
+   checkerboard dies. Plus the hero→trust seam: light rises out of the hero's dark cut
+   instead of a hard slide change. */
+:root { --tt-act: clamp(2.3rem, 4vw, 3.4rem); }
+.sh-folio {
+  margin-bottom: 0.9rem; display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800;
+  letter-spacing: 0.28em; text-transform: uppercase; color: #9A6E2B;
+}
+.sh-folio-fl { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,154,60,0.9)); }
+.sh-folio-fl--r { background: linear-gradient(90deg, rgba(193,154,60,0.9), transparent); }
+
+.day-arc {
+  position: relative;
+  /* the sun travels the canvas — HIGH KEY: airy pastel light pools over a bright
+     cream ramp. Sunny all the way down; the dusk belongs to the finale alone. */
+  background:
+    radial-gradient(90% 30% at 80% 0%, rgba(250, 220, 160, 0.28), transparent 70%),
+    radial-gradient(110% 30% at 50% 42%, rgba(214, 234, 250, 0.38), transparent 70%),
+    radial-gradient(90% 26% at 18% 74%, rgba(248, 214, 150, 0.22), transparent 70%),
+    radial-gradient(120% 22% at 50% 100%, rgba(252, 216, 178, 0.24), transparent 70%),
+    linear-gradient(180deg, #FDF9F0 0%, #FBF5E8 26%, #F3F8FD 48%, #FBF4E6 72%, #F8EEE0 100%);
+}
+
+/* hero → trust → parchment: the midday hero already fades to warm white, so the
+   strip just melts into the parchment below — light all the way, no borders */
+.trust-seam { position: relative; }
+.trust-seam::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 40px; pointer-events: none; z-index: 1;
+  background: linear-gradient(180deg, rgba(247,239,223,0) 0%, #F7EFDF 100%);
+}
+
+/* ============================ HOMEPAGE — ILLUMINATED CHAPTER TOC =====================
+   The worlds intro's quick-jump rail, desktop edition: eight wax-seal medallions
+   strung on a gold thread over the all-worlds panorama. Pills remain the mobile rail. */
+.cyc-thread {
+  position: absolute; left: 5%; right: 5%; top: 24px; height: 2px;
+  background: linear-gradient(90deg, rgba(201,164,92,0.25), #E7B24B 18%, #C19A3C 50%, #E7B24B 82%, rgba(201,164,92,0.25));
+  box-shadow: 0 0 10px rgba(231,178,75,0.45);
+}
+.cyc-anchor { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; text-decoration: none; }
+.cyc-anchor-seal {
+  display: grid; place-items: center; height: 48px; width: 48px; border-radius: 9999px; overflow: hidden;
+  background: #16224A;
+  border: 2px solid color-mix(in oklab, var(--acc, #C19A3C) 60%, var(--gold-500, #C19A3C));
+  box-shadow: 0 0 0 3px rgba(251,243,225,0.95), 0 0 0 4px color-mix(in oklab, var(--acc, #C19A3C) 35%, rgba(201,164,92,0.5)), 0 10px 20px -10px rgba(12,18,44,0.55);
+  transition: transform 200ms var(--ease-out, ease-out), box-shadow 200ms;
+}
+.cyc-anchor-seal img { height: 100%; width: 100%; object-fit: cover; }
+.cyc-anchor:hover .cyc-anchor-seal, .cyc-anchor:focus-visible .cyc-anchor-seal {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 0 0 3px rgba(251,243,225,0.95), 0 0 0 4px color-mix(in oklab, var(--acc, #C19A3C) 70%, transparent), 0 14px 26px -10px rgba(12,18,44,0.6), 0 0 18px -2px color-mix(in oklab, var(--acc, #C19A3C) 60%, transparent);
+}
+.cyc-anchor:focus-visible { outline: none; }
+.cyc-anchor-label {
+  font-family: var(--font-engrave, inherit); font-size: 0.6rem; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #6B5A33;
+  transition: color 180ms;
+}
+.cyc-anchor:hover .cyc-anchor-label { color: color-mix(in oklab, var(--acc, #C19A3C) 70%, #16224A); }
+
+/* ---------------------------------------------------------------------------
+   MOVE 9 — the resident card becomes a true collectible: larger, gilt filigree
+   frame (double ring + corner glints), and a "dealt onto the pile" swap where
+   the incoming portrait settles with a tiny rotation instead of a flat fade. */
+.resident-card { width: clamp(8.5rem, 14vw, 12rem); }
+.resident-card-frame::before {
+  content: "";
+  position: absolute; inset: 5px; z-index: 3; pointer-events: none;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--acc, #C19A3C) 40%, rgba(231, 178, 75, 0.75));
+  box-shadow: inset 0 0 10px rgba(231, 178, 75, 0.18);
+}
+.resident-card-frame::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background:
+    radial-gradient(7px 7px at 9px 9px, rgba(244, 214, 138, 0.95), transparent 70%),
+    radial-gradient(7px 7px at calc(100% - 9px) 9px, rgba(244, 214, 138, 0.95), transparent 70%),
+    radial-gradient(7px 7px at 9px calc(100% - 9px), rgba(244, 214, 138, 0.95), transparent 70%),
+    radial-gradient(7px 7px at calc(100% - 9px) calc(100% - 9px), rgba(244, 214, 138, 0.95), transparent 70%);
+}
+.resident-card-img {
+  opacity: 0;
+  transform: rotate(2.5deg) translateY(8px) scale(0.985);
+  transition: opacity 700ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.resident-card-img[data-active] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .resident-card-img { transform: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   WORLD BLEND — soft hue ramp between adjacent world panels. Each panel feathers
+   to its own edge tint; this strip interpolates tint A → tint B in oklab, so the
+   eye rides one continuous colour temperature from land to land. */
+.world-blend {
+  height: clamp(8px, 1vw, 14px);
+  pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   ELEVATION PASS — trust seals, act halos, sparkle drift, storykeeper payoff,
+   guest-book tilts, gilt gallery plates, igniting beats, finale garnish. */
+
+/* Trust strip: six navy wax seals ringed in world hues, strung on a hairline */
+.trust-thread {
+  position: absolute; left: 8%; right: 8%; top: 3.4rem; height: 1px; z-index: 0;
+  background: linear-gradient(90deg, transparent, rgba(193, 154, 60, 0.5), transparent);
+}
+.trust-seal {
+  position: relative; display: grid; place-items: center; height: 2.75rem; width: 2.75rem; border-radius: 9999px;
+  color: #F3D488;
+  background: radial-gradient(circle at 50% 32%, #2E3F72, #14203F 74%);
+  border: 2px solid color-mix(in oklab, var(--acc, #C19A3C) 45%, rgba(231, 178, 75, 0.8));
+  box-shadow: 0 10px 20px -10px rgba(12, 18, 44, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.18), 0 0 0 4px rgba(255, 253, 247, 0.9);
+}
+.trust-label {
+  font-family: var(--font-engrave, inherit); font-size: 0.66rem; font-weight: 800;
+  letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.5; color: #6B5A33;
+}
+
+/* Candle pool of warm light under each act heading — light, not cream fog */
+.act-halo::before {
+  content: ""; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+  width: min(72rem, 100%); height: 22rem; pointer-events: none;
+  background: radial-gradient(50% 60% at 50% 12%, rgba(231, 178, 75, 0.11), transparent 70%);
+}
+
+/* Storykeeper: recommendations rise in; matched cards wear the collectible frame */
+@media (prefers-reduced-motion: no-preference) {
+  .sk-result-line { animation: kf-sk-rise 0.5s var(--ease-out, ease-out) both; }
+  .sk-match { animation: kf-sk-rise 0.6s var(--ease-out, ease-out) both; }
+  .sk-match:nth-child(2) { animation-delay: 90ms; }
+  .sk-match:nth-child(3) { animation-delay: 180ms; }
+}
+@keyframes kf-sk-rise {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+}
+.sk-match { position: relative; }
+.sk-match::before {
+  content: ""; position: absolute; inset: 5px; z-index: 0; pointer-events: none;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--acc, #C19A3C) 40%, rgba(231, 178, 75, 0.75));
+  box-shadow: inset 0 0 10px rgba(231, 178, 75, 0.14);
+}
+.sk-match::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(6px 6px at 9px 9px, rgba(244, 214, 138, 0.9), transparent 70%),
+    radial-gradient(6px 6px at calc(100% - 9px) 9px, rgba(244, 214, 138, 0.9), transparent 70%),
+    radial-gradient(6px 6px at 9px calc(100% - 9px), rgba(244, 214, 138, 0.9), transparent 70%),
+    radial-gradient(6px 6px at calc(100% - 9px) calc(100% - 9px), rgba(244, 214, 138, 0.9), transparent 70%);
+}
+.sk-match > * { position: relative; z-index: 1; }
+.sk-match-medallion { box-shadow: 0 8px 18px -8px rgba(12, 18, 44, 0.6), 0 0 0 3px rgba(255, 253, 247, 0.9); }
+
+/* Trait chips light up in their world's hue, not generic navy */
+.sk-chip--trait.is-on {
+  background: linear-gradient(120deg, color-mix(in oklab, var(--acc, #C19A3C) 45%, #243463), #16234A);
+  box-shadow: 0 14px 28px -14px rgba(12, 18, 44, 0.7), 0 0 18px -6px color-mix(in oklab, var(--acc, #C19A3C) 55%, transparent);
+}
+
+/* Guest-book notes: pinned at faint angles, straightening under the hand */
+.gb-note-cell:nth-child(3n + 1) .gb-note { rotate: -0.5deg; }
+.gb-note-cell:nth-child(3n + 2) .gb-note { rotate: 0.55deg; }
+.gb-note-cell:nth-child(3n) .gb-note { rotate: -0.3deg; }
+
+/* Gallery plates: corner glints matching the resident-card grammar */
+.tile-gilt::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    radial-gradient(6px 6px at 8px 8px, rgba(244, 214, 138, 0.85), transparent 70%),
+    radial-gradient(6px 6px at calc(100% - 8px) 8px, rgba(244, 214, 138, 0.85), transparent 70%),
+    radial-gradient(6px 6px at 8px calc(100% - 8px), rgba(244, 214, 138, 0.85), transparent 70%),
+    radial-gradient(6px 6px at calc(100% - 8px) calc(100% - 8px), rgba(244, 214, 138, 0.85), transparent 70%);
+}
+
+/* Story beats ignite one by one as the gold thread reaches them */
+.hsb-beat-node { transition: border-color 0.45s ease, box-shadow 0.45s ease, color 0.45s ease; }
+.hsb.is-drawn .hsb-beat:nth-child(1) .hsb-beat-node { transition-delay: 0.25s; }
+.hsb.is-drawn .hsb-beat:nth-child(2) .hsb-beat-node { transition-delay: 0.55s; }
+.hsb.is-drawn .hsb-beat:nth-child(3) .hsb-beat-node { transition-delay: 0.85s; }
+.hsb.is-drawn .hsb-beat:nth-child(4) .hsb-beat-node { transition-delay: 1.15s; }
+.hsb.is-drawn .hsb-beat .hsb-beat-node {
+  border-color: rgba(240, 198, 116, 1);
+  color: #F8E3A8;
+  box-shadow: 0 10px 20px -10px rgba(12, 18, 44, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.18), 0 0 0 4px rgba(255, 253, 247, 0.9), 0 0 22px -4px rgba(231, 178, 75, 0.65);
+}
+
+/* Finale: the first stars breathe */
+@media (prefers-reduced-motion: no-preference) {
+  .ginv .tx-stars { animation: kf-star-breathe 7s ease-in-out infinite; }
+}
+@keyframes kf-star-breathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.55; }
+}

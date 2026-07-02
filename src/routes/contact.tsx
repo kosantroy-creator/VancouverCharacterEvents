@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BookingHallHero } from "@/components/site/BookingHallHero";
 import { BookingIntro } from "@/components/site/BookingIntro";
@@ -19,6 +19,10 @@ export const Route = createFileRoute("/contact")({
     guest: typeof search.guest === "string" ? search.guest : undefined,
     world: typeof search.world === "string" ? search.world : undefined,
     inflatable: typeof search.inflatable === "string" ? search.inflatable : undefined,
+    path:
+      search.path === "single" || search.path === "multi" || search.path === "larger"
+        ? (search.path as "single" | "multi" | "larger")
+        : undefined,
   }),
   head: () => ({
     meta: [
@@ -41,11 +45,27 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const { guest, inflatable } = Route.useSearch();
+  const { guest, inflatable, world, path: pathParam } = Route.useSearch();
   const [path, setPath] = useState<BookingPathId | null>(null);
   // Step 2: per-world character picks. Step 3 stays locked until step2Done.
   const [worldChars, setWorldChars] = useState<Record<string, string[]>>({});
   const [step2Done, setStep2Done] = useState(false);
+
+  // Deep links: /contact?path=single|multi|larger pre-answers Step 1;
+  // /contact?world=<id> implies a single-world booking and jumps to Step 2.
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (deepLinked.current) return;
+    deepLinked.current = true;
+    const p: BookingPathId | null = pathParam ?? (world ? "single" : null);
+    if (!p) return;
+    setPath(p);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.getElementById("choose-world-intro")?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      ),
+    );
+  }, [pathParam, world]);
 
   const scrollTo = (id: string) =>
     requestAnimationFrame(() =>

@@ -13,7 +13,9 @@ type Tone =
   | "ink"
   | "blush"
   | "pearl"
-  | "rose";
+  | "rose"
+  /** no background of its own — rides a shared canvas (e.g. the homepage day-arc) */
+  | "transparent";
 
 const TONE_BG: Record<Tone, string> = {
   ivory: "var(--grad-ivory)",
@@ -28,6 +30,7 @@ const TONE_BG: Record<Tone, string> = {
   blush: "var(--grad-blush)",
   pearl: "var(--grad-pearl)",
   rose: "var(--grad-rose)",
+  transparent: "transparent",
 };
 
 type SectionProps = {
@@ -79,13 +82,14 @@ export function Section({
       )}
       style={dark ? undefined : { background: TONE_BG[tone] }}
     >
-      {/* Texture */}
+      {/* Texture — transparent sections ride a shared canvas (e.g. the day-arc)
+          and stay texture-free so the canvas reads as clean light, not grain. */}
       {dark ? (
         <>
           <div aria-hidden className="tx-stars absolute inset-0" style={{ opacity: 0.35 }} />
           <div aria-hidden className="tx-grain absolute inset-0" />
         </>
-      ) : (
+      ) : tone === "transparent" ? null : (
         <>
           {filigree ? <div aria-hidden className="tx-filigree absolute inset-0" /> : null}
           {sparkle ? (
@@ -120,6 +124,9 @@ type SectionHeadingProps = {
   description?: ReactNode;
   align?: "left" | "center";
   onInk?: boolean;
+  /** Storybook "act" grammar: folio eyebrow (gold hairlines flanking an engraved
+   *  label) + the shared act display tier. Opt-in so other pages are untouched. */
+  folio?: boolean;
   className?: string;
 };
 
@@ -129,6 +136,7 @@ export function SectionHeading({
   description,
   align = "center",
   onInk = false,
+  folio = false,
   className,
 }: SectionHeadingProps) {
   return (
@@ -140,9 +148,22 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <Eyebrow className={onInk ? "text-gold-400" : undefined}>{eyebrow}</Eyebrow>
+        folio ? (
+          <p className="sh-folio">
+            <span aria-hidden className="sh-folio-fl" />
+            {eyebrow}
+            <span aria-hidden className="sh-folio-fl sh-folio-fl--r" />
+          </p>
+        ) : (
+          <Eyebrow className={onInk ? "text-gold-400" : undefined}>{eyebrow}</Eyebrow>
+        )
       ) : null}
-      <h2 className="t-display text-[2.05rem] leading-tight md:text-5xl">{title}</h2>
+      <h2
+        className={cn("t-display leading-tight", !folio && "text-[2.05rem] md:text-5xl")}
+        style={folio ? { fontSize: "var(--tt-act)" } : undefined}
+      >
+        {title}
+      </h2>
       {description ? (
         <p className={cn("mt-4 text-lg", onInk ? "text-fg-on-ink/80" : "text-fg-2")}>
           {description}

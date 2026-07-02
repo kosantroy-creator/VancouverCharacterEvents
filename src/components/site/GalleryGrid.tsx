@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Reveal } from "./Reveal";
 
 export type GalleryItem = {
   label: string;
@@ -10,9 +11,16 @@ export type GalleryItem = {
   src?: string;
 };
 
-function Tile({ item }: { item: GalleryItem }) {
+function Tile({ item, sparkleDelay = 0 }: { item: GalleryItem; sparkleDelay?: number }) {
   return (
-    <figure className="group relative aspect-square overflow-hidden rounded-[var(--radius-lg)] border border-gold-500/25 bg-ink-900 shadow-[var(--shadow-sm)]">
+    <figure
+      className="tile-gilt group relative aspect-square overflow-hidden rounded-[var(--radius-lg)] bg-ink-900 shadow-[var(--shadow-md)]"
+      style={{
+        outline: "1px solid",
+        outlineColor: `color-mix(in oklab, ${item.accent} 45%, var(--gold-500))`,
+        outlineOffset: "4px",
+      }}
+    >
       {item.src ? (
         <img
           src={item.src}
@@ -45,7 +53,11 @@ function Tile({ item }: { item: GalleryItem }) {
         </span>
         <span className="font-display text-lg leading-tight text-star-white">{item.label}</span>
       </figcaption>
-      <span className="absolute right-3 top-3 text-gold-400/70" aria-hidden>
+      <span
+        className="sparkle absolute right-3 top-3 text-gold-400/70"
+        style={{ animationDelay: `${sparkleDelay}s` }}
+        aria-hidden
+      >
         ✦
       </span>
     </figure>
@@ -56,7 +68,9 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {items.map((item, i) => (
-        <Tile key={`${item.label}-${i}`} item={item} />
+        <Reveal key={`${item.label}-${i}`} delay={(i % 4) * 90} y={18}>
+          <Tile item={item} sparkleDelay={i * 0.6} />
+        </Reveal>
       ))}
     </div>
   );
